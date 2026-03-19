@@ -23,14 +23,13 @@
       padding: 0;
       overflow: hidden;
       height: 100%;
-    }
-    
-    body {
       background: #0a0a0f;
     }
     
     .container {
-      height: auto !important;
+      max-width: 100% !important;
+      width: 100% !important;
+      padding: 0 !important;
       min-height: 100vh !important;
       background: #0a0a0f !important;
     }
@@ -40,10 +39,17 @@
       flex-direction: column;
       height: 100%;
       overflow: hidden;
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
     }
     
     .main-nav {
       flex-shrink: 0;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 0 20px;
     }
     
     .radio-player {
@@ -72,8 +78,11 @@
       flex-direction: column;
       padding: 12px 20px;
       overflow: hidden;
-      min-height: 500px;
-      height: 90vh;
+      min-height: 600px;
+      height: calc(100vh - 100px);
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
     }
     
     .game-meta {
@@ -93,7 +102,7 @@
       border-radius: 8px;
       overflow: hidden;
       position: relative;
-      min-height: 450px;
+      min-height: 500px;
       width: 100%;
     }
     
@@ -105,6 +114,14 @@
       height: 100%;
       border: none;
       display: block;
+    }
+    
+    .site-footer {
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 0 20px;
+      box-sizing: border-box;
     }
     
     .btn-row {
@@ -162,7 +179,7 @@
       <div class="game-area">
         <div class="game-meta">
           <span id="playCount">Plays: 0</span>
-          <span>Site v0.0.12 | Game v0.1.131</span>
+          <span>Site v0.0.14 | Game v0.1.131</span>
         </div>
         
         <div class="game-container" id="gameContainer">
