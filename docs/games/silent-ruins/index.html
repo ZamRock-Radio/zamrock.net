@@ -37,19 +37,16 @@
     .page-wrapper {
       display: flex;
       flex-direction: column;
-      height: 100%;
+      height: 100vh;
       overflow: hidden;
       width: 100%;
-      max-width: 1400px;
-      margin: 0 auto;
+      max-width: 100%;
     }
     
     .main-nav {
       flex-shrink: 0;
-      max-width: 1400px;
-      margin: 0 auto;
-      width: 100%;
-      padding: 0 20px;
+      padding: 10px 20px;
+      background: rgba(46, 52, 64, 0.9);
     }
     
     .radio-player {
@@ -58,31 +55,27 @@
       justify-content: center;
       align-items: center;
       gap: 10px;
-      padding: 5px 15px;
-      background: rgba(46, 52, 64, 0.9);
+      padding: 8px 15px;
+      background: rgba(46, 52, 64, 0.95);
     }
     
     .radio-player button {
-      padding: 4px 10px;
+      padding: 6px 14px;
       background: var(--accent-color);
       color: #fff;
       border: none;
       border-radius: 4px;
       cursor: pointer;
-      font-size: 10px;
+      font-size: 12px;
     }
     
     .game-area {
       flex: 1;
       display: flex;
       flex-direction: column;
-      padding: 12px 20px;
+      padding: 10px 20px;
       overflow: hidden;
-      min-height: 600px;
-      height: calc(100vh - 100px);
-      width: 100%;
-      max-width: 1400px;
-      margin: 0 auto;
+      min-height: 0;
     }
     
     .game-meta {
@@ -97,13 +90,12 @@
     
     .game-container {
       flex: 1;
+      position: relative;
       background: #0a0a0f;
       border: 3px solid var(--border-color);
       border-radius: 8px;
-      overflow: hidden !important;
-      position: relative;
-      min-height: 500px;
-      width: 100%;
+      overflow: hidden;
+      min-height: 0;
     }
     
     .game-container iframe {
@@ -114,8 +106,7 @@
       height: 100%;
       border: none;
       display: block;
-      overflow: hidden !important;
-      scrolling: no;
+      overflow: hidden;
     }
     
     .site-footer {
@@ -181,7 +172,7 @@
       <div class="game-area">
         <div class="game-meta">
           <span id="playCount">Plays: 0</span>
-          <span>Site v0.0.15 | Game v0.1.131</span>
+          <span>Site v0.0.16 | Game v0.1.131</span>
         </div>
         
         <div class="game-container" id="gameContainer">

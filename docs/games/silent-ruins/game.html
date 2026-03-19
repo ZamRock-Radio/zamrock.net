@@ -6,8 +6,13 @@
     <title>Silent Ruins V(0.1.131-DEV)</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
+        html, body {
             background: #0a0a0f;
+            overflow: hidden;
+            height: 100%;
+            width: 100%;
+        }
+        body {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -17,11 +22,15 @@
         }
         #gameContainer {
             position: relative;
+            width: 100%;
+            height: 100%;
         }
         canvas {
             display: block;
             border: 3px solid #2a2a3a;
             image-rendering: pixelated;
+            max-width: 100%;
+            max-height: 100%;
         }
         #ui {
             position: absolute;
