@@ -34,6 +34,7 @@ jobs:
           PYTHON_ISORT_CONFIG_FILE: .isort.cfg
           MARKDOWN_CONFIG_FILE: .markdown-lint.yml
           JAVASCRIPT_STANDARD_CONFIG: .eslintrc.json
+          FILTER_REGEX_EXCLUDE: ".*\\.html$"
 
   test:
     needs: lint
