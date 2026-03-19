@@ -54,7 +54,7 @@
     }
     
     .game-area {
-      flex: 0 0 60%;
+      flex: 1;
       display: flex;
       flex-direction: column;
       padding: 10px 15px;
@@ -80,18 +80,6 @@
       overflow: hidden;
       min-height: 0;
       position: relative;
-    }
-    
-    .game-container:fullscreen {
-      width: 100vw;
-      height: 100vh;
-      border: none;
-      border-radius: 0;
-    }
-    
-    .game-container:fullscreen iframe {
-      width: 100vw;
-      height: 100vh;
     }
     
     .game-container iframe {
@@ -161,7 +149,7 @@
       <div class="game-area">
         <div class="game-meta">
           <span id="playCount">Plays: 0</span>
-          <span>Site v0.0.4 | Game v0.1.131</span>
+          <span>Site v0.0.6 | Game v0.1.131</span>
         </div>
         
         <div class="game-container" id="gameContainer">
@@ -206,24 +194,17 @@
     
     function toggleFullscreen() {
       if (!document.fullscreenElement) {
-        container.requestFullscreen().catch(() => {});
-        iframe.contentWindow.postMessage('resizeFullscreen', '*');
-        setTimeout(() => {
-          iframe.style.width = '100vw';
-          iframe.style.height = '100vh';
-        }, 100);
+        iframe.requestFullscreen().catch(() => {});
       } else {
         document.exitFullscreen();
-        iframe.contentWindow.postMessage('resizeNormal', '*');
-        iframe.style.width = '100%';
-        iframe.style.height = '100%';
       }
     }
     
     document.addEventListener('fullscreenchange', () => {
-      if (!document.fullscreenElement) {
-        iframe.style.width = '100%';
-        iframe.style.height = '100%';
+      if (document.fullscreenElement) {
+        iframe.contentWindow.postMessage('resizeFullscreen', '*');
+      } else {
+        iframe.contentWindow.postMessage('resizeNormal', '*');
       }
     });
   </script>
