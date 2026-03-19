@@ -19,12 +19,12 @@
 > * Website support...
 
 ## Official Links
-> * [Website](https://zamrock.net)
-> * [Revolt/Stoat](https://stt.gg/CsjKzYWm)
-> * [Matrix](https://matrix.to/#/#zamrock:unredacted.org)
-> * [Mastodon](https://musicworld.social/@ZamRock)
+> * [Website](https://zamrock.net) - Our main site
+> * [Revolt/Stoat](https://stt.gg/CsjKzYWm) - Chat server
+> * [Matrix](https://matrix.to/#/#zamrock:unredacted.org) - Federated chat
+> * [Mastodon](https://musicworld.social/@ZamRock) - Fediverse social
 > * [Vector](https://vectorapp.io) - Private messaging, get the app then ask for invite in any server
-> * [BlueSky](https://bsky.app/profile/zamrock.net)
+> * [BlueSky](https://bsky.app/profile/zamrock.net) - Social network
 > * Discord - Sunsetted due to unusable TOS
 
 
