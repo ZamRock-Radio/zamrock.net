@@ -312,6 +312,17 @@
         canvas.width = 800;
         canvas.height = 600;
 
+        window.addEventListener('message', (e) => {
+            if (e.data === 'resizeFullscreen') {
+                const container = document.getElementById('gameContainer');
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            } else if (e.data === 'resizeNormal') {
+                canvas.width = 800;
+                canvas.height = 600;
+            }
+        });
+
         const TILE_SIZE = 32;
         const WORLD_WIDTH = 200;
         const WORLD_HEIGHT = 128;
@@ -2596,7 +2607,6 @@
             document.getElementById('menu').classList.remove('active');
             document.getElementById('settings').classList.remove('active');
             playMusicWithCrossfade(currentMusicTrack);
-            window.parent.postMessage('gameStarted', '*');
         }
         
         function startGameWithMusic() {
