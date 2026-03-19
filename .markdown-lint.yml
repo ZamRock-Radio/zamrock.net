@@ -34,3 +34,6 @@ MD034: false
 
 # Blank line inside blockquote
 MD028: false
+
+# First line heading (not relevant for HTML files)
+MD041: false
