@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Silent Ruins - ZamRock Games</title>
+  <link rel="icon" href="https://github.com/DeathSmack/zamrock/raw/main/graphics/favicon.gif" type="image/gif">
+  
+  <meta name="description" content="Play Silent Ruins - A retro platformer game from ZamRock Radio">
+  <meta name="keywords" content="ZamRock, Silent Ruins, Game, Platformer, Retro">
+  <meta name="author" content="ZamRock Radio">
+  
+  <meta property="og:title" content="Silent Ruins - ZamRock Games">
+  <meta property="og:description" content="Explore ruins, collect fireflies, master wall jumps in this retro platformer">
+  <meta property="og:type" content="website">
+  
+  <link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="../../css/styles.css">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #0a0a0f;
+    }
+    
+    .container {
+      max-width: 100% !important;
+      width: 100% !important;
+      padding: 0 !important;
+      background: #0a0a0f !important;
+    }
+    
+    .page-wrapper {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: 100%;
+    }
+    
+    .main-nav {
+      flex-shrink: 0;
+      padding: 10px 20px;
+      background: rgba(46, 52, 64, 0.9);
+    }
+    
+    .radio-player {
+      flex-shrink: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 15px;
+      background: rgba(46, 52, 64, 0.95);
+    }
+    
+    .radio-player button {
+      padding: 6px 14px;
+      background: var(--accent-color);
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    
+    .game-area {
+      display: flex;
+      flex-direction: column;
+      padding: 10px 20px;
+      min-height: calc(100vh - 150px);
+    }
+    
+    .game-meta {
+      flex-shrink: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: #daa520;
+      margin-bottom: 8px;
+    }
+    
+    .game-container {
+      position: relative;
+      background: #0a0a0f;
+      border: 3px solid var(--border-color);
+      border-radius: 8px;
+      overflow: hidden;
+      min-height: 400px;
+      width: 80%;
+      margin: 0 auto;
+      height: calc(100vh - 200px);
+    }
+    
+    .game-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+      overflow: hidden;
+    }
+    
+    .btn-row {
+      flex-shrink: 0;
+      margin-top: 8px;
+    }
+    
+    .game-info {
+      flex-shrink: 0;
+      margin-top: 8px;
+    }
+    
+    .site-footer {
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 0 20px;
+      box-sizing: border-box;
+    }
+    
+    .btn-row {
+      flex-shrink: 0;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 5px;
+    }
+    
+    .btn {
+      padding: 6px 12px;
+      background: var(--accent-color);
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 10px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    
+    .btn:hover { background: var(--primary-color); }
+    
+    .game-info {
+      flex-shrink: 0;
+      background: rgba(46, 52, 64, 0.9);
+      border-radius: 8px;
+      padding: 8px;
+      font-size: 10px;
+      line-height: 1.4;
+      margin-top: 5px;
+    }
+    
+    .game-info h3 { color: var(--primary-color); margin-bottom: 5px; font-size: 11px; }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+  <div class="container">
+    <nav class="main-nav">
+      <a href="../schedule/" class="nav-btn">Schedule</a>
+      <a href="../news/" class="nav-btn">News</a>
+      <a href="../games/" class="nav-btn active">Games</a>
+      <a href="../contact/" class="nav-btn">Contact</a>
+      <a href="../about/" class="nav-btn">About</a>
+    </nav>
+    
+    <div class="page-wrapper">
+      <div class="radio-player">
+        <audio id="radioStream" src="https://divine-paper-3624.deathsmack-a51.workers.dev/" crossorigin="anonymous"></audio>
+        <button id="playButton">Play</button>
+        <input type="range" id="volumeSlider" min="0" max="100" value="50" style="width: 70px;" />
+      </div>
+      
+      <div class="game-area">
+        <div class="game-meta">
+          <span id="playCount">Plays: 0</span>
+          <span>Site v0.0.26 | Game v0.1.131</span>
+        </div>
+        
+        <div class="game-container" id="gameContainer">
+          <iframe id="gameFrame" src="game.html" scrolling="no"></iframe>
+        </div>
+        
+        <div class="btn-row">
+          <button class="btn" onclick="toggleFullscreen()">Fullscreen</button>
+          <a href="../games/" class="btn">Back to Games</a>
+        </div>
+        
+        <div class="game-info">
+          <h3>Controls</h3>
+          <p><strong>Move:</strong> Arrow Keys / WASD | <strong>Jump:</strong> W / Space / Up | <strong>Dash:</strong> C / Shift | <strong>Menu:</strong> Escape</p>
+          <p style="margin-top: 8px;">Collect fireflies and mushrooms to gain points. Wall jump to refresh your dashes!</p>
+        </div>
+      </div>
+    </div>
+    
+    <footer class="site-footer">
+      <div class="footer-content">
+        <p>2025 ZamRock Radio - All Rights Reserved</p>
+      </div>
+    </footer>
+  </div>
+  
+  <script src="../../js/main.js"></script>
+  <script>
+    let playCount = parseInt(localStorage.getItem('silentRuinsPlays') || '0');
+    document.getElementById('playCount').textContent = 'Plays: ' + playCount;
+    
+    const iframe = document.getElementById('gameFrame');
+    const container = document.getElementById('gameContainer');
+    
+    window.addEventListener('message', (e) => {
+      if (e.data === 'gameStarted') {
+        playCount++;
+        localStorage.setItem('silentRuinsPlays', playCount.toString());
+        document.getElementById('playCount').textContent = 'Plays: ' + playCount;
+      }
+    });
+    
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        iframe.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen();
+      }
+    }
+    
+    document.addEventListener('fullscreenchange', () => {
+      if (document.fullscreenElement) {
+        iframe.contentWindow.postMessage('resizeFullscreen', '*');
+      } else {
+        iframe.contentWindow.postMessage('resizeNormal', '*');
+      }
+    });
+  </script>
+</body>
+</html>

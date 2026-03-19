@@ -1,0 +1,2971 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silent Ruins V(0.1.131-DEV)</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body {
+            background: #0a0a0f;
+            overflow: hidden;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Courier New', monospace;
+            color: #8b9dc3;
+            height: 100vh;
+            width: 100%;
+        }
+        #gameContainer {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        canvas {
+            display: block;
+            image-rendering: pixelated;
+            width: 100%;
+            height: auto;
+        }
+        #ui {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 14px;
+            text-shadow: 1px 1px 2px #000;
+        }
+        #menu {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 15, 0.95);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 15px 10px;
+            overflow-y: auto;
+        }
+        #menu.active { display: flex; }
+        #menu h1 { font-size: 32px; margin-bottom: 20px; color: #a0b0c8; }
+        #menu button {
+            background: #2a2a3a;
+            border: 2px solid #4a4a5a;
+            color: #8b9dc3;
+            padding: 12px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+        #menu button.selected { background: #4a3a2a; border-color: #8a6a4a; transform: scale(1.05); }
+        #devmenu button.selected { background: #4a3a2a; border-color: #8a6a4a; }
+        #settings {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 15, 0.98);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            overflow-y: auto;
+            padding: 20px 10px;
+        }
+        #settings.active { display: flex; }
+        #settings h2 { font-size: 24px; margin-bottom: 10px; }
+        .binding-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 16px;
+        }
+        .binding-row span { width: 120px; }
+        .binding-row button {
+            background: #2a2a3a;
+            border: 2px solid #4a4a5a;
+            color: #8b9dc3;
+            padding: 8px 20px;
+            cursor: pointer;
+            font-family: inherit;
+            min-width: 150px;
+        }
+        .binding-row button:hover { background: #3a3a4a; }
+        .binding-row button.binding { background: #3a2a2a; border-color: #8a4040; }
+        .binding-row button.selected { background: #4a3a2a; border-color: #8a6a4a; }
+        #settings .back-btn { margin-top: 20px; }
+        #settings .back-btn.selected { background: #4a3a2a; border-color: #8a6a4a; }
+        #settings .test-btn { background: #2a3a2a; border: 2px solid #4a6a4a; color: #8b9dc3; padding: 8px 20px; font-size: 14px; cursor: pointer; font-family: inherit; margin-top: 10px; }
+        #settings .test-btn:hover { background: #3a4a3a; }
+        
+        #badges {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            align-items: flex-end;
+        }
+        .badge {
+            background: rgba(0,0,0,0.7);
+            border: 2px solid #4a4a5a;
+            padding: 5px 10px;
+            font-size: 12px;
+            border-radius: 4px;
+            animation: badgePop 0.3s ease-out;
+        }
+        .badge.gold { border-color: #daa520; color: #daa520; }
+        .badge.silver { border-color: #c0c0c0; color: #c0c0c0; }
+        .badge.bronze { border-color: #cd7f32; color: #cd7f32; }
+        @keyframes badgePop {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <canvas id="game"></canvas>
+        <div id="loading" style="display: none; flex-direction: column; justify-content: center; align-items: center; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #0a0a12 0%, #1a1a2e 50%, #0a0a12 100%); z-index: 1000;">
+            <h1 style="color: #daa520; font-size: 36px; margin-bottom: 30px; text-shadow: 0 0 20px rgba(218, 165, 32, 0.5);">SILENT RUINS</h1>
+            <div style="width: 200px; height: 8px; background: #222; border-radius: 4px; overflow: hidden; margin-bottom: 20px;">
+                <div id="loadingBar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #daa520, #f4c430); border-radius: 4px; transition: width 0.3s;"></div>
+            </div>
+            <div id="loadingText" style="color: #666; font-size: 14px;">Loading...</div>
+        </div>
+        
+        <div id="badges"></div>
+        <div id="ui" style="display: flex; justify-content: space-between;">
+            <span id="fpsDisplay" style="color: #daa520;"></span>
+            <span id="version-display" style="color: #daa520; font-size: 12px;"></span>
+        </div>
+        
+        <div id="menu">
+            <h1>SILENT RUINS</h1>
+            <button onclick="startGameWithMusic()" style="font-size: 20px; padding: 12px 30px; background: #daa520; color: #000; border: none; border-radius: 8px; margin-bottom: 15px; cursor: pointer; font-weight: bold;">▶ PLAY</button>
+            <div id="playerCard" style="display: flex; align-items: center; gap: 15px; background: rgba(0,0,0,0.5); padding: 10px 20px; border-radius: 8px; margin-bottom: 10px;">
+                <div id="playerAvatar" style="width: 50px; height: 50px; background: #4a4a5a; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px;">🧑</div>
+                <div style="text-align: left;">
+                    <div id="playerName" style="font-size: 16px; color: #daa520;">Runner</div>
+                    <div style="font-size: 12px; color: #888;">Score: <span id="menuScore">0</span> | Best: <span id="menuHighScore">0</span></div>
+                </div>
+            </div>
+            <button onclick="showDevMenu()">Dev Settings</button>
+            <button onclick="resumeGame()">Resume</button>
+            <button onclick="showSettings()">Controls</button>
+            <button onclick="generateWorld(); resumeGame();">New World</button>
+            <div style="background: rgba(0,0,0,0.4); padding: 10px; border-radius: 8px; margin: 10px 0; width: 90%; max-width: 300px;">
+                <div style="font-size: 11px; color: #daa520; margin-bottom: 5px;">SOUND</div>
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px;">
+                    <span style="font-size: 10px; color: #888; width: 30px;">SFX</span>
+                    <input type="range" id="menuSfxVol" min="0" max="120" value="50" oninput="setSfxVolume(this.value)" style="flex:1; accent-color: #daa520;">
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px;">
+                    <span style="font-size: 10px; color: #888; width: 30px;">MUSIC</span>
+                    <input type="range" id="menuMusicVol" min="0" max="100" value="30" oninput="setMusicVolume(this.value)" style="flex:1; accent-color: #daa520;">
+                </div>
+                <div style="font-size: 10px; color: #aaa; margin-top: 8px; margin-bottom: 3px;">Music:</div>
+                <div id="menuMusicSelect" style="display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 4px;"></div>
+                <button onclick="randomMusic()" style="font-size: 9px; padding: 3px 8px; width: 100%;">🎲 Random</button>
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                <button onclick="saveGameData()" style="font-size: 14px; padding: 8px 15px;">Save</button>
+                <button onclick="loadGameData()" style="font-size: 14px; padding: 8px 15px;">Load</button>
+                <button onclick="downloadProfile()" style="font-size: 14px; padding: 8px 15px;">📷 Profile</button>
+                <button onclick="showLeaderboard()" style="font-size: 14px; padding: 8px 15px;">🏆 Scores</button>
+            </div>
+            <div style="margin-top: 15px; color: #666; font-size: 12px;">Version: <span id="version-display"></span></div>
+        </div>
+        
+        <div id="leaderboardDisplay" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #1a1a2e; border: 2px solid #daa520; padding: 20px; z-index: 200; max-height: 400px; overflow-y: auto; min-width: 250px;"></div>
+        
+        <div id="devmenu" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10,10,15,0.98); flex-direction: column; align-items: center; gap: 8px; overflow-y: auto; padding: 20px 10px;">
+            <h2 style="font-size: 20px; margin-bottom: 5px; color: #a0b0c8;">Dev Menu</h2>
+            <div style="font-size: 12px; margin-bottom: 3px;">Jump:</div>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; max-width: 90%;">
+                <button onclick="setJumpType(0)" id="jumpType0" style="font-size: 10px; padding: 5px 8px;">Classic</button>
+                <button onclick="setJumpType(1)" id="jumpType1" style="font-size: 10px; padding: 5px 8px;">Floaty</button>
+                <button onclick="setJumpType(2)" id="jumpType2" style="font-size: 10px; padding: 5px 8px;">Snappy</button>
+                <button onclick="setJumpType(3)" id="jumpType3" style="font-size: 10px; padding: 5px 8px;">Sporadic</button>
+                <button onclick="setJumpType(4)" id="jumpType4" style="font-size: 10px; padding: 5px 8px;">Bouncy</button>
+            </div>
+            <div style="border-top: 1px solid #444; padding-top: 6px; width: 90%;">
+                <div style="font-size: 12px; margin-bottom: 3px; color: #ccc;">Level Override: <span id="devLevelVal" style="color: #daa520;">Auto</span></div>
+                <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 3px;">
+                    <button onclick="setDevLevelOverride(-1)" id="devLevel_-1" style="font-size: 9px; padding: 3px 6px; background: #4a3a2a;">Auto</button>
+                    <button onclick="setDevLevelOverride(0)" id="devLevel_0" style="font-size: 9px; padding: 3px 6px;">Beginner</button>
+                    <button onclick="setDevLevelOverride(1)" id="devLevel_1" style="font-size: 9px; padding: 3px 6px;">Sprinter</button>
+                    <button onclick="setDevLevelOverride(2)" id="devLevel_2" style="font-size: 9px; padding: 3px 6px;">Runner</button>
+                    <button onclick="setDevLevelOverride(3)" id="devLevel_3" style="font-size: 9px; padding: 3px 6px;">Speed Demon</button>
+                    <button onclick="setDevLevelOverride(4)" id="devLevel_4" style="font-size: 9px; padding: 3px 6px;">Aerialist</button>
+                    <button onclick="setDevLevelOverride(5)" id="devLevel_5" style="font-size: 9px; padding: 3px 6px;">Cloud Walker</button>
+                    <button onclick="setDevLevelOverride(6)" id="devLevel_6" style="font-size: 9px; padding: 3px 6px;">Sky Dancer</button>
+                    <button onclick="setDevLevelOverride(7)" id="devLevel_7" style="font-size: 9px; padding: 3px 6px;">Master Jumper</button>
+                    <button onclick="setDevLevelOverride(8)" id="devLevel_8" style="font-size: 9px; padding: 3px 6px;">Acrobat</button>
+                    <button onclick="setDevLevelOverride(9)" id="devLevel_9" style="font-size: 9px; padding: 3px 6px;">Legend</button>
+                </div>
+            </div>
+            <div style="border-top: 1px solid #444; padding-top: 6px; width: 90%;">
+                <div style="font-size: 12px; margin-bottom: 3px;">Lighting:</div>
+                <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 4px;">
+                    <button onclick="setLighting(0)" id="lightType0" style="font-size: 9px; padding: 4px 6px;">None</button>
+                    <button onclick="setLighting(1)" id="lightType1" style="font-size: 9px; padding: 4px 6px;">Spot</button>
+                    <button onclick="setLighting(2)" id="lightType2" style="font-size: 9px; padding: 4px 6px;">Candle</button>
+                    <button onclick="setLighting(3)" id="lightType3" style="font-size: 9px; padding: 4px 6px;">Lantern</button>
+                    <button onclick="setLighting(4)" id="lightType4" style="font-size: 9px; padding: 4px 6px;">Torch</button>
+                    <button onclick="setLighting(5)" id="lightType5" style="font-size: 9px; padding: 4px 6px;">Eerie</button>
+                    <button onclick="setLighting(6)" id="lightType6" style="font-size: 9px; padding: 4px 6px;">Moon</button>
+                    <button onclick="setLighting(7)" id="lightType7" style="font-size: 9px; padding: 4px 6px;">Sunset</button>
+                    <button onclick="setLighting(8)" id="lightType8" style="font-size: 9px; padding: 4px 6px;">Cave</button>
+                    <button onclick="setLighting(9)" id="lightType9" style="font-size: 9px; padding: 4px 6px;">Night</button>
+                    <button onclick="setLighting(10)" id="lightType10" style="font-size: 9px; padding: 4px 6px;">Dawn</button>
+                </div>
+            </div>
+            <div style="border-top: 1px solid #444; padding-top: 8px; width: 90%;">
+                <div style="font-size: 12px; margin-bottom: 5px; color: #ccc;">Bg Brightness: <span id="bgBrightVal" style="color: #daa520;">45</span>%</div>
+                <input type="range" id="bgBrightSlider" min="0" max="100" value="45" oninput="setBgBrightness(this.value)" style="width: 80%; accent-color: #daa520;">
+                <div style="font-size: 12px; margin-bottom: 5px; margin-top: 8px; color: #ccc;">Bg Blur: <span id="bgBlurVal" style="color: #daa520;">1</span>px</div>
+                <input type="range" id="bgBlurSlider" min="0" max="20" value="1" oninput="setBgBlur(this.value)" style="width: 80%; accent-color: #daa520;">
+            </div>
+            <div style="border-top: 1px solid #444; padding-top: 8px; width: 90%;">
+                <div style="font-size: 12px; margin-bottom: 5px; color: #ccc;">Light Size: <span id="lightSizeVal" style="color: #daa520;">225</span></div>
+                <input type="range" id="lightSizeSlider" min="50" max="500" value="225" oninput="setLightSize(this.value)" style="width: 80%; accent-color: #daa520;">
+                <div style="font-size: 12px; margin-bottom: 5px; margin-top: 8px; color: #ccc;">Light Smooth: <span id="lightSmoothVal" style="color: #daa520;">0.4</span></div>
+                <input type="range" id="lightSmoothSlider" min="1" max="99" value="40" oninput="setLightSmooth(this.value)" style="width: 80%; accent-color: #daa520;">
+            </div>
+            <div style="border-top: 1px solid #444; padding-top: 8px; width: 90%;">
+                <div style="font-size: 12px; margin-bottom: 5px; color: #ccc;">Sounds:</div>
+                <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+                    <button onclick="toggleSound()" id="soundToggleBtn" style="font-size: 10px; padding: 4px 8px;">SFX: ON</button>
+                    <button onclick="toggleMusic()" id="musicToggleBtn" style="font-size: 10px; padding: 4px 8px;">Music: ON</button>
+                </div>
+                <div style="font-size: 11px; margin-bottom: 3px; color: #aaa;">SFX Volume: <span id="sfxVolVal">50</span>%</div>
+                <input type="range" id="sfxVolSlider" min="0" max="120" value="50" oninput="setSfxVolume(this.value)" style="width: 80%; accent-color: #daa520;">
+                <div style="font-size: 11px; margin-bottom: 3px; margin-top: 5px; color: #aaa;">Music Volume: <span id="musicVolVal">30</span>%</div>
+                <input type="range" id="musicVolSlider" min="0" max="100" value="30" oninput="setMusicVolume(this.value)" style="width: 80%; accent-color: #daa520;">
+                <div style="font-size: 11px; margin-bottom: 3px; margin-top: 5px; color: #aaa;">Walk Vol: <span id="walkVolVal">13</span></div>
+                <input type="range" id="walkVolSlider" min="5" max="15" value="13" oninput="setWalkVolume(this.value)" style="width: 80%; accent-color: #daa520;">
+                <div style="font-size: 11px; margin-bottom: 3px; margin-top: 5px; color: #aaa;">Jump Vol: <span id="jumpVolVal">10</span></div>
+                <input type="range" id="jumpVolSlider" min="5" max="15" value="10" oninput="setJumpVolume(this.value)" style="width: 80%; accent-color: #daa520;">
+                <div style="font-size: 11px; margin-bottom: 3px; margin-top: 5px; color: #aaa;">Fall Vol: <span id="fallVolVal">10</span></div>
+                <input type="range" id="fallVolSlider" min="5" max="15" value="10" oninput="setFallVolume(this.value)" style="width: 80%; accent-color: #daa520;">
+                <div style="font-size: 11px; margin-bottom: 3px; margin-top: 5px; color: #aaa;">Category:</div>
+                <div style="display: flex; flex-wrap: wrap; gap: 3px; margin-bottom: 6px;">
+                    <button onclick="showSoundCat('menu')" id="soundCatMenu" style="font-size: 9px; padding: 3px 5px;">Menu</button>
+                    <button onclick="showSoundCat('player')" id="soundCatPlayer" style="font-size: 9px; padding: 3px 5px;">Player</button>
+                    <button onclick="showSoundCat('items')" id="soundCatItems" style="font-size: 9px; padding: 3px 5px;">Items</button>
+                    <button onclick="showSoundCat('music')" id="soundCatMusic" style="font-size: 9px; padding: 3px 5px;">Music</button>
+                </div>
+                <div id="soundList" style="font-size: 10px; color: #ccc; max-height: 80px; overflow-y: auto;"></div>
+            </div>
+            <div style="border-top: 1px solid #444; padding-top: 6px; display: flex; gap: 6px;">
+                <button onclick="generateWorld(Math.floor(Math.random()*999999))" style="font-size: 10px; padding: 4px 8px;">Random</button>
+                <button onclick="generateWorld(12345)" style="font-size: 10px; padding: 4px 8px;">Seed 12345</button>
+                <button onclick="toggleDebug()" style="font-size: 10px; padding: 4px 8px;">Debug</button>
+            </div>
+            <button onclick="showMenu()" style="margin-top: 8px; font-size: 12px; padding: 6px 15px;">Back</button>
+        </div>
+        
+        <div id="settings">
+            <h2>Control Settings</h2>
+            
+            <h3 style="margin-top: 20px; color: #daa520;">🎮 Controller</h3>
+            <button id="btn-detect-controller" onclick="detectController()" style="margin: 5px 0; padding: 8px 15px; background: #2a2a3a; color: #daa520; border: 1px solid #daa520; border-radius: 4px; cursor: pointer;">🔍 Select Controller</button>
+            <div id="controller-list" style="min-height: 60px; margin: 10px 0; padding: 5px; background: #1a1a2e; border-radius: 4px;"></div>
+            <div id="selected-controller" style="color: #8b9dc3; font-size: 12px; margin-bottom: 10px;"></div>
+            
+            <h4 style="color: #8b9dc3; margin-top: 15px;">Button Mappings:</h4>
+            <div class="binding-row"><span>Jump (A):</span><button id="bind-c-jump" onclick="bindControllerButton('jump')">Button 0</button></div>
+            <div class="binding-row"><span>Dash (X):</span><button id="bind-c-dash" onclick="bindControllerButton('dash')">Button 2</button></div>
+            <div class="binding-row"><span>Dash Left (LB):</span><button id="bind-c-dashLeft" onclick="bindControllerButton('dashLeft')">Button 4</button></div>
+            <div class="binding-row"><span>Dash Right (RB):</span><button id="bind-c-dashRight" onclick="bindControllerButton('dashRight')">Button 5</button></div>
+            <div class="binding-row"><span>Menu:</span><button id="bind-c-menu" onclick="bindControllerButton('menu')">Button 9</button></div>
+            
+            <h3 style="margin-top: 20px; color: #daa520;">⌨️ Keyboard</h3>
+            <div class="binding-row"><span>Move Left:</span><button id="bind-left" onclick="bindKey('left')">Press a key...</button></div>
+            <div class="binding-row"><span>Move Right:</span><button id="bind-right" onclick="bindKey('right')">Press a key...</button></div>
+            <div class="binding-row"><span>Jump:</span><button id="bind-jump" onclick="bindKey('jump')">Press a key...</button></div>
+            <div class="binding-row"><span>Dash:</span><button id="bind-dash" onclick="bindKey('dash')">Press a key...</button></div>
+            <div class="binding-row"><span>Dash Left:</span><button id="bind-dashLeft" onclick="bindKey('dashLeft')">Press a key...</button></div>
+            <div class="binding-row"><span>Dash Right:</span><button id="bind-dashRight" onclick="bindKey('dashRight')">Press a key...</button></div>
+            <div class="binding-row"><span>Menu:</span><button id="bind-menu" onclick="bindKey('menu')">Press a key...</button></div>
+            
+            <button class="back-btn" onclick="showMenu()">Back</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('game');
+        const ctx = canvas.getContext('2d');
+        
+        const cosmicBg = new Image();
+        cosmicBg.src = 'assets/graphics/background/1-cosmic.jpg';
+        let bgLoaded = false;
+        let bgBrightness = 0.45;
+        let bgBlur = 1;
+        let lightSize = 225;
+        let lightSmooth = 0.4;
+        cosmicBg.onload = () => { bgLoaded = true; console.log('Cosmic bg loaded!'); };
+        cosmicBg.onerror = () => { console.log('Cosmic bg failed to load'); };
+        
+        canvas.width = 1200;
+        canvas.height = 900;
+
+        function resizeGame() {
+            const container = document.getElementById('gameContainer');
+            const aspect = 4 / 3;
+            canvas.width = 1200;
+            canvas.height = Math.round(1200 / aspect);
+            canvas.style.width = '100%';
+            canvas.style.height = 'auto';
+        }
+
+        window.addEventListener('message', (e) => {
+            if (e.data === 'resizeFullscreen') {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            } else if (e.data === 'resizeNormal') {
+                resizeGame();
+            }
+        });
+
+        resizeGame();
+
+        const TILE_SIZE = 32;
+        const WORLD_WIDTH = 200;
+        const WORLD_HEIGHT = 128;
+
+        const BLOCKS = {
+            AIR: 0, GROUND: 1, PLATFORM: 2, RUINS_WALL: 3,
+            MOSSY_STONE: 4, CRUMBLING_BRICK: 5, SPIKE: 6,
+            VINE: 7, WATER: 8, DOOR: 9, LADDER: 10, FIREFLY: 11, CHECKPOINT: 12,
+            GRASS: 13, SAND: 14, EARTH: 15, STONE: 16, MUSHROOM: 17
+        };
+
+        const BLOCK_COLORS = {
+            [BLOCKS.GROUND]: '#3d2817', [BLOCKS.PLATFORM]: '#5a4a3a',
+            [BLOCKS.RUINS_WALL]: '#4a4a5a', [BLOCKS.MOSSY_STONE]: '#3a5a3a',
+            [BLOCKS.CRUMBLING_BRICK]: '#6a4a3a', [BLOCKS.SPIKE]: '#8a3030',
+            [BLOCKS.VINE]: '#2a5a2a', [BLOCKS.WATER]: '#2a4a6a',
+            [BLOCKS.DOOR]: '#5a3a2a', [BLOCKS.LADDER]: '#4a3a2a',
+            [BLOCKS.FIREFLY]: '#ffd700', [BLOCKS.CHECKPOINT]: '#20a0a0',
+            [BLOCKS.GRASS]: '#3a6a2a', [BLOCKS.SAND]: '#c2a84a',
+            [BLOCKS.EARTH]: '#2a1a0a', [BLOCKS.STONE]: '#5a5a5a', [BLOCKS.MUSHROOM]: '#e74c3c'
+        };
+
+        let keyBindings = {
+            left: ['ArrowLeft', 'KeyA'],
+            right: ['ArrowRight', 'KeyD'],
+            jump: ['ArrowUp', 'KeyW', 'Space'],
+            dash: ['KeyC', 'ShiftLeft'],
+            dashLeft: ['KeyZ'],
+            dashRight: ['KeyX'],
+            menu: ['Escape']
+        };
+        
+        let controllerBindings = {
+            left: 14,
+            right: 15,
+            jump: 0,
+            dash: 2,
+            dashLeft: 4,
+            dashRight: 5,
+            menu: 9
+        };
+        
+        const savedControllerBindings = localStorage.getItem('silentRuins_controllerBindings');
+        if (savedControllerBindings) {
+            try {
+                const parsed = JSON.parse(savedControllerBindings);
+                controllerBindings = { ...controllerBindings, ...parsed };
+            } catch(e) {}
+        }
+        
+        let bindingMode = null;
+
+        let gameState = 'menu';
+        let world = [];
+        let camera = { x: 0, y: 0, offsetX: 0, offsetY: 0, shake: 0 };
+        
+        const player = {
+            x: WORLD_WIDTH * TILE_SIZE / 2, y: 0, vx: 0, vy: 0,
+            width: 20, height: 28, grounded: false, facing: 1,
+            state: 'idle', frame: 0, frameTimer: 0, coins: 0,
+            jumpCount: 0, dashCooldown: 0, isDashing: false, dashTimer: 0,
+            onWall: false, wallDir: 0,
+            isSliding: false, slideTimer: 0,
+            wasDashingDown: false,
+            dashesUsed: 0,
+            fallStartY: 0,
+            fallSoundPlaying: false,
+            fallSoundTimer: 0,
+            wallSlideTimer: 0,
+            wallJumpChain: 0,
+            wallJumpInputIgnore: 0,
+            jumpSoundCooldown: 0,
+            lastX: 0,
+            speedLines: [],
+            jumpEffect: null,
+            scarfPoints: [{x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}],
+        };
+        
+        const DASH_TIERS = [
+            { duration: 0.05, speed: 200, lineLength: 12, name: 'Basic' },
+            { duration: 0.08, speed: 300, lineLength: 16, name: 'Quick' },
+            { duration: 0.12, speed: 400, lineLength: 24, name: 'Swift' },
+            { duration: 0.18, speed: 550, lineLength: 36, name: 'Blazing' },
+            { duration: 0.25, speed: 700, lineLength: 50, name: 'Lightning' }
+        ];
+        
+        function getDashTier() {
+            const level = getCurrentLevel();
+            return Math.min(level, DASH_TIERS.length - 1);
+        }
+        
+        function getDashDuration() {
+            return DASH_TIERS[getDashTier()].duration;
+        }
+        
+        function getDashSpeed() {
+            return DASH_TIERS[getDashTier()].speed;
+        }
+        
+        function getDashLineLength() {
+            return DASH_TIERS[getDashTier()].lineLength;
+        }
+        
+        let devLevelOverride = -1;
+        
+        function setDevLevelOverride(level) {
+            devLevelOverride = level;
+            const val = document.getElementById('devLevelVal');
+            if (val) val.textContent = level >= 0 ? LEVELS[level].name + ' (' + level + ')' : 'Auto';
+            for (let i = -1; i <= 9; i++) {
+                const btn = document.getElementById('devLevel_' + i);
+                if (btn) btn.style.background = i === level ? '#4a3a2a' : '#2a2a3a';
+            }
+        }
+
+        const DASH_SPEED = 500;
+        const DASH_DURATION = 0.12;
+        const DASH_COOLDOWN = 0.3;
+        const SLIDE_SPEED = 350;
+        const SLIDE_DURATION = 0.4;
+        const WALL_SLIDE_SPEED = 60;
+        const WALL_JUMP_FORCE = 550;
+        const JUMP_FORCE_FIRST = -400;
+        const JUMP_FORCE_OTHER = -340;
+        const MAX_JUMPS = 3;
+        
+        const JUMP_TYPES = [
+            { name: 'Classic', first: -400, other: -340, max: 3, gravity: 1200, desc: 'Standard triple jump' },
+            { name: 'Floaty', first: -350, other: -280, max: 3, gravity: 800, desc: 'Floaty, hangs in air longer' },
+            { name: 'Snappy', first: -550, other: -450, max: 2, gravity: 1800, desc: 'Quick, tight jumps, less air control' },
+            { name: 'Sporadic', first: -400, other: -300, max: 4, gravity: 1500, random: true, desc: 'Random extra jumps!' },
+            { name: 'Bouncy', first: -500, other: -400, max: 3, gravity: 1000, bouncy: true, desc: 'Squishy, elastic feel' }
+        ];
+        
+        let currentJumpType = 0;
+        
+        function setJumpType(type) {
+            currentJumpType = type;
+            for (let i = 0; i < 5; i++) {
+                const btn = document.getElementById('jumpType' + i);
+                if (btn) btn.style.background = i === type ? '#4a3a2a' : '#2a2a3a';
+            }
+        }
+        
+        function getJumpForce(first) {
+            const jt = JUMP_TYPES[currentJumpType];
+            if (jt.random && !first) {
+                return Math.random() > 0.5 ? jt.other : jt.other * 1.3;
+            }
+            return first ? jt.first : jt.other;
+        }
+        
+        function getGravity() {
+            return JUMP_TYPES[currentJumpType].gravity;
+        }
+        
+        const GAME_VERSION = '0.1.131-DEV';
+        
+        const LIGHTING_TYPES = [
+            { name: 'None', ambient: 0, playerRadius: 0, playerColor: 'rgba(255,250,220,0)', playerFalloff: 0.5 },
+            { name: 'Spotlight', ambient: 0.2, playerRadius: 250, playerColor: 'rgba(255,250,220,0.2)', playerFalloff: 0.3 },
+            { name: 'Candle', ambient: 0.3, playerRadius: 150, playerColor: 'rgba(255,180,80,0.3)', playerFalloff: 0.35 },
+            { name: 'Lantern', ambient: 0.25, playerRadius: 200, playerColor: 'rgba(255,220,150,0.25)', playerFalloff: 0.3 },
+            { name: 'Torch', ambient: 0.3, playerRadius: 180, playerColor: 'rgba(255,100,50,0.3)', playerFalloff: 0.3 },
+            { name: 'Eerie', ambient: 0.4, playerRadius: 150, playerColor: 'rgba(100,180,100,0.25)', playerFalloff: 0.3 },
+            { name: 'Moon', ambient: 0.15, playerRadius: 350, playerColor: 'rgba(150,180,255,0.15)', playerFalloff: 0.25 },
+            { name: 'Sunset', ambient: 0.1, playerRadius: 300, playerColor: 'rgba(255,120,80,0.2)', playerFalloff: 0.25 },
+            { name: 'Cave', ambient: 0.45, playerRadius: 140, playerColor: 'rgba(80,100,150,0.3)', playerFalloff: 0.3 },
+            { name: 'Night', ambient: 0.2, playerRadius: 320, playerColor: 'rgba(30,30,80,0.25)', playerFalloff: 0.25 },
+            { name: 'Dawn', ambient: 0.1, playerRadius: 300, playerColor: 'rgba(255,180,130,0.2)', playerFalloff: 0.25 }
+        ];
+        
+        const musicTracks = ['bgMusic1', 'bgMusic2'];
+        
+        const SOUND_CATEGORIES = {
+            menu: {
+                name: 'Menu',
+                sounds: ['menuOpen', 'menuClose', 'menuSelect', 'menuBack']
+            },
+            player: {
+                name: 'Player',
+                sounds: ['jump', 'doubleJump', 'tripleJump', 'land', 'dash', 'dashUp', 'dashDown', 'slide']
+            },
+            items: {
+                name: 'Items',
+                sounds: ['coin', 'checkpoint', 'powerUp', 'levelUp', 'secret', 'levelDown']
+            },
+            music: {
+                name: 'Music',
+                sounds: musicTracks
+            }
+        };
+        
+        const defaultSounds = {
+            menuOpen: 'menu/select.mp3',
+            menuClose: 'menu/back.mp3',
+            menuSelect: 'items/badge.mp3',
+            menuBack: 'menu/back.mp3',
+            gameStart: 'startup/do_what_you_want-enlightenment-469047.mp3',
+            gameOver: 'startup/do_what_you_want-enlightenment-469047.mp3',
+            jump: 'player/jump.mp3',
+            doubleJump: 'player/double-jump.mp3',
+            tripleJump: 'player/triple-jump.mp3',
+            land: 'player/jump.mp3',
+            dash: 'player/dash.mp3',
+            dashUp: 'player/dash-up.mp3',
+            dashDown: 'player/dash-down.mp3',
+            slide: 'player/jump.mp3',
+            fall: 'player/dragon-studio-wind-gust-386158.mp3',
+            wallJump: 'player/freesound_community-land-81509.mp3',
+            walkDirt: 'player/freesounds123-walking-on-dirt-363354.mp3',
+            walkStone: 'player/freesound_community-concrete-footsteps-1-6265.mp3',
+            coin: 'items/pickup.mp3',
+            checkpoint: 'items/badge.mp3',
+            powerUp: 'items/equip.mp3',
+            levelUp: 'items/levelup.mp3',
+            secret: 'items/secret.mp3',
+            levelDown: 'items/leveldown.mp3',
+            bgMusic: 'music/soundreality-ambient-wandering-wind-321158.mp3',
+            bgMusic1: 'music/soundreality-ambient-wandering-wind-321158.mp3',
+            bgMusic2: 'music/sergequadrado-happy-relaxing-loop-275487.mp3'
+        };
+        
+        let currentMusicTrack = 'bgMusic1';
+        
+        let soundConfig = { ...defaultSounds };
+        let loadedSounds = {};
+        let soundEnabled = true;
+        let musicEnabled = true;
+        let sfxVolume = 0.5;
+        let musicVolume = 0.3;
+        let walkVolume = 1.0;
+        let jumpVolume = 1.0;
+        let fallVolume = 1.0;
+        let soundCache = {};
+        
+        async function loadSoundBlob(path) {
+            if (soundCache[path]) return soundCache[path];
+            try {
+                const resp = await fetch(path);
+                const blob = await resp.blob();
+                const url = URL.createObjectURL(blob);
+                soundCache[path] = url;
+                return url;
+            } catch(e) {
+                console.log('Failed to load:', path);
+                return null;
+            }
+        }
+        
+        let soundPool = {};
+        
+        function initSounds() {
+            for (const [name, path] of Object.entries(soundConfig)) {
+                loadSoundBlob('assets/audio/' + path).then(() => {});
+            }
+        }
+        
+        async function playSound(name, vol) {
+            if (!soundEnabled) return;
+            const path = soundConfig[name];
+            if (!path) return;
+            const finalVol = vol !== undefined ? vol : sfxVolume;
+            
+            if (soundPool[name]) {
+                soundPool[name].pause();
+                soundPool[name].currentTime = 0;
+            }
+            
+            const url = await loadSoundBlob('assets/audio/' + path);
+            if (!url) return;
+            const sound = new Audio(url);
+            sound.volume = finalVol;
+            soundPool[name] = sound;
+            sound.play().catch(e => {});
+        }
+        
+        async function playMusic(name) {
+            if (!musicEnabled) return;
+            const path = soundConfig[name];
+            if (!path) return;
+            const url = await loadSoundBlob('assets/audio/' + path);
+            if (!url) return;
+            const music = new Audio(url);
+            music.loop = true;
+            music.volume = musicVolume;
+            music.play().catch(() => {});
+            loadedSounds[name] = music;
+        }
+        
+        function stopMusic() {
+            for (const sound of Object.values(loadedSounds)) {
+                if (sound.loop) { sound.pause(); sound.currentTime = 0; }
+            }
+        }
+        
+        let musicPlayCount = 0;
+        let musicFadeInterval = null;
+        
+        async function playMusicWithCrossfade(name) {
+            if (!musicEnabled) return;
+            
+            const path = soundConfig[name];
+            if (!path) return;
+            const url = await loadSoundBlob('assets/audio/' + path);
+            if (!url) return;
+            
+            // Stop any currently playing music first
+            for (const key in loadedSounds) {
+                const s = loadedSounds[key];
+                if (s.loop && !s.paused) {
+                    s.pause();
+                    s.currentTime = 0;
+                }
+            }
+            
+            const music = new Audio(url);
+            music.loop = true;
+            music.volume = musicVolume;
+            music.play().catch(() => {});
+            loadedSounds[name] = music;
+            currentMusicTrack = name;
+            musicPlayCount = 0;
+        }
+        
+        function crossfadeMusic(oldMusic, newMusic) {
+            if (musicFadeInterval) clearInterval(musicFadeInterval);
+            
+            newMusic.loop = true;
+            newMusic.volume = 0;
+            newMusic.play().catch(() => {});
+            
+            let vol = 0;
+            musicFadeInterval = setInterval(() => {
+                vol += 0.05;
+                if (oldMusic) {
+                    oldMusic.volume = Math.max(0, musicVolume - vol);
+                }
+                newMusic.volume = Math.min(musicVolume, vol);
+                
+                if (vol >= musicVolume) {
+                    clearInterval(musicFadeInterval);
+                    if (oldMusic) {
+                        oldMusic.pause();
+                        oldMusic.currentTime = 0;
+                    }
+                }
+            }, 100);
+        }
+        
+        function checkMusicTransition() {
+            if (!musicEnabled) return;
+            const music = loadedSounds[currentMusicTrack];
+            if (music && !music.paused && music.duration - music.currentTime < 2) {
+                musicPlayCount++;
+                if (musicPlayCount >= 2) {
+                    musicPlayCount = 0;
+                    randomMusic();
+                }
+            }
+        }
+        
+        function initMenuMusicSelector() {
+            const container = document.getElementById('menuMusicSelect');
+            if (!container) return;
+            container.innerHTML = '';
+            const trackNames = ['Ambient', 'Chill', 'Enlighten'];
+            for (let i = 0; i < musicTracks.length; i++) {
+                const track = musicTracks[i];
+                const isActive = currentMusicTrack === track;
+                const btn = document.createElement('button');
+                btn.textContent = trackNames[i];
+                btn.style.fontSize = '9px';
+                btn.style.padding = '3px 6px';
+                btn.style.background = isActive ? '#4a3a2a' : '#2a2a3a';
+                btn.onclick = () => selectMusic(track);
+                container.appendChild(btn);
+            }
+        }
+        
+        let currentLighting = 1;
+        let debugMode = false;
+        let lightX = 0, lightY = 0;
+        
+        function setLighting(type) {
+            currentLighting = type;
+            for (let i = 0; i < LIGHTING_TYPES.length; i++) {
+                const btn = document.getElementById('lightType' + i);
+                if (btn) btn.style.background = i === type ? '#4a3a2a' : '#2a2a3a';
+            }
+            console.log('Lighting:', LIGHTING_TYPES[type].name);
+        }
+        
+        function setBgBrightness(val) {
+            document.getElementById('bgBrightVal').textContent = val;
+            bgBrightness = val / 100;
+            console.log('Bg Brightness:', bgBrightness);
+        }
+        
+        function setBgBlur(val) {
+            document.getElementById('bgBlurVal').textContent = val;
+            bgBlur = parseInt(val);
+            console.log('Bg Blur:', bgBlur);
+        }
+        
+        function setLightSize(val) {
+            document.getElementById('lightSizeVal').textContent = val;
+            lightSize = parseInt(val);
+            console.log('Light Size:', lightSize);
+        }
+        
+        function setLightSmooth(val) {
+            document.getElementById('lightSmoothVal').textContent = (val / 100).toFixed(2);
+            lightSmooth = val / 100;
+            console.log('Light Smooth:', lightSmooth);
+        }
+        
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            document.getElementById('soundToggleBtn').textContent = soundEnabled ? 'SFX: ON' : 'SFX: OFF';
+            console.log('Sound:', soundEnabled ? 'ON' : 'OFF');
+        }
+        
+        function toggleMusic() {
+            musicEnabled = !musicEnabled;
+            document.getElementById('musicToggleBtn').textContent = musicEnabled ? 'Music: ON' : 'Music: OFF';
+            if (musicEnabled) playMusicWithCrossfade(currentMusicTrack);
+            else stopMusic();
+            console.log('Music:', musicEnabled ? 'ON' : 'OFF');
+        }
+        
+        function setSfxVolume(val) {
+            document.getElementById('sfxVolVal').textContent = val;
+            sfxVolume = val / 100;
+            try { document.getElementById('menuSfxVol').value = val; } catch(e) {}
+            console.log('SFX Volume:', sfxVolume);
+        }
+        
+        function setMusicVolume(val) {
+            document.getElementById('musicVolVal').textContent = val;
+            musicVolume = val / 100;
+            document.getElementById('menuMusicVol').value = val;
+            const music = loadedSounds[currentMusicTrack];
+            if (music) music.volume = musicVolume;
+        }
+        
+        function setWalkVolume(val) {
+            document.getElementById('walkVolVal').textContent = val;
+            walkVolume = val / 10;
+        }
+        
+        function setJumpVolume(val) {
+            document.getElementById('jumpVolVal').textContent = val;
+            jumpVolume = val / 10;
+        }
+        
+        function setFallVolume(val) {
+            document.getElementById('fallVolVal').textContent = val;
+            fallVolume = val / 10;
+        }
+        
+        let currentSoundCat = 'menu';
+        
+        function showSoundCat(cat) {
+            currentSoundCat = cat;
+            for (const c of ['menu', 'player', 'items', 'music']) {
+                document.getElementById('soundCat' + c.charAt(0).toUpperCase() + c.slice(1)).style.background = c === cat ? '#4a3a2a' : '#2a2a3a';
+            }
+            const list = document.getElementById('soundList');
+            list.innerHTML = '';
+            
+            if (cat === 'music') {
+                const trackDisplayNames = { bgMusic1: 'Ambient', bgMusic2: 'Chill' };
+                for (const track of musicTracks) {
+                    const isActive = currentMusicTrack === track;
+                    const div = document.createElement('div');
+                    div.style.marginBottom = '4px';
+                    div.innerHTML = `<span style="color:${isActive ? '#daa520' : '#ccc'}">${trackDisplayNames[track] || track}:</span> <button onclick="playMusicTest('${track}')" style="font-size:9px;padding:2px 4px;">▶</button> <button onclick="selectMusic('${track}')" style="font-size:9px;padding:2px 4px;background:${isActive ? '#4a3a2a' : ''}">Select</button>`;
+                    list.appendChild(div);
+                }
+                const randDiv = document.createElement('div');
+                randDiv.style.marginTop = '8px';
+                randDiv.innerHTML = `<button onclick="randomMusic()" style="font-size:10px;padding:4px 8px;">Random</button>`;
+                list.appendChild(randDiv);
+            } else {
+                for (const soundName of SOUND_CATEGORIES[cat].sounds) {
+                    const div = document.createElement('div');
+                    div.style.marginBottom = '4px';
+                    div.innerHTML = `<span>${soundName}:</span> <button onclick="playSoundTest('${soundName}')" style="font-size:9px;padding:2px 4px;">▶</button> <button onclick="changeSound('${soundName}')" style="font-size:9px;padding:2px 4px;">Change</button>`;
+                    list.appendChild(div);
+                }
+            }
+        }
+        
+        function playMusicTest(name) {
+            playMusic(name);
+        }
+        
+        function selectMusic(name) {
+            currentMusicTrack = name;
+            initMenuMusicSelector();
+            playMusicWithCrossfade(name);
+            try { showSoundCat('music'); } catch(e) {}
+        }
+        
+        function randomMusic() {
+            const randomTrack = musicTracks[Math.floor(Math.random() * musicTracks.length)];
+            selectMusic(randomTrack);
+        }
+        
+        function playSoundTest(name) {
+            playSound(name);
+        }
+        
+        function changeSound(name) {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'audio/*';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const url = URL.createObjectURL(file);
+                    soundConfig[name] = url;
+                    loadedSounds[name] = new Audio(url);
+                    loadedSounds[name].preload = 'auto';
+                    console.log('Sound changed:', name, file.name);
+                    showSoundCat(currentSoundCat);
+                }
+            };
+            input.click();
+        }
+        
+        function toggleDebug() {
+            debugMode = !debugMode;
+            alert('Debug mode: ' + (debugMode ? 'ON' : 'OFF'));
+        }
+        
+        function drawLighting() {
+            const light = LIGHTING_TYPES[currentLighting];
+            
+            const targetX = player.x - camera.x + player.width / 2;
+            const targetY = player.y - camera.y + player.height / 2;
+            lightX += (targetX - lightX) * 0.08;
+            lightY += (targetY - lightY) * 0.08;
+            
+            const radius = lightSize;
+            const smooth = lightSmooth;
+            
+            if (light.ambient > 0) {
+                const ambientGrad = ctx.createRadialGradient(
+                    lightX, lightY, radius * 0.3,
+                    lightX, lightY, Math.max(canvas.width, canvas.height) * 0.9
+                );
+                const ambStop = smooth * 0.6;
+                ambientGrad.addColorStop(0, `rgba(0,0,0,${light.ambient * ambStop})`);
+                ambientGrad.addColorStop(ambStop * 1.5, `rgba(0,0,0,${light.ambient * (ambStop + 0.15)})`);
+                ambientGrad.addColorStop(1, `rgba(0,0,0,${light.ambient})`);
+                
+                ctx.fillStyle = ambientGrad;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+            
+            if (light.playerRadius > 0) {
+                const playerGrad = ctx.createRadialGradient(
+                    lightX, lightY, radius * 0.05,
+                    lightX, lightY, radius
+                );
+                playerGrad.addColorStop(0, 'rgba(0,0,0,0)');
+                playerGrad.addColorStop(smooth * 0.8, light.playerColor);
+                playerGrad.addColorStop(smooth, 'rgba(0,0,0,0.3)');
+                playerGrad.addColorStop(1, 'rgba(0,0,0,0.95)');
+                
+                ctx.globalCompositeOperation = 'destination-out';
+                ctx.fillStyle = playerGrad;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.globalCompositeOperation = 'source-over';
+            }
+        }
+        
+        const POINTS = {
+            FIREFLY: 50,
+            MUSHROOM: 25,
+            DOUBLE_JUMP: 10,
+            TRIPLE_JUMP: 25,
+            WALL_JUMP: 15,
+            DASH: 5,
+            UPWARD_DASH: 15,
+            DOWNWARD_DASH: 20,
+            SLIDE: 3,
+            EXPLORE_TILE: 1,
+            BADGE: 100,
+            JUMP: 5,
+            WALK: 1,
+            WALL_SLIDE: 5,
+            FALL_DAMAGE_MIN: 5,
+            FALL_DAMAGE_MAX: 50
+        };
+        
+        const LEVELS = [
+            { jumps: 1, dashes: 0, wallSlide: 0.3, name: 'Beginner', threshold: 0 },
+            { jumps: 2, dashes: 1, wallSlide: 0.4, name: 'Sprinter', threshold: 50 },
+            { jumps: 2, dashes: 1, wallSlide: 0.5, name: 'Runner', threshold: 150 },
+            { jumps: 2, dashes: 1, wallSlide: 0.7, name: 'Speed Demon', threshold: 300 },
+            { jumps: 2, dashes: 1, wallSlide: 1.0, name: 'Aerialist', threshold: 500 },
+            { jumps: 2, dashes: 2, wallSlide: 1.3, name: 'Cloud Walker', threshold: 750 },
+            { jumps: 2, dashes: 2, wallSlide: 1.6, name: 'Sky Dancer', threshold: 1050 },
+            { jumps: 3, dashes: 2, wallSlide: 2.0, name: 'Master Jumper', threshold: 1400 },
+            { jumps: 3, dashes: 3, wallSlide: 3.0, name: 'Acrobat', threshold: 1800 },
+            { jumps: 3, dashes: 3, wallSlide: 5.0, name: 'Legend', threshold: 2250 }
+        ];
+        
+        function getCurrentLevel() {
+            if (devLevelOverride >= 0) return devLevelOverride;
+            for (let i = LEVELS.length - 1; i >= 0; i--) {
+                if (gameData.score >= LEVELS[i].threshold) {
+                    return i;
+                }
+            }
+            return 0;
+        }
+        
+        function getMaxJumps() {
+            return LEVELS[getCurrentLevel()].jumps;
+        }
+        
+        function getMaxDashes() {
+            return LEVELS[getCurrentLevel()].dashes;
+        }
+        
+        function getLevelName() {
+            return LEVELS[getCurrentLevel()].name;
+        }
+        
+        function getNextLevelThreshold() {
+            const current = getCurrentLevel();
+            if (current >= LEVELS.length - 1) return null;
+            return LEVELS[current + 1].threshold;
+        }
+        
+        function getWallSlideDuration() {
+            return LEVELS[getCurrentLevel()].wallSlide;
+        }
+        
+        const BADGES = [
+            { id: 'first_coin', name: 'First Gold', desc: 'Collect your first gold', icon: '🥇', threshold: 1, type: 'coins' },
+            { id: 'coin_10', name: 'Gold Hunter', desc: 'Collect 10 gold', icon: '💰', threshold: 10, type: 'coins' },
+            { id: 'coin_50', name: 'Treasure Seeker', desc: 'Collect 50 gold', icon: '💎', threshold: 50, type: 'coins' },
+            { id: 'jump_10', name: 'Bouncy', desc: 'Perform 10 jumps', icon: '🦘', threshold: 10, type: 'jumps' },
+            { id: 'jump_50', name: 'Hop Master', desc: 'Perform 50 jumps', icon: '⭐', threshold: 50, type: 'jumps' },
+            { id: 'wall_10', name: 'Wall Hugger', desc: 'Wall jump 10 times', icon: '🧱', threshold: 10, type: 'walljumps' },
+            { id: 'dash_10', name: 'Speedster', desc: 'Dash 10 times', icon: '💨', threshold: 10, type: 'dashes' },
+            { id: 'explore_100', name: 'Explorer', desc: 'Visit 100 tiles', icon: '🗺️', threshold: 100, type: 'explored' },
+            { id: 'death_1', name: 'Oops!', desc: 'Fall once', icon: '💀', threshold: 1, type: 'deaths' }
+        ];
+        
+        const gameData = {
+            score: 0,
+            coins: 0,
+            totalJumps: 0,
+            wallJumps: 0,
+            totalDashes: 0,
+            exploredTiles: new Set(),
+            deaths: 0,
+            badges: [],
+            highScore: parseInt(localStorage.getItem('silentRuins_highScore') || '0'),
+            username: localStorage.getItem('silentRuins_username') || 'Runner'
+        };
+        
+        let worldSeed = Math.floor(Math.random() * 1000000);
+        
+        function seededRandom() {
+            worldSeed = (worldSeed * 9301 + 49297) % 233280;
+            return worldSeed / 233280;
+        }
+        
+        function showBadgeNotification(badge) {
+            const container = document.getElementById('gameContainer');
+            let badgesDiv = document.getElementById('badges');
+            if (!badgesDiv) {
+                badgesDiv = document.createElement('div');
+                badgesDiv.id = 'badges';
+                container.appendChild(badgesDiv);
+            }
+            const badgeEl = document.createElement('div');
+            badgeEl.className = 'badge gold';
+            badgeEl.innerHTML = `${badge.icon} ${badge.name}`;
+            badgesDiv.appendChild(badgeEl);
+            setTimeout(() => badgeEl.remove(), 3000);
+        }
+        
+        function checkBadges() {
+            BADGES.forEach(badge => {
+                if (gameData.badges.includes(badge.id)) return;
+                
+                let earned = false;
+                if (badge.type === 'coins' && gameData.coins >= badge.threshold) earned = true;
+                if (badge.type === 'jumps' && gameData.totalJumps >= badge.threshold) earned = true;
+                if (badge.type === 'walljumps' && gameData.wallJumps >= badge.threshold) earned = true;
+                if (badge.type === 'dashes' && gameData.totalDashes >= badge.threshold) earned = true;
+                if (badge.type === 'explored' && gameData.exploredTiles.size >= badge.threshold) earned = true;
+                if (badge.type === 'deaths' && gameData.deaths >= badge.threshold) earned = true;
+                
+                if (earned) {
+                    gameData.badges.push(badge.id);
+                    addScore(POINTS.BADGE, 'badge_' + badge.id);
+                    showBadgeNotification(badge);
+                }
+            });
+        }
+        
+        let lastScoreTime = 0;
+        let lastScoreAction = '';
+        let scoreDebug = '';
+        let scoreHistory = [];
+        let scoreHistoryTimer = 0;
+        
+        function addScore(points, reason = 'unknown') {
+            if (!Number.isFinite(points)) {
+                console.warn('Invalid points:', points, reason);
+                points = 0;
+            }
+            // Don't allow negative scores
+            if (gameData.score + points < 0) {
+                gameData.score = 0;
+            } else {
+                gameData.score += points;
+            }
+            
+            // Log to localStorage for debugging
+            const logLine = `${Date.now()}: ${points} (${reason})`;
+            const oldLog = localStorage.getItem('scoreLog') || '';
+            localStorage.setItem('scoreLog', (oldLog + '\n' + logLine).slice(-2000));
+            
+            if (gameData.score > gameData.highScore) {
+                gameData.highScore = gameData.score;
+                localStorage.setItem('silentRuins_highScore', gameData.highScore.toString());
+                checkLeaderboard();
+            }
+        }
+        
+        const LEADERBOARD_SIZE = 10;
+        
+        function getLeaderboard() {
+            const data = localStorage.getItem('silentRuins_leaderboard');
+            return data ? JSON.parse(data) : [];
+        }
+        
+        function saveLeaderboardEntry(name, score, level) {
+            const board = getLeaderboard();
+            board.push({ name: name.substring(0, 15), score, level, date: new Date().toLocaleDateString() });
+            board.sort((a, b) => b.score - a.score);
+            const trimmed = board.slice(0, LEADERBOARD_SIZE);
+            localStorage.setItem('silentRuins_leaderboard', JSON.stringify(trimmed));
+            return trimmed;
+        }
+        
+        function checkLeaderboard() {
+            const board = getLeaderboard();
+            const lowest = board[LEADERBOARD_SIZE - 1];
+            if (!lowest || gameData.highScore > lowest.score) {
+                return true;
+            }
+            return false;
+        }
+        
+        function showLeaderboard() {
+            const board = getLeaderboard();
+            let html = '<div style="color: #daa520; font-size: 14px; text-align: center; margin-bottom: 10px;">🏆 LOCAL LEADERBOARD 🏆</div>';
+            if (board.length === 0) {
+                html += '<div style="color: #666; text-align: center;">No scores yet!</div>';
+            } else {
+                board.forEach((entry, i) => {
+                    const isHigh = entry.score === gameData.highScore;
+                    html += `<div style="color: ${isHigh ? '#daa520' : '#8b9dc3'}; font-size: 12px; padding: 3px 0;">
+                        #${i + 1} ${entry.name} - ${entry.score} pts (${entry.level})
+                    </div>`;
+                });
+            }
+            html += '<button onclick="closeLeaderboard()" style="margin-top: 10px; width: 100%;">Close</button>';
+            document.getElementById('leaderboardDisplay').innerHTML = html;
+            document.getElementById('leaderboardDisplay').style.display = 'block';
+        }
+        
+        function closeLeaderboard() {
+            document.getElementById('leaderboardDisplay').style.display = 'none';
+        }
+        
+        function submitToLeaderboard() {
+            const name = prompt('Enter your name for the leaderboard:', 'Player');
+            if (name && name.trim()) {
+                saveLeaderboardEntry(name.trim(), gameData.highScore, getLevelName());
+                showLeaderboard();
+            }
+        }
+        
+        function testVectorAPI(msgType = 'full') {
+            let testData;
+            
+            if (msgType === 'score') {
+                testData = {
+                    type: 'score_update',
+                    game: 'Silent Ruins',
+                    version: GAME_VERSION,
+                    score: gameData.score,
+                    highScore: gameData.highScore,
+                    timestamp: Date.now()
+                };
+            } else if (msgType === 'badge') {
+                testData = {
+                    type: 'badge_earned',
+                    game: 'Silent Ruins',
+                    version: GAME_VERSION,
+                    badgeId: gameData.badges[gameData.badges.length - 1] || 'none',
+                    totalBadges: gameData.badges.length,
+                    timestamp: Date.now()
+                };
+            } else if (msgType === 'death') {
+                testData = {
+                    type: 'player_death',
+                    game: 'Silent Ruins',
+                    version: GAME_VERSION,
+                    deaths: gameData.deaths,
+                    score: gameData.score,
+                    timestamp: Date.now()
+                };
+            } else {
+                testData = {
+                    type: 'full_stats',
+                    game: 'Silent Ruins',
+                    version: GAME_VERSION,
+                    score: gameData.score,
+                    highScore: gameData.highScore,
+                    coins: gameData.coins,
+                    totalJumps: gameData.totalJumps,
+                    wallJumps: gameData.wallJumps,
+                    totalDashes: gameData.totalDashes,
+                    deaths: gameData.deaths,
+                    badges: gameData.badges,
+                    playTime: playTime,
+                    timestamp: Date.now()
+                };
+            }
+            
+            let sent = false;
+            const msgStr = JSON.stringify(testData);
+            
+            if (typeof window.VectorAPI !== 'undefined') {
+                console.log('Using VectorAPI.sendMessage');
+                VectorAPI.sendMessage(msgStr);
+                sent = true;
+            }
+            if (typeof window.VectorChat !== 'undefined') {
+                console.log('Using VectorChat.send');
+                if (VectorChat.send) VectorChat.send(testData);
+                else if (VectorChat.sendMessage) VectorChat.sendMessage(msgStr);
+                sent = true;
+            }
+            if (window.parent && typeof window.parent.postMessage === 'function') {
+                console.log('Using parent.postMessage');
+                window.parent.postMessage(testData, '*');
+                sent = true;
+            }
+            if (typeof window.postMessage === 'function') {
+                console.log('Using window.postMessage');
+                window.postMessage(testData, '*');
+                sent = true;
+            }
+            
+            if (sent) {
+                console.log('Sent:', testData);
+                alert(`Sent: ${msgType}\n\nCheck console for details.`);
+            } else {
+                console.log('No API found. Data:', testData);
+                console.log('Available globals:', Object.keys(window).filter(k => k.toLowerCase().includes('vector') || k.toLowerCase().includes('api')));
+                alert(`No Vector API found.\n\nData that would be sent:\n${JSON.stringify(testData, null, 2)}`);
+            }
+        }
+        
+        const GAME_SOS_CONFIG = {
+            gameId: 'silent-ruins',
+            apiKey: '',
+            enabled: false
+        };
+        
+        async function submitToGameSOS(data) {
+            if (!GAME_SOS_CONFIG.enabled || !GAME_SOS_CONFIG.apiKey) {
+                console.log('Game SOS not configured');
+                return false;
+            }
+            try {
+                const response = await fetch('https://gamesos.scorehero.com/api/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${GAME_SOS_CONFIG.apiKey}`
+                    },
+                    body: JSON.stringify({
+                        gameId: GAME_SOS_CONFIG.gameId,
+                        score: data.score,
+                        highScore: data.highScore,
+                        badges: data.badges,
+                        metadata: {
+                            coins: data.coins,
+                            jumps: data.totalJumps,
+                            dashes: data.totalDashes,
+                            deaths: data.deaths,
+                            level: getLevelName(),
+                            playTime: data.playTime
+                        }
+                    })
+                });
+                return response.ok;
+            } catch(e) {
+                console.log('Game SOS submit error:', e);
+                return false;
+            }
+        }
+        
+        function exportProfileImage() {
+            const exportCanvas = document.createElement('canvas');
+            exportCanvas.width = 600;
+            exportCanvas.height = 400;
+            const ctx = exportCanvas.getContext('2d');
+            
+            ctx.fillStyle = '#0a0a12';
+            ctx.fillRect(0, 0, 600, 400);
+            
+            ctx.fillStyle = '#daa520';
+            ctx.font = 'bold 28px monospace';
+            ctx.fillText('SILENT RUINS', 20, 40);
+            
+            ctx.font = '18px monospace';
+            ctx.fillStyle = '#daa520';
+            ctx.fillText(`Level: ${getLevelName()}`, 20, 80);
+            ctx.fillText(`Score: ${gameData.score}`, 20, 110);
+            ctx.fillText(`High Score: ${gameData.highScore}`, 20, 140);
+            ctx.fillText(`Fireflies: ${gameData.coins}`, 20, 170);
+            
+            ctx.fillStyle = '#8b9dc3';
+            ctx.fillText(`Jumps: ${gameData.totalJumps}`, 20, 200);
+            ctx.fillText(`Dashes: ${gameData.totalDashes}`, 20, 230);
+            ctx.fillText(`Wall Jumps: ${gameData.wallJumps}`, 20, 260);
+            ctx.fillText(`Deaths: ${gameData.deaths}`, 20, 290);
+            ctx.fillText(`Play Time: ${formatTime(playTime)}`, 20, 320);
+            
+            ctx.fillStyle = '#daa520';
+            ctx.fillText(`Badges: ${gameData.badges.length}`, 20, 360);
+            
+            const badgeX = 20;
+            const badgeY = 330;
+            BADGES.slice(0, 8).forEach((badge, i) => {
+                const earned = gameData.badges.includes(badge.id);
+                if (earned) {
+                    ctx.font = '20px monospace';
+                    ctx.fillText(badge.icon, badgeX + i * 30, badgeY);
+                }
+            });
+            
+            ctx.fillStyle = '#4a4a5a';
+            ctx.font = '12px monospace';
+            ctx.fillText(`v${GAME_VERSION} | ${new Date().toLocaleDateString()}`, 400, 380);
+            
+            return exportCanvas.toDataURL('image/png');
+        }
+        
+        function downloadProfile() {
+            const dataUrl = exportProfileImage();
+            const link = document.createElement('a');
+            link.download = `silent-ruins-profile-${Date.now()}.png`;
+            link.href = dataUrl;
+            link.click();
+        }
+        
+        let playTime = 0;
+        
+        function saveGameData() {
+            const saveData = {
+                highScore: gameData.highScore,
+                username: gameData.username,
+                badges: gameData.badges,
+                totalCoins: gameData.coins,
+                totalJumps: gameData.totalJumps,
+                totalDashes: gameData.totalDashes,
+                playTime: playTime,
+                lastPlayed: Date.now(),
+                jumpType: currentJumpType,
+                lightingType: currentLighting
+            };
+            localStorage.setItem('silentRuins_save', JSON.stringify(saveData));
+            alert('Game Saved!\n\nHigh Score: ' + saveData.highScore + '\nPlay Time: ' + formatTime(saveData.playTime) + '\nBadges: ' + saveData.badges.length);
+        }
+        
+        function loadGameData() {
+            const saveStr = localStorage.getItem('silentRuins_save');
+            if (saveStr) {
+                const saveData = JSON.parse(saveStr);
+                gameData.highScore = saveData.highScore || 0;
+                gameData.username = saveData.username || 'Runner';
+                gameData.badges = saveData.badges || [];
+                gameData.coins = saveData.totalCoins || 0;
+                gameData.totalJumps = saveData.totalJumps || 0;
+                gameData.totalDashes = saveData.totalDashes || 0;
+                playTime = saveData.playTime || 0;
+                if (saveData.jumpType !== undefined) {
+                    currentJumpType = saveData.jumpType;
+                    setJumpType(currentJumpType);
+                }
+                if (saveData.lightingType !== undefined) {
+                    currentLighting = saveData.lightingType;
+                    setLighting(currentLighting);
+                }
+                alert('Game Loaded!\n\nHigh Score: ' + gameData.highScore + '\nPlay Time: ' + formatTime(playTime));
+            } else {
+                alert('No save file found!');
+            }
+        }
+        
+        function formatTime(seconds) {
+            const hrs = Math.floor(seconds / 3600);
+            const mins = Math.floor((seconds % 3600) / 60);
+            const secs = Math.floor(seconds % 60);
+            if (hrs > 0) return `${hrs}h ${mins}m ${secs}s`;
+            if (mins > 0) return `${mins}m ${secs}s`;
+            return `${secs}s`;
+        }
+
+        const keys = {};
+        let gamepadIndex = null;
+        let activeGamepadId = null;
+        let blockedGamepadIds = [];
+        const DEADZONE = 0.25;
+        
+        let menuPressed = false;
+        let menuSelection = 0;
+        let menuButtonPressed = false;
+        let backButtonPressed = false;
+        
+        let gamepadIndices = [];
+        
+        window.addEventListener('gamepadconnected', (e) => {
+            if (!gamepadIndices.includes(e.gamepad.index)) {
+                gamepadIndices.push(e.gamepad.index);
+            }
+            console.log('Gamepad connected:', e.gamepad.id, '| Index:', e.gamepad.index);
+        });
+        
+        window.addEventListener('gamepaddisconnected', (e) => {
+            gamepadIndices = gamepadIndices.filter(i => i !== e.gamepad.index);
+            if (activeGamepadId && e.gamepad.id === activeGamepadId) {
+                gamepadIndex = null;
+            }
+        });
+
+        function isDeviceBlocked(gpId) {
+            if (!gpId) return false;
+            return blockedGamepadIds.some(blocked => gpId.includes(blocked));
+        }
+        
+        function blockDevice(gpId) {
+            if (!gpId || blockedGamepadIds.includes(gpId)) return;
+            blockedGamepadIds.push(gpId);
+            localStorage.setItem('silentRuins_blockedGamepadIds', JSON.stringify(blockedGamepadIds));
+            if (activeGamepadId && gpId.includes(activeGamepadId)) {
+                activeGamepadId = null;
+                gamepadIndex = null;
+                localStorage.removeItem('silentRuins_gamepadId');
+                localStorage.removeItem('silentRuins_gamepadIndex');
+            }
+        }
+        
+        function unblockDevice(gpId) {
+            blockedGamepadIds = blockedGamepadIds.filter(b => b !== gpId);
+            localStorage.setItem('silentRuins_blockedGamepadIds', JSON.stringify(blockedGamepadIds));
+        }
+        
+        function getBlockedDevices() {
+            return blockedGamepadIds;
+        }
+
+        function getGamepadInput(forMenu = false) {
+            let gp = null;
+            let gpIndex = -1;
+            
+            const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+            
+            if (gamepadIndex !== null && gamepadIndex >= 0 && gamepadIndex < gamepads.length) {
+                if (gamepads[gamepadIndex]) {
+                    gp = gamepads[gamepadIndex];
+                    gpIndex = gamepadIndex;
+                }
+            }
+            
+            if (!gp) {
+                let xboxIndex = -1;
+                let firstIndex = -1;
+                let activeWithInput = -1;
+                
+                for (let i = 0; i < gamepads.length; i++) {
+                    if (gamepads[i]) {
+                        const hasInput = gamepads[i].axes?.some(a => Math.abs(a) > 0.3) || gamepads[i].buttons?.some(b => b?.pressed);
+                        if (firstIndex === -1) firstIndex = i;
+                        if (hasInput && activeWithInput === -1) activeWithInput = i;
+                        const id = gamepads[i].id.toLowerCase();
+                        if (id.includes('microsoft') || id.includes('xbox') || id.includes('controller')) {
+                            xboxIndex = i;
+                            break;
+                        }
+                    }
+                }
+                
+                if (activeWithInput >= 0) {
+                    gamepadIndex = activeWithInput;
+                    gp = gamepads[activeWithInput];
+                    gpIndex = activeWithInput;
+                    localStorage.setItem('silentRuins_gamepadIndex', activeWithInput.toString());
+                } else if (xboxIndex >= 0) {
+                    gp = gamepads[xboxIndex];
+                    gpIndex = xboxIndex;
+                } else if (firstIndex >= 0) {
+                    gp = gamepads[firstIndex];
+                    gpIndex = firstIndex;
+                }
+            }
+            
+            if (!gp) return { left: false, right: false, jump: false, dash: false, menu: false, lookX: 0, lookY: 0, a: false, b: false, up: false, down: false, gpConnected: false };
+            
+            const left = gp.axes[0] < -DEADZONE;
+            const right = gp.axes[0] > DEADZONE;
+            const up = gp.axes[1] < -DEADZONE;
+            const down = gp.axes[1] > DEADZONE;
+            const jump = gp.buttons[0]?.pressed || gp.buttons[1]?.pressed || gp.buttons[7]?.pressed || (controllerBindings.jump !== undefined ? gp.buttons[controllerBindings.jump]?.pressed : false);
+            const dash = gp.buttons[2]?.pressed || gp.buttons[3]?.pressed || (controllerBindings.dash !== undefined ? gp.buttons[controllerBindings.dash]?.pressed : false);
+            const dashLeft = gp.buttons[4]?.pressed || gp.buttons[6]?.pressed || (controllerBindings.dashLeft !== undefined ? gp.buttons[controllerBindings.dashLeft]?.pressed : false);
+            const dashRight = gp.buttons[5]?.pressed || gp.buttons[7]?.pressed || (controllerBindings.dashRight !== undefined ? gp.buttons[controllerBindings.dashRight]?.pressed : false);
+            const menu = gp.buttons[9]?.pressed || (controllerBindings.menu !== undefined ? gp.buttons[controllerBindings.menu]?.pressed : false);
+            const a = gp.buttons[0]?.pressed;
+            const b = gp.buttons[1]?.pressed;
+            const lookX = Math.abs(gp.axes[2]) > DEADZONE ? gp.axes[2] : 0;
+            const lookY = Math.abs(gp.axes[3]) > DEADZONE ? gp.axes[3] : 0;
+            
+            return { left, right, up, down, jump, dash, dashLeft, dashRight, menu, lookX, lookY, a, b, gpConnected: true, gpId: gp.id, gpIndex };
+        }
+        
+        function getGamepadButtonsPressed() {
+            const gp = navigator.getGamepads ? navigator.getGamepads()[gamepadIndex] : null;
+            if (!gp) return [];
+            const pressed = [];
+            for (let i = 0; i < gp.buttons.length; i++) {
+                if (gp.buttons[i].pressed) pressed.push(i);
+            }
+            return pressed;
+        }
+
+        function getMenuGamepadInput() {
+            let gp = null;
+            
+            for (let i = 0; i < navigator.getGamepads?.().length || 0; i++) {
+                const testGp = navigator.getGamepads ? navigator.getGamepads()[i] : null;
+                if (testGp) {
+                    gp = testGp;
+                    break;
+                }
+            }
+            
+            if (!gp) return { up: false, down: false, left: false, right: false, a: false, b: false, start: false };
+            
+            return {
+                up: gp.axes[1] < -DEADZONE,
+                down: gp.axes[1] > DEADZONE,
+                left: gp.axes[0] < -DEADZONE,
+                right: gp.axes[0] > DEADZONE,
+                a: gp.buttons[0].pressed,
+                b: gp.buttons[1].pressed,
+                start: gp.buttons[9].pressed
+            };
+        }
+
+        function isKeyPressed(keyCodes) {
+            const gp = navigator.getGamepads ? navigator.getGamepads()[gamepadIndex] : null;
+            for (const code of keyCodes) {
+                if (keys[code]) return true;
+                if (code.startsWith('Button') && gp) {
+                    const btnNum = parseInt(code.replace('Button', ''));
+                    if (gp.buttons[btnNum] && gp.buttons[btnNum].pressed) return true;
+                }
+            }
+            return false;
+        }
+
+        function generateWorld(newSeed = null) {
+            if (newSeed !== null) worldSeed = newSeed;
+            else worldSeed = Math.floor(Math.random() * 1000000);
+            
+            gameData.exploredTiles.clear();
+            gameData.score = 0;
+            gameData.coins = 0;
+            gameData.totalJumps = 0;
+            gameData.wallJumps = 0;
+            gameData.totalDashes = 0;
+            gameData.deaths = 0;
+            
+            world = [];
+            for (let y = 0; y < WORLD_HEIGHT; y++) {
+                world[y] = [];
+                for (let x = 0; x < WORLD_WIDTH; x++) {
+                    world[y][x] = BLOCKS.AIR;
+                }
+            }
+
+            for (let i = 0; i < 18; i++) {
+                const cx = 10 + Math.floor(seededRandom() * (WORLD_WIDTH - 30));
+                const cy = 8 + Math.floor(seededRandom() * 30);
+                createBigFloatingIsland(cx, cy);
+            }
+            
+            for (let i = 0; i < 15; i++) {
+                const x = Math.floor(seededRandom() * (WORLD_WIDTH - 20)) + 10;
+                const y = Math.floor(seededRandom() * 30) + 10;
+                createBuilding(x, y);
+            }
+            
+            for (let i = 0; i < 6; i++) {
+                const x = Math.floor(seededRandom() * (WORLD_WIDTH - 30)) + 15;
+                const y = Math.floor(seededRandom() * 25) + 15;
+                createWallJumpSection(x, y);
+            }
+            
+            const solidBlocks = [BLOCKS.GROUND, BLOCKS.PLATFORM, BLOCKS.RUINS_WALL, BLOCKS.MOSSY_STONE, BLOCKS.CRUMBLING_BRICK, BLOCKS.GRASS, BLOCKS.SAND, BLOCKS.EARTH, BLOCKS.STONE];
+            
+            for (let x = 0; x < WORLD_WIDTH; x++) {
+                for (let y = 0; y < WORLD_HEIGHT - 4; y++) {
+                    if (world[y][x] === BLOCKS.AIR && seededRandom() > 0.97) world[y][x] = BLOCKS.FIREFLY;
+                    const hasBlockBelow = y > 0 && solidBlocks.includes(world[y+1]?.[x]);
+                    if (world[y][x] === BLOCKS.AIR && hasBlockBelow && seededRandom() > 0.97) {
+                        world[y][x] = BLOCKS.MUSHROOM;
+                        if (seededRandom() > 0.5 && x > 0 && world[y][x-1] === BLOCKS.AIR) world[y][x-1] = BLOCKS.MUSHROOM;
+                        if (seededRandom() > 0.5 && x < WORLD_WIDTH-1 && world[y][x+1] === BLOCKS.AIR) world[y][x+1] = BLOCKS.MUSHROOM;
+                    }
+                }
+            }
+
+            player.x = findSpawnX() * TILE_SIZE;
+            player.y = findSpawnY() * TILE_SIZE;
+            player.vx = 0; player.vy = 0;
+            camera.x = player.x - canvas.width / 2;
+            camera.y = player.y - canvas.height / 2;
+        }
+
+        function createBigFloatingIsland(cx, cy) {
+            const radiusX = 6 + Math.floor(seededRandom() * 10);
+            const radiusY = 3 + Math.floor(seededRandom() * 5);
+            
+            for (let dy = -radiusY; dy <= radiusY; dy++) {
+                for (let dx = -radiusX; dx <= radiusX; dx++) {
+                    const nx = cx + dx;
+                    const ny = cy + dy;
+                    if (nx > 2 && nx < WORLD_WIDTH - 2 && ny > 2 && ny < WORLD_HEIGHT - 5) {
+                        const distX = Math.abs(dx) / radiusX;
+                        const distY = Math.abs(dy) / radiusY;
+                        const dist = Math.sqrt(distX * distX + distY * distY);
+                        
+                        if (dist <= 1) {
+                            const isTop = dy < -radiusY * 0.5;
+                            const isEdge = dist > 0.7;
+                            
+                            if (isTop && isEdge) {
+                                world[ny][nx] = seededRandom() > 0.4 ? BLOCKS.GRASS : (seededRandom() > 0.5 ? BLOCKS.MOSSY_STONE : BLOCKS.STONE);
+                            } else if (isTop) {
+                                world[ny][nx] = seededRandom() > 0.3 ? BLOCKS.STONE : BLOCKS.MOSSY_STONE;
+                            } else if (dy > radiusY * 0.3) {
+                                world[ny][nx] = seededRandom() > 0.4 ? BLOCKS.STONE : BLOCKS.RUINS_WALL;
+                            } else if (dy > 0) {
+                                world[ny][nx] = seededRandom() > 0.5 ? BLOCKS.STONE : BLOCKS.EARTH;
+                            } else {
+                                world[ny][nx] = BLOCKS.EARTH;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        function createBuilding(x, y) {
+            const width = 3 + Math.floor(seededRandom() * 4);
+            const height = 5 + Math.floor(seededRandom() * 8);
+            const startY = y;
+            
+            for (let dy = 0; dy < height; dy++) {
+                for (let dx = 0; dx < width; dx++) {
+                    const nx = x + dx;
+                    const ny = startY + dy;
+                    if (nx > 0 && nx < WORLD_WIDTH - 1 && ny > 0 && ny < WORLD_HEIGHT - 10) {
+                        const isEdge = dx === 0 || dx === width - 1 || dy === 0 || dy === height - 1;
+                        if (isEdge) {
+                            world[ny][nx] = seededRandom() > 0.3 ? BLOCKS.RUINS_WALL : BLOCKS.STONE;
+                        } else if (dy > 1 && dy < height - 1) {
+                            world[ny][nx] = BLOCKS.AIR;
+                        }
+                    }
+                }
+            }
+            
+            const ledgeY = startY + Math.floor(height * 0.4);
+            const ledgeW = 2 + Math.floor(seededRandom() * 3);
+            for (let dx = 0; dx < ledgeW; dx++) {
+                const nx = x + dx;
+                if (nx > 0 && nx < WORLD_WIDTH - 1 && ledgeY > 0 && ledgeY < WORLD_HEIGHT - 10) {
+                    world[ledgeY][nx] = seededRandom() > 0.5 ? BLOCKS.PLATFORM : BLOCKS.STONE;
+                }
+            }
+            
+            const ledgeY2 = startY + Math.floor(height * 0.7);
+            const ledgeW2 = 2 + Math.floor(seededRandom() * 3);
+            for (let dx = 0; dx < ledgeW2; dx++) {
+                const nx = x + width - ledgeW2 + dx;
+                if (nx > 0 && nx < WORLD_WIDTH - 1 && ledgeY2 > 0 && ledgeY2 < WORLD_HEIGHT - 10) {
+                    world[ledgeY2][nx] = seededRandom() > 0.5 ? BLOCKS.PLATFORM : BLOCKS.STONE;
+                }
+            }
+            
+            if (seededRandom() > 0.5 && startY + height < WORLD_HEIGHT - 12) {
+                for (let dy = 1; dy < 4; dy++) {
+                    const ny = startY + height - 1 + dy;
+                    if (ny > 0 && ny < WORLD_HEIGHT - 10 && x + Math.floor(width/2) > 0 && x + Math.floor(width/2) < WORLD_WIDTH - 1) {
+                        world[ny][x + Math.floor(width/2)] = BLOCKS.AIR;
+                    }
+                }
+            }
+        }
+        
+        function createIslandPlatform(x, y, width, height) {
+            for (let dy = 0; dy < height; dy++) {
+                for (let dx = 0; dx < width; dx++) {
+                    const nx = x + dx;
+                    const ny = y + dy;
+                    if (nx > 0 && nx < WORLD_WIDTH - 1 && ny > 0 && ny < WORLD_HEIGHT - 5) {
+                        world[ny][nx] = seededRandom() > 0.4 ? BLOCKS.PLATFORM : BLOCKS.MOSSY_STONE;
+                    }
+                }
+            }
+            if (seededRandom() > 0.5) {
+                for (let dx = 0; dx < Math.min(width, 3); dx++) {
+                    const nx = x + Math.floor(width / 2) + dx - 1;
+                    if (nx > 0 && nx < WORLD_WIDTH - 1 && y > 1) {
+                        world[y - 1][nx] = seededRandom() > 0.5 ? BLOCKS.RUINS_WALL : BLOCKS.MOSSY_STONE;
+                    }
+                }
+            }
+        }
+        
+        function createWallJumpSection(x, y) {
+            const height = 4 + Math.floor(seededRandom() * 6);
+            const gap = 2 + Math.floor(seededRandom() * 2);
+            
+            for (let dy = 0; dy < height; dy++) {
+                if (x > 2 && x < WORLD_WIDTH - 2 && y + dy < WORLD_HEIGHT - 5) {
+                    world[y + dy][x] = BLOCKS.RUINS_WALL;
+                    world[y + dy][x + gap + 2] = BLOCKS.RUINS_WALL;
+                }
+            }
+            
+            if (seededRandom() > 0.5 && y + height + 1 < WORLD_HEIGHT - 5) {
+                for (let dx = 0; dx < gap + 3; dx++) {
+                    if (x + dx > 0 && x + dx < WORLD_WIDTH - 1) {
+                        world[y + height][x + dx] = BLOCKS.PLATFORM;
+                    }
+                }
+            }
+        }
+
+        function canCarveRoom(x, y) {
+            for (let dy = -1; dy <= 5; dy++) {
+                for (let dx = -1; dx <= 6; dx++) {
+                    const ny = y + dy, nx = x + dx;
+                    if (nx < 2 || nx >= WORLD_WIDTH - 2 || ny < 2 || ny >= WORLD_HEIGHT - 4) return false;
+                    if (world[ny][nx] !== BLOCKS.AIR) return false;
+                }
+            }
+            return true;
+        }
+
+        function carveRoom(x, y, w, h) {
+            for (let dy = 0; dy < h; dy++) {
+                for (let dx = 0; dx < w; dx++) {
+                    const ny = y + dy, nx = x + dx;
+                    if (ny < WORLD_HEIGHT - 4 && nx > 0 && nx < WORLD_WIDTH - 1) world[ny][nx] = BLOCKS.AIR;
+                }
+            }
+            for (let dx = 0; dx < w; dx++) {
+                const nx = x + dx;
+                if (y > 2 && y < WORLD_HEIGHT - 4) {
+                    world[y - 1][nx] = BLOCKS.PLATFORM;
+                    world[y + h][nx] = BLOCKS.MOSSY_STONE;
+                }
+            }
+            if (y + h < WORLD_HEIGHT - 4) {
+                for (let dx = 0; dx < w; dx++) {
+                    const nx = x + dx;
+                    if (Math.random() > 0.7) world[y + h + 1][nx] = BLOCKS.CRUMBLING_BRICK;
+                }
+            }
+        }
+
+        function addPlatformInRoom(x, y) {
+            if (y > 3 && y < WORLD_HEIGHT - 10) {
+                const platY = y + Math.floor(Math.random() * 3) + 1;
+                const platW = 2 + Math.floor(Math.random() * 3);
+                for (let dx = 0; dx < platW; dx++) {
+                    if (x + dx < WORLD_WIDTH - 1) world[platY][x + dx] = BLOCKS.PLATFORM;
+                }
+            }
+        }
+
+        function findSpawnX() {
+            for (let x = Math.floor(WORLD_WIDTH / 2); x < WORLD_WIDTH; x++) {
+                if (world[WORLD_HEIGHT - 6][x] !== BLOCKS.AIR) return x;
+            }
+            return Math.floor(WORLD_WIDTH / 2);
+        }
+        
+        function findSpawnY() {
+            const x = findSpawnX();
+            for (let y = 0; y < WORLD_HEIGHT - 5; y++) {
+                if (world[y][x] !== BLOCKS.AIR) return y - 1;
+            }
+            return WORLD_HEIGHT - 8;
+        }
+
+        function getTile(px, py) {
+            const tx = Math.floor(px / TILE_SIZE), ty = Math.floor(py / TILE_SIZE);
+            if (tx < 0 || tx >= WORLD_WIDTH || ty < 0 || ty >= WORLD_HEIGHT) return BLOCKS.AIR;
+            return world[ty][tx];
+        }
+
+        function setTile(px, py, tile) {
+            const tx = Math.floor(px / TILE_SIZE), ty = Math.floor(py / TILE_SIZE);
+            if (tx >= 0 && tx < WORLD_WIDTH && ty >= 0 && ty < WORLD_HEIGHT) world[ty][tx] = tile;
+        }
+
+        function isSolid(tile) {
+            return tile === BLOCKS.GROUND || tile === BLOCKS.PLATFORM || 
+                   tile === BLOCKS.RUINS_WALL || tile === BLOCKS.MOSSY_STONE ||
+                   tile === BLOCKS.CRUMBLING_BRICK || tile === BLOCKS.GRASS ||
+                   tile === BLOCKS.SAND || tile === BLOCKS.EARTH || tile === BLOCKS.STONE;
+        }
+
+        function checkCollision(px, py, w, h) {
+            const p = 2;
+            return isSolid(getTile(px + p, py + p)) || isSolid(getTile(px + w - p, py + p)) ||
+                   isSolid(getTile(px + p, py + h - p)) || isSolid(getTile(px + w - p, py + h - p));
+        }
+
+        function checkWallContact() {
+            const left1 = isSolid(getTile(player.x - 2, player.y + 4));
+            const left2 = isSolid(getTile(player.x - 2, player.y + player.height / 2));
+            const left3 = isSolid(getTile(player.x - 2, player.y + player.height - 4));
+            const right1 = isSolid(getTile(player.x + player.width + 2, player.y + 4));
+            const right2 = isSolid(getTile(player.x + player.width + 2, player.y + player.height / 2));
+            const right3 = isSolid(getTile(player.x + player.width + 2, player.y + player.height - 4));
+            return { left: left1 || left2 || left3, right: right1 || right2 || right3 };
+        }
+
+        function update(dt) {
+            const gp = getGamepadInput();
+            
+            if (gameState === 'menu' || gameState === 'settings' || gameState === 'devmenu') {
+                updateMenuNavigation(gp);
+                return;
+            }
+            
+            if (gp.menu && !menuPressed) {
+                menuPressed = true;
+                toggleMenu();
+            } else if (!gp.menu) {
+                menuPressed = false;
+            }
+
+            camera.offsetX = gp.lookX * 50;
+            camera.offsetY = gp.lookY * 30;
+
+            if (player.dashCooldown > 0) player.dashCooldown -= dt;
+            if (player.dashTimer > 0) {
+                player.dashTimer -= dt;
+                if (player.dashTimer <= 0) {
+                    player.isDashing = false;
+                    player.vx *= 0.5;
+                }
+            }
+
+            const wantsDash = isKeyPressed(keyBindings.dash) || gp.dash;
+            const wantsDashLeft = isKeyPressed(keyBindings.dashLeft) || gp.dashLeft;
+            const wantsDashRight = isKeyPressed(keyBindings.dashRight) || gp.dashRight;
+            const maxDashes = getMaxDashes();
+            const canDash = maxDashes > 0 && player.dashesUsed < maxDashes;
+            if (wantsDash && player.dashCooldown <= 0 && !player.isDashing && canDash) {
+                player.isDashing = true;
+                const tier = getDashTier();
+                player.dashTimer = getDashDuration();
+                player.dashCooldown = 0.3;
+                gameData.totalDashes++;
+                player.dashesUsed++;
+                
+                let dashDirX = player.facing;
+                let dashDirY = 0;
+                
+                const upPressed = gp.lookY < -DEADZONE || gp.up;
+                const downPressed = gp.lookY > DEADZONE || gp.down;
+                const rightPressed = gp.lookX > DEADZONE;
+                const leftPressed = gp.lookX < -DEADZONE;
+                
+                if (upPressed) {
+                    dashDirX = 0;
+                    dashDirY = -1;
+                    player.dashTimer = getDashDuration() * 0.5;
+                    playSound('dashUp', walkVolume);
+                    lastScoreAction = 'UP_DASH';
+                    addScore(POINTS.UPWARD_DASH, 'up_dash');
+                } else if (downPressed) {
+                    dashDirX = 0;
+                    dashDirY = 1;
+                    player.dashTimer = getDashDuration() * 0.7;
+                    playSound('dashDown', walkVolume);
+                    lastScoreAction = 'DOWN_DASH';
+                    addScore(POINTS.DOWNWARD_DASH, 'down_dash');
+                } else if (wantsDashRight || rightPressed) {
+                    dashDirX = 1;
+                    dashDirY = 0;
+                    playSound('dash', walkVolume);
+                    addScore(POINTS.DASH, 'dash_right');
+                } else if (wantsDashLeft || leftPressed) {
+                    dashDirX = -1;
+                    dashDirY = 0;
+                    playSound('dash', walkVolume);
+                    addScore(POINTS.DASH, 'dash_left');
+                } else {
+                    playSound('dash', walkVolume);
+                    addScore(POINTS.DASH, 'dash');
+                }
+                
+                player.vx = dashDirX * getDashSpeed();
+                player.vy = dashDirY * getDashSpeed();
+                
+                const dashDistance = player.dashTimer * getDashSpeed();
+                const ghostMultiplier = dashDirY !== 0 ? 1.5 : 1.0;
+                player.dashGhost = {
+                    x: player.x + dashDirX * dashDistance * ghostMultiplier,
+                    y: player.y + dashDirY * dashDistance * ghostMultiplier,
+                    alpha: 0.3
+                };
+                
+                player.speedLines = [];
+                const lineLen = getDashLineLength();
+                for (let i = 0; i < 8; i++) {
+                    player.speedLines.push({
+                        x: player.x + Math.random() * player.width,
+                        y: player.y + Math.random() * player.height,
+                        length: lineLen + Math.random() * lineLen,
+                        alpha: 0.5 + Math.random() * 0.5
+                    });
+                }
+                
+                if (dashDirY === 1) {
+                    player.wasDashingDown = true;
+                    camera.shake = 15;
+                    if (gamepadIndex !== null) {
+                        const gpRumble = navigator.getGamepads()[gamepadIndex];
+                        if (gpRumble && gpRumble.vibrationActuator) {
+                            gpRumble.vibrationActuator.playEffect('dual-rumble', {
+                                duration: 200,
+                                strongMagnitude: 1.0,
+                                weakMagnitude: 0.5
+                            });
+                        }
+                    }
+                }
+            }
+
+            const moveLeft = isKeyPressed(keyBindings.left) || gp.left;
+            const moveRight = isKeyPressed(keyBindings.right) || gp.right;
+            const speed = 200;
+            
+            if (player.isSliding) {
+                player.slideTimer -= dt;
+                player.slidePenaltyTimer = (player.slidePenaltyTimer || 0) + dt;
+                if (player.slidePenaltyTimer > 0.5) {
+                    // TEMP DISABLED: addScore(-POINTS.SLIDE);
+                    player.slidePenaltyTimer = 0;
+                }
+                if (player.slideTimer <= 0 || player.vx === 0) {
+                    player.isSliding = false;
+                    player.slidePenaltyTimer = 0;
+                }
+            }
+            
+            if (player.wallJumpInputIgnore > 0) {
+                player.wallJumpInputIgnore -= dt;
+                player.vx *= 0.9;
+            } else if (!player.isDashing && !player.isSliding) {
+                if (moveLeft) { player.vx = -speed; player.facing = -1; }
+                else if (moveRight) { player.vx = speed; player.facing = 1; }
+                else { player.vx *= 0.8; }
+                
+                // WALK SOUNDS - only play while actually moving with minimum movement
+                const moveDistance = Math.abs(player.x - player.lastX);
+                if (player.grounded && !player.isSliding && !player.isDashing && moveDistance > 5) {
+                    player.walkTimer = (player.walkTimer || 0) + dt;
+                    if (player.walkTimer > 0.25) {
+                        if (world && world.length > 0) {
+                            const tileX = Math.floor((player.x + player.width / 2) / TILE_SIZE);
+                            const tileY = Math.floor((player.y + player.height + 2) / TILE_SIZE);
+                            const blockBelow = world[tileY]?.[tileX];
+                            const dirtBlocks = [BLOCKS.GROUND, BLOCKS.EARTH, BLOCKS.SAND, BLOCKS.GRASS];
+                            const stoneBlocks = [BLOCKS.STONE, BLOCKS.RUINS_WALL, BLOCKS.MOSSY_STONE, BLOCKS.CRUMBLING_BRICK];
+                            if (dirtBlocks.includes(blockBelow)) {
+                                playSound('walkDirt', walkVolume);
+                            } else if (stoneBlocks.includes(blockBelow)) {
+                                playSound('walkStone', walkVolume);
+                            } else {
+                                playSound('walkDirt', walkVolume);
+                            }
+                        } else {
+                            playSound('walkDirt', walkVolume);
+                        }
+                        player.walkTimer = 0;
+                    }
+                } else {
+                    player.walkTimer = 0;
+                    if (soundPool['walkDirt']) {
+                        soundPool['walkDirt'].pause();
+                        soundPool['walkDirt'].currentTime = 0;
+                    }
+                    if (soundPool['walkStone']) {
+                        soundPool['walkStone'].pause();
+                        soundPool['walkStone'].currentTime = 0;
+                    }
+                }
+                player.lastX = player.x;
+                
+                if (player.grounded && Math.abs(player.vx) > 150 && !moveLeft && !moveRight) {
+                    player.isSliding = true;
+                    player.slideTimer = SLIDE_DURATION;
+                    if (gamepadIndex !== null) {
+                        const gpRumble = navigator.getGamepads()[gamepadIndex];
+                        if (gpRumble && gpRumble.vibrationActuator) {
+                            gpRumble.vibrationActuator.playEffect('dual-rumble', {
+                                duration: 50,
+                                strongMagnitude: 0.2,
+                                weakMagnitude: 0.3
+                            });
+                        }
+                    }
+                }
+            }
+            
+            const walls = checkWallContact();
+            player.onWall = false;
+            const maxWallSlide = getWallSlideDuration();
+            if ((walls.left || walls.right) && !player.grounded && player.vy > 0) {
+                player.onWall = true;
+                player.wallDir = walls.left ? -1 : 1;
+                player.wallSlideTimer += dt;
+                
+                if (maxWallSlide > 0 && player.wallSlideTimer < maxWallSlide) {
+                    if (player.vy > WALL_SLIDE_SPEED) player.vy = WALL_SLIDE_SPEED;
+                }
+            } else {
+                if (player.onWall && player.wallSlideTimer > maxWallSlide && player.wallSlideTimer > 0) {
+                    const overTime = player.wallSlideTimer - maxWallSlide;
+                    const penalty = Math.floor(overTime / 1.0) * POINTS.WALL_SLIDE;
+                    if (penalty > 0) {
+                        addScore(-penalty, 'wall_fall');
+                    }
+                }
+                player.wallSlideTimer = 0;
+                player.lastWallSlidePenalty = 0;
+            }
+            
+            const wantsJump = isKeyPressed(keyBindings.jump) || gp.jump;
+            
+            if (wantsJump && !player.jumpPressed) {
+                if (player.onWall && !player.grounded) {
+                    const angle = (35 + Math.random() * 25) * Math.PI / 180;
+                    const cosA = Math.cos(angle);
+                    const sinA = Math.sin(angle);
+                    const minHorizontal = 0.6;
+                    const h = Math.max(cosA, minHorizontal);
+                    const v = sinA * (h / cosA);
+                    player.vy = -v * WALL_JUMP_FORCE;
+                    player.vx = -player.wallDir * h * WALL_JUMP_FORCE;
+                    player.wallJumpInputIgnore = 0.25;
+                    player.jumpCount = 1;
+                    player.dashesUsed = 0;
+                    gameData.wallJumps++;
+                    player.wallJumpChain++;
+                    const wallJumpMultiplier = Math.min(player.wallJumpChain, 5);
+                    const wallJumpPoints = POINTS.WALL_JUMP * wallJumpMultiplier;
+                    addScore(wallJumpPoints, 'wall_jump_x' + player.wallJumpChain);
+                    playSound('wallJump', jumpVolume);
+                    player.jumpSoundCooldown = 0.15;
+                    player.jumpPressed = true;
+                    player.wallSlideTimer = 0;
+                    return;
+                } else if (player.jumpCount < getMaxJumps()) {
+                    player.wallJumpChain = 0;
+                    player.vy = getJumpForce(player.jumpCount === 0);
+                    player.jumpCount++;
+                    gameData.totalJumps++;
+                    
+                    if (player.jumpCount === 1) {
+                        playSound('jump', jumpVolume);
+                        player.jumpSoundCooldown = 0.15;
+                        if (player.grounded) {
+                            player.jumpEffect = {
+                                type: 'ground',
+                                x: player.x + player.width / 2,
+                                y: player.y + player.height,
+                                alpha: 0.8,
+                                scale: 0.25
+                            };
+                        } else {
+                            player.jumpEffect = {
+                                type: 'air',
+                                x: player.x + player.width / 2,
+                                y: player.y + player.height,
+                                alpha: 0.6,
+                                scale: 0.25
+                            };
+                        }
+                    } else if (player.jumpCount === 2) {
+                        playSound('doubleJump', jumpVolume);
+                        player.jumpSoundCooldown = 0.15;
+                        if (player.grounded) {
+                            player.jumpEffect = {
+                                type: 'ground',
+                                x: player.x + player.width / 2,
+                                y: player.y + player.height,
+                                alpha: 0.8,
+                                scale: 0.125
+                            };
+                        } else {
+                            player.jumpEffect = {
+                                type: 'air',
+                                x: player.x + player.width / 2,
+                                y: player.y + player.height,
+                                alpha: 0.6,
+                                scale: 0.125
+                            };
+                        }
+                    } else if (player.jumpCount >= 3) {
+                        playSound('tripleJump', jumpVolume);
+                        player.jumpSoundCooldown = 0.15;
+                        if (player.grounded) {
+                            player.jumpEffect = {
+                                type: 'ground',
+                                x: player.x + player.width / 2,
+                                y: player.y + player.height,
+                                alpha: 0.8,
+                                scale: 0.125
+                            };
+                        } else {
+                            player.jumpEffect = {
+                                type: 'air',
+                                x: player.x + player.width / 2,
+                                y: player.y + player.height,
+                                alpha: 0.6,
+                                scale: 0.125
+                            };
+                        }
+                    }
+                    if (player.jumpCount === 1) addScore(POINTS.JUMP, 'jump');
+                    else if (player.jumpCount === 2) addScore(POINTS.DOUBLE_JUMP, 'double_jump');
+                    else if (player.jumpCount === 3) addScore(POINTS.TRIPLE_JUMP, 'triple_jump');
+                }
+            }
+            player.jumpPressed = wantsJump;
+            if (player.jumpSoundCooldown > 0) player.jumpSoundCooldown -= dt;
+
+            if (!player.isDashing) {
+                player.vy += getGravity() * dt;
+            }
+
+            const newX = player.x + player.vx * dt;
+            if (!checkCollision(newX, player.y, player.width, player.height)) {
+                player.x = newX;
+            } else { player.vx = 0; }
+
+            const newY = player.y + player.vy * dt;
+            const wasAirborne = !player.grounded;
+            const wasDashingDown = player.wasDashingDown;
+            player.wasDashingDown = false;
+            
+            if (!player.grounded && player.vy > 50 && !player.isDashing) {
+                if (player.fallStartY === 0 || player.y < player.fallStartY) {
+                    player.fallStartY = player.y;
+                }
+                const fallDist = player.y - player.fallStartY;
+                if (fallDist > 400 && !player.fallSoundPlayed) {
+                    playSound('fall', fallVolume);
+                    player.fallSoundPlayed = true;
+                }
+            } else {
+                player.fallSoundPlayed = false;
+            }
+            
+            if (!checkCollision(player.x, newY, player.width, player.height)) {
+                player.y = newY;
+                player.grounded = false;
+            } else {
+                if (player.vy > 0) { 
+                    player.grounded = true; 
+                    player.jumpCount = 0;
+                    player.dashesUsed = 0;
+                    player.wallJumpChain = 0;
+                    player.fallSoundPlaying = false;
+                    
+                    const fallDistance = player.y - player.fallStartY;
+                    if (fallDistance > 1000) {
+                        const fallDamage = Math.min(POINTS.FALL_DAMAGE_MAX, Math.max(POINTS.FALL_DAMAGE_MIN, Math.floor(fallDistance / 50)));
+                        addScore(-fallDamage, 'fall_damage');
+                    }
+                    player.fallStartY = 0;
+                    
+                    if (wasAirborne && wasDashingDown) {
+                        camera.shake = 10;
+                        if (gamepadIndex !== null) {
+                            const gpRumble = navigator.getGamepads ? navigator.getGamepads()[gamepadIndex] : null;
+                            if (gpRumble && gpRumble.vibrationActuator) {
+                                gpRumble.vibrationActuator.playEffect('dual-rumble', {
+                                    duration: 150,
+                                    strongMagnitude: 0.8,
+                                    weakMagnitude: 0.6
+                                });
+                            }
+                        }
+                    }
+                }
+                player.vy = 0;
+            }
+
+            const cx = player.x + player.width / 2, cy = player.y + player.height / 2;
+            if (getTile(cx, cy) === BLOCKS.FIREFLY) {
+                gameData.coins++;
+                addScore(POINTS.COIN, 'coin');
+                setTile(cx, cy, BLOCKS.AIR);
+                playSound('coin');
+                checkBadges();
+            }
+            if (getTile(cx, cy) === BLOCKS.MUSHROOM) {
+                addScore(POINTS.MUSHROOM, 'mushroom');
+                setTile(cx, cy, BLOCKS.AIR);
+                playSound('coin');
+            }
+
+            if (player.y > WORLD_HEIGHT * TILE_SIZE + 100) {
+                gameData.deaths++;
+                player.x = findSpawnX() * TILE_SIZE;
+                player.y = findSpawnY() * TILE_SIZE;
+                player.vy = 0; player.jumpCount = 0; player.dashCooldown = 0;
+                playGameOver();
+                checkBadges();
+            }
+
+            player.x = Math.max(0, Math.min(player.x, WORLD_WIDTH * TILE_SIZE - player.width));
+            
+            const targetCamX = player.x - canvas.width / 2 + player.width / 2 + camera.offsetX;
+            const targetCamY = player.y - canvas.height / 2 + player.height / 2 + camera.offsetY;
+            camera.x += (targetCamX - camera.x) * 0.1;
+            camera.y += (targetCamY - camera.y) * 0.1;
+            camera.y = Math.max(0, Math.min(camera.y, WORLD_HEIGHT * TILE_SIZE - canvas.height));
+            
+            if (camera.shake > 0) {
+                camera.shake *= 0.85;
+                if (camera.shake < 0.5) camera.shake = 0;
+            }
+
+            if (player.isDashing) player.state = 'dashing';
+            else if (Math.abs(player.vx) > 50) {
+                player.state = 'running';
+                player.frameTimer += dt;
+                if (player.frameTimer > 0.1) { player.frameTimer = 0; player.frame = (player.frame + 1) % 4; }
+            } else { player.state = 'idle'; player.frame = 0; }
+            if (!player.grounded && !player.onWall) player.state = player.vy < 0 ? 'jumping' : 'falling';
+            if (player.onWall) player.state = 'wallslide';
+        }
+
+        function render() {
+            // console.log('Rendering...');
+            const shakeX = camera.shake * (Math.random() - 0.5) * 2;
+            const shakeY = camera.shake * (Math.random() - 0.5) * 2;
+            
+            ctx.fillStyle = '#0a0a12';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            drawBackground();
+
+            const startX = Math.floor((camera.x - shakeX) / TILE_SIZE), startY = Math.floor((camera.y - shakeY) / TILE_SIZE);
+            const endX = Math.ceil((camera.x + canvas.width - shakeX) / TILE_SIZE), endY = Math.ceil((camera.y + canvas.height - shakeY) / TILE_SIZE);
+
+            for (let y = startY; y <= endY; y++) {
+                for (let x = startX; x <= endX; x++) {
+                    if (y >= 0 && y < WORLD_HEIGHT && x >= 0 && x < WORLD_WIDTH) {
+                        const tile = world[y][x];
+                        if (tile !== BLOCKS.AIR) drawTile(x * TILE_SIZE - camera.x + shakeX, y * TILE_SIZE - camera.y + shakeY, tile);
+                    }
+                }
+            }
+
+            if (player.isDashing && player.speedLines && player.speedLines.length > 0) {
+                ctx.save();
+                const dashDirX = Math.sign(player.vx) || player.facing;
+                const dashDirY = Math.sign(player.vy);
+                const isVerticalDash = Math.abs(player.vy) > Math.abs(player.vx);
+                
+                player.speedLines.forEach(line => {
+                    ctx.strokeStyle = `rgba(150, 200, 255, ${line.alpha})`;
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    
+                    if (isVerticalDash && dashDirY !== 0) {
+                        ctx.moveTo(line.x - camera.x + shakeX - 4, line.y - camera.y + shakeY);
+                        ctx.lineTo(line.x - camera.x + shakeX + 4, line.y - camera.y + shakeY);
+                    } else {
+                        ctx.moveTo(line.x - camera.x + shakeX, line.y - camera.y + shakeY - 4);
+                        ctx.lineTo(line.x - camera.x + shakeX, line.y - camera.y + shakeY + 4);
+                    }
+                    ctx.stroke();
+                    
+                    line.x -= dashDirX * 5;
+                    line.y -= dashDirY * 5;
+                    line.alpha -= 0.05;
+                });
+                player.speedLines = player.speedLines.filter(l => l.alpha > 0);
+                ctx.restore();
+            }
+            
+            if (player.jumpEffect) {
+                ctx.save();
+                const jx = player.jumpEffect.x - camera.x + shakeX;
+                const jy = player.jumpEffect.y - camera.y + shakeY;
+                ctx.globalAlpha = player.jumpEffect.alpha;
+                
+                if (player.jumpEffect.type === 'ground') {
+                    ctx.strokeStyle = '#e8d5a0';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(jx - 12 * player.jumpEffect.scale, jy);
+                    ctx.quadraticCurveTo(jx - 4 * player.jumpEffect.scale, jy - 8, jx, jy - 4);
+                    ctx.quadraticCurveTo(jx + 4 * player.jumpEffect.scale, jy - 8, jx + 12 * player.jumpEffect.scale, jy);
+                    ctx.stroke();
+                } else {
+                    ctx.strokeStyle = '#a0c0ff';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(jx - 8 * player.jumpEffect.scale, jy);
+                    ctx.lineTo(jx, jy - 6);
+                    ctx.lineTo(jx + 8 * player.jumpEffect.scale, jy);
+                    ctx.stroke();
+                }
+                
+                player.jumpEffect.alpha -= 0.08;
+                player.jumpEffect.scale += 0.15;
+                if (player.jumpEffect.alpha <= 0) player.jumpEffect = null;
+                ctx.restore();
+            }
+
+            drawPlayer(shakeX, shakeY);
+            drawLighting();
+            
+            ctx.fillStyle = '#daa520';
+            ctx.font = '16px monospace';
+            ctx.fillText(`Score: ${gameData.score}`, 10, 30);
+            const nextThreshold = getNextLevelThreshold();
+            if (nextThreshold) {
+                ctx.fillText(`Next: ${nextThreshold - gameData.score} pts`, 10, 45);
+            }
+            ctx.fillStyle = '#daa520';
+            ctx.fillText(`Level: ${getLevelName()} (${getMaxJumps()}J/${getMaxDashes()}D/WS:${getWallSlideDuration().toFixed(1)}s)`, 10, 60);
+            ctx.fillStyle = '#daa520';
+            ctx.fillText(`Fireflies: ${gameData.coins}`, 10, 80);
+            ctx.fillStyle = '#8b9dc3';
+            ctx.fillText(`Best: ${gameData.highScore}`, 10, 100);
+            ctx.fillText(`Seed: ${worldSeed}`, 10, 120);
+            ctx.fillText(`Jumps: ${gameData.totalJumps} | Dashes: ${gameData.totalDashes}`, 10, 140);
+            if (gp.gpConnected) {
+                ctx.fillStyle = '#00ff00';
+                ctx.font = '12px monospace';
+                ctx.fillText(`GP: ${gp.gpId?.substring(0, 30) || 'Connected'}`, 10, 160);
+            }
+            if (player.wallJumpChain > 1) {
+                ctx.fillStyle = '#ff6b6b';
+                ctx.fillText(`Wall Chain: x${player.wallJumpChain}`, 10, 160);
+            }
+            if (scoreHistoryTimer > 0) {
+                scoreHistoryTimer -= dt;
+                ctx.fillStyle = '#ff0000';
+                ctx.font = '14px monospace';
+                let y = canvas.height - 20;
+                scoreHistory.slice(-8).forEach(h => {
+                    const prefix = h.points > 0 ? '+' : '';
+                    ctx.fillText(`${prefix}${h.points} (${h.reason})`, 10, y);
+                    y -= 16;
+                });
+            }
+            ctx.fillStyle = '#ffff00';
+            ctx.font = '16px monospace';
+            ctx.fillText(`DEBUG: ${scoreDebug}`, 10, 30);
+        }
+
+        function drawBackground() {
+            if (bgLoaded && cosmicBg.width > 0) {
+                ctx.save();
+                const brightness = 50 + bgBrightness * 150;
+                const blurLevel = bgBlur * 0.5;
+                ctx.filter = `blur(${blurLevel}px) brightness(${brightness}%)`;
+                const px = (canvas.width - cosmicBg.width) / 2 - camera.x * 0.1;
+                const py = (canvas.height - cosmicBg.height) / 2 - camera.y * 0.1;
+                ctx.drawImage(cosmicBg, px, py);
+                ctx.filter = 'none';
+                const overlay = Math.max(0, 0.85 - bgBrightness * 0.8);
+                ctx.fillStyle = `rgba(0, 0, 0, ${overlay})`;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.restore();
+            } else {
+                ctx.fillStyle = '#0a0a15';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                for (let i = 0; i < 50; i++) {
+                    const x = (i * 137 + camera.x * 0.05) % canvas.width;
+                    const y = (i * 89 + camera.y * 0.03) % canvas.height;
+                    ctx.fillStyle = `rgba(60, 60, 80, ${0.3 + (i % 5) * 0.1})`;
+                    ctx.fillRect(x, y, 2, 2);
+                }
+            }
+        }
+
+        function drawTile(x, y, tile) {
+            const color = BLOCK_COLORS[tile];
+            if (!color) return;
+            ctx.fillStyle = color;
+            ctx.fillRect(x, y, TILE_SIZE, TILE_SIZE);
+            ctx.fillStyle = 'rgba(0,0,0,0.3)';
+            ctx.fillRect(x, y + TILE_SIZE - 4, TILE_SIZE, 4);
+            ctx.fillRect(x + TILE_SIZE - 4, y, 4, TILE_SIZE);
+            if (tile === BLOCKS.MOSSY_STONE) {
+                ctx.fillStyle = '#2a4a2a';
+                for (let i = 0; i < 3; i++) ctx.fillRect(x + 5 + (i * 11) % 20, y + 5 + (i * 7) % 20, 4, 4);
+            }
+            if (tile === BLOCKS.CRUMBLING_BRICK) {
+                ctx.fillStyle = 'rgba(0,0,0,0.2)';
+                ctx.fillRect(x + 4, y + 4, 10, 8);
+                ctx.fillRect(x + 18, y + 16, 8, 10);
+            }
+            if (tile === BLOCKS.PLATFORM) {
+                ctx.fillStyle = '#3a2a1a';
+                ctx.fillRect(x, y + 2, TILE_SIZE, 2);
+            }
+            if (tile === BLOCKS.FIREFLY) {
+                const flicker = 0.6 + Math.sin(Date.now() / 300 + x + y) * 0.4;
+                const cx = x + TILE_SIZE/2, cy = y + TILE_SIZE/2 - 4;
+                
+                const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, TILE_SIZE * 1.5);
+                grad.addColorStop(0, `rgba(180, 255, 120, ${flicker * 0.8})`);
+                grad.addColorStop(0.2, `rgba(150, 255, 100, ${flicker * 0.4})`);
+                grad.addColorStop(0.5, `rgba(100, 220, 80, ${flicker * 0.15})`);
+                grad.addColorStop(1, 'rgba(100, 220, 80, 0)');
+                
+                ctx.fillStyle = grad;
+                ctx.beginPath();
+                ctx.arc(cx, cy, TILE_SIZE * 1.5, 0, Math.PI * 2);
+                ctx.fill();
+                
+                ctx.fillStyle = `rgba(220, 255, 180, ${flicker})`;
+                ctx.beginPath(); ctx.arc(cx, cy - 1, 4, 0, Math.PI * 2); ctx.fill();
+                ctx.fillStyle = `rgba(255, 255, 240, ${flicker * 0.8})`;
+                ctx.beginPath(); ctx.arc(cx - 1, cy - 2, 2, 0, Math.PI * 2); ctx.fill();
+            }
+            if (tile === BLOCKS.MUSHROOM) {
+                ctx.fillStyle = '#f5f5dc';
+                ctx.fillRect(x + 12, y + 18, 8, 14);
+                ctx.fillStyle = '#e74c3c';
+                ctx.beginPath();
+                ctx.arc(x + 16, y + 14, 10, Math.PI, 0);
+                ctx.fill();
+                ctx.fillStyle = '#fff';
+                ctx.beginPath(); ctx.arc(x + 12, y + 10, 3, 0, Math.PI * 2); ctx.fill();
+                ctx.beginPath(); ctx.arc(x + 20, y + 12, 2, 0, Math.PI * 2); ctx.fill();
+                ctx.beginPath(); ctx.arc(x + 16, y + 8, 2.5, 0, Math.PI * 2); ctx.fill();
+            }
+        }
+
+        function drawPlayer(shakeX = 0, shakeY = 0) {
+            if (player.dashGhost) {
+                const gx = player.dashGhost.x - camera.x + shakeX;
+                const gy = player.dashGhost.y - camera.y + shakeY;
+                ctx.save();
+                ctx.globalAlpha = player.dashGhost.alpha * 0.7;
+                
+                ctx.fillStyle = 'rgba(74, 48, 32, 0.6)';
+                ctx.fillRect(gx + 2, gy + 2, 16, 6);
+                ctx.fillStyle = 'rgba(96, 160, 224, 0.6)';
+                ctx.fillRect(gx + 6, gy + 10, 8, 4);
+                ctx.fillStyle = 'rgba(232, 196, 160, 0.6)';
+                ctx.fillRect(gx + 4, gy + 8, 12, 12);
+                ctx.fillStyle = 'rgba(201, 160, 122, 0.6)';
+                ctx.fillRect(gx + 4, gy + 20, 12, 8);
+                ctx.fillRect(gx + 6, gy + 28, 4, 2);
+                ctx.fillRect(gx + 12, gy + 28, 4, 2);
+                
+                ctx.restore();
+                
+                player.dashGhost.alpha -= 0.017;
+                if (player.dashGhost.alpha < 0) player.dashGhost.alpha = 0;
+            }
+            
+            const x = player.x - camera.x + shakeX, y = player.y - camera.y + shakeY;
+            const facing = player.facing;
+            
+            ctx.save();
+            if (facing === -1) {
+                ctx.translate(x + player.width, 0); ctx.scale(-1, 1); ctx.translate(-x, 0);
+            }
+            if (player.isDashing) {
+                ctx.fillStyle = 'rgba(150, 200, 255, 0.7)';
+                ctx.shadowColor = 'rgba(150, 200, 255, 0.8)';
+                ctx.shadowBlur = 10;
+                ctx.fillRect(x - 4, y, player.width + 8, player.height);
+            }
+            ctx.fillStyle = '#e8c4a0';
+            ctx.fillRect(x + 4, y + 8, 12, 12);
+            ctx.fillStyle = '#c9a07a';
+            ctx.fillRect(x + 4, y + 20, 12, 8);
+            ctx.fillStyle = '#4a3020';
+            ctx.fillRect(x + 2, y + 2, 16, 6);
+            ctx.fillStyle = '#60a0e0';
+            ctx.fillRect(x + 6, y + 10, 8, 4);
+            if (player.state === 'running') {
+                const legOffset = Math.sin(player.frame * Math.PI / 2) * 3;
+                ctx.fillStyle = '#c9a07a';
+                ctx.fillRect(x + 6, y + 26, 4, 4 + legOffset);
+                ctx.fillRect(x + 12, y + 26, 4, 4 - legOffset);
+            } else if (player.state === 'wallslide') {
+                ctx.fillStyle = '#c9a07a';
+                ctx.fillRect(x + 2, y + 26, 4, 4);
+                ctx.fillRect(x + 14, y + 26, 4, 4);
+            } else {
+                ctx.fillStyle = '#c9a07a';
+                ctx.fillRect(x + 6, y + 28, 4, 2);
+                ctx.fillRect(x + 12, y + 28, 4, 2);
+            }
+            ctx.restore();
+            
+            const scarfColor = '#cc3333';
+            const scarfLight = '#dd5555';
+            const scarfDark = '#aa2222';
+            const neckY = y + 19;
+            const neckLeft = x + 4;
+            const neckRight = x + 16;
+            
+            const level = getCurrentLevel();
+            const pointCount = Math.min(1 + Math.floor(level / 2), 5);
+            
+            const sp = player.scarfPoints;
+            
+            const facingDir = player.facing;
+            const anchorX = facingDir === 1 ? neckLeft : neckRight;
+            const bandStart = facingDir === 1 ? neckRight : neckLeft;
+            
+            for (let i = pointCount - 1; i >= 1; i--) {
+                if (!sp[i]) sp[i] = {x: anchorX, y: neckY};
+                const prev = sp[i - 1] || sp[0];
+                const curr = sp[i];
+                curr.x += (prev.x - curr.x) * 0.35;
+                curr.y += (prev.y - curr.y) * 0.35;
+            }
+            
+            if (!sp[0]) sp[0] = {x: anchorX, y: neckY};
+            sp[0].x = anchorX + (-player.vx * 0.04) + Math.sin(Date.now() * 0.008) * 3;
+            sp[0].y = neckY + 4 + (-player.vy * 0.02) + Math.cos(Date.now() * 0.006) * 2;
+            
+            for (let i = 1; i < pointCount; i++) {
+                sp[i].x += (-player.vx * 0.02);
+                sp[i].y += (-player.vy * 0.01);
+            }
+            
+            const drawScarfLine = (width, color, yOffset) => {
+                ctx.strokeStyle = color;
+                ctx.lineWidth = width;
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+                ctx.beginPath();
+                ctx.moveTo(bandStart, neckY + yOffset);
+                ctx.lineTo(anchorX, neckY + yOffset);
+                ctx.lineTo(sp[0].x, sp[0].y + yOffset);
+                for (let i = 1; i < pointCount; i++) {
+                    ctx.lineTo(sp[i].x, sp[i].y + yOffset);
+                }
+                ctx.stroke();
+            };
+            
+            drawScarfLine(4, scarfDark, 1);
+            drawScarfLine(2, scarfLight, -0.5);
+            drawScarfLine(3, scarfColor, 0);
+        }
+
+        function toggleMenu() {
+            document.getElementById('loading').style.display = 'none';
+            if (gameState === 'playing') {
+                gameState = 'menu';
+                menuSelection = 0;
+                document.getElementById('menu').classList.add('active');
+                playSound('menuOpen');
+                updateMenuSelection();
+            } else {
+                playSound('menuClose');
+                resumeGame();
+            }
+        }
+
+        function updateMenuNavigation(gp) {
+            const menuGP = getMenuGamepadInput();
+            
+            if (menuGP.b && !backButtonPressed) {
+                backButtonPressed = true;
+                playSound('menuBack');
+                if (gameState === 'settings') showMenu();
+                else if (gameState === 'devmenu') showMenu();
+                else if (gameState === 'menu') toggleMenu();
+                return;
+            } else if (!menuGP.b) {
+                backButtonPressed = false;
+            }
+            
+            if (menuGP.up || menuGP.down || menuGP.left || menuGP.right) {
+                if (!menuButtonPressed) {
+                    menuButtonPressed = true;
+                    if (menuGP.down || menuGP.right) menuSelection++;
+                    else menuSelection--;
+                    playSound('menuSelect');
+                    
+                    let maxItems = 6;
+                    if (gameState === 'settings') maxItems = 6;
+                    else if (gameState === 'devmenu') maxItems = 20;
+                    
+                    if (menuSelection < 0) menuSelection = maxItems - 1;
+                    if (menuSelection >= maxItems) menuSelection = 0;
+                    
+                    if (gameState === 'menu') updateMenuSelection();
+                    else if (gameState === 'devmenu') updateDevMenuSelection();
+                }
+            } else {
+                menuButtonPressed = false;
+            }
+            
+            if (menuGP.a && !menuButtonPressed) {
+                menuButtonPressed = true;
+                playSound('menuSelect');
+                
+                if (gameState === 'menu') {
+                    const buttons = document.querySelectorAll('#menu button');
+                    if (buttons[menuSelection]) buttons[menuSelection].click();
+                } else if (gameState === 'settings') {
+                    const rows = document.querySelectorAll('#settings .binding-row button');
+                    if (menuSelection < 5 && rows[menuSelection]) rows[menuSelection].click();
+                    else if (menuSelection === 5) document.querySelector('#settings .back-btn').click();
+                } else if (gameState === 'devmenu') {
+                    const buttons = document.querySelectorAll('#devmenu button');
+                    if (buttons[menuSelection]) buttons[menuSelection].click();
+                }
+            }
+        }
+
+        function updateMenuSelection() {
+            const buttons = gameState === 'menu' 
+                ? document.querySelectorAll('#menu button')
+                : document.querySelectorAll('#settings .binding-row button, #settings .back-btn');
+            
+            buttons.forEach((btn, i) => {
+                btn.classList.toggle('selected', i === menuSelection);
+            });
+        }
+
+        function resumeGame() {
+            gameState = 'playing';
+            document.getElementById('menu').classList.remove('active');
+            document.getElementById('settings').classList.remove('active');
+            playMusicWithCrossfade(currentMusicTrack);
+        }
+        
+        function startGameWithMusic() {
+            playSound('menuSelect');
+            const loading = document.getElementById('loading');
+            const loadingBar = document.getElementById('loadingBar');
+            const loadingText = document.getElementById('loadingText');
+            loading.style.display = 'flex';
+            loadingBar.style.width = '30%';
+            loadingText.textContent = 'Starting...';
+            
+            console.log('gameStart loaded:', !!loadedSounds['gameStart'], 'bgMusic loaded:', !!loadedSounds[currentMusicTrack]);
+            
+            // Clone startup sound for one-shot play
+            const startupSound = loadedSounds['gameStart'];
+            console.log('startupSound:', startupSound);
+            
+            if (startupSound) {
+                const startupClone = startupSound.cloneNode();
+                startupClone.volume = musicVolume;
+                console.log('Playing startup music...');
+                loadingText.textContent = 'Loading sounds...';
+                setTimeout(() => {
+                    loadingBar.style.width = '60%';
+                    loadingText.textContent = 'Loading world...';
+                    startupClone.play().then(() => {
+                        console.log('Startup music started!');
+                        loadingBar.style.width = '100%';
+                        loadingText.textContent = 'Playing...';
+                        setTimeout(() => {
+                            loading.style.display = 'none';
+                            if (window.parent) window.parent.postMessage('gameStarted', '*');
+                            playMusicWithCrossfade(currentMusicTrack);
+                            resumeGame();
+                        }, 1500);
+                    }).catch((e) => {
+                        console.log('Startup play error:', e);
+                        loading.style.display = 'none';
+                        if (window.parent) window.parent.postMessage('gameStarted', '*');
+                        playMusicWithCrossfade(currentMusicTrack);
+                        resumeGame();
+                    });
+                }, 800);
+            } else {
+                console.log('No startup sound, going straight to music');
+                loading.style.display = 'none';
+                if (window.parent) window.parent.postMessage('gameStarted', '*');
+                playMusicWithCrossfade(currentMusicTrack);
+                resumeGame();
+            }
+        }
+        
+        function playGameOver() {
+            playSound('gameOver');
+        }
+
+        function showMenu() {
+            gameState = 'menu';
+            menuSelection = 0;
+            document.getElementById('settings').classList.remove('active');
+            document.getElementById('devmenu').style.display = 'none';
+            document.getElementById('menu').classList.add('active');
+            updateMenuSelection();
+            updatePlayerCard();
+        }
+        
+        function showDevMenu() {
+            document.getElementById('loading').style.display = 'none';
+            gameState = 'devmenu';
+            menuSelection = 0;
+            document.getElementById('menu').classList.remove('active');
+            document.getElementById('devmenu').style.display = 'flex';
+            setJumpType(currentJumpType);
+            setDevLevelOverride(devLevelOverride);
+            updateDevMenuSelection();
+        }
+        
+        function updateDevMenuSelection() {
+            const buttons = document.querySelectorAll('#devmenu button');
+            buttons.forEach((btn, i) => {
+                btn.classList.toggle('selected', i === menuSelection);
+            });
+        }
+        
+        function updatePlayerCard() {
+            document.getElementById('menuScore').textContent = gameData.score;
+            document.getElementById('menuHighScore').textContent = gameData.highScore;
+            
+            if (window.VectorChat && VectorChat.user) {
+                document.getElementById('playerName').textContent = VectorChat.user.name || gameData.username;
+                const avatarEl = document.getElementById('playerAvatar');
+                if (VectorChat.user.avatar) {
+                    avatarEl.innerHTML = `<img src="${VectorChat.user.avatar}" style="width:50px;height:50px;border-radius:50%;">`;
+                }
+            } else {
+                document.getElementById('playerName').textContent = gameData.username;
+            }
+        }
+
+        function showSettings() {
+            document.getElementById('loading').style.display = 'none';
+            gameState = 'settings';
+            menuSelection = 0;
+            document.getElementById('menu').classList.remove('active');
+            document.getElementById('settings').classList.add('active');
+            updateBindingButtons();
+            updateControllerBindingButtons();
+            updateMenuSelection();
+            scanControllers();
+        }
+        
+        function detectController() {
+            const list = document.getElementById('controller-list');
+            list.innerHTML = '<div style="color: #daa520; padding: 15px; text-align: center;">🎮 Press any button on your controller NOW</div>';
+            
+            let checks = 0;
+            const checkInterval = setInterval(() => {
+                checks++;
+                const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+                for (let i = 0; i < gamepads.length; i++) {
+                    const gp = gamepads[i];
+                    if (gp) {
+                        const hasInput = gp.axes?.some(a => Math.abs(a) > 0.3) || gp.buttons?.some(b => b?.pressed);
+                        if (hasInput) {
+                            gamepadIndex = i;
+                            localStorage.setItem('silentRuins_gamepadIndex', i.toString());
+                            list.innerHTML = `<div style="color: #4f4; padding: 15px; text-align: center;">✓ Connected!<br><small>${gp.id.substring(0, 40)}</small></div>`;
+                            clearInterval(checkInterval);
+                            return;
+                        }
+                    }
+                }
+                if (checks > 30) {
+                    list.innerHTML = '<div style="color: #666; padding: 15px; text-align: center;">Timeout - try again</div>';
+                    clearInterval(checkInterval);
+                }
+            }, 100);
+        }
+        
+        function scanControllers() {
+            const list = document.getElementById('controller-list');
+            const selected = document.getElementById('selected-controller');
+            
+            let gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+            if (!Array.isArray(gamepads)) {
+                gamepads = Array.from(gamepads).filter(Boolean);
+            }
+            
+            let currentController = null;
+            let detectedIndex = -1;
+            
+            for (let i = 0; i < gamepads.length; i++) {
+                const gp = gamepads[i];
+                if (gp) {
+                    const hasInput = gp.axes?.some(a => Math.abs(a) > 0.3) || gp.buttons?.some(b => b?.pressed);
+                    if (hasInput) {
+                        detectedIndex = i;
+                        currentController = gp.id;
+                    }
+                }
+            }
+            
+            if (detectedIndex >= 0 && detectedIndex !== gamepadIndex) {
+                gamepadIndex = detectedIndex;
+                localStorage.setItem('silentRuins_gamepadIndex', detectedIndex.toString());
+            }
+            
+            let html = '';
+            if (gamepadIndex >= 0 && gamepads[gamepadIndex]) {
+                html = `<div style="color: #4f4; padding: 15px; text-align: center;">✓ Active Controller:<br><br>${gamepads[gamepadIndex].id.substring(0, 50)}</div>`;
+            } else if (detectedIndex >= 0) {
+                html = `<div style="color: #daa520; padding: 15px; text-align: center;">🎮 Detected (not active):<br>${currentController?.substring(0, 40)}<br><br><small>Press any button to activate</small></div>`;
+            } else {
+                html = '<div style="color: #666; padding: 15px; text-align: center;">No controller detected.<br>Press any button on controller to activate.</div>';
+            }
+            
+            list.innerHTML = html;
+            selected.textContent = gamepadIndex >= 0 && gamepads[gamepadIndex] ? 
+                'Active: ' + gamepads[gamepadIndex].id.substring(0, 40) : 
+                'No controller selected';
+        }
+        
+        function selectController(index) {
+            const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+            if (gamepads[index]) {
+                gamepadIndex = index;
+                localStorage.setItem('silentRuins_gamepadIndex', index.toString());
+                scanControllers();
+            }
+        }
+
+        function updateBindingButtons() {
+            document.getElementById('bind-left').textContent = keyBindings.left.join(' + ');
+            document.getElementById('bind-right').textContent = keyBindings.right.join(' + ');
+            document.getElementById('bind-jump').textContent = keyBindings.jump.join(' + ');
+            document.getElementById('bind-dash').textContent = keyBindings.dash.join(' + ');
+            document.getElementById('bind-dashLeft').textContent = keyBindings.dashLeft.join(' + ');
+            document.getElementById('bind-dashRight').textContent = keyBindings.dashRight.join(' + ');
+            document.getElementById('bind-menu').textContent = keyBindings.menu.join(' + ');
+        }
+
+        function bindKey(action) {
+            bindingMode = action;
+            document.getElementById('bind-' + action).classList.add('binding');
+            document.getElementById('bind-' + action).textContent = 'Press a key...';
+        }
+        
+        function bindControllerButton(action) {
+            bindingMode = 'controller_' + action;
+            document.getElementById('bind-c-' + action).classList.add('binding');
+            document.getElementById('bind-c-' + action).textContent = 'Press button...';
+        }
+        
+        function updateControllerBindingButtons() {
+            document.getElementById('bind-c-jump').textContent = 'Button ' + controllerBindings.jump;
+            document.getElementById('bind-c-dash').textContent = 'Button ' + controllerBindings.dash;
+            document.getElementById('bind-c-dashLeft').textContent = 'Button ' + controllerBindings.dashLeft;
+            document.getElementById('bind-c-dashRight').textContent = 'Button ' + controllerBindings.dashRight;
+            document.getElementById('bind-c-menu').textContent = 'Button ' + controllerBindings.menu;
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (bindingMode) {
+                // Ignore gamepad button presses
+                if (e.code.startsWith('Button') || e.code.startsWith('Gamepad')) {
+                    return;
+                }
+                e.preventDefault();
+                keyBindings[bindingMode] = [e.code];
+                bindingMode = null;
+                updateBindingButtons();
+                document.querySelectorAll('#settings button').forEach(b => b.classList.remove('binding'));
+                return;
+            }
+            if (e.code === 'Escape') {
+                playSound('menuBack');
+                if (gameState === 'playing') toggleMenu();
+                else if (gameState === 'menu' || gameState === 'settings') toggleMenu();
+                else if (gameState === 'devmenu') showMenu();
+            }
+            keys[e.code] = true;
+            if (e.code === 'KeyR') generateWorld();
+        });
+        
+        let lastControllerButtonState = [];
+        
+        function pollControllerForBinding() {
+            if (!bindingMode) return;
+            
+            if (bindingMode.startsWith('controller_')) {
+                const action = bindingMode.replace('controller_', '');
+                const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+                for (let i = 0; i < gamepads.length; i++) {
+                    const gp = gamepads[i];
+                    if (gp) {
+                        for (let btn = 0; btn < gp.buttons.length; btn++) {
+                            if (gp.buttons[btn].pressed || gp.buttons[btn].value > 0.5) {
+                                controllerBindings[action] = btn;
+                                localStorage.setItem('silentRuins_controllerBindings', JSON.stringify(controllerBindings));
+                                bindingMode = null;
+                                updateControllerBindingButtons();
+                                document.querySelectorAll('#settings button').forEach(b => b.classList.remove('binding'));
+                                return;
+                            }
+                        }
+                    }
+                }
+                return;
+            }
+            
+            const pressed = getGamepadButtonsPressed();
+            for (const btn of pressed) {
+                if (!lastControllerButtonState.includes(btn)) {
+                    keyBindings[bindingMode] = ['Button' + btn];
+                    bindingMode = null;
+                    updateBindingButtons();
+                    document.querySelectorAll('#settings button').forEach(b => b.classList.remove('binding'));
+                    break;
+                }
+            }
+            lastControllerButtonState = pressed;
+        }
+
+        document.addEventListener('keyup', (e) => {
+            keys[e.code] = false;
+        });
+
+        let lastTime = 0;
+        let firstFrame = true;
+        let musicCheckCounter = 0;
+        let fps = 0;
+        let frameCount = 0;
+        let fpsTime = 0;
+        const isXDC = window.location.protocol === 'file:' || window.location.href.includes('.xdc');
+        
+        function gameLoop(timestamp) {
+            if (!timestamp) timestamp = performance.now();
+            
+            if (firstFrame) {
+                lastTime = timestamp;
+                firstFrame = false;
+                requestAnimationFrame(gameLoop);
+                return;
+            }
+            
+            const rawDt = (timestamp - lastTime) / 1000;
+            const dt = Math.min(Math.max(rawDt, 0.001), 0.05);
+            lastTime = timestamp;
+            
+            frameCount++;
+            fpsTime += dt;
+            if (fpsTime >= 1) {
+                fps = frameCount;
+                frameCount = 0;
+                fpsTime = 0;
+                console.log('FPS:', fps, '| Source:', isXDC ? 'XDC' : 'Index');
+                try { document.getElementById('fpsDisplay').textContent = 'FPS: ' + fps + ' (' + (isXDC ? 'XDC' : 'Index') + ')'; } catch(e) {}
+            }
+            
+            if (gameState === 'playing') {
+                playTime += dt;
+            }
+            musicCheckCounter++;
+            if (musicCheckCounter > 60) {
+                musicCheckCounter = 0;
+                checkMusicTransition();
+            }
+            pollControllerForBinding();
+            try { update(dt); } catch(e) { console.log('Update error:', e); }
+            try { render(); } catch(e) { console.log('Render error:', e); }
+            requestAnimationFrame(gameLoop);
+        }
+
+        generateWorld();
+        console.log('Game starting...');
+        document.getElementById('version-display').textContent = 'V(' + GAME_VERSION + ')';
+        document.getElementById('menu').classList.add('active');
+        initSounds();
+        initMenuMusicSelector();
+        
+        try { showSoundCat('menu'); } catch(e) { console.log('Menu not ready'); }
+        console.log('Calling gameLoop');
+        requestAnimationFrame(gameLoop);
+    </script>
+</body>
+</html>
