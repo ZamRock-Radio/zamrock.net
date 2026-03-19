@@ -100,7 +100,7 @@
       background: #0a0a0f;
       border: 3px solid var(--border-color);
       border-radius: 8px;
-      overflow: hidden;
+      overflow: hidden !important;
       position: relative;
       min-height: 500px;
       width: 100%;
@@ -114,6 +114,8 @@
       height: 100%;
       border: none;
       display: block;
+      overflow: hidden !important;
+      scrolling: no;
     }
     
     .site-footer {
@@ -179,7 +181,7 @@
       <div class="game-area">
         <div class="game-meta">
           <span id="playCount">Plays: 0</span>
-          <span>Site v0.0.14 | Game v0.1.131</span>
+          <span>Site v0.0.15 | Game v0.1.131</span>
         </div>
         
         <div class="game-container" id="gameContainer">
