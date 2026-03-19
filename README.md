@@ -1,4 +1,4 @@
-# Home of ZamRock Projects
+# Home of ZamRock Projects.
 
 <a href="https://zamrock.deathsmack.com/public/zamrock" target="_blank"><img src="https://github.com/DeathSmack/zamrock/blob/main/Graphics/media_pack/git_readme_001-modified.png?raw=true" alt="GitHub Logo"></a>
 
