@@ -20,12 +20,12 @@
 
 ## Official Links
 > * [Website](https://zamrock.net)
+> * [Revolt/Stoat](https://stt.gg/CsjKzYWm)
 > * [Matrix](https://matrix.to/#/#zamrock:unredacted.org)
 > * [Mastodon](https://musicworld.social/@ZamRock)
+> * [Vector](https://vectorapp.io) - Private messaging, get the app then ask for invite in any server
 > * [BlueSky](https://bsky.app/profile/zamrock.net)
-> * [Discord Server](https://discord.gg/TGNSc9kTjR)
-> * [Revolt Server](https://stt.gg/CsjKzYWm)
-> * SimpleX - Limited access, please request a link for alpha
+> * Discord - Sunsetted due to unusable TOS
 
 
 Thanks for reading my md too!!
