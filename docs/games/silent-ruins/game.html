@@ -320,14 +320,31 @@
         cosmicBg.onload = () => { bgLoaded = true; console.log('Cosmic bg loaded!'); };
         cosmicBg.onerror = () => { console.log('Cosmic bg failed to load'); };
         
-        canvas.width = 800;
-        canvas.height = 600;
+        const GAME_WIDTH = 800;
+        const GAME_HEIGHT = 600;
+        canvas.width = GAME_WIDTH;
+        canvas.height = GAME_HEIGHT;
 
         function resizeGame() {
             const container = document.getElementById('gameContainer');
             if (container) {
-                canvas.width = container.clientWidth;
-                canvas.height = container.clientHeight;
+                const containerWidth = container.clientWidth;
+                const containerHeight = container.clientHeight;
+                const gameAspect = GAME_WIDTH / GAME_HEIGHT;
+                const containerAspect = containerWidth / containerHeight;
+                
+                let canvasWidth, canvasHeight;
+                
+                if (containerAspect > gameAspect) {
+                    canvasHeight = containerHeight;
+                    canvasWidth = canvasHeight * gameAspect;
+                } else {
+                    canvasWidth = containerWidth;
+                    canvasHeight = canvasWidth / gameAspect;
+                }
+                
+                canvas.style.width = canvasWidth + 'px';
+                canvas.style.height = canvasHeight + 'px';
             }
         }
 
@@ -336,12 +353,12 @@
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
             } else if (e.data === 'resizeNormal') {
-                resizeGame();
+                setTimeout(resizeGame, 100);
             }
         });
 
         window.addEventListener('resize', resizeGame);
-        resizeGame();
+        setTimeout(resizeGame, 100);
 
         const TILE_SIZE = 32;
         const WORLD_WIDTH = 200;
