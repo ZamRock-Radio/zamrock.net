@@ -30,7 +30,14 @@
       flex-direction: column;
       height: 100%;
       overflow: hidden;
-      flex: 1;
+    }
+    
+    .site-header {
+      flex-shrink: 0;
+    }
+    
+    .main-nav {
+      flex-shrink: 0;
     }
     
     .radio-player {
@@ -39,27 +46,28 @@
       justify-content: center;
       align-items: center;
       gap: 10px;
-      padding: 8px 15px;
+      padding: 5px 15px;
       background: rgba(46, 52, 64, 0.9);
     }
     
     .radio-player button {
-      padding: 6px 12px;
+      padding: 4px 10px;
       background: var(--accent-color);
       color: #fff;
       border: none;
       border-radius: 4px;
       cursor: pointer;
-      font-size: 11px;
+      font-size: 10px;
     }
     
     .game-area {
       flex: 1;
       display: flex;
       flex-direction: column;
-      padding: 10px 15px;
+      padding: 8px 15px;
       overflow: hidden;
       min-height: 0;
+      min-height: calc(100vh - 280px);
     }
     
     .game-meta {
@@ -67,9 +75,9 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 14px;
+      font-size: 12px;
       color: #daa520;
-      margin-bottom: 8px;
+      margin-bottom: 5px;
     }
     
     .game-container {
@@ -78,8 +86,7 @@
       border: 3px solid var(--border-color);
       border-radius: 8px;
       overflow: hidden;
-      min-height: 0;
-      position: relative;
+      min-height: 200px;
     }
     
     .game-container iframe {
@@ -94,18 +101,17 @@
       flex-shrink: 0;
       display: flex;
       justify-content: center;
-      gap: 15px;
-      margin-top: 10px;
-      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 5px;
     }
     
     .btn {
-      padding: 8px 16px;
+      padding: 6px 12px;
       background: var(--accent-color);
       color: #fff;
       border: none;
       border-radius: 5px;
-      font-size: 11px;
+      font-size: 10px;
       cursor: pointer;
       text-decoration: none;
     }
@@ -116,21 +122,18 @@
       flex-shrink: 0;
       background: rgba(46, 52, 64, 0.9);
       border-radius: 8px;
-      padding: 12px;
-      font-size: 11px;
-      line-height: 1.6;
-      margin-top: 10px;
+      padding: 8px;
+      font-size: 10px;
+      line-height: 1.4;
+      margin-top: 5px;
     }
     
-    .game-info h3 { color: var(--primary-color); margin-bottom: 8px; font-size: 13px; }
+    .game-info h3 { color: var(--primary-color); margin-bottom: 5px; font-size: 11px; }
   </style>
 </head>
 <body>
   <div class="overlay"></div>
   <div class="container">
-    <h1 class="site-title"><a href="https://zamrock.net">ZamRock Radio</a></h1>
-    <div class="tagline">ZAMZAM FOR LIFE...</div>
-    
     <nav class="main-nav">
       <a href="../schedule/" class="nav-btn">Schedule</a>
       <a href="../news/" class="nav-btn">News</a>
@@ -149,7 +152,7 @@
       <div class="game-area">
         <div class="game-meta">
           <span id="playCount">Plays: 0</span>
-          <span>Site v0.0.6 | Game v0.1.131</span>
+          <span>Site v0.0.7 | Game v0.1.131</span>
         </div>
         
         <div class="game-container" id="gameContainer">
