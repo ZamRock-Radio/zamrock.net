@@ -31,3 +31,6 @@ MD033: false
 
 # Bare URLs
 MD034: false
+
+# Blank line inside blockquote
+MD028: false
