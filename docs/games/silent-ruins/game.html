@@ -2638,12 +2638,14 @@
                         loadingText.textContent = 'Playing...';
                         setTimeout(() => {
                             loading.style.display = 'none';
+                            if (window.parent) window.parent.postMessage('gameStarted', '*');
                             playMusicWithCrossfade(currentMusicTrack);
                             resumeGame();
                         }, 1500);
                     }).catch((e) => {
                         console.log('Startup play error:', e);
                         loading.style.display = 'none';
+                        if (window.parent) window.parent.postMessage('gameStarted', '*');
                         playMusicWithCrossfade(currentMusicTrack);
                         resumeGame();
                     });
@@ -2651,6 +2653,7 @@
             } else {
                 console.log('No startup sound, going straight to music');
                 loading.style.display = 'none';
+                if (window.parent) window.parent.postMessage('gameStarted', '*');
                 playMusicWithCrossfade(currentMusicTrack);
                 resumeGame();
             }
