@@ -21,9 +21,6 @@
         }
         #gameContainer {
             position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             width: 100%;
             height: 100%;
         }
@@ -31,7 +28,7 @@
             display: block;
             image-rendering: pixelated;
             width: 100%;
-            max-width: 800px;
+            height: auto;
         }
         #ui {
             position: absolute;
@@ -319,12 +316,16 @@
         cosmicBg.onload = () => { bgLoaded = true; console.log('Cosmic bg loaded!'); };
         cosmicBg.onerror = () => { console.log('Cosmic bg failed to load'); };
         
-        canvas.width = 800;
-        canvas.height = 600;
+        canvas.width = 1200;
+        canvas.height = 900;
 
         function resizeGame() {
-            canvas.width = 800;
-            canvas.height = 600;
+            const container = document.getElementById('gameContainer');
+            const aspect = 4 / 3;
+            canvas.width = 1200;
+            canvas.height = Math.round(1200 / aspect);
+            canvas.style.width = '100%';
+            canvas.style.height = 'auto';
         }
 
         window.addEventListener('message', (e) => {
@@ -335,6 +336,8 @@
                 resizeGame();
             }
         });
+
+        resizeGame();
 
         const TILE_SIZE = 32;
         const WORLD_WIDTH = 200;
