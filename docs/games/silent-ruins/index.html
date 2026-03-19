@@ -76,6 +76,7 @@
       padding: 10px 20px;
       overflow: hidden;
       min-height: 0;
+      height: calc(100vh - 120px);
     }
     
     .game-meta {
@@ -95,7 +96,8 @@
       border: 3px solid var(--border-color);
       border-radius: 8px;
       overflow: hidden;
-      min-height: 0;
+      min-height: 200px;
+      height: 100%;
     }
     
     .game-container iframe {
@@ -107,6 +109,16 @@
       border: none;
       display: block;
       overflow: hidden;
+    }
+    
+    .btn-row {
+      flex-shrink: 0;
+      margin-top: 8px;
+    }
+    
+    .game-info {
+      flex-shrink: 0;
+      margin-top: 8px;
     }
     
     .site-footer {
@@ -172,7 +184,7 @@
       <div class="game-area">
         <div class="game-meta">
           <span id="playCount">Plays: 0</span>
-          <span>Site v0.0.17 | Game v0.1.131</span>
+          <span>Site v0.0.18 | Game v0.1.131</span>
         </div>
         
         <div class="game-container" id="gameContainer">
