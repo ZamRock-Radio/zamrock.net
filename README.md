@@ -19,13 +19,14 @@
 > * Website support...
 
 ## Official Links
-> * [Website](https://zamrock.net)
-> * [Matrix](https://matrix.to/#/#zamrock:unredacted.org)
-> * [Mastodon](https://musicworld.social/@ZamRock)
-> * [BlueSky](https://bsky.app/profile/zamrock.net)
-> * [Discord Server](https://discord.gg/TGNSc9kTjR)
-> * [Revolt Server](https://stt.gg/CsjKzYWm)
-> * SimpleX - Limited access, please request a link for alpha
+
+> * [Website](https://zamrock.net) - Radio, news, and updates
+> * [Revolt/Stoat](https://stt.gg/CsjKzYWm) - Open source chat platform, similar to Discord Nitro features
+> * [Matrix](https://matrix.to/#/#zamrock:unredacted.org) - Open source federated chat
+> * [Mastodon](https://musicworld.social/@ZamRock) - Open source federated social network (like Twitter)
+> * [Vector](https://vectorapp.io) - Private messaging like Signal but no phone number needed, with built-in apps
+> * [BlueSky](https://bsky.app/profile/zamrock.net) - Open source social network (like Twitter)
+> * Discord - Sunsetted due to unusable TOS
 
 
 Thanks for reading my md too!!
