@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Silent Ruins V(0.1.131-DEV)</title>
+    <title>Silent Ruins V(0.1.132-DEV)</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html, body {
@@ -16,7 +16,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
             font-family: 'Courier New', monospace;
             color: #8b9dc3;
         }
@@ -31,8 +30,7 @@
         canvas {
             display: block;
             image-rendering: pixelated;
-            max-width: 100%;
-            max-height: 100%;
+            object-fit: contain;
         }
         #ui {
             position: absolute;
