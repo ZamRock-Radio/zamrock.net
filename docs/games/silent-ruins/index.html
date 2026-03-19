@@ -60,6 +60,7 @@
       padding: 10px 15px;
       overflow: hidden;
       min-height: 0;
+      height: 60vh;
     }
     
     .game-meta {
@@ -79,6 +80,19 @@
       border-radius: 8px;
       overflow: hidden;
       min-height: 0;
+      position: relative;
+    }
+    
+    .game-container:fullscreen {
+      width: 100vw;
+      height: 100vh;
+      border: none;
+      border-radius: 0;
+    }
+    
+    .game-container:fullscreen iframe {
+      width: 100vw;
+      height: 100vh;
     }
     
     .game-container iframe {
@@ -195,11 +209,24 @@
       if (!document.fullscreenElement) {
         container.requestFullscreen().catch(() => {});
         iframe.contentWindow.postMessage('resizeFullscreen', '*');
+        setTimeout(() => {
+          iframe.style.width = '100vw';
+          iframe.style.height = '100vh';
+        }, 100);
       } else {
         document.exitFullscreen();
         iframe.contentWindow.postMessage('resizeNormal', '*');
+        iframe.style.width = '100%';
+        iframe.style.height = '100%';
       }
     }
+    
+    document.addEventListener('fullscreenchange', () => {
+      if (!document.fullscreenElement) {
+        iframe.style.width = '100%';
+        iframe.style.height = '100%';
+      }
+    });
   </script>
 </body>
 </html>
