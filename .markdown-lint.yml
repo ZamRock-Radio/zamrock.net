@@ -31,3 +31,9 @@ MD033: false
 
 # Bare URLs
 MD034: false
+
+# First line heading (HTML files start with DOCTYPE)
+MD041: false
+
+# Blank line inside blockquote
+MD028: false
