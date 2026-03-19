@@ -15,17 +15,27 @@
   <meta property="og:type" content="website">
   
   <link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="../../css/styles.css">
   <style>
     .game-wrapper {
       max-width: 900px;
       margin: 0 auto;
-      padding: 15px;
+      padding: 10px 15px;
+    }
+    
+    .game-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: #daa520;
+      margin-bottom: 10px;
     }
     
     .game-header {
       text-align: center;
-      margin-bottom: 15px;
+      margin-bottom: 10px;
     }
     
     .game-header h2 {
@@ -35,65 +45,93 @@
     }
     
     .game-header p {
-      font-size: 0.55rem;
+      font-size: 0.6rem;
       color: var(--text-color);
     }
     
     .game-container {
-      display: flex;
-      justify-content: center;
+      position: relative;
       background: #0a0a0f;
       border: 3px solid var(--border-color);
       border-radius: 8px;
       overflow: hidden;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
+      width: 100%;
+      height: 65vh;
+      max-height: 650px;
     }
     
-    .back-link {
-      display: inline-block;
+    .game-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    
+    .btn-row {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+    
+    .btn {
       padding: 10px 20px;
       background: var(--accent-color);
       color: #fff;
-      text-decoration: none;
+      border: none;
       border-radius: 5px;
-      font-size: 0.65rem;
-      transition: background 0.3s;
+      font-size: 12px;
+      cursor: pointer;
+      font-family: inherit;
     }
     
-    .back-link:hover {
-      background: var(--primary-color);
+    .btn:hover { background: var(--primary-color); }
+    
+    .btn-back {
+      background: #4a4a5a;
+      text-decoration: none;
+      display: inline-block;
     }
+    
+    .btn-back:hover { background: #5a5a6a; }
     
     .game-info {
       background: rgba(46, 52, 64, 0.9);
       border-radius: 8px;
       padding: 15px;
-      margin-top: 15px;
-      font-size: 0.55rem;
-      line-height: 2;
+      font-size: 12px;
+      line-height: 1.8;
     }
     
-    .game-info h3 {
-      color: var(--primary-color);
-      font-size: 0.7rem;
-      margin-bottom: 10px;
-    }
+    .game-info h3 { color: var(--primary-color); margin-bottom: 10px; }
     
-    .controls-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    .radio-player {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       gap: 10px;
+      margin-bottom: 10px;
+      padding: 8px;
+      background: rgba(46, 52, 64, 0.9);
+      border-radius: 8px;
     }
     
-    .control-item {
-      background: rgba(59, 66, 82, 0.7);
-      padding: 8px 12px;
+    .radio-player button {
+      padding: 8px 16px;
+      background: var(--accent-color);
+      color: #fff;
+      border: none;
       border-radius: 4px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 12px;
     }
     
-    .control-item strong {
-      color: var(--primary-color);
-    }
+    .radio-player button:hover { background: var(--primary-color); }
   </style>
 </head>
 <body>
@@ -110,44 +148,71 @@
       <a href="../about/" class="nav-btn">About</a>
     </nav>
     
+    <div class="radio-player">
+      <audio id="radioStream" src="https://divine-paper-3624.deathsmack-a51.workers.dev/" crossorigin="anonymous"></audio>
+      <button id="playButton">Play</button>
+      <input type="range" id="volumeSlider" min="0" max="100" value="50" style="width: 80px;" />
+    </div>
+    
     <div class="game-wrapper">
+      <div class="game-meta">
+        <span id="playCount">Plays: 0</span>
+        <span>Site v0.0.1 | Game v0.1.131</span>
+      </div>
+      
       <div class="game-header">
         <h2>Silent Ruins</h2>
         <p>A retro platformer with wall jumps, dashes, and collectibles</p>
       </div>
       
       <div class="game-container">
-        <iframe src="game.html" width="800" height="500" frameborder="0" style="display: block;"></iframe>
+        <iframe id="gameFrame" src="game.html"></iframe>
       </div>
       
-      <div style="text-align: center; margin-bottom: 15px;">
-        <a href="../games/" class="back-link">Back to Games</a>
+      <div class="btn-row">
+        <button class="btn" onclick="toggleFullscreen()">Fullscreen</button>
+        <a href="../games/" class="btn btn-back">Back to Games</a>
       </div>
       
       <div class="game-info">
         <h3>Controls</h3>
-        <div class="controls-list">
-          <div class="control-item"><strong>Move:</strong> Arrow Keys / WASD</div>
-          <div class="control-item"><strong>Jump:</strong> W / Space / Up Arrow</div>
-          <div class="control-item"><strong>Dash:</strong> C / Shift / X Button</div>
-          <div class="control-item"><strong>Menu:</strong> Escape / Start</div>
-        </div>
-        <p style="margin-top: 15px;">Collect fireflies and mushrooms to gain points and unlock new abilities. Wall jump to gain extra dashes!</p>
+        <p><strong>Move:</strong> Arrow Keys / WASD | <strong>Jump:</strong> W / Space / Up | <strong>Dash:</strong> C / Shift | <strong>Menu:</strong> Escape</p>
+        <p style="margin-top: 10px;">Collect fireflies and mushrooms to gain points. Wall jump to refresh your dashes!</p>
       </div>
     </div>
     
     <footer class="site-footer">
       <div class="footer-content">
         <p>2025 ZamRock Radio - All Rights Reserved</p>
-        <div class="footer-links">
-          <a href="../../about/">About</a>
-          <a href="../../contact/">Contact</a>
-          <a href="../../schedule/">Schedule</a>
-          <a href="../../news/">News</a>
-          <a href="../../games/">Games</a>
-        </div>
       </div>
     </footer>
   </div>
+  
+  <script src="../../js/main.js"></script>
+  <script>
+    let playCount = parseInt(localStorage.getItem('silentRuinsPlays') || '0');
+    document.getElementById('playCount').textContent = 'Plays: ' + playCount;
+    
+    const iframe = document.getElementById('gameFrame');
+    
+    window.addEventListener('message', (e) => {
+      if (e.data === 'gameStarted') {
+        playCount++;
+        localStorage.setItem('silentRuinsPlays', playCount.toString());
+        document.getElementById('playCount').textContent = 'Plays: ' + playCount;
+      }
+    });
+    
+    function toggleFullscreen() {
+      const container = document.querySelector('.game-container');
+      if (!document.fullscreenElement) {
+        container.requestFullscreen().catch(() => {});
+        iframe.contentWindow.postMessage('resizeFullscreen', '*');
+      } else {
+        document.exitFullscreen();
+        iframe.contentWindow.postMessage('resizeNormal', '*');
+      }
+    }
+  </script>
 </body>
 </html>

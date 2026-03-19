@@ -2596,6 +2596,7 @@
             document.getElementById('menu').classList.remove('active');
             document.getElementById('settings').classList.remove('active');
             playMusicWithCrossfade(currentMusicTrack);
+            window.parent.postMessage('gameStarted', '*');
         }
         
         function startGameWithMusic() {
