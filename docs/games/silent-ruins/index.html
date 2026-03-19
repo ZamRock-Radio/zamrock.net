@@ -66,8 +66,8 @@
       flex-direction: column;
       padding: 8px 15px;
       overflow: hidden;
-      height: calc(100vh - 120px);
-      min-height: 400px;
+      height: calc((100vh - 120px) * 1.2);
+      min-height: 480px;
     }
     
     .game-meta {
@@ -87,7 +87,9 @@
       border-radius: 8px;
       overflow: hidden;
       position: relative;
-      min-height: 300px;
+      min-height: 360px;
+      width: 120%;
+      margin-left: -10%;
     }
     
     .game-container iframe {
@@ -155,7 +157,7 @@
       <div class="game-area">
         <div class="game-meta">
           <span id="playCount">Plays: 0</span>
-          <span>Site v0.0.9 | Game v0.1.131</span>
+          <span>Site v0.1.0 | Game v0.1.131</span>
         </div>
         
         <div class="game-container" id="gameContainer">
