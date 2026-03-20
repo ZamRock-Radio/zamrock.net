@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Controller Test - Tree Growth</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      background: #1a1a2e;
+      overflow: hidden;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: 'Courier New', monospace;
+      color: #8b9dc3;
+    }
+    canvas {
+      border: 3px solid #4a4a6a;
+      border-radius: 8px;
+      image-rendering: pixelated;
+    }
+    .info {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 14px;
+      max-width: 600px;
+    }
+    .info h2 { color: #daa520; margin-bottom: 10px; }
+    .info p { margin: 5px 0; color: #6a7a9a; }
+    .status { margin-top: 10px; padding: 10px; background: #0a0a1a; border-radius: 5px; }
+  </style>
+</head>
+<body>
+  <canvas id="game" width="800" height="600"></canvas>
+  <div class="info">
+    <h2>Controller Test - Tree Growth</h2>
+    <div class="status" id="status">Connect a controller...</div>
+    <p><strong>Left Stick:</strong> Growth speed | <strong>Right Stick:</strong> Branch spread</p>
+    <p><strong>A:</strong> Add branch | <strong>B:</strong> Change trunk color | <strong>X:</strong> Change leaf color</p>
+    <p><strong>Y:</strong> Reset tree | <strong>LB/RB:</strong> Leaf size | <strong>LT/RT:</strong> Tree height</p>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('game');
+    const ctx = canvas.getContext('2d');
+    const status = document.getElementById('status');
+
+    let trunkColor = '#8B4513';
+    let leafColor = '#228B22';
+    let growthSpeed = 1;
+    let branchSpread = 0.5;
+    let leafSize = 1;
+    let treeHeight = 1;
+
+    const branches = [];
+    let treeY = 550;
+    let treeX = 400;
+    let trunkWidth = 20;
+    let trunkHeight = 100;
+
+    let gpIndex = -1;
+    let gamepadConnected = false;
+
+    const buttonNames = ['A', 'B', 'X', 'Y', 'LB', 'RB', 'LT', 'RT', 'Back', 'Start', 'LStick', 'RStick', 'Up', 'Down', 'Left', 'Right'];
+    let prevButtons = {};
+    let prevAxes = {};
+
+    function drawTree() {
+      ctx.fillStyle = '#1a1a2e';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = '#3d5c3d';
+      ctx.fillRect(0, treeY, canvas.width, canvas.height - treeY);
+
+      branches.forEach(b => {
+        ctx.beginPath();
+        ctx.strokeStyle = b.color;
+        ctx.lineWidth = b.width;
+        ctx.moveTo(b.x, b.y);
+        ctx.lineTo(b.x + Math.cos(b.angle) * b.length, b.y + Math.sin(b.angle) * b.length);
+        ctx.stroke();
+
+        if (b.leaves) {
+          ctx.beginPath();
+          ctx.fillStyle = b.leafColor;
+          const lx = b.x + Math.cos(b.angle) * b.length;
+          const ly = b.y + Math.sin(b.angle) * b.length;
+          ctx.arc(lx, ly, 15 * b.leafSize, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      });
+
+      ctx.beginPath();
+      ctx.fillStyle = trunkColor;
+      ctx.fillRect(treeX - trunkWidth / 2, treeY - trunkHeight * treeHeight, trunkWidth, trunkHeight * treeHeight);
+
+      if (branches.length > 0) {
+        ctx.beginPath();
+        ctx.fillStyle = leafColor;
+        ctx.arc(treeX, treeY - trunkHeight * treeHeight - 10, 40 * leafSize, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.fillStyle = '#5a4a3a';
+      ctx.fillRect(treeX - 30, treeY, 60, 10);
+    }
+
+    function addBranch() {
+      const baseY = treeY - trunkHeight * treeHeight * (0.3 + Math.random() * 0.6);
+      branches.push({
+        x: treeX + (Math.random() - 0.5) * trunkWidth,
+        y: baseY,
+        angle: -Math.PI / 2 + (Math.random() - 0.5) * branchSpread * 2,
+        length: 30 + Math.random() * 70,
+        width: 3 + Math.random() * 5,
+        color: trunkColor,
+        leafColor: leafColor,
+        leafSize: leafSize,
+        leaves: Math.random() > 0.3,
+        growth: 0
+      });
+    }
+
+    function handleGamepad() {
+      const gamepads = navigator.getGamepads();
+      let gp = null;
+      
+      for (let i = 0; i < gamepads.length; i++) {
+        if (gamepads[i]) {
+          gp = gamepads[i];
+          gpIndex = i;
+          break;
+        }
+      }
+
+      if (!gp) {
+        status.textContent = 'Connect a controller... (or press a button)';
+        status.style.color = '#ff6b6b';
+        gamepadConnected = false;
+        return;
+      }
+
+      if (!gamepadConnected) {
+        status.textContent = `Connected: ${gp.id.substring(0, 30)}...`;
+        status.style.color = '#4ecdc4';
+        gamepadConnected = true;
+      }
+
+      const deadzone = 0.15;
+      const leftX = Math.abs(gp.axes[0]) > deadzone ? gp.axes[0] : 0;
+      const leftY = Math.abs(gp.axes[1]) > deadzone ? gp.axes[1] : 0;
+      const rightX = Math.abs(gp.axes[2]) > deadzone ? gp.axes[2] : 0;
+      const rightY = Math.abs(gp.axes[3]) > deadzone ? gp.axes[3] : 0;
+
+      growthSpeed = 1 + leftY * 3;
+      branchSpread = 0.5 + rightX;
+
+      if (gp.buttons[4] && gp.buttons[4].pressed) leafSize = Math.max(0.3, leafSize - 0.02);
+      if (gp.buttons[5] && gp.buttons[5].pressed) leafSize = Math.min(3, leafSize + 0.02);
+      if (gp.buttons[6]) treeHeight = Math.max(0.3, treeHeight - gp.buttons[6].value * 0.05);
+      if (gp.buttons[7]) treeHeight = Math.min(2.5, treeHeight + gp.buttons[7].value * 0.05);
+
+      if (gp.buttons[0] && gp.buttons[0].pressed && !prevButtons[0]) {
+        addBranch();
+      }
+
+      if (gp.buttons[1] && gp.buttons[1].pressed && !prevButtons[1]) {
+        const colors = ['#8B4513', '#654321', '#5D3A1A', '#4A3728', '#6B4423', '#3D2817'];
+        trunkColor = colors[Math.floor(Math.random() * colors.length)];
+      }
+
+      if (gp.buttons[2] && gp.buttons[2].pressed && !prevButtons[2]) {
+        const colors = ['#228B22', '#32CD32', '#FF6347', '#FFD700', '#FF69B4', '#9370DB', '#00CED1'];
+        leafColor = colors[Math.floor(Math.random() * colors.length)];
+      }
+
+      if (gp.buttons[3] && gp.buttons[3].pressed && !prevButtons[3]) {
+        branches.length = 0;
+        leafSize = 1;
+        treeHeight = 1;
+        trunkColor = '#8B4513';
+        leafColor = '#228B22';
+      }
+
+      prevButtons = {};
+      gp.buttons.forEach((b, i) => prevButtons[i] = b.pressed);
+
+      if (growthSpeed > 0 && branches.length < 50 && Math.random() < 0.02 * growthSpeed) {
+        addBranch();
+      }
+
+      branches.forEach(b => {
+        b.leafSize = leafSize;
+        b.leafColor = leafColor;
+      });
+
+      let statusText = `Buttons: A=branch B=trunk X=leaves Y=reset | Sticks: L=growth R=spread`;
+      statusText += ` | Triggers: LT/RT=height Bumpers=leaves`;
+      status.innerHTML = statusText.replace(/A/g, '<span style="color:#4ecdc4">A</span>')
+        .replace(/B=/g, '<span style="color:#4ecdc4">B</span>')
+        .replace(/X=/g, '<span style="color:#4ecdc4">X</span>')
+        .replace(/Y=/g, '<span style="color:#4ecdc4">Y</span>');
+    }
+
+    function gameLoop() {
+      handleGamepad();
+      drawTree();
+      requestAnimationFrame(gameLoop);
+    }
+
+    window.addEventListener('gamepadconnected', (e) => {
+      status.textContent = `Connected: ${e.gamepad.id.substring(0, 30)}...`;
+      status.style.color = '#4ecdc4';
+    });
+
+    window.addEventListener('gamepaddisconnected', () => {
+      status.textContent = 'Controller disconnected';
+      status.style.color = '#ff6b6b';
+      gamepadConnected = false;
+    });
+
+    gameLoop();
+  </script>
+</body>
+</html>
