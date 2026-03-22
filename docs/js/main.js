@@ -173,6 +173,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const volumeSlider = document.getElementById('volumeSlider');
 
     if (audio && playButton && volumeSlider) {
+        let hasPlayedBefore = false;
+
+        // Preserve initial button text if it's custom (e.g., "Listen to Zamrock")
+        const initialText = playButton.textContent;
+
         // Initialize volume
         audio.volume = volumeSlider.value / 100;
 
@@ -181,12 +186,13 @@ document.addEventListener('DOMContentLoaded', () => {
             if (audio.paused) {
                 audio.play().then(() => {
                     playButton.textContent = 'Stop';
+                    hasPlayedBefore = true;
                 }).catch(() => {
                     // handle errors if needed
                 });
             } else {
                 audio.pause();
-                playButton.textContent = 'Play';
+                playButton.textContent = hasPlayedBefore ? 'Resume' : initialText;
             }
         });
 
