@@ -1058,7 +1058,6 @@
             worldSeed = islands[islandId].seed;
             generateIsland(islandId);
             gameState = 'playing';
-            if (window.parent) window.parent.postMessage('gameStarted', '*');
         }
         
         function generateIsland(islandId) {
@@ -4153,6 +4152,7 @@
             gameState = 'playing';
             document.getElementById('menu').classList.remove('active');
             document.getElementById('settings').classList.remove('active');
+            if (window.parent) window.parent.postMessage('gameStarted', '*');
         }
         
         function startGameWithMusic() {
