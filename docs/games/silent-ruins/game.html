@@ -1589,9 +1589,9 @@
             audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         }
         
-        function ensureAudioContext() {
+        async function ensureAudioContext() {
             if (audioCtx && audioCtx.state === 'suspended') {
-                audioCtx.resume();
+                await audioCtx.resume();
             }
         }
         
