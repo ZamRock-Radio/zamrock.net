@@ -148,7 +148,7 @@
                 </div>
             </div>
             <button onclick="showDevMenu()">Dev Settings</button>
-            <button onclick="resumeGame()">Resume</button>
+            <button id="resumeBtn" onclick="resumeGame()" style="display:none">Resume</button>
             <button onclick="showSettings()">Controls</button>
             <button onclick="startIslandMap()">🗺️ Island Map</button>
             <button onclick="generateWorld(); resumeGame();">New World</button>
@@ -834,6 +834,7 @@
         let bindingMode = null;
 
         let gameState = 'menu';
+        let gameWasPlayed = false;
         let world = [];
         let camera = { x: 0, y: 0, offsetX: 0, offsetY: 0, shake: 0 };
         
@@ -4152,7 +4153,6 @@
             gameState = 'playing';
             document.getElementById('menu').classList.remove('active');
             document.getElementById('settings').classList.remove('active');
-            if (window.parent) window.parent.postMessage('gameStarted', '*');
         }
         
         function startGameWithMusic() {
@@ -4186,6 +4186,9 @@
                             loading.style.display = 'none';
                             generateWorld();
                             playMusicWithCrossfade(currentMusicTrack);
+                            gameWasPlayed = true;
+                            document.getElementById('resumeBtn').style.display = 'inline-block';
+                            if (window.parent) window.parent.postMessage('gameStarted', '*');
                             resumeGame();
                         }, 1500);
                     }).catch((e) => {
@@ -4193,6 +4196,9 @@
                         loading.style.display = 'none';
                         generateWorld();
                         playMusicWithCrossfade(currentMusicTrack);
+                        gameWasPlayed = true;
+                        document.getElementById('resumeBtn').style.display = 'inline-block';
+                        if (window.parent) window.parent.postMessage('gameStarted', '*');
                         resumeGame();
                     });
                 }, 800);
@@ -4201,6 +4207,9 @@
                 loading.style.display = 'none';
                 generateWorld();
                 playMusicWithCrossfade(currentMusicTrack);
+                gameWasPlayed = true;
+                document.getElementById('resumeBtn').style.display = 'inline-block';
+                if (window.parent) window.parent.postMessage('gameStarted', '*');
                 resumeGame();
             }
         }
