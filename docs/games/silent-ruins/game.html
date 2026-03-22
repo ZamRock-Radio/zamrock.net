@@ -316,8 +316,28 @@
         cosmicBg.onload = () => { bgLoaded = true; console.log('Cosmic bg loaded!'); };
         cosmicBg.onerror = () => { console.log('Cosmic bg failed to load'); };
         
-        canvas.width = 800;
-        canvas.height = 600;
+        canvas.width = 1200;
+        canvas.height = 900;
+
+        function resizeGame() {
+            const container = document.getElementById('gameContainer');
+            const aspect = 4 / 3;
+            canvas.width = 1200;
+            canvas.height = Math.round(1200 / aspect);
+            canvas.style.width = '100%';
+            canvas.style.height = 'auto';
+        }
+
+        window.addEventListener('message', (e) => {
+            if (e.data === 'resizeFullscreen') {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            } else if (e.data === 'resizeNormal') {
+                resizeGame();
+            }
+        });
+
+        resizeGame();
 
         const TILE_SIZE = 32;
         const WORLD_WIDTH = 200;
