@@ -123,6 +123,7 @@ export default {
 ### Frontend Code (already in index.html)
 
 The playcount is already set up in the site's `index.html` to call:
+
 - GET: `https://silent-ruins-playcnt.deathsmack-a51.workers.dev/` on page load
 - POST: Same URL when game starts
 
