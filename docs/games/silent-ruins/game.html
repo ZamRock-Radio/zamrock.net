@@ -1589,10 +1589,17 @@
             audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         }
         
+        function ensureAudioContext() {
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+        
         async function playSound(name, vol) {
             if (!soundEnabled) return;
             const path = soundConfig[name];
             if (!path) return;
+            ensureAudioContext();
             const finalVol = vol !== undefined ? vol : sfxVolume;
             
             const url = await loadSoundBlob('assets/audio/' + path);
@@ -1608,7 +1615,10 @@
             source.connect(gain);
             gain.connect(audioCtx.destination);
             source.start(0);
-            soundPool[name] = source;
+            soundPool[name] = {
+                pause: () => { try { source.stop(); } catch(e) {} },
+                source: source
+            };
         }
         
         async function playMusic(name) {
@@ -4156,6 +4166,7 @@
         }
         
         function startGameWithMusic() {
+            ensureAudioContext();
             playSound('menuSelect');
             const loading = document.getElementById('loading');
             const loadingBar = document.getElementById('loadingBar');
