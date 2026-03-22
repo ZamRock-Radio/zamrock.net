@@ -3,32 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Silent Ruins V(0.1.131-DEV)</title>
+    <title>Silent Ruins V(0.1.149-DEV)</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body {
-            background: #0a0a0f;
-            overflow: hidden;
-        }
         body {
+            background: #0a0a0f;
             display: flex;
             justify-content: center;
             align-items: center;
+            min-height: 100vh;
             font-family: 'Courier New', monospace;
             color: #8b9dc3;
-            height: 100vh;
-            width: 100%;
         }
         #gameContainer {
             position: relative;
-            width: 100%;
-            height: 100%;
         }
         canvas {
             display: block;
+            border: 3px solid #2a2a3a;
             image-rendering: pixelated;
-            width: 100%;
-            height: auto;
         }
         #ui {
             position: absolute;
@@ -143,10 +136,6 @@
         </div>
         
         <div id="badges"></div>
-        <div id="ui" style="display: flex; justify-content: space-between;">
-            <span id="fpsDisplay" style="color: #daa520;"></span>
-            <span id="version-display" style="color: #daa520; font-size: 12px;"></span>
-        </div>
         
         <div id="menu">
             <h1>SILENT RUINS</h1>
@@ -161,16 +150,17 @@
             <button onclick="showDevMenu()">Dev Settings</button>
             <button onclick="resumeGame()">Resume</button>
             <button onclick="showSettings()">Controls</button>
+            <button onclick="startIslandMap()">🗺️ Island Map</button>
             <button onclick="generateWorld(); resumeGame();">New World</button>
             <div style="background: rgba(0,0,0,0.4); padding: 10px; border-radius: 8px; margin: 10px 0; width: 90%; max-width: 300px;">
                 <div style="font-size: 11px; color: #daa520; margin-bottom: 5px;">SOUND</div>
                 <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px;">
                     <span style="font-size: 10px; color: #888; width: 30px;">SFX</span>
-                    <input type="range" id="menuSfxVol" min="0" max="120" value="50" oninput="setSfxVolume(this.value)" style="flex:1; accent-color: #daa520;">
+                    <input type="range" id="menuSfxVol" min="0" max="100" value="10" oninput="setSfxVolume(this.value)" style="flex:1; accent-color: #daa520;">
                 </div>
                 <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px;">
                     <span style="font-size: 10px; color: #888; width: 30px;">MUSIC</span>
-                    <input type="range" id="menuMusicVol" min="0" max="100" value="30" oninput="setMusicVolume(this.value)" style="flex:1; accent-color: #daa520;">
+                    <input type="range" id="menuMusicVol" min="0" max="100" value="25" oninput="setMusicVolume(this.value)" style="flex:1; accent-color: #daa520;">
                 </div>
                 <div style="font-size: 10px; color: #aaa; margin-top: 8px; margin-bottom: 3px;">Music:</div>
                 <div id="menuMusicSelect" style="display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 4px;"></div>
@@ -182,7 +172,7 @@
                 <button onclick="downloadProfile()" style="font-size: 14px; padding: 8px 15px;">📷 Profile</button>
                 <button onclick="showLeaderboard()" style="font-size: 14px; padding: 8px 15px;">🏆 Scores</button>
             </div>
-            <div style="margin-top: 15px; color: #666; font-size: 12px;">Version: <span id="version-display"></span></div>
+            <div style="margin-top: 15px; color: #666; font-size: 12px;">Version: <span id="menuVersion-display"></span></div>
         </div>
         
         <div id="leaderboardDisplay" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #1a1a2e; border: 2px solid #daa520; padding: 20px; z-index: 200; max-height: 400px; overflow-y: auto; min-width: 250px;"></div>
@@ -247,16 +237,10 @@
                     <button onclick="toggleSound()" id="soundToggleBtn" style="font-size: 10px; padding: 4px 8px;">SFX: ON</button>
                     <button onclick="toggleMusic()" id="musicToggleBtn" style="font-size: 10px; padding: 4px 8px;">Music: ON</button>
                 </div>
-                <div style="font-size: 11px; margin-bottom: 3px; color: #aaa;">SFX Volume: <span id="sfxVolVal">50</span>%</div>
-                <input type="range" id="sfxVolSlider" min="0" max="120" value="50" oninput="setSfxVolume(this.value)" style="width: 80%; accent-color: #daa520;">
-                <div style="font-size: 11px; margin-bottom: 3px; margin-top: 5px; color: #aaa;">Music Volume: <span id="musicVolVal">30</span>%</div>
-                <input type="range" id="musicVolSlider" min="0" max="100" value="30" oninput="setMusicVolume(this.value)" style="width: 80%; accent-color: #daa520;">
-                <div style="font-size: 11px; margin-bottom: 3px; margin-top: 5px; color: #aaa;">Walk Vol: <span id="walkVolVal">13</span></div>
-                <input type="range" id="walkVolSlider" min="5" max="15" value="13" oninput="setWalkVolume(this.value)" style="width: 80%; accent-color: #daa520;">
-                <div style="font-size: 11px; margin-bottom: 3px; margin-top: 5px; color: #aaa;">Jump Vol: <span id="jumpVolVal">10</span></div>
-                <input type="range" id="jumpVolSlider" min="5" max="15" value="10" oninput="setJumpVolume(this.value)" style="width: 80%; accent-color: #daa520;">
-                <div style="font-size: 11px; margin-bottom: 3px; margin-top: 5px; color: #aaa;">Fall Vol: <span id="fallVolVal">10</span></div>
-                <input type="range" id="fallVolSlider" min="5" max="15" value="10" oninput="setFallVolume(this.value)" style="width: 80%; accent-color: #daa520;">
+                <div style="font-size: 11px; margin-bottom: 3px; color: #aaa;">SFX Volume: <span id="sfxVolVal">10</span>%</div>
+                <input type="range" id="sfxVolSlider" min="0" max="100" value="10" oninput="setSfxVolume(this.value)" style="width: 80%; accent-color: #daa520;">
+                <div style="font-size: 11px; margin-bottom: 3px; margin-top: 5px; color: #aaa;">Music Volume: <span id="musicVolVal">25</span>%</div>
+                <input type="range" id="musicVolSlider" min="0" max="100" value="25" oninput="setMusicVolume(this.value)" style="width: 80%; accent-color: #daa520;">
                 <div style="font-size: 11px; margin-bottom: 3px; margin-top: 5px; color: #aaa;">Category:</div>
                 <div style="display: flex; flex-wrap: wrap; gap: 3px; margin-bottom: 6px;">
                     <button onclick="showSoundCat('menu')" id="soundCatMenu" style="font-size: 9px; padding: 3px 5px;">Menu</button>
@@ -265,6 +249,21 @@
                     <button onclick="showSoundCat('music')" id="soundCatMusic" style="font-size: 9px; padding: 3px 5px;">Music</button>
                 </div>
                 <div id="soundList" style="font-size: 10px; color: #ccc; max-height: 80px; overflow-y: auto;"></div>
+            </div>
+            <div style="border-top: 1px solid #444; padding-top: 8px; width: 90%;">
+                <div style="font-size: 12px; margin-bottom: 5px; color: #ccc;">World Gen:</div>
+                <div style="font-size: 10px; margin-bottom: 2px; color: #aaa;">Islands: <span id="genIslandsVal" style="color: #daa520;">18</span></div>
+                <input type="range" id="genIslandsSlider" min="5" max="30" value="18" oninput="setGenIslands(this.value)" style="width: 80%; accent-color: #daa520;">
+                <div style="font-size: 10px; margin-bottom: 2px; margin-top: 5px; color: #aaa;">Buildings: <span id="genBuildingsVal" style="color: #daa520;">15</span></div>
+                <input type="range" id="genBuildingsSlider" min="5" max="25" value="15" oninput="setGenBuildings(this.value)" style="width: 80%; accent-color: #daa520;">
+                <div style="font-size: 10px; margin-bottom: 2px; margin-top: 5px; color: #aaa;">Caves: <span id="genCavesVal" style="color: #daa520;">4</span></div>
+                <input type="range" id="genCavesSlider" min="0" max="10" value="4" oninput="setGenCaves(this.value)" style="width: 80%; accent-color: #daa520;">
+                <div style="font-size: 10px; margin-bottom: 2px; margin-top: 5px; color: #aaa;">Tunnels: <span id="genTunnelsVal" style="color: #daa520;">8</span></div>
+                <input type="range" id="genTunnelsSlider" min="0" max="15" value="8" oninput="setGenTunnels(this.value)" style="width: 80%; accent-color: #daa520;">
+                <div style="font-size: 10px; margin-bottom: 2px; margin-top: 5px; color: #aaa;">Pillars: <span id="genPillarsVal" style="color: #daa520;">10</span></div>
+                <input type="range" id="genPillarsSlider" min="0" max="20" value="10" oninput="setGenPillars(this.value)" style="width: 80%; accent-color: #daa520;">
+                <div style="font-size: 10px; margin-bottom: 2px; margin-top: 5px; color: #aaa;">Rubble: <span id="genRubbleVal" style="color: #daa520;">12</span></div>
+                <input type="range" id="genRubbleSlider" min="0" max="25" value="6" oninput="setGenRubble(this.value)" style="width: 80%; accent-color: #daa520;">
             </div>
             <div style="border-top: 1px solid #444; padding-top: 6px; display: flex; gap: 6px;">
                 <button onclick="generateWorld(Math.floor(Math.random()*999999))" style="font-size: 10px; padding: 4px 8px;">Random</button>
@@ -305,6 +304,7 @@
     <script>
         const canvas = document.getElementById('game');
         const ctx = canvas.getContext('2d');
+        const gp = { gpConnected: false, gpId: null };
         
         const cosmicBg = new Image();
         cosmicBg.src = 'assets/graphics/background/1-cosmic.jpg';
@@ -316,28 +316,8 @@
         cosmicBg.onload = () => { bgLoaded = true; console.log('Cosmic bg loaded!'); };
         cosmicBg.onerror = () => { console.log('Cosmic bg failed to load'); };
         
-        canvas.width = 1200;
-        canvas.height = 900;
-
-        function resizeGame() {
-            const container = document.getElementById('gameContainer');
-            const aspect = 4 / 3;
-            canvas.width = 1200;
-            canvas.height = Math.round(1200 / aspect);
-            canvas.style.width = '100%';
-            canvas.style.height = 'auto';
-        }
-
-        window.addEventListener('message', (e) => {
-            if (e.data === 'resizeFullscreen') {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            } else if (e.data === 'resizeNormal') {
-                resizeGame();
-            }
-        });
-
-        resizeGame();
+        canvas.width = 800;
+        canvas.height = 600;
 
         const TILE_SIZE = 32;
         const WORLD_WIDTH = 200;
@@ -347,9 +327,44 @@
             AIR: 0, GROUND: 1, PLATFORM: 2, RUINS_WALL: 3,
             MOSSY_STONE: 4, CRUMBLING_BRICK: 5, SPIKE: 6,
             VINE: 7, WATER: 8, DOOR: 9, LADDER: 10, FIREFLY: 11, CHECKPOINT: 12,
-            GRASS: 13, SAND: 14, EARTH: 15, STONE: 16, MUSHROOM: 17
+            GRASS: 13, SAND: 14, EARTH: 15, STONE: 16, MUSHROOM: 17,
+            BROKEN_STONE: 18, MOSSY_BRICK: 19, CRACKED_STONE: 20, ERODED_STONE: 21,
+            MOSS_PATCH: 22, RUBBLE: 23, COLUMN_BASE: 24,
+            SMOOTH_STONE: 25, MOTTLED_STONE: 26, VEINED_STONE: 27, WEATHERED_STONE: 28,
+            DARK_STONE: 29, PALE_STONE: 30, FLAGGED_STONE: 31
         };
-
+        
+        const BLOCK_CATEGORIES = {
+            ground: [BLOCKS.GROUND, BLOCKS.EARTH],
+            solid: [BLOCKS.STONE, BLOCKS.PLATFORM, BLOCKS.RUINS_WALL, BLOCKS.SMOOTH_STONE, BLOCKS.DARK_STONE, BLOCKS.PALE_STONE, BLOCKS.FLAGGED_STONE],
+            ruin: [BLOCKS.MOSSY_STONE, BLOCKS.BROKEN_STONE, BLOCKS.CRACKED_STONE, BLOCKS.ERODED_STONE, BLOCKS.MOTTLED_STONE, BLOCKS.VEINED_STONE, BLOCKS.WEATHERED_STONE],
+            mossy: [BLOCKS.MOSSY_BRICK, BLOCKS.MOSSY_STONE, BLOCKS.MOSS_PATCH],
+            debris: [BLOCKS.RUBBLE, BLOCKS.CRUMBLING_BRICK],
+            decorative: [BLOCKS.GRASS, BLOCKS.MUSHROOM]
+        };
+        
+        const BLOCK_PLACEMENT_RULES = {
+            [BLOCKS.GRASS]: {
+                requireBelow: [...BLOCK_CATEGORIES.solid, ...BLOCK_CATEGORIES.ruin],
+                requireAbove: [BLOCKS.AIR],
+                maxAboveGround: 1
+            },
+            [BLOCKS.MOSS_PATCH]: {
+                requireBelow: [...BLOCK_CATEGORIES.solid, ...BLOCK_CATEGORIES.ruin, ...BLOCK_CATEGORIES.mossy],
+                requireAbove: [BLOCKS.AIR],
+                maxAboveGround: 1
+            },
+            [BLOCKS.RUBBLE]: {
+                requireBelow: [...BLOCK_CATEGORIES.solid, ...BLOCK_CATEGORIES.ruin, BLOCKS.AIR],
+                requireAbove: [BLOCKS.AIR, ...BLOCK_CATEGORIES.debris],
+                maxAboveGround: 2
+            },
+            [BLOCKS.MOSSY_STONE]: {
+                requireBelow: [...BLOCK_CATEGORIES.solid],
+                onVertical: true
+            }
+        };
+        
         const BLOCK_COLORS = {
             [BLOCKS.GROUND]: '#3d2817', [BLOCKS.PLATFORM]: '#5a4a3a',
             [BLOCKS.RUINS_WALL]: '#4a4a5a', [BLOCKS.MOSSY_STONE]: '#3a5a3a',
@@ -358,8 +373,416 @@
             [BLOCKS.DOOR]: '#5a3a2a', [BLOCKS.LADDER]: '#4a3a2a',
             [BLOCKS.FIREFLY]: '#ffd700', [BLOCKS.CHECKPOINT]: '#20a0a0',
             [BLOCKS.GRASS]: '#3a6a2a', [BLOCKS.SAND]: '#c2a84a',
-            [BLOCKS.EARTH]: '#2a1a0a', [BLOCKS.STONE]: '#5a5a5a', [BLOCKS.MUSHROOM]: '#e74c3c'
+            [BLOCKS.EARTH]: '#2a1a0a', [BLOCKS.STONE]: '#5a5a5a', [BLOCKS.MUSHROOM]: '#e74c3c',
+            [BLOCKS.BROKEN_STONE]: '#5a5a6a', [BLOCKS.MOSSY_BRICK]: '#4a5a4a',
+            [BLOCKS.CRACKED_STONE]: '#6a6a6a', [BLOCKS.ERODED_STONE]: '#4a4a4a',
+            [BLOCKS.MOSS_PATCH]: '#3a6a2a', [BLOCKS.RUBBLE]: '#4a4a5a',
+            [BLOCKS.COLUMN_BASE]: '#5a5a6a',
+            [BLOCKS.SMOOTH_STONE]: '#6a6a7a', [BLOCKS.MOTTLED_STONE]: '#5a5a5a',
+            [BLOCKS.VEINED_STONE]: '#4a5a6a', [BLOCKS.WEATHERED_STONE]: '#5a5a65',
+            [BLOCKS.DARK_STONE]: '#3a3a4a', [BLOCKS.PALE_STONE]: '#7a7a8a',
+            [BLOCKS.FLAGGED_STONE]: '#5a5a6a'
         };
+
+        const STRUCTURE_TEMPLATES = {
+            pillarSingle: {
+                name: 'Single Pillar',
+                symbol: 'P',
+                width: 1, height: 6,
+                decay: [0, 1, 0.1, 0.2, 0.3, 0.5],
+                block: BLOCKS.RUINS_WALL
+            },
+            pillarDouble: {
+                name: 'Double Pillar',
+                symbol: 'D',
+                width: 2, height: 6,
+                decay: [0, 0, 1, 0.1, 0.2, 0.3, 0.4, 0.6],
+                block: BLOCKS.RUINS_WALL
+            },
+            ruinedColumn: {
+                name: 'Ruined Column',
+                symbol: 'C',
+                width: 3, height: 5,
+                pattern: [
+                    [1, 0, 1],
+                    [1, 0, 1],
+                    [1, 1, 1],
+                    [0, 1, 0],
+                    [1, 1, 1]
+                ],
+                block: BLOCKS.BROKEN_STONE,
+                mossy: true,
+                hole: 0
+            },
+            mossyColumn: {
+                name: 'Mossy Column',
+                symbol: 'M',
+                width: 3, height: 5,
+                pattern: [
+                    [1, 1, 1],
+                    [1, 0, 1],
+                    [1, 0, 1],
+                    [1, 0, 1],
+                    [1, 1, 1]
+                ],
+                block: BLOCKS.MOSSY_STONE,
+                hole: 0
+            },
+            arch: {
+                name: 'Archway',
+                symbol: 'A',
+                width: 5, height: 4,
+                pattern: [
+                    [1, 1, 0, 1, 1],
+                    [1, 1, 0, 1, 1],
+                    [1, 0, 0, 0, 1],
+                    [1, 0, 0, 0, 1]
+                ],
+                block: BLOCKS.RUINS_WALL,
+                hole: 0
+            },
+            brokenArch: {
+                name: 'Broken Arch',
+                symbol: 'B',
+                width: 5, height: 5,
+                pattern: [
+                    [0, 1, 0, 1, 0],
+                    [1, 0, 0, 0, 0],
+                    [1, 0, 0, 0, 0],
+                    [1, 0, 0, 0, 0],
+                    [1, 1, 1, 1, 1]
+                ],
+                block: BLOCKS.CRUMBLING_BRICK,
+                hole: 0
+            },
+            ruinedArch: {
+                name: 'Ruined Arch',
+                symbol: 'U',
+                width: 5, height: 5,
+                pattern: [
+                    [1, 0, 1, 0, 1],
+                    [0, 0, 0, 0, 0],
+                    [1, 0, 0, 0, 1],
+                    [1, 0, 0, 0, 1],
+                    [1, 1, 0, 1, 1]
+                ],
+                block: BLOCKS.BROKEN_STONE,
+                hole: 0
+            },
+            wallSection: {
+                name: 'Wall Section',
+                symbol: 'W',
+                width: 4, height: 3,
+                pattern: [
+                    [1, 1, 1, 1],
+                    [1, 1, 1, 1],
+                    [1, 1, 1, 1]
+                ],
+                block: BLOCKS.MOSSY_STONE,
+                hole: 0
+            },
+            brokenWall: {
+                name: 'Broken Wall',
+                symbol: 'w',
+                width: 4, height: 3,
+                pattern: [
+                    [1, 0, 1, 1],
+                    [1, 1, 0, 1],
+                    [0, 1, 1, 1]
+                ],
+                block: BLOCKS.BROKEN_STONE,
+                hole: 0
+            },
+            ruinedWall: {
+                name: 'Ruined Wall',
+                symbol: 'R',
+                width: 4, height: 3,
+                pattern: [
+                    [1, 1, 0, 1],
+                    [1, 0, 1, 1],
+                    [1, 1, 1, 0]
+                ],
+                block: BLOCKS.CRUMBLING_BRICK,
+                hole: 0
+            },
+            mossyWall: {
+                name: 'Mossy Wall',
+                symbol: 'm',
+                width: 4, height: 3,
+                pattern: [
+                    [1, 1, 1, 1],
+                    [1, 0, 0, 1],
+                    [1, 0, 0, 1]
+                ],
+                block: BLOCKS.MOSSY_BRICK,
+                hole: 0
+            },
+            staircaseSmall: {
+                name: 'Small Stairs',
+                symbol: 'S',
+                width: 3, height: 3,
+                pattern: [
+                    [0, 0, 1],
+                    [0, 1, 1],
+                    [1, 1, 1]
+                ],
+                block: BLOCKS.STONE,
+                hole: 0
+            },
+            crumbledStairs: {
+                name: 'Crumbled Stairs',
+                symbol: 's',
+                width: 4, height: 4,
+                pattern: [
+                    [0, 0, 0, 1],
+                    [0, 0, 1, 0],
+                    [0, 1, 1, 0],
+                    [1, 1, 0, 0]
+                ],
+                block: BLOCKS.CRACKED_STONE,
+                hole: 0
+            },
+            doorway: {
+                name: 'Doorway',
+                symbol: 'X',
+                width: 3, height: 4,
+                pattern: [
+                    [1, 1, 1],
+                    [1, 0, 1],
+                    [1, 0, 1],
+                    [1, 1, 1]
+                ],
+                block: BLOCKS.DOOR,
+                hole: 0
+            },
+            altar: {
+                name: 'Altar',
+                symbol: '!',
+                width: 3, height: 2,
+                pattern: [
+                    [0, 1, 0],
+                    [1, 1, 1]
+                ],
+                block: BLOCKS.STONE,
+                hole: 0
+            },
+            overgrownAltar: {
+                name: 'Overgrown Altar',
+                symbol: '?',
+                width: 3, height: 2,
+                pattern: [
+                    [1, 1, 1],
+                    [1, 1, 1]
+                ],
+                block: BLOCKS.MOSSY_STONE,
+                mossy: true,
+                hole: 0
+            },
+            rubblePile: {
+                name: 'Rubble Pile',
+                symbol: 'r',
+                width: 3, height: 2,
+                pattern: [
+                    [1, 1, 1],
+                    [0, 1, 0]
+                ],
+                block: BLOCKS.RUBBLE,
+                hole: 0
+            },
+            columnBase: {
+                name: 'Column Base',
+                symbol: 'b',
+                width: 3, height: 2,
+                pattern: [
+                    [1, 1, 1],
+                    [1, 1, 1]
+                ],
+                block: BLOCKS.COLUMN_BASE,
+                hole: 0
+            },
+            collapsedFloor: {
+                name: 'Collapsed Floor',
+                symbol: 'f',
+                width: 4, height: 3,
+                pattern: [
+                    [1, 1, 1, 1],
+                    [0, 1, 1, 0],
+                    [1, 0, 0, 1]
+                ],
+                block: BLOCKS.ERODED_STONE,
+                hole: 0
+            },
+            mossCorner: {
+                name: 'Mossy Corner',
+                symbol: 'c',
+                width: 3, height: 3,
+                pattern: [
+                    [1, 1, 0],
+                    [1, 0, 0],
+                    [1, 0, 0]
+                ],
+                block: BLOCKS.MOSSY_STONE,
+                hole: 0
+            },
+            steppedRuin: {
+                name: 'Stepped Ruin',
+                symbol: 't',
+                width: 5, height: 4,
+                pattern: [
+                    [0, 0, 1, 1, 1],
+                    [0, 1, 1, 1, 0],
+                    [1, 1, 1, 0, 0],
+                    [1, 1, 0, 0, 0]
+                ],
+                block: BLOCKS.BROKEN_STONE,
+                hole: 0
+            }
+        };
+
+        function canPlaceBlock(blockType, worldX, worldY) {
+            const rule = BLOCK_PLACEMENT_RULES[blockType];
+            if (!rule) return true;
+            
+            const below = world[worldY + 1]?.[worldX];
+            const above = world[worldY - 1]?.[worldX];
+            const left = world[worldY]?.[worldX - 1];
+            const right = world[worldY]?.[worldX + 1];
+            
+            if (rule.requireBelow && !rule.requireBelow.includes(below)) {
+                return false;
+            }
+            if (rule.requireAbove && !rule.requireAbove.includes(above)) {
+                return false;
+            }
+            
+            if (rule.maxAboveGround !== undefined) {
+                let aboveGround = 0;
+                for (let y = worldY; y < WORLD_HEIGHT; y++) {
+                    if (BLOCK_CATEGORIES.solid.includes(world[y]?.[worldX]) || BLOCK_CATEGORIES.ruin.includes(world[y]?.[worldX])) break;
+                    aboveGround++;
+                }
+                if (aboveGround > rule.maxAboveGround) return false;
+            }
+            
+            if (rule.onVertical) {
+                const hasVerticalSupport = (left !== undefined && left !== BLOCKS.AIR) || 
+                                          (right !== undefined && right !== BLOCKS.AIR);
+                if (!hasVerticalSupport && below === BLOCKS.AIR) return false;
+            }
+            
+            return true;
+        }
+        
+        function getStoneVariant(decayLevel = 0) {
+            const baseStone = [BLOCKS.STONE, BLOCKS.SMOOTH_STONE, BLOCKS.MOTTLED_STONE, BLOCKS.VEINED_STONE, BLOCKS.WEATHERED_STONE, BLOCKS.DARK_STONE, BLOCKS.PALE_STONE, BLOCKS.FLAGGED_STONE];
+            const ruinedStone = [BLOCKS.BROKEN_STONE, BLOCKS.CRACKED_STONE, BLOCKS.ERODED_STONE];
+            
+            if (decayLevel > 0 && seededRandom() < decayLevel * 0.3) {
+                return ruinedStone[Math.floor(seededRandom() * ruinedStone.length)];
+            }
+            return baseStone[Math.floor(seededRandom() * baseStone.length)];
+        }
+        
+        function placeStructure(templateKey, worldX, worldY, decayLevel = 0) {
+            const template = STRUCTURE_TEMPLATES[templateKey];
+            if (!template) return;
+            
+            let blockType = template.block;
+            if (template.mossy && seededRandom() > 0.4) {
+                const mossyVariants = [BLOCKS.MOSSY_STONE, BLOCKS.MOSSY_BRICK, BLOCKS.MOSS_PATCH];
+                blockType = mossyVariants[Math.floor(seededRandom() * mossyVariants.length)];
+            }
+            
+            for (let dy = 0; dy < template.height; dy++) {
+                for (let dx = 0; dx < template.width; dx++) {
+                    const px = worldX + dx;
+                    const py = worldY + dy;
+                    
+                    if (px < 0 || px >= WORLD_WIDTH || py < 0 || py >= WORLD_HEIGHT) continue;
+                    
+                    let isBlock = false;
+                    let blockToPlace = blockType;
+                    
+                    if (template.pattern) {
+                        const patternY = dy;
+                        const patternX = dx;
+                        if (patternY < template.pattern.length && 
+                            patternX < template.pattern[patternY].length) {
+                            isBlock = template.pattern[patternY][patternX] !== template.hole;
+                        }
+                    } else if (template.decay) {
+                        const decayIdx = dy;
+                        if (decayIdx < template.decay.length) {
+                            isBlock = seededRandom() > template.decay[decayIdx];
+                        }
+                    }
+                    
+                    if (decayLevel > 0 && isBlock) {
+                        if (seededRandom() < (decayLevel * 0.2)) {
+                            blockToPlace = getStoneVariant(decayLevel);
+                        }
+                        if (seededRandom() < (decayLevel * 0.15)) {
+                            isBlock = false;
+                        }
+                    }
+                    
+                    if (isBlock) {
+                        if (seededRandom() > 0.5) {
+                            blockToPlace = getStoneVariant(decayLevel);
+                        }
+                        
+                        if (!template.skipRules && !canPlaceBlock(blockToPlace, px, py)) {
+                            continue;
+                        }
+                        
+                        world[py][px] = blockToPlace;
+                    }
+                }
+            }
+        }
+        
+        function placeRandomStructure(worldX, worldY, difficulty) {
+            const keys = Object.keys(STRUCTURE_TEMPLATES);
+            const availableStructures = keys.filter(k => {
+                if (k.includes('crumbledStairs') && difficulty < 2) return false;
+                if (k.includes('doorway') && difficulty < 3) return false;
+                if (k.includes('steppedRuin') && difficulty < 2) return false;
+                return true;
+            });
+            
+            const chosen = availableStructures[Math.floor(seededRandom() * availableStructures.length)];
+            const decayLevel = Math.min(difficulty, 5);
+            placeStructure(chosen, worldX, worldY, decayLevel);
+        }
+        
+        function placeStructureGroup(worldX, worldY, difficulty) {
+            const groupTypes = ['pillarGroup', 'wallSegment', 'ruinCluster', 'debrisField'];
+            const groupType = groupTypes[Math.floor(seededRandom() * groupTypes.length)];
+            
+            const baseX = worldX;
+            const baseY = worldY;
+            
+            if (groupType === 'pillarGroup') {
+                placeStructure('pillarSingle', baseX, baseY, difficulty);
+                if (seededRandom() > 0.4) placeStructure('pillarSingle', baseX + 2, baseY + seededRandom() * 2, difficulty);
+                if (seededRandom() > 0.6) placeStructure('pillarSingle', baseX - 2, baseY + seededRandom() * 3, difficulty);
+                placeStructure('columnBase', baseX - 1, baseY, Math.floor(difficulty / 2));
+            } else if (groupType === 'wallSegment') {
+                placeStructure('wallSection', baseX, baseY, difficulty);
+                if (seededRandom() > 0.5) placeStructure('mossCorner', baseX - 1, baseY + 2, Math.floor(difficulty / 2));
+                if (seededRandom() > 0.5) placeStructure('mossCorner', baseX + 3, baseY + 1, Math.floor(difficulty / 2));
+            } else if (groupType === 'ruinCluster') {
+                placeStructure('arch', baseX, baseY, Math.floor(difficulty / 2));
+                placeStructure('pillarSingle', baseX - 2, baseY + 2, difficulty);
+                placeStructure('pillarSingle', baseX + 4, baseY + 2, difficulty);
+                placeStructure('rubblePile', baseX, baseY + 4, 0);
+            } else if (groupType === 'debrisField') {
+                for (let i = 0; i < 4 + difficulty; i++) {
+                    placeStructure('rubblePile', baseX + Math.floor(seededRandom() * 5), baseY + Math.floor(seededRandom() * 3), 0);
+                }
+                placeStructure('collapsedFloor', baseX + 1, baseY, Math.floor(difficulty / 2));
+            }
+        }
 
         let keyBindings = {
             left: ['ArrowLeft', 'KeyA'],
@@ -394,6 +817,442 @@
         let gameState = 'menu';
         let world = [];
         let camera = { x: 0, y: 0, offsetX: 0, offsetY: 0, shake: 0 };
+        
+        // Island World Map System
+        let islands = [];
+        let currentIsland = 0;
+        let worldMapCamera = { x: 0, y: 0 };
+        let mapScale = 8;
+        
+        // Generate island map
+        function generateIslandMap() {
+            islands = [];
+            const numIslands = 12 + Math.floor(Math.random() * 8);
+            
+            for (let i = 0; i < numIslands; i++) {
+                const island = {
+                    id: i,
+                    name: generateIslandName(),
+                    x: 50 + Math.floor(Math.random() * 900),
+                    y: 50 + Math.floor(Math.random() * 600),
+                    size: 30 + Math.floor(Math.random() * 50),
+                    difficulty: Math.floor(Math.random() * 10),
+                    visited: i === 0,
+                    completed: false,
+                    seed: Math.floor(Math.random() * 1000000),
+                    connections: []
+                };
+                islands.push(island);
+            }
+            
+            // Create connections between nearby islands
+            for (let i = 0; i < islands.length; i++) {
+                for (let j = i + 1; j < islands.length; j++) {
+                    const dist = Math.hypot(islands[i].x - islands[j].x, islands[i].y - islands[j].y);
+                    if (dist < 200 && Math.random() > 0.3) {
+                        islands[i].connections.push(j);
+                        islands[j].connections.push(i);
+                    }
+                }
+                // Ensure at least one connection
+                if (islands[i].connections.length === 0 && i > 0) {
+                    islands[i].connections.push(0);
+                    islands[0].connections.push(i);
+                }
+            }
+        }
+        
+        function generateIslandName() {
+            const prefixes = ['Ancient', 'Forgotten', 'Lost', 'Mystic', 'Cursed', 'Sky', 'Cloud', 'Floating', 'Crystal', 'Shadow'];
+            const names = ['Temple', 'Ruins', 'Peak', 'Spire', 'Fortress', 'Gardens', 'Towers', 'Shrine', 'Citadel', 'Keep'];
+            return prefixes[Math.floor(Math.random() * prefixes.length)] + ' ' + names[Math.floor(Math.random() * names.length)];
+        }
+        
+        function drawWorldMap() {
+            ctx.fillStyle = '#0a0a15';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw stars
+            ctx.fillStyle = 'rgba(255,255,255,0.3)';
+            for (let i = 0; i < 100; i++) {
+                const sx = (i * 137 + worldSeed) % canvas.width;
+                const sy = (i * 97) % canvas.height;
+                ctx.fillRect(sx, sy, 1, 1);
+            }
+            
+            // Draw connections
+            ctx.strokeStyle = '#334';
+            ctx.lineWidth = 2;
+            for (const island of islands) {
+                for (const connId of island.connections) {
+                    const other = islands[connId];
+                    ctx.beginPath();
+                    ctx.moveTo(island.x, island.y);
+                    ctx.lineTo(other.x, other.y);
+                    ctx.stroke();
+                }
+            }
+            
+            // Draw islands
+            for (let i = 0; i < islands.length; i++) {
+                const island = islands[i];
+                
+                // Island glow for visited
+                if (island.visited) {
+                    ctx.fillStyle = 'rgba(100, 150, 200, 0.1)';
+                    ctx.beginPath();
+                    ctx.arc(island.x, island.y, island.size + 20, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                
+                // Island shape
+                const gradient = ctx.createRadialGradient(island.x, island.y, 0, island.x, island.y, island.size);
+                if (island.completed) {
+                    gradient.addColorStop(0, '#4a5a6a');
+                    gradient.addColorStop(1, '#2a3a4a');
+                } else if (island.visited) {
+                    gradient.addColorStop(0, '#6a7a8a');
+                    gradient.addColorStop(1, '#3a4a5a');
+                } else {
+                    gradient.addColorStop(0, '#5a6a7a');
+                    gradient.addColorStop(1, '#2a3a4a');
+                }
+                
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                // Organic island shape
+                for (let a = 0; a < Math.PI * 2; a += 0.2) {
+                    const r = island.size * (0.8 + Math.sin(a * 3 + i) * 0.2);
+                    const px = island.x + Math.cos(a) * r;
+                    const py = island.y + Math.sin(a) * r;
+                    if (a === 0) ctx.moveTo(px, py);
+                    else ctx.lineTo(px, py);
+                }
+                ctx.closePath();
+                ctx.fill();
+                
+                // Island border
+                ctx.strokeStyle = island.visited ? '#8ab' : '#456';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                
+                // Island number/icon
+                ctx.fillStyle = '#fff';
+                ctx.font = '14px monospace';
+                ctx.textAlign = 'center';
+                ctx.fillText(island.completed ? '✓' : (i + 1), island.x, island.y + 5);
+                
+                // Difficulty dots
+                const dotY = island.y + island.size + 15;
+                for (let d = 0; d < Math.min(island.difficulty, 5); d++) {
+                    ctx.fillStyle = d < 3 ? '#6a6' : d < 6 ? '#a6a' : '#a66';
+                    ctx.beginPath();
+                    ctx.arc(island.x - 10 + d * 8, dotY, 3, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+            
+            // Instructions
+            ctx.fillStyle = '#8b9dc3';
+            ctx.font = '14px monospace';
+            ctx.textAlign = 'center';
+            ctx.fillText('← → ↑ ↓ Move  |  ENTER/Space Select Island  |  ESC Back to Menu', canvas.width / 2, canvas.height - 20);
+            
+            // Current selection
+            if (currentIsland >= 0 && currentIsland < islands.length) {
+                const sel = islands[currentIsland];
+                ctx.fillStyle = '#daa520';
+                ctx.font = '16px monospace';
+                ctx.fillText(`${sel.name} (Island ${currentIsland + 1})`, canvas.width / 2, 30);
+            }
+        }
+        
+        function updateWorldMap(dt) {
+            const gp = getMenuGamepadInput();
+            const speed = 300 * dt;
+            
+            if (keys.ArrowLeft || gp.left) worldMapCamera.x -= speed;
+            if (keys.ArrowRight || gp.right) worldMapCamera.x += speed;
+            if (keys.ArrowUp || gp.up) worldMapCamera.y -= speed;
+            if (keys.ArrowDown || gp.down) worldMapCamera.y += speed;
+            
+            // Clamp camera
+            worldMapCamera.x = Math.max(0, Math.min(1000 - canvas.width / mapScale, worldMapCamera.x));
+            worldMapCamera.y = Math.max(0, Math.min(700 - canvas.height / mapScale, worldMapCamera.y));
+            
+            // Select island with Enter/Space
+            if ((keys.Enter || keys.Space || gp.a) && !mapKeyPressed) {
+                mapKeyPressed = true;
+                const mx = worldMapCamera.x + mouseX / mapScale;
+                const my = worldMapCamera.y + mouseY / mapScale;
+                
+                // Find clicked island
+                for (let i = 0; i < islands.length; i++) {
+                    const island = islands[i];
+                    const dist = Math.hypot(mx - island.x, my - island.y);
+                    if (dist < island.size) {
+                        // Can only visit connected islands or already visited
+                        if (island.visited || islands[currentIsland].connections.includes(i)) {
+                            visitIsland(i);
+                            break;
+                        }
+                    }
+                }
+            }
+            if (!keys.Enter && !keys.Space && !gp.a) mapKeyPressed = false;
+            
+            // Keyboard selection with arrow keys
+            if ((keys.ArrowLeft || keys.ArrowRight || keys.ArrowUp || keys.ArrowDown || gp.left || gp.right || gp.up || gp.down) && !mapNavPressed) {
+                mapNavPressed = true;
+                // Find nearest island in direction
+                const cur = islands[currentIsland];
+                let best = -1, bestDist = Infinity;
+                for (let i = 0; i < islands.length; i++) {
+                    if (i === currentIsland) continue;
+                    if (!islands[currentIsland].connections.includes(i) && !islands[i].visited) continue;
+                    const dist = Math.hypot(islands[i].x - cur.x, islands[i].y - cur.y);
+                    if (dist < bestDist) {
+                        bestDist = dist;
+                        best = i;
+                    }
+                }
+                if (best >= 0) currentIsland = best;
+            }
+            if (!keys.ArrowLeft && !keys.ArrowRight && !keys.ArrowUp && !keys.ArrowDown && !gp.left && !gp.right && !gp.up && !gp.down) mapNavPressed = false;
+            
+            // Escape to menu
+            if (keys.Escape && !mapEscPressed) {
+                mapEscPressed = true;
+                gameState = 'menu';
+                showMenu();
+            }
+            if (!keys.Escape) mapEscPressed = false;
+        }
+        
+        let mapKeyPressed = false;
+        let mapNavPressed = false;
+        let mapEscPressed = false;
+        
+        function visitIsland(islandId) {
+            currentIsland = islandId;
+            islands[islandId].visited = true;
+            worldSeed = islands[islandId].seed;
+            generateIsland(islandId);
+            gameState = 'playing';
+        }
+        
+        function generateIsland(islandId) {
+            const island = islands[islandId];
+            
+            world = [];
+            for (let y = 0; y < WORLD_HEIGHT; y++) {
+                world[y] = [];
+                for (let x = 0; x < WORLD_WIDTH; x++) {
+                    world[y][x] = BLOCKS.AIR;
+                }
+            }
+            
+            // Parkour-focused island generation
+            const difficulty = island.difficulty;
+            
+            // Create start platform
+            for (let x = 5; x < 15; x++) {
+                world[WORLD_HEIGHT - 8][x] = BLOCKS.STONE;
+                world[WORLD_HEIGHT - 9][x] = BLOCKS.STONE;
+            }
+            
+            // Create parkour course
+            let lastY = WORLD_HEIGHT - 10;
+            let lastX = 10;
+            
+            // Generate parkour path
+            for (let i = 0; i < 20 + difficulty * 2; i++) {
+                const gap = 3 + Math.floor(difficulty / 2) + Math.floor(seededRandom() * 3);
+                const drop = 2 + Math.floor(seededRandom() * (2 + difficulty / 3));
+                const direction = seededRandom() > 0.5 ? 1 : -1;
+                const platformWidth = Math.max(2, 5 - Math.floor(difficulty / 3) + Math.floor(seededRandom() * 3));
+                
+                lastX += direction * gap;
+                lastY += drop;
+                
+                if (lastX < 10) lastX = 10;
+                if (lastX > WORLD_WIDTH - 20) lastX = WORLD_WIDTH - 20;
+                if (lastY > WORLD_HEIGHT - 5) lastY = WORLD_HEIGHT - 5;
+                
+                // Create platform
+                const platformType = seededRandom() > 0.7 ? BLOCKS.PLATFORM : (seededRandom() > 0.5 ? BLOCKS.STONE : BLOCKS.RUINS_WALL);
+                for (let x = 0; x < platformWidth; x++) {
+                    const px = lastX + x;
+                    if (px > 0 && px < WORLD_WIDTH - 1) {
+                        world[lastY][px] = platformType;
+                        if (seededRandom() > 0.8) world[lastY - 1][px] = BLOCKS.MOSSY_STONE;
+                    }
+                }
+                
+                // Add decorative structures near platforms
+                if (difficulty >= 1 && seededRandom() > 0.4) {
+                    const structX = lastX + platformWidth + 1;
+                    const structY = lastY - 3;
+                    if (structX < WORLD_WIDTH - 5) {
+                        placeStructure(seededRandom() > 0.5 ? 'pillarSingle' : 'pillarDouble', structX, structY, Math.floor(difficulty / 2));
+                    }
+                }
+                
+                // Add wall sections at platform edges for visual interest
+                if (difficulty >= 2 && seededRandom() > 0.4) {
+                    const wallX = lastX - 1;
+                    const wallY = lastY - 2;
+                    placeStructure('wallSection', wallX, wallY, Math.floor(difficulty / 3));
+                }
+                
+                // Add small decorative elements
+                if (seededRandom() > 0.6) {
+                    const altarX = lastX + Math.floor(platformWidth / 2);
+                    const altarY = lastY;
+                    placeStructure('altar', altarX, altarY, 0);
+                }
+                
+                // Add challenges based on difficulty
+                if (difficulty > 2 && seededRandom() > 0.5) {
+                    // Wall jump section
+                    const wallHeight = 3 + Math.floor(seededRandom() * 3);
+                    for (let w = 0; w < wallHeight; w++) {
+                        if (lastX + platformWidth + 2 < WORLD_WIDTH - 1) {
+                            world[lastY - w - 1][lastX + platformWidth + 2] = BLOCKS.RUINS_WALL;
+                        }
+                    }
+                }
+                
+                if (difficulty > 4 && seededRandom() > 0.6) {
+                    // Moving platform placeholder (static for now, adds variety)
+                    const miniPlat = 1 + Math.floor(seededRandom() * 2);
+                    for (let m = 0; m < miniPlat; m++) {
+                        if (lastX + platformWidth + gap - m - 1 > 0 && lastX + platformWidth + gap - m - 1 < WORLD_WIDTH - 1) {
+                            world[lastY - 2][lastX + platformWidth + gap - m - 1] = BLOCKS.PLATFORM;
+                        }
+                    }
+                }
+                
+                // Add coins along path
+                if (seededRandom() > 0.7) {
+                    for (let c = 0; c < 3; c++) {
+                        const cx = lastX + Math.floor(platformWidth / 2) + (seededRandom() > 0.5 ? 1 : -1);
+                        const cy = lastY - 3 - c * 2;
+                        if (cx > 0 && cx < WORLD_WIDTH - 1 && cy > 0) {
+                            world[cy][cx] = BLOCKS.FIREFLY;
+                        }
+                    }
+                }
+            }
+            
+            // Create end/exit platform
+            const endX = lastX + (seededRandom() > 0.5 ? 10 : -10);
+            for (let x = 0; x < 8; x++) {
+                const ex = Math.max(5, Math.min(WORLD_WIDTH - 10, endX + x));
+                world[lastY][ex] = BLOCKS.STONE;
+            }
+            
+            // Add decorative pillars near start platform (always spawn)
+            const pillarBlocks = [BLOCKS.RUINS_WALL, BLOCKS.STONE, BLOCKS.BROKEN_STONE, BLOCKS.MOSSY_STONE, BLOCKS.CRACKED_STONE];
+            for (let i = 0; i < 5 + difficulty; i++) {
+                const px = 8 + Math.floor(seededRandom() * 25);
+                const height = 3 + Math.floor(seededRandom() * 6);
+                const pillarBlock = pillarBlocks[Math.floor(seededRandom() * pillarBlocks.length)];
+                for (let h = 0; h < height; h++) {
+                    if (world[WORLD_HEIGHT - 8 - h]?.[px] === BLOCKS.AIR) {
+                        world[WORLD_HEIGHT - 8 - h][px] = pillarBlock;
+                    }
+                }
+            }
+            
+            // Add structure groups in visible area
+            const groupCount = 4 + Math.floor(difficulty / 2);
+            for (let i = 0; i < groupCount; i++) {
+                const gx = 5 + Math.floor(seededRandom() * (WORLD_WIDTH - 20));
+                const gy = WORLD_HEIGHT - 16 + Math.floor(seededRandom() * 10);
+                placeStructureGroup(gx, gy, Math.floor(difficulty / 2));
+            }
+            
+            // Add rubble piles scattered around
+            for (let i = 0; i < 5 + difficulty * 2; i++) {
+                const rx = 3 + Math.floor(seededRandom() * (WORLD_WIDTH - 8));
+                const ry = WORLD_HEIGHT - 8 + Math.floor(seededRandom() * 2);
+                placeStructure('rubblePile', rx, ry, 0);
+            }
+            
+            // Add column bases and moss corners
+            for (let i = 0; i < 3 + difficulty; i++) {
+                const bx = 5 + Math.floor(seededRandom() * (WORLD_WIDTH - 12));
+                const by = WORLD_HEIGHT - 9;
+                placeStructure('columnBase', bx, by, Math.floor(difficulty / 3));
+                if (seededRandom() > 0.5) {
+                    placeStructure('mossCorner', bx + (seededRandom() > 0.5 ? 2 : -1), by + 1, Math.floor(difficulty / 3));
+                }
+            }
+            
+            // Add archways and ruins
+            const archCount = 2 + Math.floor(difficulty / 2);
+            for (let i = 0; i < archCount; i++) {
+                const ax = 6 + Math.floor(seededRandom() * (WORLD_WIDTH - 15));
+                const ay = WORLD_HEIGHT - 14 + Math.floor(seededRandom() * 5);
+                const archTypes = ['arch', 'brokenArch', 'ruinedArch'];
+                const archType = archTypes[Math.floor(seededRandom() * archTypes.length)];
+                placeStructure(archType, ax, ay, Math.floor(difficulty / 3));
+                if (seededRandom() > 0.5) {
+                    placeStructure('pillarSingle', ax - 2, ay + 3, difficulty);
+                    placeStructure('pillarSingle', ax + 5, ay + 3, difficulty);
+                }
+            }
+            
+            // Add stepped ruins for climbing
+            const stepCount = 2 + Math.floor(difficulty / 2);
+            for (let i = 0; i < stepCount; i++) {
+                const sx = 8 + Math.floor(seededRandom() * (WORLD_WIDTH - 20));
+                const sy = WORLD_HEIGHT - 16 + Math.floor(seededRandom() * 10);
+                placeStructure('steppedRuin', sx, sy, Math.floor(difficulty / 3));
+            }
+            
+            // Add crumbled stairs
+            if (difficulty >= 2) {
+                const stairCount = 1 + Math.floor(difficulty / 3);
+                for (let i = 0; i < stairCount; i++) {
+                    const stx = 10 + Math.floor(seededRandom() * (WORLD_WIDTH - 15));
+                    const sty = WORLD_HEIGHT - 12 + Math.floor(seededRandom() * 6);
+                    placeStructure('crumbledStairs', stx, sty, Math.floor(difficulty / 2));
+                }
+            }
+            
+            // Add floating platforms
+            for (let i = 0; i < 10 + difficulty * 2; i++) {
+                const fx = 5 + Math.floor(seededRandom() * (WORLD_WIDTH - 15));
+                const fy = 10 + Math.floor(seededRandom() * 40);
+                const fw = 2 + Math.floor(seededRandom() * 3);
+                for (let x = 0; x < fw; x++) {
+                    if (fx + x < WORLD_WIDTH - 1) {
+                        world[fy][fx + x] = seededRandom() > 0.6 ? BLOCKS.PLATFORM : BLOCKS.STONE;
+                    }
+                }
+            }
+            
+            // Add exit door
+            const exitX = Math.max(5, Math.min(WORLD_WIDTH - 10, endX + 3));
+            world[lastY - 1][exitX] = BLOCKS.DOOR;
+            world[lastY - 2][exitX] = BLOCKS.DOOR;
+            
+            // Set player start position
+            player.x = 10 * TILE_SIZE;
+            player.y = (WORLD_HEIGHT - 10) * TILE_SIZE;
+            player.vx = 0; player.vy = 0;
+            player.grounded = true;
+            camera.x = player.x - canvas.width / 2;
+            camera.y = player.y - canvas.height / 2;
+        }
+        
+        function completeIsland(islandId) {
+            if (islandId >= 0 && islandId < islands.length) {
+                islands[islandId].completed = true;
+            }
+        }
         
         const player = {
             x: WORLD_WIDTH * TILE_SIZE / 2, y: 0, vx: 0, vy: 0,
@@ -495,7 +1354,7 @@
             return JUMP_TYPES[currentJumpType].gravity;
         }
         
-        const GAME_VERSION = '0.1.131-DEV';
+        const GAME_VERSION = '0.1.149-DEV';
         
         const LIGHTING_TYPES = [
             { name: 'None', ambient: 0, playerRadius: 0, playerColor: 'rgba(255,250,220,0)', playerFalloff: 0.5 },
@@ -511,7 +1370,121 @@
             { name: 'Dawn', ambient: 0.1, playerRadius: 300, playerColor: 'rgba(255,180,130,0.2)', playerFalloff: 0.25 }
         ];
         
-        const musicTracks = ['bgMusic1', 'bgMusic2'];
+        const musicTracks = ['bgMusic1', 'bgMusic2', 'ambientMusic'];
+        
+        let ambientCtx = null;
+        let ambientNodes = [];
+        let ambientMasterGain = null;
+        let isAmbientPlaying = false;
+        let ambientIntervals = [];
+        
+        const PENTATONIC = [164.81, 196.00, 220.00, 261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 587.33];
+        const BASS_NOTES = [82.41, 98.00, 110.00, 82.41];
+        
+        function playAmbientMusic() {
+            if (isAmbientPlaying) return;
+            try {
+                ambientCtx = new (window.AudioContext || window.webkitAudioContext)();
+                if (ambientCtx.state === 'suspended') ambientCtx.resume();
+                ambientMasterGain = ambientCtx.createGain();
+                ambientMasterGain.gain.value = musicVolume * 0.35;
+                ambientMasterGain.connect(ambientCtx.destination);
+                
+                const delay = ambientCtx.createDelay();
+                delay.delayTime.value = 0.3;
+                const feedback = ambientCtx.createGain();
+                feedback.gain.value = 0.4;
+                const delayFilter = ambientCtx.createBiquadFilter();
+                delayFilter.type = 'lowpass';
+                delayFilter.frequency.value = 1500;
+                delay.connect(feedback);
+                feedback.connect(delayFilter);
+                delayFilter.connect(ambientMasterGain);
+                
+                const padGain = ambientCtx.createGain();
+                padGain.gain.value = 0.25;
+                padGain.connect(ambientMasterGain);
+                padGain.connect(delay);
+                
+                const pad1 = ambientCtx.createOscillator();
+                const pad2 = ambientCtx.createOscillator();
+                pad1.type = 'sine';
+                pad2.type = 'sine';
+                pad1.frequency.value = PENTATONIC[2];
+                pad2.frequency.value = PENTATONIC[4];
+                pad1.connect(padGain);
+                pad2.connect(padGain);
+                pad1.start();
+                pad2.start();
+                ambientNodes.push(pad1, pad2);
+                
+                const bassOsc = ambientCtx.createOscillator();
+                const bassGainNode = ambientCtx.createGain();
+                bassOsc.type = 'sine';
+                bassOsc.frequency.value = BASS_NOTES[0];
+                bassGainNode.gain.value = 0.35;
+                bassOsc.connect(bassGainNode);
+                bassGainNode.connect(ambientMasterGain);
+                bassOsc.start();
+                ambientNodes.push(bassOsc);
+                
+                let arpIndex = 0;
+                const arpInt = setInterval(() => {
+                    if (!isAmbientPlaying) return;
+                    const osc = ambientCtx.createOscillator();
+                    const noteGain = ambientCtx.createGain();
+                    const filter = ambientCtx.createBiquadFilter();
+                    osc.type = 'sine';
+                    osc.frequency.value = PENTATONIC[arpIndex % PENTATONIC.length];
+                    filter.type = 'lowpass';
+                    filter.frequency.value = 800;
+                    osc.connect(filter);
+                    filter.connect(noteGain);
+                    noteGain.connect(ambientMasterGain);
+                    noteGain.connect(delay);
+                    noteGain.gain.setValueAtTime(0, ambientCtx.currentTime);
+                    noteGain.gain.linearRampToValueAtTime(0.25, ambientCtx.currentTime + 0.8);
+                    noteGain.gain.linearRampToValueAtTime(0, ambientCtx.currentTime + 2.5);
+                    osc.start(ambientCtx.currentTime);
+                    osc.stop(ambientCtx.currentTime + 3);
+                    arpIndex++;
+                }, 1200);
+                ambientIntervals.push(arpInt);
+                
+                const shimmerInt = setInterval(() => {
+                    if (!isAmbientPlaying) return;
+                    if (Math.random() > 0.4) return;
+                    const osc = ambientCtx.createOscillator();
+                    const noteGain = ambientCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.value = PENTATONIC[7 + Math.floor(Math.random() * 3)] * 2;
+                    noteGain.gain.value = 0;
+                    osc.connect(noteGain);
+                    noteGain.connect(ambientMasterGain);
+                    noteGain.connect(delay);
+                    noteGain.gain.setValueAtTime(0, ambientCtx.currentTime);
+                    noteGain.gain.linearRampToValueAtTime(0.12, ambientCtx.currentTime + 0.3);
+                    noteGain.gain.linearRampToValueAtTime(0, ambientCtx.currentTime + 1.5);
+                    osc.start(ambientCtx.currentTime);
+                    osc.stop(ambientCtx.currentTime + 2);
+                }, 2500);
+                ambientIntervals.push(shimmerInt);
+                
+                isAmbientPlaying = true;
+            } catch(e) { console.error('Ambient music error:', e); }
+        }
+        
+        function stopAmbientMusic() {
+            if (!isAmbientPlaying) return;
+            ambientIntervals.forEach(i => clearInterval(i));
+            ambientIntervals = [];
+            ambientNodes.forEach(n => { try { n.stop(); } catch(e) {} });
+            ambientNodes = [];
+            if (ambientCtx) ambientCtx.close();
+            isAmbientPlaying = false;
+            ambientCtx = null;
+            ambientMasterGain = null;
+        }
         
         const SOUND_CATEGORIES = {
             menu: {
@@ -568,11 +1541,8 @@
         let loadedSounds = {};
         let soundEnabled = true;
         let musicEnabled = true;
-        let sfxVolume = 0.5;
-        let musicVolume = 0.3;
-        let walkVolume = 1.0;
-        let jumpVolume = 1.0;
-        let fallVolume = 1.0;
+        let sfxVolume = 0.10;
+        let musicVolume = 0.25;
         let soundCache = {};
         
         async function loadSoundBlob(path) {
@@ -633,60 +1603,100 @@
             for (const sound of Object.values(loadedSounds)) {
                 if (sound.loop) { sound.pause(); sound.currentTime = 0; }
             }
+            stopAmbientMusic();
         }
         
         let musicPlayCount = 0;
         let musicFadeInterval = null;
+        let currentFadeInterval = null;
         
         async function playMusicWithCrossfade(name) {
             if (!musicEnabled) return;
             
-            const path = soundConfig[name];
-            if (!path) return;
-            const url = await loadSoundBlob('assets/audio/' + path);
-            if (!url) return;
+            // Handle ambient music specially
+            if (name === 'ambientMusic') {
+                // Stop all regular music with fade
+                for (const key in loadedSounds) {
+                    const s = loadedSounds[key];
+                    if (s.loop && !s.paused) {
+                        fadeOutThenStop(s);
+                    }
+                }
+                stopAmbientMusic();
+                playAmbientMusic();
+                currentMusicTrack = name;
+                return;
+            }
             
-            // Stop any currently playing music first
+            // Stop ambient music first
+            stopAmbientMusic();
+            
+            // Check if this track is already playing
+            const existingMusic = loadedSounds[name];
+            if (existingMusic && !existingMusic.paused) {
+                // Same track playing, just update currentMusicTrack
+                currentMusicTrack = name;
+                return;
+            }
+            
+            // Fade out any playing music
             for (const key in loadedSounds) {
                 const s = loadedSounds[key];
                 if (s.loop && !s.paused) {
-                    s.pause();
-                    s.currentTime = 0;
+                    fadeOutThenStop(s);
                 }
             }
             
-            const music = new Audio(url);
-            music.loop = true;
-            music.volume = musicVolume;
-            music.play().catch(() => {});
-            loadedSounds[name] = music;
-            currentMusicTrack = name;
-            musicPlayCount = 0;
+            // Wait a bit for fade, then start new
+            setTimeout(async () => {
+                const path = soundConfig[name];
+                if (!path) return;
+                const url = await loadSoundBlob('assets/audio/' + path);
+                if (!url) return;
+                
+                const music = new Audio(url);
+                music.loop = true;
+                music.volume = 0;
+                music.play().catch(() => {});
+                loadedSounds[name] = music;
+                currentMusicTrack = name;
+                musicPlayCount = 0;
+                fadeInMusic(music);
+            }, 300);
         }
         
-        function crossfadeMusic(oldMusic, newMusic) {
-            if (musicFadeInterval) clearInterval(musicFadeInterval);
-            
-            newMusic.loop = true;
-            newMusic.volume = 0;
-            newMusic.play().catch(() => {});
-            
+        function fadeInMusic(music) {
+            if (currentFadeInterval) clearInterval(currentFadeInterval);
             let vol = 0;
-            musicFadeInterval = setInterval(() => {
-                vol += 0.05;
-                if (oldMusic) {
-                    oldMusic.volume = Math.max(0, musicVolume - vol);
-                }
-                newMusic.volume = Math.min(musicVolume, vol);
-                
+            currentFadeInterval = setInterval(() => {
+                vol += 0.03;
+                music.volume = Math.min(musicVolume, vol);
                 if (vol >= musicVolume) {
-                    clearInterval(musicFadeInterval);
-                    if (oldMusic) {
-                        oldMusic.pause();
-                        oldMusic.currentTime = 0;
-                    }
+                    clearInterval(currentFadeInterval);
+                    currentFadeInterval = null;
                 }
-            }, 100);
+            }, 50);
+        }
+        
+        function fadeOutThenStop(music) {
+            if (currentFadeInterval) clearInterval(currentFadeInterval);
+            let vol = music.volume;
+            currentFadeInterval = setInterval(() => {
+                vol -= 0.03;
+                music.volume = Math.max(0, vol);
+                if (vol <= 0) {
+                    clearInterval(currentFadeInterval);
+                    currentFadeInterval = null;
+                    music.pause();
+                    music.currentTime = 0;
+                }
+            }, 50);
+        }
+        
+        function updateAmbientVolume() {
+            if (ambientMasterGain) {
+                ambientMasterGain.gain.value = musicVolume * 0.35;
+            }
         }
         
         function checkMusicTransition() {
@@ -705,7 +1715,7 @@
             const container = document.getElementById('menuMusicSelect');
             if (!container) return;
             container.innerHTML = '';
-            const trackNames = ['Ambient', 'Chill', 'Enlighten'];
+            const trackNames = ['Ambient', 'Chill', 'Meditation'];
             for (let i = 0; i < musicTracks.length; i++) {
                 const track = musicTracks[i];
                 const isActive = currentMusicTrack === track;
@@ -756,6 +1766,36 @@
             console.log('Light Smooth:', lightSmooth);
         }
         
+        function setGenIslands(val) {
+            document.getElementById('genIslandsVal').textContent = val;
+            genIslands = parseInt(val);
+        }
+        
+        function setGenBuildings(val) {
+            document.getElementById('genBuildingsVal').textContent = val;
+            genBuildings = parseInt(val);
+        }
+        
+        function setGenCaves(val) {
+            document.getElementById('genCavesVal').textContent = val;
+            genCaves = parseInt(val);
+        }
+        
+        function setGenTunnels(val) {
+            document.getElementById('genTunnelsVal').textContent = val;
+            genTunnels = parseInt(val);
+        }
+        
+        function setGenPillars(val) {
+            document.getElementById('genPillarsVal').textContent = val;
+            genPillars = parseInt(val);
+        }
+        
+        function setGenRubble(val) {
+            document.getElementById('genRubbleVal').textContent = val;
+            genRubble = parseInt(val);
+        }
+        
         function toggleSound() {
             soundEnabled = !soundEnabled;
             document.getElementById('soundToggleBtn').textContent = soundEnabled ? 'SFX: ON' : 'SFX: OFF';
@@ -773,31 +1813,18 @@
         function setSfxVolume(val) {
             document.getElementById('sfxVolVal').textContent = val;
             sfxVolume = val / 100;
+            if (sfxVolume > 1) sfxVolume = 1;
             try { document.getElementById('menuSfxVol').value = val; } catch(e) {}
-            console.log('SFX Volume:', sfxVolume);
         }
         
         function setMusicVolume(val) {
             document.getElementById('musicVolVal').textContent = val;
             musicVolume = val / 100;
+            if (musicVolume > 1) musicVolume = 1;
             document.getElementById('menuMusicVol').value = val;
             const music = loadedSounds[currentMusicTrack];
             if (music) music.volume = musicVolume;
-        }
-        
-        function setWalkVolume(val) {
-            document.getElementById('walkVolVal').textContent = val;
-            walkVolume = val / 10;
-        }
-        
-        function setJumpVolume(val) {
-            document.getElementById('jumpVolVal').textContent = val;
-            jumpVolume = val / 10;
-        }
-        
-        function setFallVolume(val) {
-            document.getElementById('fallVolVal').textContent = val;
-            fallVolume = val / 10;
+            updateAmbientVolume();
         }
         
         let currentSoundCat = 'menu';
@@ -811,7 +1838,7 @@
             list.innerHTML = '';
             
             if (cat === 'music') {
-                const trackDisplayNames = { bgMusic1: 'Ambient', bgMusic2: 'Chill' };
+                const trackDisplayNames = { bgMusic1: 'Ambient', bgMusic2: 'Chill', ambientMusic: 'Meditation' };
                 for (const track of musicTracks) {
                     const isActive = currentMusicTrack === track;
                     const div = document.createElement('div');
@@ -932,9 +1959,11 @@
             BADGE: 100,
             JUMP: 5,
             WALK: 1,
-            WALL_SLIDE: 5,
-            FALL_DAMAGE_MIN: 5,
-            FALL_DAMAGE_MAX: 50
+            WALL_SLIDE: 1,
+            FALL_DAMAGE_MIN: 2,
+            FALL_DAMAGE_MAX: 15,
+            LEVEL_COMPLETE: 500,
+            COIN: 50
         };
         
         const LEVELS = [
@@ -1055,11 +2084,24 @@
         let scoreHistory = [];
         let scoreHistoryTimer = 0;
         
+        let scorePickupAnim = { active: false, timer: 0, scale: 1, color: '#50ff50' };
+        let scoreLossAnim = { active: false, timer: 0, scale: 1 };
+        
         function addScore(points, reason = 'unknown') {
             if (!Number.isFinite(points)) {
                 console.warn('Invalid points:', points, reason);
                 points = 0;
             }
+            
+            const isPickup = reason.includes('coin') || reason.includes('mushroom') || reason.includes('badge');
+            if (isPickup && points > 0) {
+                scorePickupAnim = { active: true, timer: 1, scale: 1, color: '#50ff50' };
+            }
+            
+            if (points < 0) {
+                scoreLossAnim = { active: true, timer: 1, scale: 1 };
+            }
+            
             // Don't allow negative scores
             if (gameData.score + points < 0) {
                 gameData.score = 0;
@@ -1087,12 +2129,18 @@
         }
         
         function saveLeaderboardEntry(name, score, level) {
+            if (score <= 0) return;
             const board = getLeaderboard();
             board.push({ name: name.substring(0, 15), score, level, date: new Date().toLocaleDateString() });
             board.sort((a, b) => b.score - a.score);
             const trimmed = board.slice(0, LEADERBOARD_SIZE);
             localStorage.setItem('silentRuins_leaderboard', JSON.stringify(trimmed));
             return trimmed;
+        }
+        
+        function autoSaveScore() {
+            const username = gameData.username || 'Player';
+            saveLeaderboardEntry(username, gameData.score, getLevelName());
         }
         
         function checkLeaderboard() {
@@ -1117,12 +2165,26 @@
                     </div>`;
                 });
             }
-            html += '<button onclick="closeLeaderboard()" style="margin-top: 10px; width: 100%;">Close</button>';
+            html += '<button onclick="clearLeaderboard()" style="margin-top: 10px; width: 100%; background: #4a2a2a; color: #daa520;">Clear Scores</button>';
+            html += '<button onclick="closeLeaderboard()" style="margin-top: 5px; width: 100%;">Close</button>';
             document.getElementById('leaderboardDisplay').innerHTML = html;
             document.getElementById('leaderboardDisplay').style.display = 'block';
         }
         
         function closeLeaderboard() {
+            document.getElementById('leaderboardDisplay').style.display = 'none';
+        }
+        
+        function clearLeaderboard() {
+            if (confirm('Clear all leaderboard scores and high score?')) {
+                localStorage.removeItem('silentRuins_leaderboard');
+                localStorage.removeItem('silentRuins_highScore');
+                gameData.highScore = 0;
+                showLeaderboard();
+            }
+        }
+        
+        function submitToLeaderboard() {
             document.getElementById('leaderboardDisplay').style.display = 'none';
         }
         
@@ -1528,6 +2590,173 @@
             return false;
         }
 
+        // World Generation Parameters
+        let genIslands = 12;
+        let genBuildings = 10;
+        let genCaves = 8;
+        let genTunnels = 12;
+        let genPillars = 15;
+        let genRubble = 20;
+        let genFloatingPlatforms = 25;
+        let genHangingVines = 10;
+        
+        // World zones (128 tiles high total)
+        const ZONE_SKY_TOP = 5;
+        const ZONE_SKY_BOTTOM = 40;
+        const ZONE_MIDDLE_TOP = 35;
+        const ZONE_MIDDLE_BOTTOM = 80;
+        const ZONE_DEEP_TOP = 75;
+        const ZONE_DEEP_BOTTOM = 115;
+        
+        // Helper: Check if position is near surface (has air above)
+        function isNearSurface(x, y) {
+            for (let check = 1; check <= 3; check++) {
+                if (y - check < 0) return true;
+                if (world[y - check]?.[x] === BLOCKS.AIR) return true;
+            }
+            return false;
+        }
+        
+        // Helper: Get surface height at x position
+        function getSurfaceY(x) {
+            for (let y = 0; y < WORLD_HEIGHT - 5; y++) {
+                if (world[y]?.[x] !== BLOCKS.AIR && isSolid(world[y]?.[x])) {
+                    return y;
+                }
+            }
+            return -1;
+        }
+        
+        // Helper: Place block with surface awareness (no grass underground)
+        function placeBlock(x, y, blockType) {
+            if (x < 1 || x >= WORLD_WIDTH - 1 || y < 1 || y >= WORLD_HEIGHT - 5) return;
+            if (world[y]?.[x] !== BLOCKS.AIR) return;
+            
+            // Surface-only blocks: GRASS, MOSSY_STONE (top layer decoration)
+            if (blockType === BLOCKS.GRASS || blockType === BLOCKS.MOSSY_STONE) {
+                if (!isNearSurface(x, y)) {
+                    blockType = BLOCKS.STONE; // Underground = stone instead
+                }
+            }
+            world[y][x] = blockType;
+        }
+        
+        // Create tunnel/corridor between two points
+        function createTunnel(x1, y1, x2, y2) {
+            let x = x1, y = y1;
+            const steps = Math.max(Math.abs(x2 - x1), Math.abs(y2 - y1)) * 2;
+            
+            for (let i = 0; i < steps; i++) {
+                // Carve tunnel
+                for (let w = -1; w <= 1; w++) {
+                    placeBlock(x, y + w, BLOCKS.AIR);
+                    placeBlock(x + 1, y + w, BLOCKS.AIR);
+                }
+                // Add ruins framing
+                if (seededRandom() > 0.5) {
+                    placeBlock(x, y - 2, seededRandom() > 0.5 ? BLOCKS.RUINS_WALL : BLOCKS.STONE);
+                }
+                if (seededRandom() > 0.5) {
+                    placeBlock(x, y + 2, seededRandom() > 0.5 ? BLOCKS.RUINS_WALL : BLOCKS.STONE);
+                }
+                
+                // Move towards target
+                if (seededRandom() > 0.5 && x !== x2) x += x < x2 ? 1 : -1;
+                if (seededRandom() > 0.5 && y !== y2) y += y < y2 ? 1 : -1;
+                else if (y !== y2) y += y < y2 ? 1 : -1;
+            }
+        }
+        
+        // Create pillar/column
+        function createPillar(x, y, height) {
+            for (let dy = 0; dy < height; dy++) {
+                placeBlock(x, y + dy, BLOCKS.RUINS_WALL);
+                if (seededRandom() > 0.4) placeBlock(x + 1, y + dy, BLOCKS.STONE);
+                // Broken pillar effect
+                if (dy > 2 && seededRandom() > 0.85) {
+                    for (let w = 0; w < 3; w++) {
+                        placeBlock(x + w, y + dy, seededRandom() > 0.5 ? BLOCKS.AIR : BLOCKS.CRUMBLING_BRICK);
+                    }
+                }
+            }
+            // Top decoration
+            if (seededRandom() > 0.3) {
+                placeBlock(x - 1, y, BLOCKS.STONE);
+                placeBlock(x + 2, y, BLOCKS.STONE);
+            }
+        }
+        
+        // Create rubble/debris pile
+        function createRubble(x, y) {
+            const size = 2 + Math.floor(seededRandom() * 4);
+            for (let i = 0; i < size * 2; i++) {
+                const rx = x + Math.floor(seededRandom() * size) - size / 2;
+                const ry = y + Math.floor(seededRandom() * 2);
+                const rubbleType = seededRandom() > 0.5 ? BLOCKS.CRUMBLING_BRICK : BLOCKS.STONE;
+                placeBlock(rx, ry, rubbleType);
+            }
+        }
+        
+        // Create cave system
+        function createCaveSystem(cx, cy, radius) {
+            for (let dy = -radius; dy <= radius; dy++) {
+                for (let dx = -radius; dx <= radius; dx++) {
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist <= radius) {
+                        const nx = cx + dx, ny = cy + dy;
+                        // Carve cave with noise
+                        const noise = seededRandom();
+                        if (noise > 0.2 && dist < radius * 0.7) {
+                            placeBlock(nx, ny, BLOCKS.AIR);
+                        } else if (noise > 0.5) {
+                            placeBlock(nx, ny, BLOCKS.STONE);
+                        }
+                    }
+                }
+            }
+            // Add stalactites
+            for (let i = 0; i < 3; i++) {
+                const sx = cx + Math.floor(seededRandom() * radius) - radius / 2;
+                const stalagtiteHeight = 2 + Math.floor(seededRandom() * 3);
+                for (let s = 0; s < stalagtiteHeight; s++) {
+                    placeBlock(sx, cy - radius + s, BLOCKS.STONE);
+                }
+            }
+        }
+        
+        // Create broken platform
+        function createBrokenPlatform(x, y, width) {
+            const gaps = 1 + Math.floor(seededRandom() * 2);
+            let placed = 0;
+            for (let dx = 0; dx < width; dx++) {
+                if (seededRandom() > 0.3 + (placed > 2 ? 0.3 : 0)) {
+                    const platformType = seededRandom() > 0.5 ? BLOCKS.PLATFORM : BLOCKS.CRUMBLING_BRICK;
+                    placeBlock(x + dx, y, platformType);
+                    placed++;
+                }
+            }
+        }
+        
+        // Create archway
+        function createArchway(x, y, width) {
+            const height = 3 + Math.floor(seededRandom() * 3);
+            // Walls on sides
+            for (let dy = 0; dy < height; dy++) {
+                placeBlock(x, y + dy, BLOCKS.RUINS_WALL);
+                placeBlock(x + width, y + dy, BLOCKS.RUINS_WALL);
+            }
+            // Top beam
+            for (let dx = 0; dx <= width; dx++) {
+                placeBlock(x + dx, y - 1, seededRandom() > 0.4 ? BLOCKS.STONE : BLOCKS.RUINS_WALL);
+            }
+            // Clear doorway
+            for (let dy = 0; dy < height; dy++) {
+                for (let dx = 1; dx < width; dx++) {
+                    placeBlock(x + dx, y + dy, BLOCKS.AIR);
+                }
+            }
+        }
+        
         function generateWorld(newSeed = null) {
             if (newSeed !== null) worldSeed = newSeed;
             else worldSeed = Math.floor(Math.random() * 1000000);
@@ -1548,31 +2777,113 @@
                 }
             }
 
-            for (let i = 0; i < 18; i++) {
+            // === ZONE 1: SKY (y: 5-40) ===
+            // Floating islands - scattered across sky
+            for (let i = 0; i < genIslands; i++) {
                 const cx = 10 + Math.floor(seededRandom() * (WORLD_WIDTH - 30));
-                const cy = 8 + Math.floor(seededRandom() * 30);
+                const cy = ZONE_SKY_TOP + Math.floor(seededRandom() * (ZONE_SKY_BOTTOM - ZONE_SKY_TOP - 10));
                 createBigFloatingIsland(cx, cy);
             }
             
-            for (let i = 0; i < 15; i++) {
+            // Floating platforms for jumping between islands
+            for (let i = 0; i < genFloatingPlatforms; i++) {
+                const x = 5 + Math.floor(seededRandom() * (WORLD_WIDTH - 20));
+                const y = ZONE_SKY_TOP + 5 + Math.floor(seededRandom() * (ZONE_SKY_BOTTOM - ZONE_SKY_TOP - 15));
+                const width = 2 + Math.floor(seededRandom() * 4);
+                createFloatingPlatform(x, y, width);
+            }
+            
+            // Vertical pillars connecting sky to middle
+            for (let i = 0; i < 8; i++) {
+                const x = 10 + Math.floor(seededRandom() * (WORLD_WIDTH - 30));
+                const height = 15 + Math.floor(seededRandom() * 25);
+                createPillar(x, ZONE_SKY_BOTTOM - 5, height);
+            }
+
+            // === ZONE 2: MIDDLE (y: 35-80) ===
+            // Ruined buildings and structures
+            for (let i = 0; i < genBuildings; i++) {
                 const x = Math.floor(seededRandom() * (WORLD_WIDTH - 20)) + 10;
-                const y = Math.floor(seededRandom() * 30) + 10;
+                const y = ZONE_MIDDLE_TOP + Math.floor(seededRandom() * (ZONE_MIDDLE_BOTTOM - ZONE_MIDDLE_TOP - 15));
                 createBuilding(x, y);
             }
             
-            for (let i = 0; i < 6; i++) {
+            // Wall jump towers (vertical challenges)
+            for (let i = 0; i < 10; i++) {
                 const x = Math.floor(seededRandom() * (WORLD_WIDTH - 30)) + 15;
-                const y = Math.floor(seededRandom() * 25) + 15;
+                const y = ZONE_MIDDLE_TOP + Math.floor(seededRandom() * 30);
                 createWallJumpSection(x, y);
             }
             
+            // Hanging platforms
+            for (let i = 0; i < genFloatingPlatforms / 2; i++) {
+                const x = 5 + Math.floor(seededRandom() * (WORLD_WIDTH - 20));
+                const y = ZONE_MIDDLE_TOP + Math.floor(seededRandom() * (ZONE_MIDDLE_BOTTOM - ZONE_MIDDLE_TOP - 10));
+                createFloatingPlatform(x, y, 2 + Math.floor(seededRandom() * 3));
+            }
+            
+            // Archways and ruins
+            for (let i = 0; i < 8; i++) {
+                const x = Math.floor(seededRandom() * (WORLD_WIDTH - 30)) + 15;
+                const y = ZONE_MIDDLE_TOP + Math.floor(seededRandom() * 30);
+                createArchway(x, y, 3 + Math.floor(seededRandom() * 3));
+            }
+            
+            // Broken platforms scattered throughout
+            for (let i = 0; i < 15; i++) {
+                const x = Math.floor(seededRandom() * (WORLD_WIDTH - 30)) + 15;
+                const y = ZONE_MIDDLE_TOP + Math.floor(seededRandom() * (ZONE_MIDDLE_BOTTOM - ZONE_MIDDLE_TOP - 5));
+                createBrokenPlatform(x, y, 4 + Math.floor(seededRandom() * 5));
+            }
+
+            // === ZONE 3: DEEP (y: 75-115) ===
+            // Cave systems with tunnels
+            for (let i = 0; i < genCaves; i++) {
+                const cx = 20 + Math.floor(seededRandom() * (WORLD_WIDTH - 60));
+                const cy = ZONE_DEEP_TOP + Math.floor(seededRandom() * 30);
+                const radius = 5 + Math.floor(seededRandom() * 8);
+                createCaveSystem(cx, cy, radius);
+            }
+            
+            // Connecting tunnels
+            for (let i = 0; i < genTunnels; i++) {
+                const x1 = 20 + Math.floor(seededRandom() * (WORLD_WIDTH - 60));
+                const y1 = ZONE_DEEP_TOP + Math.floor(seededRandom() * 25);
+                const x2 = 20 + Math.floor(seededRandom() * (WORLD_WIDTH - 60));
+                const y2 = ZONE_DEEP_TOP + 15 + Math.floor(seededRandom() * 25);
+                createTunnel(x1, y1, x2, y2);
+            }
+            
+            // Deep pillars
+            for (let i = 0; i < genPillars / 2; i++) {
+                const x = 10 + Math.floor(seededRandom() * (WORLD_WIDTH - 30));
+                const height = 10 + Math.floor(seededRandom() * 15);
+                createPillar(x, ZONE_DEEP_TOP, height);
+            }
+            
+            // Rubble and debris
+            for (let i = 0; i < genRubble; i++) {
+                const x = 10 + Math.floor(seededRandom() * (WORLD_WIDTH - 30));
+                const y = ZONE_DEEP_TOP + Math.floor(seededRandom() * 35);
+                createRubble(x, y);
+            }
+            
+            // Vertical connections between zones
+            for (let i = 0; i < 5; i++) {
+                const x = 15 + Math.floor(seededRandom() * (WORLD_WIDTH - 40));
+                createVerticalChimney(x, ZONE_SKY_BOTTOM - 10, 25 + Math.floor(seededRandom() * 20));
+            }
+
+            // Scatter coins/fireflies along parkour paths
             const solidBlocks = [BLOCKS.GROUND, BLOCKS.PLATFORM, BLOCKS.RUINS_WALL, BLOCKS.MOSSY_STONE, BLOCKS.CRUMBLING_BRICK, BLOCKS.GRASS, BLOCKS.SAND, BLOCKS.EARTH, BLOCKS.STONE];
             
             for (let x = 0; x < WORLD_WIDTH; x++) {
                 for (let y = 0; y < WORLD_HEIGHT - 4; y++) {
-                    if (world[y][x] === BLOCKS.AIR && seededRandom() > 0.97) world[y][x] = BLOCKS.FIREFLY;
+                    if (world[y][x] === BLOCKS.AIR && seededRandom() > 0.96) {
+                        world[y][x] = BLOCKS.FIREFLY;
+                    }
                     const hasBlockBelow = y > 0 && solidBlocks.includes(world[y+1]?.[x]);
-                    if (world[y][x] === BLOCKS.AIR && hasBlockBelow && seededRandom() > 0.97) {
+                    if (world[y][x] === BLOCKS.AIR && hasBlockBelow && seededRandom() > 0.96) {
                         world[y][x] = BLOCKS.MUSHROOM;
                         if (seededRandom() > 0.5 && x > 0 && world[y][x-1] === BLOCKS.AIR) world[y][x-1] = BLOCKS.MUSHROOM;
                         if (seededRandom() > 0.5 && x < WORLD_WIDTH-1 && world[y][x+1] === BLOCKS.AIR) world[y][x+1] = BLOCKS.MUSHROOM;
@@ -1585,6 +2896,37 @@
             player.vx = 0; player.vy = 0;
             camera.x = player.x - canvas.width / 2;
             camera.y = player.y - canvas.height / 2;
+        }
+        
+        function createFloatingPlatform(x, y, width) {
+            for (let dx = 0; dx < width; dx++) {
+                const px = x + dx;
+                if (px > 2 && px < WORLD_WIDTH - 2 && y > 2 && y < WORLD_HEIGHT - 3) {
+                    world[y][px] = seededRandom() > 0.4 ? BLOCKS.PLATFORM : BLOCKS.STONE;
+                    // Add support underneath
+                    if (seededRandom() > 0.5) {
+                        world[y + 1][px] = seededRandom() > 0.5 ? BLOCKS.RUINS_WALL : BLOCKS.MOSSY_STONE;
+                    }
+                }
+            }
+        }
+        
+        function createVerticalChimney(x, y, height) {
+            const width = 2 + Math.floor(seededRandom() * 2);
+            for (let dy = 0; dy < height; dy++) {
+                for (let w = 0; w < width; w++) {
+                    const nx = x + w;
+                    const ny = y + dy;
+                    if (nx > 2 && nx < WORLD_WIDTH - 2 && ny > 2 && ny < WORLD_HEIGHT - 3) {
+                        // Walls
+                        world[ny][nx] = BLOCKS.RUINS_WALL;
+                    }
+                }
+                // Clear center for passage
+                if (width >= 3 && y + dy > 2 && y + dy < WORLD_HEIGHT - 3) {
+                    world[y + dy][x + 1] = BLOCKS.AIR;
+                }
+            }
         }
 
         function createBigFloatingIsland(cx, cy) {
@@ -1804,6 +3146,29 @@
         function update(dt) {
             const gp = getGamepadInput();
             
+            if (scorePickupAnim.active) {
+                scorePickupAnim.timer -= dt;
+                scorePickupAnim.scale = 1 + Math.sin(scorePickupAnim.timer * Math.PI) * 0.4;
+                if (scorePickupAnim.timer <= 0) {
+                    scorePickupAnim.active = false;
+                    scorePickupAnim.scale = 1;
+                }
+            }
+            
+            if (scoreLossAnim.active) {
+                scoreLossAnim.timer -= dt;
+                scoreLossAnim.scale = 1 + Math.sin(scoreLossAnim.timer * Math.PI) * 0.4;
+                if (scoreLossAnim.timer <= 0) {
+                    scoreLossAnim.active = false;
+                    scoreLossAnim.scale = 1;
+                }
+            }
+            
+            if (gameState === 'worldmap') {
+                updateWorldMap(dt);
+                return;
+            }
+            
             if (gameState === 'menu' || gameState === 'settings' || gameState === 'devmenu') {
                 updateMenuNavigation(gp);
                 return;
@@ -1853,28 +3218,28 @@
                     dashDirX = 0;
                     dashDirY = -1;
                     player.dashTimer = getDashDuration() * 0.5;
-                    playSound('dashUp', walkVolume);
+                    playSound('dashUp');
                     lastScoreAction = 'UP_DASH';
                     addScore(POINTS.UPWARD_DASH, 'up_dash');
                 } else if (downPressed) {
                     dashDirX = 0;
                     dashDirY = 1;
                     player.dashTimer = getDashDuration() * 0.7;
-                    playSound('dashDown', walkVolume);
+                    playSound('dashDown');
                     lastScoreAction = 'DOWN_DASH';
                     addScore(POINTS.DOWNWARD_DASH, 'down_dash');
                 } else if (wantsDashRight || rightPressed) {
                     dashDirX = 1;
                     dashDirY = 0;
-                    playSound('dash', walkVolume);
+                    playSound('dash');
                     addScore(POINTS.DASH, 'dash_right');
                 } else if (wantsDashLeft || leftPressed) {
                     dashDirX = -1;
                     dashDirY = 0;
-                    playSound('dash', walkVolume);
+                    playSound('dash');
                     addScore(POINTS.DASH, 'dash_left');
                 } else {
-                    playSound('dash', walkVolume);
+                    playSound('dash');
                     addScore(POINTS.DASH, 'dash');
                 }
                 
@@ -1923,8 +3288,8 @@
             if (player.isSliding) {
                 player.slideTimer -= dt;
                 player.slidePenaltyTimer = (player.slidePenaltyTimer || 0) + dt;
-                if (player.slidePenaltyTimer > 0.5) {
-                    // TEMP DISABLED: addScore(-POINTS.SLIDE);
+                if (player.slidePenaltyTimer > 1) {
+                    addScore(-1, 'slide');
                     player.slidePenaltyTimer = 0;
                 }
                 if (player.slideTimer <= 0 || player.vx === 0) {
@@ -1953,14 +3318,14 @@
                             const dirtBlocks = [BLOCKS.GROUND, BLOCKS.EARTH, BLOCKS.SAND, BLOCKS.GRASS];
                             const stoneBlocks = [BLOCKS.STONE, BLOCKS.RUINS_WALL, BLOCKS.MOSSY_STONE, BLOCKS.CRUMBLING_BRICK];
                             if (dirtBlocks.includes(blockBelow)) {
-                                playSound('walkDirt', walkVolume);
+                                playSound('walkDirt');
                             } else if (stoneBlocks.includes(blockBelow)) {
-                                playSound('walkStone', walkVolume);
+                                playSound('walkStone');
                             } else {
-                                playSound('walkDirt', walkVolume);
+                                playSound('walkDirt');
                             }
                         } else {
-                            playSound('walkDirt', walkVolume);
+                            playSound('walkDirt');
                         }
                         player.walkTimer = 0;
                     }
@@ -2007,7 +3372,7 @@
             } else {
                 if (player.onWall && player.wallSlideTimer > maxWallSlide && player.wallSlideTimer > 0) {
                     const overTime = player.wallSlideTimer - maxWallSlide;
-                    const penalty = Math.floor(overTime / 1.0) * POINTS.WALL_SLIDE;
+                    const penalty = Math.floor(overTime / 2.0) * POINTS.WALL_SLIDE;
                     if (penalty > 0) {
                         addScore(-penalty, 'wall_fall');
                     }
@@ -2034,9 +3399,9 @@
                     gameData.wallJumps++;
                     player.wallJumpChain++;
                     const wallJumpMultiplier = Math.min(player.wallJumpChain, 5);
-                    const wallJumpPoints = POINTS.WALL_JUMP * wallJumpMultiplier;
-                    addScore(wallJumpPoints, 'wall_jump_x' + player.wallJumpChain);
-                    playSound('wallJump', jumpVolume);
+                    const wallJumpPenalty = Math.ceil(POINTS.WALL_JUMP * wallJumpMultiplier * 0.5);
+                    addScore(-wallJumpPenalty, 'wall_jump');
+                    playSound('wallJump');
                     player.jumpSoundCooldown = 0.15;
                     player.jumpPressed = true;
                     player.wallSlideTimer = 0;
@@ -2048,7 +3413,7 @@
                     gameData.totalJumps++;
                     
                     if (player.jumpCount === 1) {
-                        playSound('jump', jumpVolume);
+                        playSound('jump');
                         player.jumpSoundCooldown = 0.15;
                         if (player.grounded) {
                             player.jumpEffect = {
@@ -2068,7 +3433,7 @@
                             };
                         }
                     } else if (player.jumpCount === 2) {
-                        playSound('doubleJump', jumpVolume);
+                        playSound('doubleJump');
                         player.jumpSoundCooldown = 0.15;
                         if (player.grounded) {
                             player.jumpEffect = {
@@ -2088,7 +3453,7 @@
                             };
                         }
                     } else if (player.jumpCount >= 3) {
-                        playSound('tripleJump', jumpVolume);
+                        playSound('tripleJump');
                         player.jumpSoundCooldown = 0.15;
                         if (player.grounded) {
                             player.jumpEffect = {
@@ -2136,7 +3501,7 @@
                 }
                 const fallDist = player.y - player.fallStartY;
                 if (fallDist > 400 && !player.fallSoundPlayed) {
-                    playSound('fall', fallVolume);
+                    playSound('fall');
                     player.fallSoundPlayed = true;
                 }
             } else {
@@ -2155,8 +3520,8 @@
                     player.fallSoundPlaying = false;
                     
                     const fallDistance = player.y - player.fallStartY;
-                    if (fallDistance > 1000) {
-                        const fallDamage = Math.min(POINTS.FALL_DAMAGE_MAX, Math.max(POINTS.FALL_DAMAGE_MIN, Math.floor(fallDistance / 50)));
+                    if (fallDistance > 3000) {
+                        const fallDamage = Math.min(POINTS.FALL_DAMAGE_MAX, Math.floor(fallDistance / 500));
                         addScore(-fallDamage, 'fall_damage');
                     }
                     player.fallStartY = 0;
@@ -2191,9 +3556,15 @@
                 setTile(cx, cy, BLOCKS.AIR);
                 playSound('coin');
             }
+            if (getTile(cx, cy) === BLOCKS.DOOR) {
+                completeIsland(currentIsland);
+                addScore(POINTS.LEVEL_COMPLETE, 'island_complete');
+                gameState = 'worldmap';
+            }
 
             if (player.y > WORLD_HEIGHT * TILE_SIZE + 100) {
                 gameData.deaths++;
+                autoSaveScore();
                 player.x = findSpawnX() * TILE_SIZE;
                 player.y = findSpawnY() * TILE_SIZE;
                 player.vy = 0; player.jumpCount = 0; player.dashCooldown = 0;
@@ -2226,6 +3597,12 @@
 
         function render() {
             // console.log('Rendering...');
+            
+            if (gameState === 'worldmap') {
+                drawWorldMap();
+                return;
+            }
+            
             const shakeX = camera.shake * (Math.random() - 0.5) * 2;
             const shakeY = camera.shake * (Math.random() - 0.5) * 2;
             
@@ -2306,44 +3683,58 @@
             drawPlayer(shakeX, shakeY);
             drawLighting();
             
-            ctx.fillStyle = '#daa520';
-            ctx.font = '16px monospace';
-            ctx.fillText(`Score: ${gameData.score}`, 10, 30);
+            ctx.textAlign = 'left';
+            
+            if (scorePickupAnim.active) {
+                ctx.save();
+                const scale = scorePickupAnim.scale;
+                ctx.translate(15, 30);
+                ctx.scale(scale, scale);
+                ctx.fillStyle = scorePickupAnim.color;
+                ctx.font = 'bold 26px monospace';
+                ctx.fillText(`${gameData.score}`, 0, 0);
+                ctx.restore();
+            } else if (scoreLossAnim.active) {
+                ctx.save();
+                const scale = scoreLossAnim.scale;
+                ctx.translate(15, 30);
+                ctx.scale(scale, scale);
+                ctx.fillStyle = '#ff5050';
+                ctx.font = 'bold 26px monospace';
+                ctx.fillText(`${gameData.score}`, 0, 0);
+                ctx.restore();
+            } else {
+                ctx.fillStyle = '#daa520';
+                ctx.font = 'bold 18px monospace';
+                ctx.fillText(`${gameData.score}`, 15, 30);
+            }
+            
+            ctx.font = '12px monospace';
+            ctx.fillStyle = '#8b9dc3';
             const nextThreshold = getNextLevelThreshold();
             if (nextThreshold) {
-                ctx.fillText(`Next: ${nextThreshold - gameData.score} pts`, 10, 45);
+                ctx.fillText(`Next: ${nextThreshold}`, 15, 46);
             }
-            ctx.fillStyle = '#daa520';
-            ctx.fillText(`Level: ${getLevelName()} (${getMaxJumps()}J/${getMaxDashes()}D/WS:${getWallSlideDuration().toFixed(1)}s)`, 10, 60);
-            ctx.fillStyle = '#daa520';
-            ctx.fillText(`Fireflies: ${gameData.coins}`, 10, 80);
+            
             ctx.fillStyle = '#8b9dc3';
-            ctx.fillText(`Best: ${gameData.highScore}`, 10, 100);
-            ctx.fillText(`Seed: ${worldSeed}`, 10, 120);
-            ctx.fillText(`Jumps: ${gameData.totalJumps} | Dashes: ${gameData.totalDashes}`, 10, 140);
-            if (gp.gpConnected) {
-                ctx.fillStyle = '#00ff00';
-                ctx.font = '12px monospace';
-                ctx.fillText(`GP: ${gp.gpId?.substring(0, 30) || 'Connected'}`, 10, 160);
-            }
-            if (player.wallJumpChain > 1) {
-                ctx.fillStyle = '#ff6b6b';
-                ctx.fillText(`Wall Chain: x${player.wallJumpChain}`, 10, 160);
-            }
-            if (scoreHistoryTimer > 0) {
-                scoreHistoryTimer -= dt;
-                ctx.fillStyle = '#ff0000';
-                ctx.font = '14px monospace';
-                let y = canvas.height - 20;
-                scoreHistory.slice(-8).forEach(h => {
-                    const prefix = h.points > 0 ? '+' : '';
-                    ctx.fillText(`${prefix}${h.points} (${h.reason})`, 10, y);
-                    y -= 16;
-                });
-            }
-            ctx.fillStyle = '#ffff00';
-            ctx.font = '16px monospace';
-            ctx.fillText(`DEBUG: ${scoreDebug}`, 10, 30);
+            ctx.fillText(`Level: ${getLevelName()}`, 15, 62);
+            
+            ctx.fillStyle = '#daa520';
+            ctx.font = '14px monospace';
+            ctx.fillText(`Fireflies: ${gameData.coins}`, 15, 80);
+            
+            ctx.fillStyle = '#6a7a8a';
+            ctx.font = '11px monospace';
+            ctx.fillText(`Jumps: ${gameData.totalJumps} | Dashes: ${gameData.totalDashes}`, 15, 96);
+            
+            ctx.textAlign = 'right';
+            ctx.fillStyle = 'rgba(218, 165, 32, 0.5)';
+            ctx.font = '10px monospace';
+            ctx.fillText(`FPS: ${fps}`, canvas.width - 10, 20);
+            ctx.fillStyle = 'rgba(218, 165, 32, 0.4)';
+            ctx.fillText(`v${GAME_VERSION}`, canvas.width - 10, 34);
+            
+            ctx.textAlign = 'left';
         }
 
         function drawBackground() {
@@ -2392,6 +3783,118 @@
             if (tile === BLOCKS.PLATFORM) {
                 ctx.fillStyle = '#3a2a1a';
                 ctx.fillRect(x, y + 2, TILE_SIZE, 2);
+            }
+            if (tile === BLOCKS.BROKEN_STONE) {
+                ctx.fillStyle = 'rgba(0,0,0,0.25)';
+                ctx.fillRect(x + 8, y + 8, 12, 10);
+                ctx.fillRect(x + 2, y + 18, 8, 6);
+            }
+            if (tile === BLOCKS.MOSSY_BRICK) {
+                ctx.fillStyle = '#3a6a2a';
+                for (let i = 0; i < 4; i++) ctx.fillRect(x + 3 + (i * 8) % 22, y + 3 + (i * 6) % 20, 5, 5);
+                ctx.fillStyle = 'rgba(0,0,0,0.15)';
+                ctx.fillRect(x + 6, y + 12, 14, 8);
+            }
+            if (tile === BLOCKS.CRACKED_STONE) {
+                ctx.strokeStyle = 'rgba(0,0,0,0.4)';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(x + 4, y + 4);
+                ctx.lineTo(x + 16, y + 14);
+                ctx.lineTo(x + 12, y + 28);
+                ctx.moveTo(x + 16, y + 4);
+                ctx.lineTo(x + 22, y + 20);
+                ctx.stroke();
+            }
+            if (tile === BLOCKS.ERODED_STONE) {
+                ctx.fillStyle = 'rgba(0,0,0,0.2)';
+                ctx.fillRect(x + 3, y + 5, 8, 6);
+                ctx.fillRect(x + 18, y + 10, 10, 8);
+                ctx.fillRect(x + 8, y + 20, 12, 6);
+            }
+            if (tile === BLOCKS.SMOOTH_STONE) {
+                ctx.fillStyle = '#5a5a6a';
+                ctx.fillRect(x + 2, y + 2, 28, 26);
+            }
+            if (tile === BLOCKS.MOTTLED_STONE) {
+                ctx.fillStyle = '#4a4a5a';
+                ctx.fillRect(x + 4, y + 4, 12, 10);
+                ctx.fillStyle = '#6a6a6a';
+                ctx.fillRect(x + 18, y + 8, 10, 12);
+                ctx.fillStyle = '#5a5a5a';
+                ctx.fillRect(x + 6, y + 18, 14, 8);
+            }
+            if (tile === BLOCKS.VEINED_STONE) {
+                ctx.strokeStyle = '#3a4a5a';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(x + 4, y + 8);
+                ctx.bezierCurveTo(x + 16, y + 4, x + 20, y + 16, x + 28, y + 20);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(x + 8, y + 20);
+                ctx.bezierCurveTo(x + 14, y + 24, x + 18, y + 18, x + 24, y + 28);
+                ctx.stroke();
+            }
+            if (tile === BLOCKS.WEATHERED_STONE) {
+                ctx.fillStyle = 'rgba(0,0,0,0.15)';
+                ctx.fillRect(x + 2, y + 2, 28, 8);
+                ctx.fillRect(x + 20, y + 14, 8, 14);
+                ctx.fillStyle = '#4a4a55';
+                ctx.fillRect(x + 4, y + 24, 16, 6);
+            }
+            if (tile === BLOCKS.DARK_STONE) {
+                ctx.fillStyle = '#2a2a3a';
+                ctx.fillRect(x + 2, y + 2, 28, 28);
+                ctx.fillStyle = '#3a3a4a';
+                ctx.fillRect(x + 6, y + 6, 8, 8);
+                ctx.fillRect(x + 18, y + 16, 10, 10);
+            }
+            if (tile === BLOCKS.PALE_STONE) {
+                ctx.fillStyle = '#6a6a7a';
+                ctx.fillRect(x + 2, y + 2, 28, 28);
+                ctx.fillStyle = '#7a7a8a';
+                ctx.fillRect(x + 8, y + 8, 16, 16);
+                ctx.fillStyle = '#8a8a9a';
+                ctx.fillRect(x + 12, y + 12, 8, 8);
+            }
+            if (tile === BLOCKS.FLAGGED_STONE) {
+                ctx.fillStyle = '#4a4a5a';
+                ctx.fillRect(x + 2, y + 2, 12, 12);
+                ctx.fillRect(x + 18, y + 2, 12, 12);
+                ctx.fillRect(x + 2, y + 18, 12, 12);
+                ctx.fillRect(x + 18, y + 18, 12, 12);
+                ctx.fillStyle = '#5a5a6a';
+                ctx.fillRect(x + 14, y + 14, 4, 4);
+            }
+            if (tile === BLOCKS.RUBBLE) {
+                ctx.fillStyle = '#3a3a4a';
+                ctx.beginPath();
+                ctx.arc(x + 10, y + 16, 6, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = '#4a4a5a';
+                ctx.beginPath();
+                ctx.arc(x + 22, y + 14, 5, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = '#3a3a4a';
+                ctx.beginPath();
+                ctx.arc(x + 16, y + 22, 4, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            if (tile === BLOCKS.COLUMN_BASE) {
+                ctx.fillStyle = '#4a4a5a';
+                ctx.fillRect(x + 2, y + 22, 28, 8);
+                ctx.fillRect(x + 4, y + 18, 24, 6);
+            }
+            if (tile === BLOCKS.MOSS_PATCH) {
+                ctx.fillStyle = '#2a5a2a';
+                ctx.beginPath();
+                ctx.ellipse(x + 16, y + 16, 14, 10, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = '#3a6a3a';
+                ctx.beginPath();
+                ctx.ellipse(x + 12, y + 12, 6, 4, 0, 0, Math.PI * 2);
+                ctx.fill();
             }
             if (tile === BLOCKS.FIREFLY) {
                 const flicker = 0.6 + Math.sin(Date.now() / 300 + x + y) * 0.4;
@@ -2622,7 +4125,6 @@
             gameState = 'playing';
             document.getElementById('menu').classList.remove('active');
             document.getElementById('settings').classList.remove('active');
-            playMusicWithCrossfade(currentMusicTrack);
         }
         
         function startGameWithMusic() {
@@ -2654,14 +4156,14 @@
                         loadingText.textContent = 'Playing...';
                         setTimeout(() => {
                             loading.style.display = 'none';
-                            if (window.parent) window.parent.postMessage('gameStarted', '*');
+                            generateWorld();
                             playMusicWithCrossfade(currentMusicTrack);
                             resumeGame();
                         }, 1500);
                     }).catch((e) => {
                         console.log('Startup play error:', e);
                         loading.style.display = 'none';
-                        if (window.parent) window.parent.postMessage('gameStarted', '*');
+                        generateWorld();
                         playMusicWithCrossfade(currentMusicTrack);
                         resumeGame();
                     });
@@ -2669,7 +4171,7 @@
             } else {
                 console.log('No startup sound, going straight to music');
                 loading.style.display = 'none';
-                if (window.parent) window.parent.postMessage('gameStarted', '*');
+                generateWorld();
                 playMusicWithCrossfade(currentMusicTrack);
                 resumeGame();
             }
@@ -2698,6 +4200,12 @@
             setJumpType(currentJumpType);
             setDevLevelOverride(devLevelOverride);
             updateDevMenuSelection();
+        }
+        
+        function startIslandMap() {
+            generateIslandMap();
+            document.getElementById('menu').classList.remove('active');
+            gameState = 'worldmap';
         }
         
         function updateDevMenuSelection() {
@@ -2938,8 +4446,6 @@
                 fps = frameCount;
                 frameCount = 0;
                 fpsTime = 0;
-                console.log('FPS:', fps, '| Source:', isXDC ? 'XDC' : 'Index');
-                try { document.getElementById('fpsDisplay').textContent = 'FPS: ' + fps + ' (' + (isXDC ? 'XDC' : 'Index') + ')'; } catch(e) {}
             }
             
             if (gameState === 'playing') {
@@ -2951,14 +4457,21 @@
                 checkMusicTransition();
             }
             pollControllerForBinding();
+            const updateStart = performance.now();
             try { update(dt); } catch(e) { console.log('Update error:', e); }
+            const updateTime = performance.now() - updateStart;
+            const renderStart = performance.now();
             try { render(); } catch(e) { console.log('Render error:', e); }
+            const renderTime = performance.now() - renderStart;
+            if (updateTime > 20 || renderTime > 20) {
+                console.log('SLOW: update=' + updateTime.toFixed(1) + 'ms, render=' + renderTime.toFixed(1) + 'ms');
+            }
             requestAnimationFrame(gameLoop);
         }
 
         generateWorld();
         console.log('Game starting...');
-        document.getElementById('version-display').textContent = 'V(' + GAME_VERSION + ')';
+        document.getElementById('menuVersion-display').textContent = GAME_VERSION;
         document.getElementById('menu').classList.add('active');
         initSounds();
         initMenuMusicSelector();
