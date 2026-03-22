@@ -247,17 +247,42 @@
   
   <script src="../../js/main.js"></script>
   <script>
-    let playCount = parseInt(localStorage.getItem('silentRuinsPlays') || '0');
-    document.getElementById('playCount').textContent = 'Plays: ' + playCount;
+    const API_URL = 'https://silent-ruins-playcnt.deathsmack-a51.workers.dev/';
+    
+    async function getPlayCount() {
+      try {
+        const response = await fetch(API_URL);
+        const data = await response.json();
+        return data.count;
+      } catch (e) {
+        console.log('Failed to get count:', e);
+        return 0;
+      }
+    }
+    
+    async function incrementPlayCount() {
+      try {
+        await fetch(API_URL, { method: 'POST' });
+        const count = await getPlayCount();
+        document.getElementById('playCount').textContent = 'Plays: ' + count;
+      } catch (e) {
+        console.log('Failed to increment:', e);
+      }
+    }
+    
+    async function initPlayCount() {
+      const count = await getPlayCount();
+      document.getElementById('playCount').textContent = 'Plays: ' + count;
+    }
+    
+    initPlayCount();
     
     const iframe = document.getElementById('gameFrame');
     const container = document.getElementById('gameContainer');
     
     window.addEventListener('message', (e) => {
       if (e.data === 'gameStarted') {
-        playCount++;
-        localStorage.setItem('silentRuinsPlays', playCount.toString());
-        document.getElementById('playCount').textContent = 'Plays: ' + playCount;
+        incrementPlayCount();
       }
     });
     
