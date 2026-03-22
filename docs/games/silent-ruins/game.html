@@ -316,28 +316,8 @@
         cosmicBg.onload = () => { bgLoaded = true; console.log('Cosmic bg loaded!'); };
         cosmicBg.onerror = () => { console.log('Cosmic bg failed to load'); };
         
-        canvas.width = 1200;
-        canvas.height = 900;
-
-        function resizeGame() {
-            const container = document.getElementById('gameContainer');
-            const aspect = 4 / 3;
-            canvas.width = 1200;
-            canvas.height = Math.round(1200 / aspect);
-            canvas.style.width = '100%';
-            canvas.style.height = 'auto';
-        }
-
-        window.addEventListener('message', (e) => {
-            if (e.data === 'resizeFullscreen') {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            } else if (e.data === 'resizeNormal') {
-                resizeGame();
-            }
-        });
-
-        resizeGame();
+        canvas.width = 800;
+        canvas.height = 600;
 
         const TILE_SIZE = 32;
         const WORLD_WIDTH = 200;
@@ -1059,6 +1039,7 @@
             worldSeed = islands[islandId].seed;
             generateIsland(islandId);
             gameState = 'playing';
+            if (window.parent) window.parent.postMessage('gameStarted', '*');
         }
         
         function generateIsland(islandId) {
@@ -1513,7 +1494,7 @@
             },
             player: {
                 name: 'Player',
-                sounds: ['jump', 'doubleJump', 'tripleJump', 'land', 'dash', 'dashUp', 'dashDown', 'slide']
+                sounds: ['jump', 'doubleJump', 'tripleJump', 'land', 'dash', 'dashUp', 'dashDown', 'slide', 'wallJump', 'fall']
             },
             items: {
                 name: 'Items',
@@ -1580,11 +1561,13 @@
         }
         
         let soundPool = {};
+        let audioCtx = null;
         
         function initSounds() {
             for (const [name, path] of Object.entries(soundConfig)) {
                 loadSoundBlob('assets/audio/' + path).then(() => {});
             }
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         }
         
         async function playSound(name, vol) {
@@ -1593,17 +1576,20 @@
             if (!path) return;
             const finalVol = vol !== undefined ? vol : sfxVolume;
             
-            if (soundPool[name]) {
-                soundPool[name].pause();
-                soundPool[name].currentTime = 0;
-            }
-            
             const url = await loadSoundBlob('assets/audio/' + path);
             if (!url) return;
-            const sound = new Audio(url);
-            sound.volume = finalVol;
-            soundPool[name] = sound;
-            sound.play().catch(e => {});
+            
+            const response = await fetch(url);
+            const buffer = await response.arrayBuffer();
+            const decoded = await audioCtx.decodeAudioData(buffer);
+            const source = audioCtx.createBufferSource();
+            source.buffer = decoded;
+            const gain = audioCtx.createGain();
+            gain.gain.value = finalVol;
+            source.connect(gain);
+            gain.connect(audioCtx.destination);
+            source.start(0);
+            soundPool[name] = source;
         }
         
         async function playMusic(name) {
@@ -1988,15 +1974,15 @@
         
         const LEVELS = [
             { jumps: 1, dashes: 0, wallSlide: 0.3, name: 'Beginner', threshold: 0 },
-            { jumps: 2, dashes: 1, wallSlide: 0.4, name: 'Sprinter', threshold: 50 },
-            { jumps: 2, dashes: 1, wallSlide: 0.5, name: 'Runner', threshold: 150 },
-            { jumps: 2, dashes: 1, wallSlide: 0.7, name: 'Speed Demon', threshold: 300 },
-            { jumps: 2, dashes: 1, wallSlide: 1.0, name: 'Aerialist', threshold: 500 },
-            { jumps: 2, dashes: 2, wallSlide: 1.3, name: 'Cloud Walker', threshold: 750 },
-            { jumps: 2, dashes: 2, wallSlide: 1.6, name: 'Sky Dancer', threshold: 1050 },
-            { jumps: 3, dashes: 2, wallSlide: 2.0, name: 'Master Jumper', threshold: 1400 },
-            { jumps: 3, dashes: 3, wallSlide: 3.0, name: 'Acrobat', threshold: 1800 },
-            { jumps: 3, dashes: 3, wallSlide: 5.0, name: 'Legend', threshold: 2250 }
+            { jumps: 2, dashes: 1, wallSlide: 0.4, name: 'Sprinter', threshold: 1000 },
+            { jumps: 2, dashes: 1, wallSlide: 0.5, name: 'Runner', threshold: 2500 },
+            { jumps: 2, dashes: 1, wallSlide: 0.7, name: 'Speed Demon', threshold: 5500 },
+            { jumps: 2, dashes: 1, wallSlide: 1.0, name: 'Aerialist', threshold: 12000 },
+            { jumps: 2, dashes: 2, wallSlide: 1.3, name: 'Cloud Walker', threshold: 22000 },
+            { jumps: 2, dashes: 2, wallSlide: 1.6, name: 'Sky Dancer', threshold: 32000 },
+            { jumps: 3, dashes: 2, wallSlide: 2.0, name: 'Master Jumper', threshold: 42000 },
+            { jumps: 3, dashes: 3, wallSlide: 3.0, name: 'Acrobat', threshold: 47000 },
+            { jumps: 3, dashes: 3, wallSlide: 5.0, name: 'Legend', threshold: 50000 }
         ];
         
         function getCurrentLevel() {
@@ -2120,6 +2106,7 @@
             
             if (points < 0) {
                 scoreLossAnim = { active: true, timer: 1, scale: 1 };
+                fetch(`/log?points=${points}&reason=${encodeURIComponent(reason)}&current=${gameData.score}`).catch(() => {});
             }
             
             // Don't allow negative scores
@@ -3419,9 +3406,9 @@
                     gameData.wallJumps++;
                     player.wallJumpChain++;
                     const wallJumpMultiplier = Math.min(player.wallJumpChain, 5);
-                    const wallJumpPenalty = Math.ceil(POINTS.WALL_JUMP * wallJumpMultiplier * 0.5);
+                    const wallJumpPenalty = Math.ceil(POINTS.WALL_JUMP * wallJumpMultiplier * 0.1);
                     addScore(-wallJumpPenalty, 'wall_jump');
-                    playSound('wallJump');
+                    playSound('wallJump', 1);
                     player.jumpSoundCooldown = 0.15;
                     player.jumpPressed = true;
                     player.wallSlideTimer = 0;
@@ -3518,10 +3505,11 @@
             if (!player.grounded && player.vy > 50 && !player.isDashing) {
                 if (player.fallStartY === 0 || player.y < player.fallStartY) {
                     player.fallStartY = player.y;
+                    player.fallDamageDealt = false;
                 }
                 const fallDist = player.y - player.fallStartY;
                 if (fallDist > 400 && !player.fallSoundPlayed) {
-                    playSound('fall');
+                    playSound('fall', 1);
                     player.fallSoundPlayed = true;
                 }
             } else {
@@ -3540,9 +3528,10 @@
                     player.fallSoundPlaying = false;
                     
                     const fallDistance = player.y - player.fallStartY;
-                    if (fallDistance > 3000) {
+                    if (fallDistance > 3000 && player.fallDamageDealt !== true) {
                         const fallDamage = Math.min(POINTS.FALL_DAMAGE_MAX, Math.floor(fallDistance / 500));
                         addScore(-fallDamage, 'fall_damage');
+                        player.fallDamageDealt = true;
                     }
                     player.fallStartY = 0;
                     
