@@ -69,5 +69,64 @@ git add -A && git commit -m "vX.X.XXX" && git push origin silent-ruins_vX.X.XXX
 
 ---
 
+## Playcount Cloudflare Worker Setup
+
+### Create KV Namespace
+
+1. Go to Cloudflare Dashboard → Workers & Pages → KV
+2. Click **Create a namespace**
+3. Name it `playercountKV` (or your choice)
+4. Click **Create**
+
+### Create Worker
+
+1. Workers & Pages → Create Application → Create Worker
+2. Name it `silent-ruins-playcnt`
+3. Add KV binding:
+   - Variable name: `playcnt`
+   - KV namespace: select `playercountKV`
+4. Save and Deploy
+
+### Worker Code
+
+```javascript
+export default {
+  async fetch(request, env, ctx) {
+    const corsHeaders = {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    };
+
+    if (request.method === 'OPTIONS') {
+      return new Response(null, { headers: corsHeaders });
+    }
+    
+    if (request.method === 'GET') {
+      const count = await env.playcnt.get('count') || '0';
+      return new Response(JSON.stringify({ count: Number(count) }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    } else if (request.method === 'POST') {
+      const current = Number(await env.playcnt.get('count') || '0');
+      const newCount = current + 1;
+      await env.playcnt.put('count', newCount.toString());
+      return new Response(JSON.stringify({ count: newCount }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+    return new Response('Method not allowed', { status: 405 });
+  }
+}
+```
+
+### Frontend Code (already in index.html)
+
+The playcount is already set up in the site's `index.html` to call:
+- GET: `https://silent-ruins-playcnt.deathsmack-a51.workers.dev/` on page load
+- POST: Same URL when game starts
+
+---
+
 *Last Updated: 2026-03-22*
 *Game Version: v0.1.150-DEV*
