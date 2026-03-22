@@ -4,15 +4,59 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Silent Ruins - ZamRock Games</title>
-  <link rel="icon" href="https://github.com/DeathSmack/zamrock/raw/main/graphics/favicon.gif" type="image/gif">
+  <link rel="icon" href="assets/graphics/favicon.gif" type="image/gif">
+  <link rel="canonical" href="https://zamrock.net/games/silent-ruins/">
   
-  <meta name="description" content="Play Silent Ruins - A retro platformer game from ZamRock Radio">
-  <meta name="keywords" content="ZamRock, Silent Ruins, Game, Platformer, Retro">
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="Silent Ruins - ZamRock Games">
+  <meta name="description" content="Explore ancient ruins, collect glowing fireflies, master wall jumps and dashes in this retro platformer. Currently in early development - free browser game from ZamRock Radio.">
+  <meta name="keywords" content="ZamRock, Silent Ruins, platformer game, retro game, wall jump, dash, firefly collecting, free browser game, early development">
   <meta name="author" content="ZamRock Radio">
+  <meta name="robots" content="index, follow">
   
-  <meta property="og:title" content="Silent Ruins - ZamRock Games">
-  <meta property="og:description" content="Explore ruins, collect fireflies, master wall jumps in this retro platformer">
+  <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://zamrock.net/games/silent-ruins/">
+  <meta property="og:title" content="Silent Ruins - A Retro Platformer Adventure (Early Development)">
+  <meta property="og:description" content="Explore ancient ruins, collect fireflies, master wall jumps and dashes. Early development free browser game by ZamRock Radio!">
+  <meta property="og:image" content="https://zamrock.net/games/silent-ruins/assets/graphics/app/embed-seo_001.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Silent Ruins - retro platformer game (early development)">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://zamrock.net/games/silent-ruins/">
+  <meta name="twitter:title" content="Silent Ruins - Retro Platformer (Early Development)">
+  <meta name="twitter:description" content="Explore ruins, collect fireflies, master wall jumps. Free early development browser game by ZamRock Radio!">
+  <meta name="twitter:image" content="https://zamrock.net/games/silent-ruins/assets/graphics/app/embed-seo_001.png">
+  <meta name="twitter:image:alt" content="Silent Ruins gameplay preview">
+  <meta name="theme-color" content="#daa520">
+  
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "VideoGame",
+    "name": "Silent Ruins",
+    "description": "Explore ancient ruins, collect glowing fireflies, master wall jumps and dashes. Currently in early development - free retro platformer by ZamRock Radio.",
+    "url": "https://zamrock.net/games/silent-ruins/",
+    "image": "https://zamrock.net/games/silent-ruins/assets/graphics/app/embed-seo_001.png",
+    "author": {
+      "@type": "Organization",
+      "name": "ZamRock Radio"
+    },
+    "genre": ["Platformer", "Retro", "Arcade"],
+    "gamePlatform": "Web Browser",
+    "applicationCategory": "Game",
+    "gameStatus": "InDevelopment",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
   
   <link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -157,24 +201,24 @@
   <div class="overlay"></div>
   <div class="container">
     <nav class="main-nav">
-      <a href="../schedule/" class="nav-btn">Schedule</a>
-      <a href="../news/" class="nav-btn">News</a>
-      <a href="../games/" class="nav-btn active">Games</a>
-      <a href="../contact/" class="nav-btn">Contact</a>
-      <a href="../about/" class="nav-btn">About</a>
+      <a href="../../schedule/" class="nav-btn">Schedule</a>
+      <a href="../../news/" class="nav-btn">News</a>
+      <a href="../../games/" class="nav-btn active">Games</a>
+      <a href="../../contact/" class="nav-btn">Contact</a>
+      <a href="../../about/" class="nav-btn">About</a>
     </nav>
     
     <div class="page-wrapper">
       <div class="radio-player">
         <audio id="radioStream" src="https://divine-paper-3624.deathsmack-a51.workers.dev/" crossorigin="anonymous"></audio>
-        <button id="playButton">Play</button>
+        <button id="playButton">&#9654; Listen to Zamrock</button>
         <input type="range" id="volumeSlider" min="0" max="100" value="50" style="width: 70px;" />
       </div>
       
       <div class="game-area">
         <div class="game-meta">
           <span id="playCount">Plays: 0</span>
-          <span>Site v0.0.26 | Game v0.1.131</span>
+          <span>Site v0.0.27 | Game v0.1.150</span>
         </div>
         
         <div class="game-container" id="gameContainer">
@@ -183,7 +227,7 @@
         
         <div class="btn-row">
           <button class="btn" onclick="toggleFullscreen()">Fullscreen</button>
-          <a href="../games/" class="btn">Back to Games</a>
+          <a href="/games/" class="btn">Back to Games</a>
         </div>
         
         <div class="game-info">
@@ -203,17 +247,43 @@
   
   <script src="../../js/main.js"></script>
   <script>
-    let playCount = parseInt(localStorage.getItem('silentRuinsPlays') || '0');
-    document.getElementById('playCount').textContent = 'Plays: ' + playCount;
+    const API_URL = 'https://silent-ruins-playcnt.deathsmack-a51.workers.dev/';
+    
+    async function getPlayCount() {
+      try {
+        const response = await fetch(API_URL);
+        const data = await response.json();
+        return data.count;
+      } catch (e) {
+        console.log('Failed to get count:', e);
+        return 0;
+      }
+    }
+    
+    async function incrementPlayCount() {
+      try {
+        await fetch(API_URL, { method: 'POST' });
+        const count = await getPlayCount();
+        document.getElementById('playCount').textContent = 'Plays: ' + count;
+      } catch (e) {
+        console.log('Failed to increment:', e);
+      }
+    }
+    
+    async function initPlayCount() {
+      const count = await getPlayCount();
+      console.log('Initial count:', count);
+      document.getElementById('playCount').textContent = 'Plays: ' + count;
+    }
+    
+    initPlayCount();
     
     const iframe = document.getElementById('gameFrame');
     const container = document.getElementById('gameContainer');
     
     window.addEventListener('message', (e) => {
       if (e.data === 'gameStarted') {
-        playCount++;
-        localStorage.setItem('silentRuinsPlays', playCount.toString());
-        document.getElementById('playCount').textContent = 'Plays: ' + playCount;
+        incrementPlayCount();
       }
     });
     

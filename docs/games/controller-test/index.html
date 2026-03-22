@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tree Growth v0.0.3</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { background: #1a1a2e; overflow: hidden; }
+    body { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; font-family: 'Courier New', monospace; color: #8b9dc3; }
+    canvas { border: 3px solid #4a4a6a; border-radius: 8px; image-rendering: pixelated; }
+    .info { margin-top: 15px; text-align: center; font-size: 14px; max-width: 700px; }
+    .info h2 { color: #daa520; margin-bottom: 10px; }
+    .status { margin-top: 10px; padding: 10px; background: #0a0a1a; border-radius: 5px; }
+  </style>
+</head>
+<body>
+  <canvas id="game" width="800" height="600"></canvas>
+  <div class="info">
+    <h2>Tree Growth v0.0.3</h2>
+    <div class="status" id="status">Connect controller...</div>
+    <p>LT/RT: grow | Sticks: shape | X: fork | Y: turn | LB: save | A: reset</p>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('game');
+    const ctx = canvas.getContext('2d');
+    const status = document.getElementById('status');
+
+    const W = 800, H = 600;
+    const groundY = 500;
+    const treeX = 400;
+
+    let connected = false;
+    let growth = 0;
+    const maxGrowth = 12;
+
+    let trunk = { height: 1, width: 1, hue: 28 };
+    let branches = { count: 6, spread: 1 };
+    let saplings = { count: 0, height: 1, spread: 1 };
+
+    let targets = {
+      trunk: { height: 1, width: 1, hue: 28 },
+      branches: { count: 6, spread: 1 },
+      saplings: { count: 0, height: 1, spread: 1 }
+    };
+
+    let area = 0;
+    const areaNames = ['TRUNK', 'BRANCHES', 'SAPLINGS'];
+    const saves = [];
+
+    const mainBranches = [];
+
+    function createBranch(parentAngle, depth, parentWidth) {
+      return {
+        angle: parentAngle + (Math.random() - 0.5) * 0.2,
+        depth: depth,
+        baseLen: 30 + Math.random() * 30,
+        len: 0,
+        baseWidth: parentWidth * 0.4,
+        width: 0,
+        curve: 0,
+        children: [],
+        growSpeed: 0.5 + Math.random() * 0.5,
+        progress: 0,
+        active: false,
+        forked: false,
+        turned: false
+      };
+    }
+
+    function initTree() {
+      mainBranches.length = 0;
+      for (let i = 0; i < branches.count; i++) {
+        const spread = (i - branches.count / 2) * 0.2 * branches.spread;
+        const angle = -Math.PI / 2 + spread;
+        mainBranches.push(createBranch(angle, 0, 24));
+      }
+    }
+
+    function forkBranches() {
+      mainBranches.forEach(b => {
+        if (b.progress > 0.5 && !b.forked && b.depth < 4) {
+          b.forked = true;
+          const off = 0.3 + Math.random() * 0.3;
+          b.children.push(createBranch(b.angle - off, b.depth + 1, b.baseWidth));
+          b.children.push(createBranch(b.angle + off, b.depth + 1, b.baseWidth));
+        }
+      });
+    }
+
+    function turnBranches() {
+      mainBranches.forEach(b => {
+        if (b.progress > 0.3 && !b.turned && b.depth < 4) {
+          b.turned = true;
+          b.curve = (Math.random() > 0.5 ? 1 : -1) * (0.3 + Math.random() * 0.4);
+        }
+      });
+    }
+
+    function growBranches() {
+      mainBranches.forEach(b => {
+        if (growth >= b.depth * 1.5) {
+          b.active = true;
+          b.progress += 0.02 * b.growSpeed;
+          b.progress = Math.min(1, b.progress);
+          b.len = b.baseLen * b.progress;
+          b.width = b.baseWidth * b.progress;
+        }
+        
+        b.children.forEach(c => {
+          if (c.progress < 1 && b.progress > 0.7) {
+            c.progress += 0.03 * c.growSpeed;
+            c.progress = Math.min(1, c.progress);
+            c.len = c.baseLen * c.progress;
+            c.width = c.baseWidth * c.progress;
+          }
+        });
+      });
+    }
+
+    function drawBranches() {
+      mainBranches.forEach(b => {
+        if (!b.active) return;
+        
+        const th = 120 * trunk.height;
+        let sx = treeX;
+        let sy = groundY - th + 20;
+        
+        if (b.depth > 0) {
+          const parent = mainBranches.find(p => p.children.includes(b));
+          if (parent) {
+            sx = treeX + Math.cos(parent.angle) * parent.len + (Math.random() - 0.5) * 5;
+            sy = groundY - th + 20 + Math.sin(parent.angle) * parent.len;
+          }
+        }
+        
+        const ex = sx + Math.cos(b.angle) * b.len + b.curve * 15;
+        const ey = sy + Math.sin(b.angle) * b.len;
+        const mx = sx + (ex - sx) * 0.5 + b.curve * 10;
+        const my = sy + (ey - sy) * 0.5;
+        
+        ctx.strokeStyle = `hsl(${trunk.hue}, 50%, ${30 - b.depth * 4}%)`;
+        ctx.lineWidth = Math.max(0.5, b.width * trunk.width);
+        ctx.beginPath();
+        ctx.moveTo(sx, sy);
+        ctx.quadraticCurveTo(mx, my, ex, ey);
+        ctx.stroke();
+        
+        b.children.forEach(c => {
+          if (c.progress <= 0) return;
+          
+          const csx = ex;
+          const csy = ey;
+          const cex = csx + Math.cos(c.angle) * c.len + c.curve * 10;
+          const cey = csy + Math.sin(c.angle) * c.len;
+          const cmx = csx + (cex - csx) * 0.5;
+          const cmy = csy + (cey - csy) * 0.5;
+          
+          ctx.strokeStyle = `hsl(${trunk.hue}, 50%, ${28 - c.depth * 5}%)`;
+          ctx.lineWidth = Math.max(0.5, c.width * trunk.width);
+          ctx.beginPath();
+          ctx.moveTo(csx, csy);
+          ctx.quadraticCurveTo(cmx, cmy, cex, cey);
+          ctx.stroke();
+        });
+      });
+    }
+
+    function save() {
+      saves.push({
+        growth,
+        trunk: { ...trunk },
+        branches: { ...branches },
+        saplings: { ...saplings },
+        area
+      });
+      if (saves.length > 30) saves.shift();
+      area = (area + 1) % 3;
+    }
+
+    function undo() {
+      if (saves.length > 1) {
+        saves.pop();
+        const s = saves[saves.length - 1];
+        Object.assign(trunk, s.trunk);
+        Object.assign(branches, s.branches);
+        Object.assign(saplings, s.saplings);
+        area = s.area;
+        growth = s.growth;
+        Object.assign(targets, { trunk: { ...trunk }, branches: { ...branches }, saplings: { ...saplings } });
+        initTree();
+      }
+    }
+
+    function reset() {
+      trunk = { height: 1, width: 1, hue: 28 };
+      branches = { count: 6, spread: 1 };
+      saplings = { count: 0, height: 1, spread: 1 };
+      Object.assign(targets, { trunk: { ...trunk }, branches: { ...branches }, saplings: { ...saplings } });
+      area = 0;
+      growth = 0;
+      saves.length = 0;
+      saves.push({ growth, trunk: { ...trunk }, branches: { ...branches }, saplings: { ...saplings }, area });
+      initTree();
+    }
+
+    function update() {
+      const lerp = 0.1;
+      trunk.height += (targets.trunk.height - trunk.height) * lerp;
+      trunk.width += (targets.trunk.width - trunk.width) * lerp;
+      trunk.hue += (targets.trunk.hue - trunk.hue) * lerp;
+      branches.spread += (targets.branches.spread - branches.spread) * lerp;
+      saplings.height += (targets.saplings.height - saplings.height) * lerp;
+      saplings.spread += (targets.saplings.spread - saplings.spread) * lerp;
+
+      if (Math.round(targets.branches.count) !== mainBranches.length) {
+        initTree();
+      }
+    }
+
+    function draw() {
+      ctx.fillStyle = '#1a1a2e';
+      ctx.fillRect(0, 0, W, H);
+      ctx.fillStyle = '#3d5c3d';
+      ctx.fillRect(0, groundY, W, H - groundY);
+
+      const th = 120 * trunk.height;
+      const tw = 24 * trunk.width;
+
+      ctx.fillStyle = `hsl(${trunk.hue}, 55%, 28%)`;
+      ctx.fillRect(treeX - tw / 2, groundY - th, tw, th);
+      ctx.fillStyle = `hsl(${trunk.hue}, 45%, 18%)`;
+      ctx.fillRect(treeX - tw / 2 - 5, groundY - 5, tw + 10, 8);
+
+      growBranches();
+      drawBranches();
+    }
+
+    let lastBtn = { x: false, y: false, lb: false };
+
+    function handle() {
+      const gamepads = navigator.getGamepads();
+      const gp = gamepads[0];
+
+      if (!gp) {
+        status.innerHTML = '<span style="color:#ff6b6b">Connect controller...</span>';
+        connected = false;
+        return;
+      }
+
+      if (!connected) {
+        status.innerHTML = '<span style="color:#4ecdc4">Connected!</span>';
+        connected = true;
+        saves.push({ growth, trunk: { ...trunk }, branches: { ...branches }, saplings: { ...saplings }, area });
+        initTree();
+      }
+
+      const dead = 0.2;
+      const lx = Math.abs(gp.axes[0]) > dead ? gp.axes[0] : 0;
+      const ly = Math.abs(gp.axes[1]) > dead ? gp.axes[1] : 0;
+      const rx = Math.abs(gp.axes[2]) > dead ? gp.axes[2] : 0;
+      const ry = Math.abs(gp.axes[3]) > dead ? gp.axes[3] : 0;
+
+      const lt = gp.buttons[6] ? gp.buttons[6].value : 0;
+      const rt = gp.buttons[7] ? gp.buttons[7].value : 0;
+
+      if (lt > 0.1) growth -= lt * 0.15;
+      if (rt > 0.1) growth += rt * 0.15;
+      growth = Math.max(0, Math.min(maxGrowth, growth));
+
+      const xPressed = gp.buttons[2] ? gp.buttons[2].pressed : false;
+      const yPressed = gp.buttons[3] ? gp.buttons[3].pressed : false;
+      const lbPressed = gp.buttons[4] ? gp.buttons[4].pressed : false;
+
+      if (xPressed && !lastBtn.x) forkBranches();
+      if (yPressed && !lastBtn.y) turnBranches();
+      if (lbPressed && !lastBtn.lb) save();
+      lastBtn.x = xPressed;
+      lastBtn.y = yPressed;
+      lastBtn.lb = lbPressed;
+
+      if (area === 0) {
+        targets.trunk.height = Math.max(0.3, Math.min(2.5, 1 - ly));
+        targets.trunk.width = Math.max(0.5, Math.min(2.5, 1 + lx));
+        targets.trunk.hue = Math.max(10, Math.min(45, 28 + rx * 15));
+      } else if (area === 1) {
+        targets.branches.count = Math.max(2, Math.min(16, 6 + lx * 5));
+        targets.branches.spread = Math.max(0.2, Math.min(2.5, 1 + ly));
+      } else if (area === 2) {
+        targets.saplings.count = Math.max(0, Math.min(10, Math.floor((lx + 1) * 5)));
+        targets.saplings.height = Math.max(0.3, Math.min(2.5, 1 - ly));
+      }
+
+      if (gp.buttons[5] && gp.buttons[5].pressed) undo();
+      if (gp.buttons[0] && gp.buttons[0].pressed) reset();
+
+      const colors = ['#4ecdc4', '#f39c12', '#9b59b6'];
+      status.innerHTML = `
+        <span style="color:${colors[area]}">[${areaNames[area]}]</span>
+        v0.0.3 | G:${growth.toFixed(1)} H:${trunk.height.toFixed(1)} B:${mainBranches.length}
+      `;
+    }
+
+    function loop() {
+      handle();
+      update();
+      draw();
+      requestAnimationFrame(loop);
+    }
+
+    saves.push({ growth, trunk: { ...trunk }, branches: { ...branches }, saplings: { ...saplings }, area });
+    initTree();
+    loop();
+  </script>
+</body>
+</html>
