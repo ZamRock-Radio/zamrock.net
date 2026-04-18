@@ -18,7 +18,7 @@ jobs:
       statuses: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Run GitHub Super Linter
         uses: github/super-linter/slim@v5
@@ -41,7 +41,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up FFmpeg
         run: |

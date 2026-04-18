@@ -158,6 +158,109 @@ function setRandomBackground () {
   img.src = randomImage
 }
 
+// Audio player state management
+const playerState = {
+  status: 'idle', // idle, playing, paused, error, reconnecting
+  reconnectAttempts: 0,
+  maxReconnectAttempts: 10,
+  baseReconnectDelay: 1000,
+  maxReconnectDelay: 30000,
+  reconnectTimer: null,
+  wasPlaying: false,
+  hasPlayedBefore: false,
+  initialText: 'Play'
+}
+
+function getReconnectDelay () {
+  const delay = playerState.baseReconnectDelay * Math.pow(2, playerState.reconnectAttempts)
+  return Math.min(delay, playerState.maxReconnectDelay)
+}
+
+function setPlayerStatus (status, button) {
+  playerState.status = status
+
+  if (!button) return
+
+  switch (status) {
+    case 'idle':
+      button.textContent = playerState.hasPlayedBefore ? 'Play' : playerState.initialText
+      button.disabled = false
+      break
+    case 'playing':
+      button.textContent = 'Stop'
+      button.disabled = false
+      break
+    case 'paused':
+      button.textContent = 'Resume'
+      button.disabled = false
+      break
+    case 'error':
+      button.textContent = 'Error - Tap to Retry'
+      button.disabled = false
+      playerState.reconnectAttempts = 0
+      break
+    case 'reconnecting':
+      button.textContent = 'Reconnecting...'
+      button.disabled = true
+      break
+  }
+}
+
+function reconnectStream (audio, button) {
+  if (playerState.reconnectAttempts >= playerState.maxReconnectAttempts) {
+    console.warn('Max reconnection attempts reached')
+    setPlayerStatus('error', button)
+    return
+  }
+
+  const delay = getReconnectDelay()
+  console.log(`Reconnecting in ${delay}ms (attempt ${playerState.reconnectAttempts + 1})`)
+
+  setPlayerStatus('reconnecting', button)
+
+  // Store the current source and try to reload
+  const currentSrc = audio.src
+
+  playerState.reconnectTimer = setTimeout(() => {
+    playerState.reconnectAttempts++
+
+    // Reset and try to play again
+    audio.src = ''
+    audio.src = currentSrc
+
+    audio.play().then(() => {
+      playerState.reconnectAttempts = 0
+      playerState.wasPlaying = true
+      playerState.hasPlayedBefore = true
+      setPlayerStatus('playing', button)
+    }).catch(() => {
+      // Will trigger error event, which will call reconnectStream again
+    })
+  }, delay)
+}
+
+function handlePlayerError (audio, button) {
+  console.warn('Player error:', audio.error)
+
+  // Cancel any pending reconnection
+  if (playerState.reconnectTimer) {
+    clearTimeout(playerState.reconnectTimer)
+    playerState.reconnectTimer = null
+  }
+
+  // If was playing, attempt to reconnect
+  if (playerState.wasPlaying) {
+    reconnectStream(audio, button)
+  } else {
+    setPlayerStatus('error', button)
+  }
+}
+
+function handlePlayerStalled (audio, button) {
+  console.warn('Player stalled, attempting to recover...')
+  audio.load()
+}
+
 // Initialize background rotation on page load
 document.addEventListener('DOMContentLoaded', () => {
   // Set initial background
@@ -176,26 +279,105 @@ document.addEventListener('DOMContentLoaded', () => {
   const volumeSlider = document.getElementById('volumeSlider')
 
   if (audio && playButton && volumeSlider) {
-    let hasPlayedBefore = false
-
-    // Preserve initial button text if it's custom (e.g., "Listen to Zamrock")
-    const initialText = playButton.textContent
+    // Store initial button text
+    playerState.initialText = playButton.textContent || 'Play'
 
     // Initialize volume
     audio.volume = volumeSlider.value / 100
 
+    // Listen for network online status
+    window.addEventListener('online', () => {
+      console.log('Network online, attempting to reconnect...')
+      if (playerState.wasPlaying || playerState.hasPlayedBefore) {
+        reconnectStream(audio, playButton)
+      }
+    })
+
+    // Listen for page visibility changes (user returns to tab)
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        console.log('Page visible, checking stream status...')
+        // Only reconnect if we were playing and stream is dead
+        if ((playerState.wasPlaying || playerState.hasPlayedBefore) && audio.paused && !playerState.reconnectTimer) {
+          audio.play().catch(() => {
+            handlePlayerError(audio, playButton)
+          })
+        }
+      }
+    })
+
+    // Player event listeners for error handling
+    audio.addEventListener('error', () => {
+      handlePlayerError(audio, playButton)
+    })
+
+    audio.addEventListener('stalled', () => {
+      handlePlayerStalled(audio, playButton)
+    })
+
+    audio.addEventListener('pause', () => {
+      // If we weren't explicitly pausing, this might be a stream drop
+      if (playerState.status === 'playing') {
+        console.warn('Stream paused unexpectedly')
+        playerState.wasPlaying = true
+        handlePlayerError(audio, playButton)
+      }
+    })
+
+    audio.addEventListener('playing', () => {
+      playerState.wasPlaying = true
+      playerState.hasPlayedBefore = true
+      playerState.reconnectAttempts = 0
+      setPlayerStatus('playing', playButton)
+    })
+
+    audio.addEventListener('ended', () => {
+      setPlayerStatus('paused', playButton)
+    })
+
     // Play/pause toggle
     playButton.addEventListener('click', () => {
-      if (audio.paused) {
+      const currentStatus = playerState.status
+
+      function doPlay (onSuccess) {
         audio.play().then(() => {
-          playButton.textContent = 'Stop'
-          hasPlayedBefore = true
+          playerState.wasPlaying = true
+          playerState.hasPlayedBefore = true
+          if (onSuccess) onSuccess()
+          setPlayerStatus('playing', playButton)
         }).catch(() => {
-          // handle errors if needed
+          if (currentStatus === 'reconnecting') {
+            setPlayerStatus('error', playButton)
+          } else {
+            handlePlayerError(audio, playButton)
+          }
         })
+      }
+
+      // If error or idle, try to play
+      if (currentStatus === 'error' || currentStatus === 'idle') {
+        playerState.reconnectAttempts = 0
+        doPlay()
+        return
+      }
+
+      // If reconnecting, cancel and allow manual retry
+      if (currentStatus === 'reconnecting') {
+        if (playerState.reconnectTimer) {
+          clearTimeout(playerState.reconnectTimer)
+          playerState.reconnectTimer = null
+        }
+        doPlay()
+        return
+      }
+
+      // Normal play/pause toggle
+      if (audio.paused) {
+        doPlay()
       } else {
         audio.pause()
-        playButton.textContent = hasPlayedBefore ? 'Resume' : initialText
+        playerState.wasPlaying = playerState.status === 'playing'
+        setPlayerStatus('paused', playButton)
       }
     })
 
@@ -203,5 +385,14 @@ document.addEventListener('DOMContentLoaded', () => {
     volumeSlider.addEventListener('input', () => {
       audio.volume = volumeSlider.value / 100
     })
+
+    // Expose player controls for external use
+    window.zamrockPlayer = {
+      play: () => audio.play(),
+      pause: () => audio.pause(),
+      getStatus: () => playerState.status,
+      getVolume: () => audio.volume,
+      setVolume: (v) => { audio.volume = v }
+    }
   }
 })
