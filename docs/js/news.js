@@ -5,8 +5,10 @@ let lastPostId = null
 
 const buffer = [] // cache fetched posts
 const displayCount = 2 // posts shown per click
-const prefetchPages = 6 // pages fetched at once
-const pageLimit = 2 // posts per API call
+const prefetchPages = 3 // pages fetched at once (reduced for reliability)
+const pageLimit = 3 // posts per API call
+const maxRetries = 3
+const retryDelay = 1500
 
 function createNewsCard (post) {
   const card = document.createElement('article')
@@ -59,13 +61,26 @@ async function fetchPosts (limit, maxId) {
   return res.json()
 }
 
+async function fetchWithRetry (limit, maxId, retries = maxRetries) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const posts = await fetchPosts(limit, maxId)
+      return posts
+    } catch (err) {
+      console.warn('Fetch failed, retrying...', i + 1, '/', retries)
+      if (i < retries - 1) await new Promise(resolve => setTimeout(resolve, retryDelay * (i + 1)))
+    }
+  }
+  throw new Error('Pound that reload FTW!')
+}
+
 async function prefetch () {
   if (isLoading) return
   isLoading = true
 
   try {
     for (let i = 0; i < prefetchPages; i++) {
-      const posts = await fetchPosts(pageLimit, lastPostId)
+      const posts = await fetchWithRetry(pageLimit, lastPostId)
 
       if (!posts.length) {
         document.getElementById('newsContainer').innerHTML = '<div class="no-news">No more posts.</div>'
