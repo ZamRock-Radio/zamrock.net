@@ -54,15 +54,17 @@ const PROXIES = [
 ]
 
 async function fetchPosts (limit, maxId) {
-  let api = `/statuses?limit=${limit}&exclude_replies=true&exclude_reblogs=true`
+  let api = `statuses?limit=${limit}&exclude_replies=true&exclude_reblogs=true`
   if (maxId) api += `&max_id=${maxId}`
 
-  // Try CF Worker first
+  // Try CF Worker first (direct, no proxy)
   try {
     const res = await fetch(CF_WORKER + api)
-    if (res.ok) return res.json()
-  } catch {
-    console.warn('CF Worker failed, trying proxies...')
+    if (!res.ok) throw new Error('CF Worker not ok')
+    const data = await res.json()
+    if (Array.isArray(data)) return data
+  } catch (err) {
+    console.warn('CF Worker error:', err.message)
   }
 
   // Fall back to public proxies
