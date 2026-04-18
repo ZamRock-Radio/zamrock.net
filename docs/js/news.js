@@ -47,7 +47,7 @@ function createNewsCard (post) {
   return card
 }
 
-const CF_WORKER = 'https://website-newsfeed.deathsmack-a51.workers.dev'
+const CF_WORKER = 'https://website-newsfeed.deathsmack-a51.workers.dev/'
 const PROXIES = [
   'https://corsproxy.io/?url=',
   'https://api.allorigins.win/raw?url='
