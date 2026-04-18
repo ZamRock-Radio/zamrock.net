@@ -33,7 +33,6 @@ jobs:
           MARKDOWN_CONFIG_FILE: .markdown-lint.yml
           JAVASCRIPT_STANDARD_CONFIG: .eslintrc.json
           FILTER_REGEX_EXCLUDE: ".*\\.html$"
-          JSCPD_FILE_EXCLUDE: ".*\\.html$"
 
   test:
     needs: lint
