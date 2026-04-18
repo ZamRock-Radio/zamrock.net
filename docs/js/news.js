@@ -47,21 +47,32 @@ function createNewsCard (post) {
   return card
 }
 
+const CF_WORKER = 'https://website-newsfeed.deathsmack-a51.workers.dev'
 const PROXIES = [
   'https://corsproxy.io/?url=',
   'https://api.allorigins.win/raw?url='
 ]
 
 async function fetchPosts (limit, maxId) {
-  let api =
-    'https://musicworld.social/api/v1/accounts/114289974100154452/statuses' +
-    `?limit=${limit}&exclude_replies=true&exclude_reblogs=true`
-
+  let api = `/statuses?limit=${limit}&exclude_replies=true&exclude_reblogs=true`
   if (maxId) api += `&max_id=${maxId}`
+
+  // Try CF Worker first
+  try {
+    const res = await fetch(CF_WORKER + api)
+    if (res.ok) return res.json()
+  } catch {
+    console.warn('CF Worker failed, trying proxies...')
+  }
+
+  // Fall back to public proxies
+  let apiUrl = 'https://musicworld.social/api/v1/accounts/114289974100154452/statuses' +
+    `?limit=${limit}&exclude_replies=true&exclude_reblogs=true`
+  if (maxId) apiUrl += `&max_id=${maxId}`
 
   for (const proxy of PROXIES) {
     try {
-      const res = await fetch(proxy + encodeURIComponent(api))
+      const res = await fetch(proxy + encodeURIComponent(apiUrl))
       if (res.ok) return res.json()
     } catch {
       console.warn('Proxy failed, trying next...')
