@@ -339,16 +339,25 @@ document.addEventListener('DOMContentLoaded', () => {
     playButton.addEventListener('click', () => {
       const currentStatus = playerState.status;
 
-      // If error or idle, try to play
-      if (currentStatus === 'error' || currentStatus === 'idle') {
-        playerState.reconnectAttempts = 0;
+      function doPlay(onSuccess) {
         audio.play().then(() => {
           playerState.wasPlaying = true;
           playerState.hasPlayedBefore = true;
+          if (onSuccess) onSuccess();
           setPlayerStatus('playing', playButton);
         }).catch(() => {
-          handlePlayerError(audio, playButton);
+          if (currentStatus === 'reconnecting') {
+            setPlayerStatus('error', playButton);
+          } else {
+            handlePlayerError(audio, playButton);
+          }
         });
+      }
+
+      // If error or idle, try to play
+      if (currentStatus === 'error' || currentStatus === 'idle') {
+        playerState.reconnectAttempts = 0;
+        doPlay();
         return;
       }
 
@@ -358,23 +367,13 @@ document.addEventListener('DOMContentLoaded', () => {
           clearTimeout(playerState.reconnectTimer);
           playerState.reconnectTimer = null;
         }
-        audio.play().then(() => {
-          setPlayerStatus('playing', playButton);
-        }).catch(() => {
-          setPlayerStatus('error', playButton);
-        });
+        doPlay();
         return;
       }
 
       // Normal play/pause toggle
       if (audio.paused) {
-        audio.play().then(() => {
-          playerState.wasPlaying = true;
-          playerState.hasPlayedBefore = true;
-          setPlayerStatus('playing', playButton);
-        }).catch(() => {
-          handlePlayerError(audio, playButton);
-        });
+        doPlay();
       } else {
         audio.pause();
         playerState.wasPlaying = playerState.status === 'playing';
