@@ -78,7 +78,7 @@ async function prefetch () {
     }
   } catch (err) {
     console.error(err)
-document.getElementById('newsContainer').innerHTML = `
+    document.getElementById('newsContainer').innerHTML = `
       <div class="error">
         Failed to load news 😿<br>
         <small>${err.message}</small><br>
