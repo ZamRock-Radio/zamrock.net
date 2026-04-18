@@ -47,18 +47,27 @@ function createNewsCard (post) {
   return card
 }
 
+const PROXIES = [
+  'https://corsproxy.io/?url=',
+  'https://api.allorigins.win/raw?url='
+]
+
 async function fetchPosts (limit, maxId) {
-  const proxy = 'https://corsproxy.io/?url='
   let api =
     'https://musicworld.social/api/v1/accounts/114289974100154452/statuses' +
     `?limit=${limit}&exclude_replies=true&exclude_reblogs=true`
 
   if (maxId) api += `&max_id=${maxId}`
 
-  const res = await fetch(proxy + encodeURIComponent(api))
-  if (!res.ok) throw new Error('Pound that reload FTW!')
-
-  return res.json()
+  for (const proxy of PROXIES) {
+    try {
+      const res = await fetch(proxy + encodeURIComponent(api))
+      if (res.ok) return res.json()
+    } catch {
+      console.warn('Proxy failed, trying next...')
+    }
+  }
+  throw new Error('Pound that reload FTW!')
 }
 
 async function fetchWithRetry (limit, maxId, retries = maxRetries) {
