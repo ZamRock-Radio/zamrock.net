@@ -54,7 +54,7 @@ async function fetchPosts (limit, maxId) {
   if (maxId) api += `&max_id=${maxId}`
 
   const res = await fetch(proxy + encodeURIComponent(api))
-  if (!res.ok) throw new Error('Network error')
+  if (!res.ok) throw new Error('Pound that reload FTW!')
 
   return res.json()
 }
@@ -81,7 +81,8 @@ async function prefetch () {
     document.getElementById('newsContainer').innerHTML = `
       <div class="error">
         Failed to load news 😿<br>
-        <small>${err.message}</small>
+        <small>${err.message}</small><br>
+        <small>If it persists, visit our <a href="https://musicworld.social/@ZamRock" target="_blank">Mastodon feed</a></small>
       </div>`
   } finally {
     isLoading = false
