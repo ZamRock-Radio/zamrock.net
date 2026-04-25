@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Silent Ruins V(0.1.149-DEV)</title>
+    <title>Silent Ruins V(0.1.153-DEV)</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -148,7 +148,7 @@
                 </div>
             </div>
             <button onclick="showDevMenu()">Dev Settings</button>
-            <button id="resumeBtn" onclick="resumeGame()" style="display:none">Resume</button>
+            <button onclick="resumeGame()">Resume</button>
             <button onclick="showSettings()">Controls</button>
             <button onclick="startIslandMap()">🗺️ Island Map</button>
             <button onclick="generateWorld(); resumeGame();">New World</button>
@@ -316,9 +316,7 @@
         cosmicBg.onload = () => { bgLoaded = true; console.log('Cosmic bg loaded!'); };
         cosmicBg.onerror = () => { console.log('Cosmic bg failed to load'); };
         
-        canvas.width = 1200;
-        canvas.height = 900;
-
+        // Responsive canvas with fullscreen support
         function resizeGame() {
             const aspect = 4 / 3;
             canvas.width = 1200;
@@ -834,7 +832,6 @@
         let bindingMode = null;
 
         let gameState = 'menu';
-        let gameWasPlayed = false;
         let world = [];
         let camera = { x: 0, y: 0, offsetX: 0, offsetY: 0, shake: 0 };
         
@@ -1059,6 +1056,10 @@
             worldSeed = islands[islandId].seed;
             generateIsland(islandId);
             gameState = 'playing';
+            // Notify parent page that game started (for playcount)
+            if (window.parent && typeof window.parent.postMessage === 'function') {
+                window.parent.postMessage('gameStarted', '*');
+            }
         }
         
         function generateIsland(islandId) {
@@ -1294,7 +1295,15 @@
             speedLines: [],
             jumpEffect: null,
             scarfPoints: [{x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}],
+            coyoteTimer: 0,  // Current coyote time remaining
+            wasGrounded: false,
         };
+        
+        function getCoyoteTime() {
+            // Level 0: 0.15s (3/4 block), Level 10: 0.5s (2.5 blocks)
+            const level = getCurrentLevel();
+            return 0.15 + (Math.min(level, 10) * 0.035);
+        }
         
         const DASH_TIERS = [
             { duration: 0.05, speed: 200, lineLength: 12, name: 'Basic' },
@@ -1374,7 +1383,7 @@
             return JUMP_TYPES[currentJumpType].gravity;
         }
         
-        const GAME_VERSION = '0.1.149-DEV';
+        const GAME_VERSION = '0.1.153-DEV';
         
         const LIGHTING_TYPES = [
             { name: 'None', ambient: 0, playerRadius: 0, playerColor: 'rgba(255,250,220,0)', playerFalloff: 0.5 },
@@ -1579,6 +1588,58 @@
             }
         }
         
+        let tileImages = {};
+        
+        const TILE_MAP = {
+            1: 1,    // GROUND -> tile 1 (walkable ground)
+            16: 3,   // STONE -> tile 3 (stone wall)
+            2: 35,   // PLATFORM -> tile 35 (platform edge)
+            3: 12,   // RUINS_WALL -> tile 12 (ruins pillar)
+            25: 20,  // SMOOTH_STONE -> tile 20
+            29: 15,  // DARK_STONE -> tile 15
+            30: 25,  // PALE_STONE -> tile 25
+            31: 30,  // FLAGGED_STONE -> tile 30
+            4: 18,   // MOSSY_STONE -> tile 18
+            18: 80,  // BROKEN_STONE -> tile 80
+            20: 22,  // CRACKED_STONE -> tile 22
+            21: 40,  // ERODED_STONE -> tile 40
+            26: 45,  // MOTTLED_STONE -> tile 45
+            27: 50,  // VEINED_STONE -> tile 50
+            28: 55,  // WEATHERED_STONE -> tile 55
+            19: 19,  // MOSSY_BRICK -> tile 19
+            5: 65,   // CRUMBLING_BRICK -> tile 65
+            15: 3,   // EARTH -> tile 3 (dirt)
+            14: 42,  // SAND -> tile 42 (grass)
+            13: 42,  // GRASS -> tile 42
+            22: 87,  // MOSS_PATCH -> tile 87
+            23: 33,  // RUBBLE -> tile 33
+            24: 11,  // COLUMN_BASE -> tile 11
+            17: 46,  // MUSHROOM -> tile 46
+            6: 83,   // SPIKE -> tile 83
+            7: 12,   // VINE -> tile 12
+            8: 89,   // WATER -> tile 89
+            9: 9,    // DOOR -> tile 9
+            10: 12   // LADDER -> tile 12
+        };
+        
+        function initTiles() {
+            let loaded = 0;
+            const total = Object.keys(TILE_MAP).length;
+            for (const [blockType, tileIndex] of Object.entries(TILE_MAP)) {
+                const tileName = 'tile_' + String(tileIndex).padStart(4, '0') + '.png';
+                const img = new Image();
+                img.onload = function() {
+                    tileImages[blockType] = img;
+                    loaded++;
+                    if (loaded >= total) console.log('Tiles loaded!');
+                };
+                img.onerror = function() {
+                    loaded++;
+                };
+                img.src = 'assets/graphics/tiles/kenney-pico-8/' + tileName;
+            }
+        }
+        
         let soundPool = {};
         let audioCtx = null;
         
@@ -1589,17 +1650,10 @@
             audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         }
         
-        async function ensureAudioContext() {
-            if (audioCtx && audioCtx.state === 'suspended') {
-                await audioCtx.resume();
-            }
-        }
-        
         async function playSound(name, vol) {
             if (!soundEnabled) return;
             const path = soundConfig[name];
             if (!path) return;
-            ensureAudioContext();
             const finalVol = vol !== undefined ? vol : sfxVolume;
             
             const url = await loadSoundBlob('assets/audio/' + path);
@@ -1615,10 +1669,7 @@
             source.connect(gain);
             gain.connect(audioCtx.destination);
             source.start(0);
-            soundPool[name] = {
-                pause: () => { try { source.stop(); } catch(e) {} },
-                source: source
-            };
+            soundPool[name] = source;
         }
         
         async function playMusic(name) {
@@ -3338,9 +3389,12 @@
                 player.wallJumpInputIgnore -= dt;
                 player.vx *= 0.9;
             } else if (!player.isDashing && !player.isSliding) {
-                if (moveLeft) { player.vx = -speed; player.facing = -1; }
-                else if (moveRight) { player.vx = speed; player.facing = 1; }
-                else { player.vx *= 0.8; }
+                if (moveLeft) { player.vx += (-speed - player.vx) * 15 * dt; player.facing = -1; }
+                else if (moveRight) { player.vx += (speed - player.vx) * 15 * dt; player.facing = 1; }
+                else { 
+                    player.vx += (0 - player.vx) * 25 * dt;
+                    if (Math.abs(player.vx) < 5) player.vx = 0;
+                }
                 
                 // WALK SOUNDS - only play while actually moving with minimum movement
                 const moveDistance = Math.abs(player.x - player.lastX);
@@ -3420,6 +3474,9 @@
             const wantsJump = isKeyPressed(keyBindings.jump) || gp.jump;
             
             if (wantsJump && !player.jumpPressed) {
+                // Check coyote time - allow jump if recently left ground
+                const canCoyoteJump = player.coyoteTimer > 0 && player.jumpCount === 0;
+                
                 if (player.onWall && !player.grounded) {
                     const angle = (35 + Math.random() * 25) * Math.PI / 180;
                     const cosA = Math.cos(angle);
@@ -3442,8 +3499,12 @@
                     player.jumpPressed = true;
                     player.wallSlideTimer = 0;
                     return;
-                } else if (player.jumpCount < getMaxJumps()) {
+                } else if (player.jumpCount < getMaxJumps() || canCoyoteJump) {
                     player.wallJumpChain = 0;
+                    if (canCoyoteJump && player.jumpCount === 0) {
+                        // Using coyote time - player wasn't grounded but can still jump
+                        player.coyoteTimer = 0;  // Consume coyote time
+                    }
                     player.vy = getJumpForce(player.jumpCount === 0);
                     player.jumpCount++;
                     gameData.totalJumps++;
@@ -3528,23 +3589,11 @@
 
             const newY = player.y + player.vy * dt;
             const wasAirborne = !player.grounded;
+            const wasGrounded = player.grounded;
             const wasDashingDown = player.wasDashingDown;
             player.wasDashingDown = false;
             
-            if (!player.grounded && player.vy > 50 && !player.isDashing) {
-                if (player.fallStartY === 0 || player.y < player.fallStartY) {
-                    player.fallStartY = player.y;
-                    player.fallDamageDealt = false;
-                }
-                const fallDist = player.y - player.fallStartY;
-                if (fallDist > 400 && !player.fallSoundPlayed) {
-                    playSound('fall', 1);
-                    player.fallSoundPlayed = true;
-                }
-            } else {
-                player.fallSoundPlayed = false;
-            }
-            
+            // Apply Y movement and check collision to determine grounded state
             if (!checkCollision(player.x, newY, player.width, player.height)) {
                 player.y = newY;
                 player.grounded = false;
@@ -3555,6 +3604,7 @@
                     player.dashesUsed = 0;
                     player.wallJumpChain = 0;
                     player.fallSoundPlaying = false;
+                    player.coyoteTimer = getCoyoteTime();  // Reset coyote timer on landing
                     
                     const fallDistance = player.y - player.fallStartY;
                     if (fallDistance > 3000 && player.fallDamageDealt !== true) {
@@ -3579,6 +3629,18 @@
                     }
                 }
                 player.vy = 0;
+            }
+            
+            // Track coyote time - suspend falling while active
+            // Check if player just left the ground (was grounded last frame, not grounded now)
+            if (wasGrounded && !player.grounded && player.vy >= 0) {
+                player.coyoteTimer = getCoyoteTime();
+            }
+            if (player.coyoteTimer > 0) {
+                player.coyoteTimer -= dt;
+                if (player.coyoteTimer > 0 && player.vy > 0) {
+                    player.vy = 0;  // Suspend player in air while coyote time active
+                }
             }
 
             const cx = player.x + player.width / 2, cy = player.y + player.height / 2;
@@ -3802,157 +3864,23 @@
         }
 
         function drawTile(x, y, tile) {
-            const color = BLOCK_COLORS[tile];
-            if (!color) return;
-            ctx.fillStyle = color;
-            ctx.fillRect(x, y, TILE_SIZE, TILE_SIZE);
-            ctx.fillStyle = 'rgba(0,0,0,0.3)';
-            ctx.fillRect(x, y + TILE_SIZE - 4, TILE_SIZE, 4);
-            ctx.fillRect(x + TILE_SIZE - 4, y, 4, TILE_SIZE);
-            if (tile === BLOCKS.MOSSY_STONE) {
-                ctx.fillStyle = '#2a4a2a';
-                for (let i = 0; i < 3; i++) ctx.fillRect(x + 5 + (i * 11) % 20, y + 5 + (i * 7) % 20, 4, 4);
-            }
-            if (tile === BLOCKS.CRUMBLING_BRICK) {
-                ctx.fillStyle = 'rgba(0,0,0,0.2)';
-                ctx.fillRect(x + 4, y + 4, 10, 8);
-                ctx.fillRect(x + 18, y + 16, 8, 10);
-            }
-            if (tile === BLOCKS.PLATFORM) {
-                ctx.fillStyle = '#3a2a1a';
-                ctx.fillRect(x, y + 2, TILE_SIZE, 2);
-            }
-            if (tile === BLOCKS.BROKEN_STONE) {
-                ctx.fillStyle = 'rgba(0,0,0,0.25)';
-                ctx.fillRect(x + 8, y + 8, 12, 10);
-                ctx.fillRect(x + 2, y + 18, 8, 6);
-            }
-            if (tile === BLOCKS.MOSSY_BRICK) {
-                ctx.fillStyle = '#3a6a2a';
-                for (let i = 0; i < 4; i++) ctx.fillRect(x + 3 + (i * 8) % 22, y + 3 + (i * 6) % 20, 5, 5);
-                ctx.fillStyle = 'rgba(0,0,0,0.15)';
-                ctx.fillRect(x + 6, y + 12, 14, 8);
-            }
-            if (tile === BLOCKS.CRACKED_STONE) {
-                ctx.strokeStyle = 'rgba(0,0,0,0.4)';
-                ctx.lineWidth = 2;
-                ctx.beginPath();
-                ctx.moveTo(x + 4, y + 4);
-                ctx.lineTo(x + 16, y + 14);
-                ctx.lineTo(x + 12, y + 28);
-                ctx.moveTo(x + 16, y + 4);
-                ctx.lineTo(x + 22, y + 20);
-                ctx.stroke();
-            }
-            if (tile === BLOCKS.ERODED_STONE) {
-                ctx.fillStyle = 'rgba(0,0,0,0.2)';
-                ctx.fillRect(x + 3, y + 5, 8, 6);
-                ctx.fillRect(x + 18, y + 10, 10, 8);
-                ctx.fillRect(x + 8, y + 20, 12, 6);
-            }
-            if (tile === BLOCKS.SMOOTH_STONE) {
-                ctx.fillStyle = '#5a5a6a';
-                ctx.fillRect(x + 2, y + 2, 28, 26);
-            }
-            if (tile === BLOCKS.MOTTLED_STONE) {
-                ctx.fillStyle = '#4a4a5a';
-                ctx.fillRect(x + 4, y + 4, 12, 10);
-                ctx.fillStyle = '#6a6a6a';
-                ctx.fillRect(x + 18, y + 8, 10, 12);
-                ctx.fillStyle = '#5a5a5a';
-                ctx.fillRect(x + 6, y + 18, 14, 8);
-            }
-            if (tile === BLOCKS.VEINED_STONE) {
-                ctx.strokeStyle = '#3a4a5a';
-                ctx.lineWidth = 2;
-                ctx.beginPath();
-                ctx.moveTo(x + 4, y + 8);
-                ctx.bezierCurveTo(x + 16, y + 4, x + 20, y + 16, x + 28, y + 20);
-                ctx.stroke();
-                ctx.beginPath();
-                ctx.moveTo(x + 8, y + 20);
-                ctx.bezierCurveTo(x + 14, y + 24, x + 18, y + 18, x + 24, y + 28);
-                ctx.stroke();
-            }
-            if (tile === BLOCKS.WEATHERED_STONE) {
-                ctx.fillStyle = 'rgba(0,0,0,0.15)';
-                ctx.fillRect(x + 2, y + 2, 28, 8);
-                ctx.fillRect(x + 20, y + 14, 8, 14);
-                ctx.fillStyle = '#4a4a55';
-                ctx.fillRect(x + 4, y + 24, 16, 6);
-            }
-            if (tile === BLOCKS.DARK_STONE) {
-                ctx.fillStyle = '#2a2a3a';
-                ctx.fillRect(x + 2, y + 2, 28, 28);
-                ctx.fillStyle = '#3a3a4a';
-                ctx.fillRect(x + 6, y + 6, 8, 8);
-                ctx.fillRect(x + 18, y + 16, 10, 10);
-            }
-            if (tile === BLOCKS.PALE_STONE) {
-                ctx.fillStyle = '#6a6a7a';
-                ctx.fillRect(x + 2, y + 2, 28, 28);
-                ctx.fillStyle = '#7a7a8a';
-                ctx.fillRect(x + 8, y + 8, 16, 16);
-                ctx.fillStyle = '#8a8a9a';
-                ctx.fillRect(x + 12, y + 12, 8, 8);
-            }
-            if (tile === BLOCKS.FLAGGED_STONE) {
-                ctx.fillStyle = '#4a4a5a';
-                ctx.fillRect(x + 2, y + 2, 12, 12);
-                ctx.fillRect(x + 18, y + 2, 12, 12);
-                ctx.fillRect(x + 2, y + 18, 12, 12);
-                ctx.fillRect(x + 18, y + 18, 12, 12);
-                ctx.fillStyle = '#5a5a6a';
-                ctx.fillRect(x + 14, y + 14, 4, 4);
-            }
-            if (tile === BLOCKS.RUBBLE) {
-                ctx.fillStyle = '#3a3a4a';
-                ctx.beginPath();
-                ctx.arc(x + 10, y + 16, 6, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.fillStyle = '#4a4a5a';
-                ctx.beginPath();
-                ctx.arc(x + 22, y + 14, 5, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.fillStyle = '#3a3a4a';
-                ctx.beginPath();
-                ctx.arc(x + 16, y + 22, 4, 0, Math.PI * 2);
-                ctx.fill();
-            }
-            if (tile === BLOCKS.COLUMN_BASE) {
-                ctx.fillStyle = '#4a4a5a';
-                ctx.fillRect(x + 2, y + 22, 28, 8);
-                ctx.fillRect(x + 4, y + 18, 24, 6);
-            }
-            if (tile === BLOCKS.MOSS_PATCH) {
-                ctx.fillStyle = '#2a5a2a';
-                ctx.beginPath();
-                ctx.ellipse(x + 16, y + 16, 14, 10, 0, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.fillStyle = '#3a6a3a';
-                ctx.beginPath();
-                ctx.ellipse(x + 12, y + 12, 6, 4, 0, 0, Math.PI * 2);
-                ctx.fill();
-            }
             if (tile === BLOCKS.FIREFLY) {
                 const flicker = 0.6 + Math.sin(Date.now() / 300 + x + y) * 0.4;
                 const cx = x + TILE_SIZE/2, cy = y + TILE_SIZE/2 - 4;
-                
                 const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, TILE_SIZE * 1.5);
                 grad.addColorStop(0, `rgba(180, 255, 120, ${flicker * 0.8})`);
                 grad.addColorStop(0.2, `rgba(150, 255, 100, ${flicker * 0.4})`);
                 grad.addColorStop(0.5, `rgba(100, 220, 80, ${flicker * 0.15})`);
                 grad.addColorStop(1, 'rgba(100, 220, 80, 0)');
-                
                 ctx.fillStyle = grad;
                 ctx.beginPath();
                 ctx.arc(cx, cy, TILE_SIZE * 1.5, 0, Math.PI * 2);
                 ctx.fill();
-                
                 ctx.fillStyle = `rgba(220, 255, 180, ${flicker})`;
                 ctx.beginPath(); ctx.arc(cx, cy - 1, 4, 0, Math.PI * 2); ctx.fill();
                 ctx.fillStyle = `rgba(255, 255, 240, ${flicker * 0.8})`;
                 ctx.beginPath(); ctx.arc(cx - 1, cy - 2, 2, 0, Math.PI * 2); ctx.fill();
+                return;
             }
             if (tile === BLOCKS.MUSHROOM) {
                 ctx.fillStyle = '#f5f5dc';
@@ -3965,6 +3893,17 @@
                 ctx.beginPath(); ctx.arc(x + 12, y + 10, 3, 0, Math.PI * 2); ctx.fill();
                 ctx.beginPath(); ctx.arc(x + 20, y + 12, 2, 0, Math.PI * 2); ctx.fill();
                 ctx.beginPath(); ctx.arc(x + 16, y + 8, 2.5, 0, Math.PI * 2); ctx.fill();
+                return;
+            }
+            const tileImg = tileImages[tile];
+            if (tileImg && tileImg.complete) {
+                ctx.imageSmoothingEnabled = false;
+                ctx.drawImage(tileImg, x, y, TILE_SIZE, TILE_SIZE);
+            } else {
+                const color = BLOCK_COLORS[tile];
+                if (!color) return;
+                ctx.fillStyle = color;
+                ctx.fillRect(x, y, TILE_SIZE, TILE_SIZE);
             }
         }
 
@@ -4166,7 +4105,6 @@
         }
         
         function startGameWithMusic() {
-            ensureAudioContext();
             playSound('menuSelect');
             const loading = document.getElementById('loading');
             const loadingBar = document.getElementById('loadingBar');
@@ -4197,9 +4135,6 @@
                             loading.style.display = 'none';
                             generateWorld();
                             playMusicWithCrossfade(currentMusicTrack);
-                            gameWasPlayed = true;
-                            document.getElementById('resumeBtn').style.display = 'inline-block';
-                            if (window.parent) window.parent.postMessage('gameStarted', '*');
                             resumeGame();
                         }, 1500);
                     }).catch((e) => {
@@ -4207,9 +4142,6 @@
                         loading.style.display = 'none';
                         generateWorld();
                         playMusicWithCrossfade(currentMusicTrack);
-                        gameWasPlayed = true;
-                        document.getElementById('resumeBtn').style.display = 'inline-block';
-                        if (window.parent) window.parent.postMessage('gameStarted', '*');
                         resumeGame();
                     });
                 }, 800);
@@ -4218,9 +4150,6 @@
                 loading.style.display = 'none';
                 generateWorld();
                 playMusicWithCrossfade(currentMusicTrack);
-                gameWasPlayed = true;
-                document.getElementById('resumeBtn').style.display = 'inline-block';
-                if (window.parent) window.parent.postMessage('gameStarted', '*');
                 resumeGame();
             }
         }
@@ -4521,6 +4450,7 @@
         console.log('Game starting...');
         document.getElementById('menuVersion-display').textContent = GAME_VERSION;
         document.getElementById('menu').classList.add('active');
+        initTiles();
         initSounds();
         initMenuMusicSelector();
         
