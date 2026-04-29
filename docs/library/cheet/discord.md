@@ -9,7 +9,8 @@
   - Hotkey: Ctrl + Shift + M
 
 - Deafen/Undeafen:
-  - Summary: Toggles your deafening status, preventing or allowing you to hear other participants.
+  - Summary: Toggles your deafening status, preventing or
+    allowing you to hear other participants.
   - Hotkey: Ctrl + Shift + D
 
 - Start/Stop Voice Call:

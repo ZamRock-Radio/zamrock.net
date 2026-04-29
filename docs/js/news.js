@@ -1,18 +1,18 @@
 /* global IntersectionObserver */
 
-let isLoading = false
-let lastPostId = null
+let isLoading = false;
+let lastPostId = null;
 
-const buffer = [] // cache fetched posts
-const displayCount = 2 // posts shown per click
-const prefetchPages = 3 // pages fetched at once (reduced for reliability)
-const pageLimit = 3 // posts per API call
-const maxRetries = 3
-const retryDelay = 1500
+const buffer = []; // cache fetched posts
+const displayCount = 2; // posts shown per click
+const prefetchPages = 3; // pages fetched at once (reduced for reliability)
+const pageLimit = 3; // posts per API call
+const maxRetries = 3;
+const retryDelay = 1500;
 
-function createNewsCard (post) {
-  const card = document.createElement('article')
-  card.className = 'news-card'
+function createNewsCard(post) {
+  const card = document.createElement('article');
+  card.className = 'news-card';
 
   card.innerHTML = `
     <div class="news-header">
@@ -42,139 +42,139 @@ function createNewsCard (post) {
         View on Mastodon
       </a>
     </div>
-  `
+  `;
 
-  return card
+  return card;
 }
 
-const CF_WORKER = 'https://website-newsfeed.deathsmack-a51.workers.dev/'
+const CF_WORKER = 'https://website-newsfeed.deathsmack-a51.workers.dev/';
 const PROXIES = [
   'https://corsproxy.io/?url=',
   'https://api.allorigins.win/raw?url='
-]
+];
 
-async function fetchPosts (limit, maxId) {
-  let api = `statuses?limit=${limit}&exclude_replies=true&exclude_reblogs=true`
-  if (maxId) api += `&max_id=${maxId}`
+async function fetchPosts(limit, maxId) {
+  let api = `statuses?limit=${limit}&exclude_replies=true&exclude_reblogs=true`;
+  if (maxId) api += `&max_id=${maxId}`;
 
   // Try CF Worker first (direct, no proxy)
   try {
-    const res = await fetch(CF_WORKER + api)
-    if (!res.ok) throw new Error('CF Worker not ok')
-    const data = await res.json()
-    if (Array.isArray(data)) return data
+    const res = await fetch(CF_WORKER + api);
+    if (!res.ok) throw new Error('CF Worker not ok');
+    const data = await res.json();
+    if (Array.isArray(data)) return data;
   } catch (err) {
-    console.warn('CF Worker error:', err.message)
+    console.warn('CF Worker error:', err.message);
   }
 
   // Fall back to public proxies
   let apiUrl = 'https://musicworld.social/api/v1/accounts/114289974100154452/statuses' +
-    `?limit=${limit}&exclude_replies=true&exclude_reblogs=true`
-  if (maxId) apiUrl += `&max_id=${maxId}`
+    `?limit=${limit}&exclude_replies=true&exclude_reblogs=true`;
+  if (maxId) apiUrl += `&max_id=${maxId}`;
 
   for (const proxy of PROXIES) {
     try {
-      const res = await fetch(proxy + encodeURIComponent(apiUrl))
-      if (res.ok) return res.json()
+      const res = await fetch(proxy + encodeURIComponent(apiUrl));
+      if (res.ok) return res.json();
     } catch {
-      console.warn('Proxy failed, trying next...')
+      console.warn('Proxy failed, trying next...');
     }
   }
-  throw new Error('Pound that reload FTW!')
+  throw new Error('Pound that reload FTW!');
 }
 
-async function fetchWithRetry (limit, maxId, retries = maxRetries) {
+async function fetchWithRetry(limit, maxId, retries = maxRetries) {
   for (let i = 0; i < retries; i++) {
     try {
-      const posts = await fetchPosts(limit, maxId)
-      return posts
+      const posts = await fetchPosts(limit, maxId);
+      return posts;
     } catch (err) {
-      console.warn('Fetch failed, retrying...', i + 1, '/', retries)
-      if (i < retries - 1) await new Promise(resolve => setTimeout(resolve, retryDelay * (i + 1)))
+      console.warn('Fetch failed, retrying...', i + 1, '/', retries);
+      if (i < retries - 1) await new Promise(resolve => setTimeout(resolve, retryDelay * (i + 1)));
     }
   }
-  throw new Error('Pound that reload FTW!')
+  throw new Error('Pound that reload FTW!');
 }
 
-async function prefetch () {
-  if (isLoading) return
-  isLoading = true
+async function prefetch() {
+  if (isLoading) return;
+  isLoading = true;
 
   try {
     for (let i = 0; i < prefetchPages; i++) {
-      const posts = await fetchWithRetry(pageLimit, lastPostId)
+      const posts = await fetchWithRetry(pageLimit, lastPostId);
 
       if (!posts.length) {
-        document.getElementById('newsContainer').innerHTML = '<div class="no-news">No more posts.</div>'
-        document.getElementById('loadMoreNews')?.remove()
-        return
+        document.getElementById('newsContainer').innerHTML = '<div class="no-news">No more posts.</div>';
+        document.getElementById('loadMoreNews')?.remove();
+        return;
       }
 
-      buffer.push(...posts)
-      lastPostId = posts[posts.length - 1].id
+      buffer.push(...posts);
+      lastPostId = posts[posts.length - 1].id;
     }
   } catch (err) {
-    console.error(err)
+    console.error(err);
     document.getElementById('newsContainer').innerHTML = `
       <div class="error">
         Failed to load news 😿<br>
         <small>${err.message}</small><br>
         <small>If it persists, visit our <a href="https://musicworld.social/@ZamRock" target="_blank">Mastodon feed</a></small>
-      </div>`
+      </div>`;
   } finally {
-    isLoading = false
+    isLoading = false;
   }
 }
 
-async function displayNext () {
-  const container = document.getElementById('newsContainer')
-  if (!container) return
+async function displayNext() {
+  const container = document.getElementById('newsContainer');
+  if (!container) return;
 
   if (container.querySelector('.loading')) {
-    container.innerHTML = ''
+    container.innerHTML = '';
   }
 
-  if (buffer.length < displayCount * 2) await prefetch()
+  if (buffer.length < displayCount * 2) await prefetch();
 
   for (let i = 0; i < displayCount; i++) {
-    const post = buffer.shift()
+    const post = buffer.shift();
     if (!post) {
-      document.getElementById('loadMoreNews')?.remove()
-      return
+      document.getElementById('loadMoreNews')?.remove();
+      return;
     }
-    container.appendChild(createNewsCard(post))
+    container.appendChild(createNewsCard(post));
   }
 }
 
-function setupLazyLoad () {
-  const container = document.getElementById('newsContainer')
-  if (!container) return
+function setupLazyLoad() {
+  const container = document.getElementById('newsContainer');
+  if (!container) return;
 
   const observer = new IntersectionObserver(entries => {
     if (entries[0].isIntersecting) {
-      displayNext()
-      observer.disconnect()
+      displayNext();
+      observer.disconnect();
     }
   }, {
     rootMargin: '200px'
-  })
+  });
 
-  observer.observe(container)
+  observer.observe(container);
 }
 
-function addLoadMoreButton () {
-  if (document.getElementById('loadMoreNews')) return
+function addLoadMoreButton() {
+  if (document.getElementById('loadMoreNews')) return;
 
-  const btn = document.createElement('button')
-  btn.id = 'loadMoreNews'
-  btn.className = 'btn load-more'
-  btn.textContent = 'Load More'
-  btn.onclick = displayNext
+  const btn = document.createElement('button');
+  btn.id = 'loadMoreNews';
+  btn.className = 'btn load-more';
+  btn.textContent = 'Load More';
+  btn.onclick = displayNext;
 
-  document.querySelector('.news-section')?.appendChild(btn)
+  document.querySelector('.news-section')?.appendChild(btn);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  setupLazyLoad()
-  addLoadMoreButton()
-})
+  setupLazyLoad();
+  addLoadMoreButton();
+});
