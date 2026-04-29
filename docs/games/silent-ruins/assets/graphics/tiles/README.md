@@ -25,4 +25,3 @@ The game will load tiles from the active theme folder based on the mappings in `
 ## Tile Size
 
 All tiles should be 8x8 pixels. The game scales them to `TILE_SIZE` (32px by default) when rendering.
-
