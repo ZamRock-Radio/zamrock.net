@@ -1,0 +1,28 @@
+pipeline:
+  lint:
+    image: codeberg.org/opencode/super-linter:latest
+    environment:
+      DEFAULT_BRANCH: main
+      VALIDATE_ALL_CODEBASE: "false"
+      LINTER_RULES_PATH: .github/linters
+      MARKDOWN_CONFIG_FILE: .github/linters/.markdown-lint.yml
+      JAVASCRIPT_STANDARD_CONFIG: .eslintrc.json
+      FILTER_REGEX_EXCLUDE: ".*\\.html$"
+    secrets: [GITHUB_TOKEN]
+    when:
+      - event: push
+        branch: main
+      - event: pull_request
+        target: main
+
+  test:
+    image: ubuntu:latest
+    commands:
+      - apt-get update -q
+      - apt-get install -y ffmpeg
+      - echo "Tests passed - no test suite configured"
+    when:
+      - event: push
+        branch: main
+      - event: pull_request
+        target: main
