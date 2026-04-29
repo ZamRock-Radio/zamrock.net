@@ -11,7 +11,7 @@ on:
 
 jobs:
   lint:
-    runs-on: ubuntu-latest
+    runs-on: codeberg-tiny
     permissions:
       contents: read
       pull-requests: read
@@ -36,7 +36,7 @@ jobs:
 
   test:
     needs: lint
-    runs-on: ubuntu-latest
+    runs-on: codeberg-tiny
     permissions:
       contents: read
     steps:
