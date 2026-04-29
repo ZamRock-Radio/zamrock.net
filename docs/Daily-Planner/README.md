@@ -1,1 +1,3 @@
-https://zamrock.net/Daily-Planner/index.html
+# Daily Planner
+
+<https://zamrock.net/Daily-Planner/index.html>
