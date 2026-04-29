@@ -36,20 +36,4 @@ jobs:
           JAVASCRIPT_STANDARD_CONFIG: .eslintrc.json
           FILTER_REGEX_EXCLUDE: ".*\\.html$"
 
-  test:
-    needs: lint
-    runs-on: codeberg-tiny
-    permissions:
-      contents: read
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
 
-      - name: Set up FFmpeg
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y ffmpeg
-
-      - name: Run Tests
-        run: |
-          echo "Tests passed - no test suite configured"
