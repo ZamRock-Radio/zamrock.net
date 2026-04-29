@@ -1,16 +1,16 @@
 /* global Image */
 
 // Static header text
-const headerElement = document.querySelector('h1.site-title')
-const headerText = 'ZamRock Radio'
+const headerElement = document.querySelector('h1.site-title');
+const headerText = 'ZamRock Radio';
 
 // Ensure header has a link
 if (headerElement && !headerElement.querySelector('a')) {
-  const link = document.createElement('a')
-  link.href = 'https://zamrock.net'
-  link.textContent = headerElement.textContent
-  headerElement.textContent = ''
-  headerElement.appendChild(link)
+  const link = document.createElement('a');
+  link.href = 'https://zamrock.net';
+  link.textContent = headerElement.textContent;
+  headerElement.textContent = '';
+  headerElement.appendChild(link);
 }
 
 // Array of titles for tab animation
@@ -43,69 +43,69 @@ const titles = [
   'Z4m20ck R4d10',
   'Z4m20ck 24d10',
   '24m20ck 24d10'
-]
+];
 
-let currentTitleIndex = 0
+let currentTitleIndex = 0;
 
 // Function to animate tab title with random intervals
-function animateTabTitle () {
-  document.title = titles[currentTitleIndex]
-  currentTitleIndex = (currentTitleIndex + 1) % titles.length
+function animateTabTitle() {
+  document.title = titles[currentTitleIndex];
+  currentTitleIndex = (currentTitleIndex + 1) % titles.length;
 
-  const interval = Math.floor(Math.random() * 2000) + 500
-  setTimeout(animateTabTitle, interval)
+  const interval = Math.floor(Math.random() * 2000) + 500;
+  setTimeout(animateTabTitle, interval);
 }
 
 // Start the tab title animation
-setTimeout(animateTabTitle, 1000)
+setTimeout(animateTabTitle, 1000);
 
 // Keep header text content up to date while preserving the link
 if (headerElement) {
-  const link = headerElement.querySelector('a')
+  const link = headerElement.querySelector('a');
   if (link) {
-    link.textContent = headerText
+    link.textContent = headerText;
   } else {
-    headerElement.textContent = headerText
+    headerElement.textContent = headerText;
     // Add link if it was missing
-    const newLink = document.createElement('a')
-    newLink.href = 'https://zamrock.net'
-    newLink.textContent = headerText
-    headerElement.textContent = ''
-    headerElement.appendChild(newLink)
+    const newLink = document.createElement('a');
+    newLink.href = 'https://zamrock.net';
+    newLink.textContent = headerText;
+    headerElement.textContent = '';
+    headerElement.appendChild(newLink);
   }
 }
 
 // Mobile menu toggle function
 // eslint-disable-next-line no-unused-vars
-function toggleMenu (event) {
-  if (event) event.preventDefault()
-  const menu = document.querySelector('.nav-menu')
+function toggleMenu(event) {
+  if (event) event.preventDefault();
+  const menu = document.querySelector('.nav-menu');
   if (menu) {
-    menu.style.display = menu.style.display === 'block' ? 'none' : 'block'
+    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
   }
 }
 
 // Close menu when clicking outside
 window.addEventListener('click', (event) => {
-  const menu = document.querySelector('.nav-menu')
-  const menuToggle = document.querySelector('.mobile-menu-toggle')
+  const menu = document.querySelector('.nav-menu');
+  const menuToggle = document.querySelector('.mobile-menu-toggle');
 
   if (menu && menuToggle && !menu.contains(event.target) && !menuToggle.contains(event.target)) {
-    menu.style.display = 'none'
+    menu.style.display = 'none';
   }
-})
+});
 
 // Handle window resize
 window.addEventListener('resize', () => {
-  const menu = document.querySelector('.nav-menu')
-  const menuToggle = document.querySelector('.mobile-menu-toggle')
+  const menu = document.querySelector('.nav-menu');
+  const menuToggle = document.querySelector('.mobile-menu-toggle');
 
   if (window.innerWidth > 768) {
-    if (menu) menu.style.display = ''
+    if (menu) menu.style.display = '';
   } else if (menuToggle && menu) {
-    menu.style.display = 'none'
+    menu.style.display = 'none';
   }
-})
+});
 
 // Background images array with full URLs
 const backgroundImages = [
@@ -139,23 +139,23 @@ const backgroundImages = [
   'https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_028.jpg',
   'https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_029.jpg',
   'https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_030.jpg'
-]
+];
 
-function setRandomBackground () {
-  if (backgroundImages.length === 0) return
-  const randomImage = backgroundImages[Math.floor(Math.random() * backgroundImages.length)]
+function setRandomBackground() {
+  if (backgroundImages.length === 0) return;
+  const randomImage = backgroundImages[Math.floor(Math.random() * backgroundImages.length)];
 
   // Preload the image before setting it as background
-  const img = new Image()
-  img.onload = function () {
+  const img = new Image();
+  img.onload = function() {
     // Only update the background if the image loads successfully
-    document.body.style.backgroundImage = `url('${randomImage}')`
-    document.body.style.backgroundSize = 'cover'
-    document.body.style.backgroundPosition = 'center'
-    document.body.style.backgroundAttachment = 'fixed'
-    document.body.style.backgroundRepeat = 'no-repeat'
-  }
-  img.src = randomImage
+    document.body.style.backgroundImage = `url('${randomImage}')`;
+    document.body.style.backgroundSize = 'cover';
+    document.body.style.backgroundPosition = 'center';
+    document.body.style.backgroundAttachment = 'fixed';
+    document.body.style.backgroundRepeat = 'no-repeat';
+  };
+  img.src = randomImage;
 }
 
 // Audio player state management
@@ -169,222 +169,222 @@ const playerState = {
   wasPlaying: false,
   hasPlayedBefore: false,
   initialText: 'Play'
+};
+
+function getReconnectDelay() {
+  const delay = playerState.baseReconnectDelay * Math.pow(2, playerState.reconnectAttempts);
+  return Math.min(delay, playerState.maxReconnectDelay);
 }
 
-function getReconnectDelay () {
-  const delay = playerState.baseReconnectDelay * Math.pow(2, playerState.reconnectAttempts)
-  return Math.min(delay, playerState.maxReconnectDelay)
-}
+function setPlayerStatus(status, button) {
+  playerState.status = status;
 
-function setPlayerStatus (status, button) {
-  playerState.status = status
-
-  if (!button) return
+  if (!button) return;
 
   switch (status) {
     case 'idle':
-      button.textContent = playerState.hasPlayedBefore ? 'Play' : playerState.initialText
-      button.disabled = false
-      break
+      button.textContent = playerState.hasPlayedBefore ? 'Play' : playerState.initialText;
+      button.disabled = false;
+      break;
     case 'playing':
-      button.textContent = 'Stop'
-      button.disabled = false
-      break
+      button.textContent = 'Stop';
+      button.disabled = false;
+      break;
     case 'paused':
-      button.textContent = 'Resume'
-      button.disabled = false
-      break
+      button.textContent = 'Resume';
+      button.disabled = false;
+      break;
     case 'error':
-      button.textContent = 'Error - Tap to Retry'
-      button.disabled = false
-      playerState.reconnectAttempts = 0
-      break
+      button.textContent = 'Error - Tap to Retry';
+      button.disabled = false;
+      playerState.reconnectAttempts = 0;
+      break;
     case 'reconnecting':
-      button.textContent = 'Reconnecting...'
-      button.disabled = true
-      break
+      button.textContent = 'Reconnecting...';
+      button.disabled = true;
+      break;
   }
 }
 
-function reconnectStream (audio, button) {
+function reconnectStream(audio, button) {
   if (playerState.reconnectAttempts >= playerState.maxReconnectAttempts) {
-    console.warn('Max reconnection attempts reached')
-    setPlayerStatus('error', button)
-    return
+    console.warn('Max reconnection attempts reached');
+    setPlayerStatus('error', button);
+    return;
   }
 
-  const delay = getReconnectDelay()
-  console.log(`Reconnecting in ${delay}ms (attempt ${playerState.reconnectAttempts + 1})`)
+  const delay = getReconnectDelay();
+  console.log(`Reconnecting in ${delay}ms (attempt ${playerState.reconnectAttempts + 1})`);
 
-  setPlayerStatus('reconnecting', button)
+  setPlayerStatus('reconnecting', button);
 
   // Store the current source and try to reload
-  const currentSrc = audio.src
+  const currentSrc = audio.src;
 
   playerState.reconnectTimer = setTimeout(() => {
-    playerState.reconnectAttempts++
+    playerState.reconnectAttempts++;
 
     // Reset and try to play again
-    audio.src = ''
-    audio.src = currentSrc
+    audio.src = '';
+    audio.src = currentSrc;
 
     audio.play().then(() => {
-      playerState.reconnectAttempts = 0
-      playerState.wasPlaying = true
-      playerState.hasPlayedBefore = true
-      setPlayerStatus('playing', button)
+      playerState.reconnectAttempts = 0;
+      playerState.wasPlaying = true;
+      playerState.hasPlayedBefore = true;
+      setPlayerStatus('playing', button);
     }).catch(() => {
       // Will trigger error event, which will call reconnectStream again
-    })
-  }, delay)
+    });
+  }, delay);
 }
 
-function handlePlayerError (audio, button) {
-  console.warn('Player error:', audio.error)
+function handlePlayerError(audio, button) {
+  console.warn('Player error:', audio.error);
 
   // Cancel any pending reconnection
   if (playerState.reconnectTimer) {
-    clearTimeout(playerState.reconnectTimer)
-    playerState.reconnectTimer = null
+    clearTimeout(playerState.reconnectTimer);
+    playerState.reconnectTimer = null;
   }
 
   // If was playing, attempt to reconnect
   if (playerState.wasPlaying) {
-    reconnectStream(audio, button)
+    reconnectStream(audio, button);
   } else {
-    setPlayerStatus('error', button)
+    setPlayerStatus('error', button);
   }
 }
 
-function handlePlayerStalled (audio, button) {
-  console.warn('Player stalled, attempting to recover...')
-  audio.load()
+function handlePlayerStalled(audio, button) {
+  console.warn('Player stalled, attempting to recover...');
+  audio.load();
 }
 
 // Initialize background rotation on page load
 document.addEventListener('DOMContentLoaded', () => {
   // Set initial background
-  setRandomBackground()
+  setRandomBackground();
 
   // Rotate background every 20 seconds
-  const backgroundInterval = setInterval(setRandomBackground, 20000)
+  const backgroundInterval = setInterval(setRandomBackground, 20000);
 
   // Cleanup interval when page is unloaded
   window.addEventListener('beforeunload', () => {
-    clearInterval(backgroundInterval)
-  })
+    clearInterval(backgroundInterval);
+  });
 
-  const audio = document.getElementById('radioStream')
-  const playButton = document.getElementById('playButton')
-  const volumeSlider = document.getElementById('volumeSlider')
+  const audio = document.getElementById('radioStream');
+  const playButton = document.getElementById('playButton');
+  const volumeSlider = document.getElementById('volumeSlider');
 
   if (audio && playButton && volumeSlider) {
     // Store initial button text
-    playerState.initialText = playButton.textContent || 'Play'
+    playerState.initialText = playButton.textContent || 'Play';
 
     // Initialize volume
-    audio.volume = volumeSlider.value / 100
+    audio.volume = volumeSlider.value / 100;
 
     // Listen for network online status
     window.addEventListener('online', () => {
-      console.log('Network online, attempting to reconnect...')
+      console.log('Network online, attempting to reconnect...');
       if (playerState.wasPlaying || playerState.hasPlayedBefore) {
-        reconnectStream(audio, playButton)
+        reconnectStream(audio, playButton);
       }
-    })
+    });
 
     // Listen for page visibility changes (user returns to tab)
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') {
-        console.log('Page visible, checking stream status...')
+        console.log('Page visible, checking stream status...');
         // Only reconnect if we were playing and stream is dead
         if ((playerState.wasPlaying || playerState.hasPlayedBefore) && audio.paused && !playerState.reconnectTimer) {
           audio.play().catch(() => {
-            handlePlayerError(audio, playButton)
-          })
+            handlePlayerError(audio, playButton);
+          });
         }
       }
-    })
+    });
 
     // Player event listeners for error handling
     audio.addEventListener('error', () => {
-      handlePlayerError(audio, playButton)
-    })
+      handlePlayerError(audio, playButton);
+    });
 
     audio.addEventListener('stalled', () => {
-      handlePlayerStalled(audio, playButton)
-    })
+      handlePlayerStalled(audio, playButton);
+    });
 
     audio.addEventListener('pause', () => {
       // If we weren't explicitly pausing, this might be a stream drop
       if (playerState.status === 'playing') {
-        console.warn('Stream paused unexpectedly')
-        playerState.wasPlaying = true
-        handlePlayerError(audio, playButton)
+        console.warn('Stream paused unexpectedly');
+        playerState.wasPlaying = true;
+        handlePlayerError(audio, playButton);
       }
-    })
+    });
 
     audio.addEventListener('playing', () => {
-      playerState.wasPlaying = true
-      playerState.hasPlayedBefore = true
-      playerState.reconnectAttempts = 0
-      setPlayerStatus('playing', playButton)
-    })
+      playerState.wasPlaying = true;
+      playerState.hasPlayedBefore = true;
+      playerState.reconnectAttempts = 0;
+      setPlayerStatus('playing', playButton);
+    });
 
     audio.addEventListener('ended', () => {
-      setPlayerStatus('paused', playButton)
-    })
+      setPlayerStatus('paused', playButton);
+    });
 
     // Play/pause toggle
     playButton.addEventListener('click', () => {
-      const currentStatus = playerState.status
+      const currentStatus = playerState.status;
 
-      function doPlay (onSuccess) {
+      function doPlay(onSuccess) {
         audio.play().then(() => {
-          playerState.wasPlaying = true
-          playerState.hasPlayedBefore = true
-          if (onSuccess) onSuccess()
-          setPlayerStatus('playing', playButton)
+          playerState.wasPlaying = true;
+          playerState.hasPlayedBefore = true;
+          if (onSuccess) onSuccess();
+          setPlayerStatus('playing', playButton);
         }).catch(() => {
           if (currentStatus === 'reconnecting') {
-            setPlayerStatus('error', playButton)
+            setPlayerStatus('error', playButton);
           } else {
-            handlePlayerError(audio, playButton)
+            handlePlayerError(audio, playButton);
           }
-        })
+        });
       }
 
       // If error or idle, try to play
       if (currentStatus === 'error' || currentStatus === 'idle') {
-        playerState.reconnectAttempts = 0
-        doPlay()
-        return
+        playerState.reconnectAttempts = 0;
+        doPlay();
+        return;
       }
 
       // If reconnecting, cancel and allow manual retry
       if (currentStatus === 'reconnecting') {
         if (playerState.reconnectTimer) {
-          clearTimeout(playerState.reconnectTimer)
-          playerState.reconnectTimer = null
+          clearTimeout(playerState.reconnectTimer);
+          playerState.reconnectTimer = null;
         }
-        doPlay()
-        return
+        doPlay();
+        return;
       }
 
       // Normal play/pause toggle
       if (audio.paused) {
-        doPlay()
+        doPlay();
       } else {
-        audio.pause()
-        playerState.wasPlaying = playerState.status === 'playing'
-        setPlayerStatus('paused', playButton)
+        audio.pause();
+        playerState.wasPlaying = playerState.status === 'playing';
+        setPlayerStatus('paused', playButton);
       }
-    })
+    });
 
     // Adjust volume
     volumeSlider.addEventListener('input', () => {
-      audio.volume = volumeSlider.value / 100
-    })
+      audio.volume = volumeSlider.value / 100;
+    });
 
     // Expose player controls for external use
     window.zamrockPlayer = {
@@ -392,7 +392,7 @@ document.addEventListener('DOMContentLoaded', () => {
       pause: () => audio.pause(),
       getStatus: () => playerState.status,
       getVolume: () => audio.volume,
-      setVolume: (v) => { audio.volume = v }
-    }
+      setVolume: (v) => { audio.volume = v; }
+    };
   }
-})
+});

@@ -1,3 +1,5 @@
+# Nano Cheat Sheet
+
 - **Open a file for editing** [nano filename]
   - Opens the specified file for editing.
 

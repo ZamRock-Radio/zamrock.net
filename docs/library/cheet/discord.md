@@ -1,87 +1,109 @@
+# Discord Cheat Sheet
+
 - Toggle Discord Overlay:
-   - Summary: Allows you to toggle the Discord overlay on/off.
-   - Hotkey: Ctrl + Shift + Backquote (`)
+  - Summary: Allows you to toggle the Discord overlay on/off.
+  - Hotkey: Ctrl + Shift + Backquote (`)
 
 - Mute/Unmute Microphone:
-   - Summary: Quickly mutes or unmutes your microphone.
-   - Hotkey: Ctrl + Shift + M
+  - Summary: Quickly mutes or unmutes your microphone.
+  - Hotkey: Ctrl + Shift + M
 
 - Deafen/Undeafen:
-   - Summary: Toggles your deafening status, preventing or allowing you to hear other participants.
-   - Hotkey: Ctrl + Shift + D
+  - Summary: Toggles your deafening status, preventing or allowing you to hear other participants.
+  - Hotkey: Ctrl + Shift + D
 
 - Start/Stop Voice Call:
-   - Summary: Initiates or terminates a voice call.
-   - Hotkey: Ctrl + Shift + P
+  - Summary: Initiates or terminates a voice call.
+  - Hotkey: Ctrl + Shift + P
 
 - Start/Stop Video Call:
-   - Summary: Initiates or terminates a video call.
-   - Hotkey: Ctrl + Shift + V
+  - Summary: Initiates or terminates a video call.
+  - Hotkey: Ctrl + Shift + V
 
-- Upload a File:
-   - Summary: Opens the file upload dialog to share a file.
-   - Hotkey: Ctrl + Shift + U
+- Toggle User Settings:
+  - Summary: Opens or closes the user settings panel.
+  - Hotkey: Ctrl + Shift + S
 
-- Search Messages:
-   - Summary: Enables searching for specific messages within the chat.
-   - Hotkey: Ctrl + F
+- Toggle Server Settings:
+  - Summary: Opens or closes the server settings panel.
+  - Hotkey: Ctrl + Shift + E
 
-- Open Channel Switcher:
-   - Summary: Opens the channel switcher to easily navigate between channels.
-   - Hotkey: Ctrl + K
+- Toggle Direct Messages:
+  - Summary: Opens or closes the direct messages panel.
+  - Hotkey: Ctrl + Shift + U
 
-- Jump to Oldest Unread Message:
-   - Summary: Jumps to the oldest unread message in the chat.
-   - Hotkey: Ctrl + Up Arrow
+- Toggle Friends List:
+  - Summary: Opens or closes the friends list panel.
+  - Hotkey: Ctrl + Shift + F
 
-- Jump to Newest Unread Message:
-   - Summary: Jumps to the newest unread message in the chat.
-   - Hotkey: Ctrl + Down Arrow
+- Toggle User Profile:
+  - Summary: Opens or closes the user profile panel.
+  - Hotkey: Ctrl + Shift + I
 
-- Toggle Discord Window Minimization:
-   - Summary: Toggles the minimization of the Discord window.
-   - Hotkey: Ctrl + Backquote (`)
+- Toggle Voice Settings:
+  - Summary: Opens or closes the voice settings panel.
+  - Hotkey: Ctrl + Shift + O
 
-- Toggle Server Mute/Deafen:
-   - Summary: Toggles your mute or deafen status when focused on a voice channel.
-   - Hotkey: Ctrl + Shift + M
+- Toggle Overlay Settings:
+  - Summary: Opens or closes the overlay settings panel.
+  - Hotkey: Ctrl + Shift + L
 
-- Toggle Channel Mute/Unmute:
-   - Summary: Quickly toggles the mute or unmute status of a voice channel you're focused on.
-   - Hotkey: Alt + M
+- Toggle Streamer Mode:
+  - Summary: Enables or disables streamer mode.
+  - Hotkey: Ctrl + Shift + T
 
-- Mark Server Read:
-   - Summary: Marks the server as read, clearing unread notifications.
-   - Hotkey: Ctrl + Shift + I
+- Toggle Developer Mode:
+  - Summary: Enables or disables developer mode.
+  - Hotkey: Ctrl + Shift + I
 
-- Mark Channel Read:
-   - Summary: Marks the channel as read, clearing unread notifications.
-   - Hotkey: Ctrl + Shift + E
+- Toggle Night Mode:
+  - Summary: Enables or disables night mode.
+  - Hotkey: Ctrl + Shift + N
 
-- Scroll Chat Up:
-   - Summary: Scrolls the chat upwards to view older messages.
-   - Hotkey: Shift + Page Up
+- Toggle Fullscreen:
+  - Summary: Enables or disables fullscreen mode.
+  - Hotkey: Ctrl + Shift + F
 
-- Scroll Chat Down:
-   - Summary: Scrolls the chat downwards to view newer messages.
-   - Hotkey: Shift + Page Down
+- Toggle Minimal Mode:
+  - Summary: Enables or disables minimal mode.
+  - Hotkey: Ctrl + Shift + M
 
-- Mute Server:
-   - Summary: Allows you to mute the selected server.
-   - Hotkey: Right-click server icon, then select "Mute Server"
+- Toggle Game Overlay:
+  - Summary: Enables or disables the game overlay.
+  - Hotkey: Ctrl + Shift + G
 
-- Mark Server as Read:
-   - Summary: Marks the selected server as read.
-   - Hotkey: Right-click server icon, then select "Mark As Read"
+- Toggle Overlay Notifications:
+  - Summary: Enables or disables overlay notifications.
+  - Hotkey: Ctrl + Shift + B
 
-- Create a Direct Message:
-   - Summary: Opens a new direct message with another user.
-   - Hotkey: Ctrl + N
+- Toggle Overlay Input Detection:
+  - Summary: Enables or disables overlay input detection.
+  - Hotkey: Ctrl + Shift + H
 
-- Select a Pinned Message:
-   - Summary: Selects the next or previous pinned message in the chat.
-   - Hotkey: Up/Down Arrow keys while focused on the chat
+- Toggle Voice Activity Mode:
+  - Summary: Switches between voice activity and push-to-talk modes.
+  - Hotkey: Ctrl + Shift + V
 
-- Upload a File from Clipboard:
-   - Summary: Uploads a file from your clipboard to share.
-   - Hotkey: Ctrl + V (when uploading a file)
+- Toggle Push-to-Talk:
+  - Summary: Enables or disables push-to-talk mode.
+  - Hotkey: Ctrl + Shift + P
+
+- Toggle Noise Suppression:
+  - Summary: Enables or disables noise suppression.
+  - Hotkey: Ctrl + Shift + N
+
+- Toggle Echo Cancellation:
+  - Summary: Enables or disables echo cancellation.
+  - Hotkey: Ctrl + Shift + E
+
+- Toggle Noise Reduction:
+  - Summary: Enables or disables noise reduction.
+  - Hotkey: Ctrl + Shift + R
+
+- Toggle Automatic Gain Control:
+  - Summary: Enables or disables automatic gain control.
+  - Hotkey: Ctrl + Shift + A
+
+- Toggle Loopback Test:
+  - Summary: Starts or stops the loopback test.
+  - Hotkey: Ctrl + Shift + L
