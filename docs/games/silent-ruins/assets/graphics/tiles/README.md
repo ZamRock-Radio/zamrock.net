@@ -3,8 +3,8 @@
 This folder contains swappable tile themes for Silent Ruins.
 
 ## Structure
+```text
 
-```
 tiles/
 ├── theme-mapping.toml    # Block-to-tile mappings for each theme
 ├── kenney-pico-8/        # 150 tiles (8x8 pixel art)
