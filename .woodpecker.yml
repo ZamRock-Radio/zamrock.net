@@ -5,6 +5,9 @@ pipeline:
       DEFAULT_BRANCH: main
       VALIDATE_ALL_CODEBASE: "false"
       LINTER_RULES_PATH: .github/linters
+      PYTHON_BLACK_CONFIG_FILE: .python-black
+      PYTHON_FLAKE8_CONFIG_FILE: .flake8
+      PYTHON_ISORT_CONFIG_FILE: .isort.cfg
       MARKDOWN_CONFIG_FILE: .github/linters/.markdown-lint.yml
       JAVASCRIPT_STANDARD_CONFIG: .eslintrc.json
       FILTER_REGEX_EXCLUDE: ".*\\.html$"
@@ -17,9 +20,10 @@ pipeline:
 
   test:
     image: ubuntu:latest
+    depends_on: [lint]
     commands:
       - apt-get update -q
-      - apt-get install -y ffmpeg
+      - apt-get install -y sudo ffmpeg
       - echo "Tests passed - no test suite configured"
     when:
       - event: push
