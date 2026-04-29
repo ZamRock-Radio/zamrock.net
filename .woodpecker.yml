@@ -18,5 +18,3 @@ pipeline:
       - apt-get install -y ffmpeg
       - echo "Tests passed - no test suite configured"
     depends_on: [lint-markdown, lint-javascript]
-# CI Test
-test
