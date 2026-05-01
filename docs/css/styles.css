@@ -136,16 +136,13 @@ body {
   border-radius: 50px;
   transition: all 0.3s ease;
   text-align: center;
-  min-width: 80px;
+  min-width: 110px;
   font-size: 0.7em;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
   display: inline-block;
   line-height: 1.2;
   background: rgba(46, 52, 64, 0.7);
-  flex: 1 1 auto;
-  max-width: 120px;
+  flex: 0 0 auto;
 }
 
 .nav-btn:hover, 
