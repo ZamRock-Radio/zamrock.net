@@ -129,23 +129,23 @@ body {
 }
 
 .nav-btn {
-    color: var(--text-color);
-    text-decoration: none;
-    padding: 6px 10px;
-    border: 2px solid var(--border-color);
-    border-radius: 4px;
-    transition: all 0.3s ease;
-    text-align: center;
-    min-width: 80px;
-    font-size: 0.75em;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: inline-block;
-    line-height: 1.2;
-    background: rgba(46, 52, 64, 0.7);
-    flex: 1 1 auto;
-    max-width: 120px;
+  color: var(--text-color);
+  text-decoration: none;
+  padding: 6px 14px;
+  border: 2px solid var(--border-color);
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  text-align: center;
+  min-width: 80px;
+  font-size: 0.7em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  line-height: 1.2;
+  background: rgba(46, 52, 64, 0.7);
+  flex: 1 1 auto;
+  max-width: 120px;
 }
 
 .nav-btn:hover, 
