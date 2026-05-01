@@ -59,30 +59,29 @@ timezoneSelect.addEventListener('change', (e) => {
     updateSchedule();     // Update schedule with new timezone
 });
     
-    // Load schedule data from Cloudflare Worker / local JSON
+    // Load schedule data from local JSON (primary) with Worker fallback
     try {
-        // Try Cloudflare Worker first (private API)
+        // Try local JSON file first (relative to current page)
         let data;
-        try {
-            const workerResponse = await fetch('https://icy-voice-api.deathsmack-a51.workers.dev/schedule');
-            if (workerResponse.ok) {
-                data = await workerResponse.json();
-            }
-        } catch (e) {
-            console.log('Worker unavailable, falling back to local JSON');
+        const localResponse = await fetch('../Daily-Planner/zamrock-schedule.json');
+        if (localResponse.ok) {
+            data = await localResponse.json();
         }
         
-        // Fallback to local JSON file (relative to current page)
+        // Try Cloudflare Worker as secondary source (if configured)
         if (!data) {
-            const response = await fetch('../Daily-Planner/zamrock-schedule.json');
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+            try {
+                const workerResponse = await fetch('https://icy-voice-api.deathsmack-a51.workers.dev/schedule');
+                if (workerResponse.ok) {
+                    data = await workerResponse.json();
+                }
+            } catch (e) {
+                console.log('Worker unavailable');
             }
-            data = await response.json();
         }
         
-        if (!data.playlists || !Array.isArray(data.playlists)) {
-            throw new Error('Invalid schedule format: missing playlists array');
+        if (!data || !data.playlists || !Array.isArray(data.playlists)) {
+            throw new Error('Invalid schedule format or missing playlists');
         }
         
         // Convert new format to internal format
