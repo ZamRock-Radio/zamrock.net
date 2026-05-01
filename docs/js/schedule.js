@@ -64,7 +64,7 @@ timezoneSelect.addEventListener('change', (e) => {
         // Try Cloudflare Worker first (private API)
         let data;
         try {
-            const workerResponse = await fetch('https://icy-voice-api.deathsmack-a51.workers.dev/');
+            const workerResponse = await fetch('https://icy-voice-api.deathsmack-a51.workers.dev/schedule');
             if (workerResponse.ok) {
                 data = await workerResponse.json();
             }
@@ -72,9 +72,9 @@ timezoneSelect.addEventListener('change', (e) => {
             console.log('Worker unavailable, falling back to local JSON');
         }
         
-        // Fallback to local JSON file
+        // Fallback to local JSON file (relative to current page)
         if (!data) {
-            const response = await fetch('/Daily-Planner/zamrock-schedule.json');
+            const response = await fetch('../Daily-Planner/zamrock-schedule.json');
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
