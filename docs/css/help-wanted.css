@@ -8,7 +8,7 @@
 
 .help-wanted-container h2 {
   font-family: 'Press Start 2P', cursive;
-  color: #00ff00;
+  color: #0f0;
   text-align: center;
   margin-bottom: 20px;
   font-size: 1.2em;
@@ -30,12 +30,11 @@
 }
 
 .help-card {
-  background: rgba(10, 10, 10, 0.55);
+  background: rgb(10 10 10 / 55%);
   backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   border: 2px solid #333;
   border-radius: 8px;
-  padding: 20px 20px 15px 20px;
+  padding: 20px 20px 15px;
   text-align: center;
   transition: border-color 0.3s, transform 0.3s;
   display: flex;
@@ -43,23 +42,8 @@
   min-height: 380px;
 }
 
-.help-btn {
-  display: block;
-  width: 80%;
-  margin: auto auto 0 auto;
-  background: #009900;
-  color: #000;
-  font-family: 'Press Start 2P', cursive;
-  font-size: 0.65em;
-  padding: 12px 15px;
-  border-radius: 4px;
-  text-decoration: none;
-  transition: background 0.3s;
-  text-align: center;
-}
-
 .help-card:hover {
-  border-color: #00ff00;
+  border-color: #0f0;
   transform: translateY(-5px);
 }
 
@@ -70,7 +54,7 @@
 
 .help-card h3 {
   font-family: 'Press Start 2P', cursive;
-  color: #00ff00;
+  color: #0f0;
   margin-bottom: 15px;
   font-size: 0.9em;
 }
@@ -104,22 +88,25 @@
 
 .help-btn {
   display: inline-block;
-  background: #00ff00;
+  width: 80%;
+  margin: auto auto 0 auto;
+  background: #090;
   color: #000;
   font-family: 'Press Start 2P', cursive;
-  font-size: 0.7em;
-  padding: 8px 16px;
+  font-size: 0.65em;
+  padding: 12px 15px;
   border-radius: 4px;
   text-decoration: none;
   transition: background 0.3s;
+  text-align: center;
   margin-top: auto;
 }
 
 .help-btn:hover {
-  background: #00cc00;
+  background: #060;
 }
 
-// Responsive
+/* Responsive */
 @media (max-width: 768px) {
   .help-grid {
     grid-template-columns: 1fr;
