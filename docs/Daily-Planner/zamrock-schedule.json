@@ -1,0 +1,103 @@
+{
+  "timezone": "America/Denver",
+  "playlists": [
+    {
+      "name": "Fresh Fish",
+      "start": "15:30",
+      "end": "19:00",
+      "days": "daily",
+      "overnight": false
+    },
+    {
+      "name": "Cloud Pants",
+      "start": "09:30",
+      "end": "12:00",
+      "days": "sat/sun/tue/thu",
+      "overnight": false
+    },
+    {
+      "name": "Artist Of The Month",
+      "start": "18:00",
+      "end": "21:30",
+      "days": "daily",
+      "overnight": false
+    },
+    {
+      "name": "Afrobeat Legacy",
+      "start": "13:15",
+      "end": "15:00",
+      "days": "sat/sun/tue/thu",
+      "overnight": false
+    },
+    {
+      "name": "The Funky Truth",
+      "start": "13:00",
+      "end": "15:00",
+      "days": "mon/wed/fri",
+      "overnight": false
+    },
+    {
+      "name": "Morning Coffee Mix",
+      "start": "06:00",
+      "end": "10:45",
+      "days": "sun/sat/tue/thu",
+      "overnight": false
+    },
+    {
+      "name": "Blues In Every Tongue",
+      "start": "11:00",
+      "end": "13:30",
+      "days": "daily",
+      "overnight": false
+    },
+    {
+      "name": "Country2c Moo",
+      "start": "19:15",
+      "end": "21:30",
+      "days": "daily",
+      "overnight": false
+    },
+    {
+      "name": "Acid Trip",
+      "start": "06:00",
+      "end": "10:30",
+      "days": "mon/wed/fri",
+      "overnight": false
+    },
+    {
+      "name": "Zamrock Rising",
+      "start": "14:00",
+      "end": "18:30",
+      "days": "sun/sat/tue/thu",
+      "overnight": false
+    },
+    {
+      "name": "Zamdelic Trance",
+      "start": "09:45",
+      "end": "12:00",
+      "days": "mon/wed/fri",
+      "overnight": false
+    },
+    {
+      "name": "The Catnip Sessions",
+      "start": "19:30",
+      "end": "22:00",
+      "days": "daily",
+      "overnight": false
+    },
+    {
+      "name": "Zamrock Classics",
+      "start": "14:00",
+      "end": "18:30",
+      "days": "mon/wed/fri",
+      "overnight": false
+    },
+    {
+      "name": "Endless Mixtapes",
+      "start": "22:00",
+      "end": "06:00",
+      "days": "daily",
+      "overnight": true
+    }
+  ]
+}
