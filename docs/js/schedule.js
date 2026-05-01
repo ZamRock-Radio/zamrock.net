@@ -14,7 +14,8 @@ const timezoneMap = {
     'America/Chicago': 'Central Time (CT)',
     'America/Los_Angeles': 'Pacific Time (PT)',
     'UTC': 'UTC/GMT',
-    'Europe/London': 'London (GMT)'
+    'Europe/London': 'London (GMT)',
+    'Europe/Kyiv': 'Ukraine (EET)'
 };
 
 // DOM Elements
