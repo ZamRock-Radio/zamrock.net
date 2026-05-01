@@ -1,0 +1,14 @@
+# DO NOT MERGE
+
+This branch is for testing the help-wanted page.
+It should NOT be merged into main until explicitly approved.
+
+## Branch Info
+- Branch: help-wanted
+- PR: https://codeberg.org/ZamRock-Radio/zamrock.net/pulls/89
+- Status: **OPEN FOR REVIEW ONLY — NO MERGE**
+
+## Changes
+- Added `docs/help-wanted/index.html` (help-wanted page)
+- Added `docs/css/help-wanted.css` (matching site theme)
+- 7-grid layout with volunteer opportunities
