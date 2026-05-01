@@ -70,7 +70,7 @@
 .help-pros {
   list-style: none;
   padding: 0;
-  margin: 12px 0 15px 0;
+  margin: 12px 0 15px;
   text-align: left;
   flex-grow: 1;
 }
@@ -89,7 +89,7 @@
 .help-btn {
   display: inline-block;
   width: 80%;
-  margin: auto auto 0 auto;
+  margin: auto auto 0;
   background: #090;
   color: #000;
   font-family: 'Press Start 2P', cursive;
@@ -107,7 +107,7 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .help-grid {
     grid-template-columns: 1fr;
   }
