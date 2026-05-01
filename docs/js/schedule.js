@@ -59,57 +59,42 @@ timezoneSelect.addEventListener('change', (e) => {
     updateSchedule();     // Update schedule with new timezone
 });
     
-    // Load schedule data - try new format first, then fall back to old format
+    // Load schedule data from Cloudflare Worker / local JSON
     try {
-        // Get current day
-        const now = new Date();
-        const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-        const currentDay = days[now.getDay()];
-        
-        // Try to load day-specific schedule from Daily-Planner
-        let scheduleLoaded = false;
-        const dayFiles = [
-            `${currentDay}.json`,
-            `${currentDay.substring(0, 3)}.json`,
-            'schedule_montue.json',
-            'schedule_satsun.json',
-            'schedule_weekend.json',
-            'schedule_weekday.json'
-        ];
-        
-        for (const filename of dayFiles) {
-            try {
-                const response = await fetch(`/Daily-Planner/${filename}`);
-                if (response.ok) {
-                    const data = await response.json();
-                    // Check if this schedule applies to current day
-                    if (data.playlists && Array.isArray(data.playlists)) {
-                        // Convert new format to old format for compatibility
-                        scheduleData = data.playlists.map(p => ({
-                            show: p.name || 'Untitled',
-                            start: p.start || '00:00',
-                            end: p.end || '01:00',
-                            host: 'Automated Playlist',
-                            description: p.description || ''
-                        }));
-                        scheduleLoaded = true;
-                        break;
-                    }
-                }
-            } catch (e) {
-                // Continue to next file
+        // Try Cloudflare Worker first (private API)
+        let data;
+        try {
+            const workerResponse = await fetch('https://icy-voice-api.deathsmack-a51.workers.dev/');
+            if (workerResponse.ok) {
+                data = await workerResponse.json();
             }
+        } catch (e) {
+            console.log('Worker unavailable, falling back to local JSON');
         }
         
-        // Fall back to old Radio-Schedule.json format
-        if (!scheduleLoaded) {
-            const response = await fetch('/Radio-Schedule.json');
+        // Fallback to local JSON file
+        if (!data) {
+            const response = await fetch('/Daily-Planner/zamrock-schedule.json');
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            const data = await response.json();
-            scheduleData = data.schedule || [];
+            data = await response.json();
         }
+        
+        if (!data.playlists || !Array.isArray(data.playlists)) {
+            throw new Error('Invalid schedule format: missing playlists array');
+        }
+        
+        // Convert new format to internal format
+        scheduleData = data.playlists.map(p => ({
+            show: p.name || 'Untitled',
+            start: p.start || '00:00',
+            end: p.end || '01:00',
+            host: 'Automated Playlist',
+            description: '',
+            days: p.days || 'daily',
+            overnight: p.overnight || false
+        }));
         
         if (scheduleData.length === 0) {
             throw new Error('No schedule data found');
