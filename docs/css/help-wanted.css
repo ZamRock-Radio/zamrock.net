@@ -30,17 +30,32 @@
 }
 
 .help-card {
-  background: rgba(10, 10, 10, 0.75);
+  background: rgba(10, 10, 10, 0.65);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 2px solid #333;
   border-radius: 8px;
-  padding: 25px;
+  padding: 20px 20px 15px 20px;
   text-align: center;
   transition: border-color 0.3s, transform 0.3s;
   display: flex;
   flex-direction: column;
-  min-height: 420px;
+  min-height: 380px;
+}
+
+.help-btn {
+  display: block;
+  width: 80%;
+  margin: auto auto 0 auto;
+  background: #00ff00;
+  color: #000;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.65em;
+  padding: 12px 15px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background 0.3s;
+  text-align: center;
 }
 
 .help-card:hover {
@@ -64,14 +79,14 @@
   color: #aaa;
   font-size: 0.8em;
   line-height: 1.5;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
   flex-grow: 1;
 }
 
 .help-pros {
   list-style: none;
   padding: 0;
-  margin: 15px 0 20px 0;
+  margin: 12px 0 15px 0;
   text-align: left;
   flex-grow: 1;
 }
@@ -93,7 +108,7 @@
   color: #000;
   font-family: 'Press Start 2P', cursive;
   font-size: 0.7em;
-  padding: 10px 20px;
+  padding: 8px 16px;
   border-radius: 4px;
   text-decoration: none;
   transition: background 0.3s;
