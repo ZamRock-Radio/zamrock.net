@@ -2,10 +2,10 @@
 .schedule-container {
   max-width: 1000px;
   margin: 2rem auto;
-  background: rgba(46, 52, 64, 0.8);
+  background: rgb(46 52 64 / 80%);
   border-radius: 8px;
   padding: 1.5rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 8px rgb(0 0 0 / 30%);
   color: var(--text-color);
   font-family: 'Press Start 2P', system-ui, -apple-system, sans-serif;
   position: relative;
@@ -15,7 +15,7 @@
 .timezone-selector {
   margin-bottom: 2rem;
   padding: 1.5rem;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgb(0 0 0 / 40%);
   border-radius: 5px;
   display: flex;
   flex-wrap: wrap;
@@ -56,7 +56,7 @@
 }
 
 .timezone-controls select {
-  background: rgba(0, 0, 0, 0.5);
+  background: rgb(0 0 0 / 50%);
   color: var(--text-color);
   border: 2px solid var(--border-color);
   padding: 0.5rem 1rem;
@@ -75,7 +75,7 @@
 
 .now-playing-container,
 .upcoming-container {
-  background: rgba(0, 0, 0, 0.4);
+  background: rgb(0 0 0 / 40%);
   border-radius: 5px;
   padding: 1.5rem;
   margin-bottom: 2rem;
@@ -115,7 +115,7 @@
     color: #e6e6e6;
     padding: 1rem;
     border-radius: 6px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 12px rgb(0 0 0 / 50%);
     z-index: 1000; /* Very high z-index to ensure it's on top */
     margin-top: 5px;
     border: 1px solid #2a2f3b;
@@ -151,11 +151,8 @@
 .description-overlay {
     display: none;
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.8);
+    inset: 0;
+    background: rgb(0 0 0 / 80%);
     z-index: 1000;
     cursor: pointer;
 }
@@ -178,10 +175,10 @@
         top: 100%;
         left: 0;
         right: 0;
-        background: rgba(46, 52, 64, 0.95);
+        background: rgb(46 52 64 / 95%);
         padding: 10px;
         border-radius: 5px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 4px 8px rgb(0 0 0 / 30%);
         z-index: 10;
         display: none;
         max-height: none;
@@ -210,12 +207,12 @@
 
 .show-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px rgb(0 0 0 / 20%);
 }
 
 .show-card.current {
     border-left: 4px solid #81a1c1;
-    background: rgba(129, 161, 193, 0.1);
+    background: rgb(129 161 193 / 10%);
 }
 
 .show-time {
@@ -242,12 +239,12 @@
     text-align: center;
     padding: 20px;
     color: #d8dee9;
-    background: rgba(59, 66, 82, 0.3);
+    background: rgb(59 66 82 / 30%);
     border-radius: 8px;
 }
 
 /* Mobile styles */
-@media (max-width: 768px) {
+@media (width <= 768px) {
     .timezone-selector {
         flex-direction: column;
         align-items: flex-start;
