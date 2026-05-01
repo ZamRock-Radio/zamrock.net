@@ -9,8 +9,8 @@
 
 * {
     box-sizing: border-box;
-    margin:0;
-    padding:0;
+    margin: 0;
+    padding: 0;
 }
 
 html {
@@ -27,8 +27,8 @@ body {
     color: var(--text-color);
     line-height: 1.6;
     min-height: 100vh;
-    margin:0;
-    padding:0;
+    margin: 0;
+    padding: 0;
     position: relative;
 }
 
@@ -37,7 +37,7 @@ body {
     position: relative;
     z-index: 2;
     max-width: 800px;
-    margin:0 auto;
+    margin: 0 auto;
     padding: 15px;
     min-height: 100vh;
     display: flex;
@@ -47,7 +47,7 @@ body {
 /* Overlay for better text readability */
 .overlay {
     position: fixed;
-    inset:0;
+    inset: 0;
     background-color: rgb(0 0 0 / 50%);
     z-index: 1;
     pointer-events: none;
@@ -63,8 +63,8 @@ body {
 
 .footer-content {
     max-width: 800px;
-    margin:0 auto;
-    padding:0 15px;
+    margin: 0 auto;
+    padding: 0 15px;
 }
 
 /* Social Links */
@@ -74,13 +74,55 @@ body {
 
 .social-links a {
     color: var(--text-color);
-    margin:0 8px;
+    margin: 0 8px;
     font-size: 1.2em;
     transition: color 0.3s ease;
 }
 
+/* Site Title and Subtitle */
+.site-title {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 2.5rem;
+}
+
+.site-title a {
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+.tagline {
+    text-align: right;
+    margin: -10px 0 10px;
+    font-size: 0.9rem;
+    color: var(--primary-color);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding-right: 10px;
+}
+
+/* Footer Links */
+.footer-links {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.footer-links a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+/* Hover states - must come after all lower specificity selectors */
 .social-links a:hover {
     color: var(--primary-color);
+}
+
+.footer-links a:hover {
+    color: var(--accent-color);
+    text-decoration: underline;
 }
 
 /* Navigation - 2 Row Layout */
@@ -113,7 +155,7 @@ body {
     display: inline-block;
     line-height: 1.2;
     background: rgb(46 52 64 / 70%);
-    flex:0 0 auto;
+    flex: 0 0 auto;
 }
 
 .nav-btn:hover,
@@ -121,28 +163,6 @@ body {
     background: var(--primary-color);
     color: #fff;
     text-decoration: none;
-}
-
-/* Site Title and Subtitle */
-.site-title {
-    text-align: center;
-    margin: 20px 0;
-    font-size: 2.5rem;
-}
-
-.site-title a {
-    color: var(--text-color);
-    text-decoration: none;
-}
-
-.tagline {
-    text-align: right;
-    margin: -10px 0 10px;
-    font-size: 0.9rem;
-    color: var(--primary-color);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    padding-right: 10px;
 }
 
 /* Mobile: Stack all buttons vertically */
@@ -197,7 +217,7 @@ body {
 
 /* Main Content */
 .main-content {
-    flex:1;
+    flex: 1;
     padding: 20px 0;
 }
 
@@ -210,22 +230,14 @@ body {
     border-top: 2px solid var(--border-color);
 }
 
-.footer-links {
+.site-footer .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
     display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.footer-links a {
-    color: var(--primary-color);
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.footer-links a:hover {
-    color: var(--accent-color);
-    text-decoration: underline;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
 }
 
 /* Dark theme for Mastodon embeds */
@@ -268,7 +280,7 @@ body {
 /* About Page Styles */
 .about-section {
     max-width: 800px;
-    margin:0 auto;
+    margin: 0 auto;
     padding: 40px 20px;
     color: var(--text-color);
 }
