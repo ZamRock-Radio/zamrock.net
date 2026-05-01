@@ -179,6 +179,17 @@ function updateSchedule() {
     
     // Process each show in the schedule
     scheduleData.forEach(show => {
+        // Filter by day of week (use 'days' field from JSON)
+        if (show.days !== 'daily') {
+            const today = nowInStationTz.getDay(); // 0=Sun, 1=Mon, etc.
+            const dayNames = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+            const todayStr = dayNames[today];
+            
+            if (!show.days.includes(todayStr)) {
+                return; // Skip this show, doesn't play today
+            }
+        }
+        
         const [startHour, startMinute] = show.start.split(':').map(Number);
         const [endHour, endMinute] = show.end.split(':').map(Number);
         
@@ -189,13 +200,16 @@ function updateSchedule() {
         const endDate = new Date(nowInStationTz);
         endDate.setHours(endHour, endMinute, 0, 0);
         
-        // Handle shows that cross midnight
-        if (endHour < startHour || (endHour === startHour && endMinute < startMinute)) {
+        // Handle overnight shows (end < start, e.g., 22:00-06:00)
+        // Use the overnight flag from JSON, or detect if end < start
+        const isOvernight = show.overnight || (endHour < startHour || (endHour === startHour && endMinute < startMinute));
+        
+        if (isOvernight) {
             if (nowInStationTz < endDate) {
-                // If we're before the end time of an overnight show, adjust the start date to yesterday
+                // We're before the end time (e.g., 04:00), so show started yesterday at 22:00
                 showDate.setDate(showDate.getDate() - 1);
             } else {
-                // Otherwise, adjust the end date to tomorrow
+                // We're after the start time (e.g., 23:00), so show ends tomorrow at 06:00
                 endDate.setDate(endDate.getDate() + 1);
             }
         }
