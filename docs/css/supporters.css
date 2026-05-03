@@ -1,0 +1,114 @@
+/* Supporters Page Styles - ZamRock Radio */
+
+.supporters-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.supporters-container h2 {
+  font-family: 'Press Start 2P', cursive;
+  color: #ff0;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.2em;
+}
+
+.intro-text {
+  text-align: center;
+  color: #ccc;
+  margin-bottom: 40px;
+  font-size: 0.9em;
+  line-height: 1.6;
+}
+
+.supporters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+.supporter-card {
+  background: rgb(10 10 10 / 55%);
+  backdrop-filter: blur(12px);
+  border: 2px solid #333;
+  border-radius: 8px;
+  padding: 20px 20px 15px;
+  text-align: center;
+  transition: border-color 0.3s, transform 0.3s;
+  display: flex;
+  flex-direction: column;
+  min-height: 380px;
+}
+
+.supporter-card:hover {
+  border-color: #ff0;
+  transform: translateY(-5px);
+}
+
+.supporter-icon {
+  font-size: 3em;
+  margin-bottom: 15px;
+}
+
+.supporter-card h3 {
+  font-family: 'Press Start 2P', cursive;
+  color: #ff0;
+  margin-bottom: 15px;
+  font-size: 0.9em;
+}
+
+.supporter-desc {
+  color: #aaa;
+  font-size: 0.8em;
+  line-height: 1.5;
+  margin-bottom: 12px;
+  flex-grow: 1;
+}
+
+.supporter-list {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 15px;
+  text-align: left;
+  flex-grow: 1;
+}
+
+.supporter-list li {
+  color: #ccc;
+  font-size: 0.75em;
+  padding: 8px 0;
+  border-bottom: 1px solid #333;
+}
+
+.supporter-list li:last-child {
+  border-bottom: none;
+}
+
+.supporter-link {
+  display: inline-block;
+  width: 80%;
+  margin: auto auto 0;
+  background: #990;
+  color: #000;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.65em;
+  padding: 12px 15px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background 0.3s;
+  text-align: center;
+  margin-top: auto;
+}
+
+.supporter-link:hover {
+  background: #660;
+}
+
+/* Responsive */
+@media (width <= 768px) {
+  .supporters-grid {
+    grid-template-columns: 1fr;
+  }
+}
