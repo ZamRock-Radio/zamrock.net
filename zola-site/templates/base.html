@@ -1,0 +1,82 @@
+{% import "macros.html" as i18n %}
+<!DOCTYPE html>
+<html lang="{{ lang | default(value="en") }}" {% if lang == "ar" %}dir="rtl"{% endif %}>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{% block title %}{{ config.title }}{% endblock title %}</title>
+  <link rel="icon" href="{{ get_url(path="favicon/favicon.ico", trailing_slash=false) }}" type="image/x-icon"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ get_url(path="favicon/favicon-32x32.png", trailing_slash=false) }}"/>
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ get_url(path="favicon/favicon-16x16.png", trailing_slash=false) }}"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ get_url(path="favicon/apple-touch-icon.png", trailing_slash=false) }}"/>
+  <link rel="manifest" href="{{ get_url(path="favicon/site.webmanifest", trailing_slash=false) }}"/>
+
+  <meta name="description" content="{% block description %}{{ config.description }}{% endblock description %}" />
+  <meta name="keywords" content="ZamRock, Radio, Online Radio, Music, Stream" />
+  <meta name="author" content="ZamRock Radio" />
+  <link rel="me" href="https://musicworld.social/@ZamRock" />
+
+  <meta property="og:title" content="{% block og_title %}{{ config.title }}{% endblock og_title %}" />
+  <meta property="og:description" content="{% block og_description %}{{ config.description }}{% endblock og_description %}" />
+  <meta property="og:type" content="{% block og_type %}website{% endblock og_type %}" />
+  <meta property="og:url" content="{{ current_url | default(value=config.base_url) | safe }}" />
+  {% block og_image %}<meta property="og:image" content="https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_014.jpg" />{% endblock og_image %}
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{% block tw_title %}{{ config.title }}{% endblock tw_title %}" />
+  <meta name="twitter:description" content="{% block tw_description %}{{ config.description }}{% endblock tw_description %}" />
+  {% block tw_image %}<meta name="twitter:image" content="https://github.com/DeathSmack/zamrock/blob/6227f3fb00eb3e802a17fe9d6666a831daf02fc7/docs/img/website_bg/website_bg_014.jpg?raw=true" />{% endblock tw_image %}
+
+  <link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="{{ get_url(path="css/styles.css", trailing_slash=false) }}"/>
+  <link rel="stylesheet" href="{{ get_url(path="css/news.css", trailing_slash=false) }}"/>
+  <link rel="stylesheet" href="{{ get_url(path="css/help-wanted.css", trailing_slash=false) }}"/>
+  {% block extra_head %}{% endblock extra_head %}
+</head>
+<body>
+  <div class="overlay"></div>
+  <div class="container">
+    <h1 class="site-title"><a href="{{ get_url(path="@/_index.md", lang=lang) }}">{{ config.title }}</a></h1>
+    <div class="tagline">{{ i18n::t(key="tagline") }}</div>
+
+    <nav class="main-nav">
+      <div class="nav-row">
+        <a href="{{ get_url(path="schedule/") }}" class="nav-btn">{{ i18n::t(key="nav_schedule") }}</a>
+        <a href="{{ get_url(path="news/") }}" class="nav-btn">{{ i18n::t(key="nav_news") }}</a>
+        <a href="{{ get_url(path="about/") }}" class="nav-btn">{{ i18n::t(key="nav_about") }}</a>
+      </div>
+      <div class="nav-row">
+        <a href="{{ get_url(path="contact/") }}" class="nav-btn">{{ i18n::t(key="nav_contact") }}</a>
+        <a href="{{ get_url(path="games/") }}" class="nav-btn">{{ i18n::t(key="nav_games") }}</a>
+        <a href="{{ get_url(path="help-wanted/") }}" class="nav-btn">{{ i18n::t(key="nav_help") }}</a>
+      </div>
+    </nav>
+
+    <div class="language-switcher">
+      {% for code, _lang_config in config.languages %}
+        {% if code != lang %}
+          <a href="{{ get_url(path="@/_index.md", lang=code) }}" class="lang-btn">{{ code }}</a>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    {% block content %}{% endblock content %}
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-content">
+      <p>&copy; <script>document.write(new Date().getFullYear());</script> {{ config.title }} — {{ i18n::t(key="footer_copyright") }}</p>
+      <div class="footer-links">
+        <a href="{{ get_url(path="about/") }}">{{ i18n::t(key="footer_about") }}</a>
+        <a href="{{ get_url(path="contact/") }}">{{ i18n::t(key="footer_contact") }}</a>
+        <a href="{{ get_url(path="schedule/") }}">{{ i18n::t(key="footer_schedule") }}</a>
+        <a href="{{ get_url(path="news/") }}">{{ i18n::t(key="footer_news") }}</a>
+        <a href="{{ get_url(path="games/") }}">{{ i18n::t(key="footer_games") }}</a>
+      </div>
+    </div>
+  </footer>
+
+  {% block scripts %}{% endblock scripts %}
+</body>
+</html>
