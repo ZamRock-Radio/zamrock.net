@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>News - ZamRock Radio</title>
+  <link rel="icon" href="../favicon/favicon.ico" type="image/x-icon"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon/favicon-32x32.png"/>
+  <link rel="icon" type="image/png" sizes="16x16" href="../favicon/favicon-16x16.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png"/>
+  <link rel="manifest" href="../favicon/site.webmanifest"/>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Latest news and updates from ZamRock Radio" />
+  <meta name="keywords" content="ZamRock, Radio, News, Updates, Music" />
+  <meta name="author" content="ZamRock Radio" />
+
+  <!-- Open Graph / Facebook Meta Tags -->
+  <meta property="og:title" content="News - ZamRock Radio" />
+  <meta property="og:description" content="Stay updated with the latest news and updates from ZamRock Radio" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://zamrock.net/news/" />
+  <meta property="og:image" content="https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_014.jpg" />
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="News - ZamRock Radio" />
+  <meta name="twitter:description" content="Stay updated with the latest news and updates from ZamRock Radio" />
+  <meta name="twitter:image" content="https://github.com/DeathSmack/zamrock/blob/main/docs/img/website_bg/website_bg_014.jpg?raw=true" />
+
+  <!-- Fonts and styles -->
+  <link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="../css/styles.css"/>
+  <link rel="stylesheet" href="../css/news.css"/>
+  <style>
+    .news-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    @media (min-width: 769px) {
+      .news-container {
+        max-width: max(800px, 75vw);
+      }
+    }
+    
+    .news-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 28px;
+      margin-top: 20px;
+    }
+    
+    @media (min-width: 769px) {
+      .news-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    .news-card {
+      background: rgba(46, 52, 64, 0.9);
+      border: 2px solid var(--border-color);
+      border-radius: 8px;
+      overflow: hidden;
+      min-height: 300px;
+      padding: 15px;
+    }
+    
+    .news-media {
+      margin-top: 10px;
+    }
+    
+    .news-media {
+      text-align: center;
+    }
+    
+    .news-media img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+    }
+    
+    .mastodon-embed {
+      width: 100%;
+      min-height: 300px;
+      border: none;
+    }
+    
+    .loading-embed {
+      padding: 20px;
+      text-align: center;
+      color: var(--text-color);
+    }
+    
+    @media (max-width: 768px) {
+      .news-card {
+        min-height: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+  <div class="container">
+    <h1 class="site-title"><a href="/">ZamRock Radio</a></h1>
+    <div class="tagline">ZAMZAM FOR LIFE...</div>
+    
+    <nav class="main-nav">
+      <div class="nav-row">
+        <a href="../schedule/" class="nav-btn">🎵 Schedule</a>
+        <a href="../news/" class="nav-btn active">📰 News</a>
+        <a href="../about/" class="nav-btn">ℹ️ About</a>
+      </div>
+      <div class="nav-row">
+        <a href="../contact/" class="nav-btn">📞 Contact</a>
+        <a href="../games/" class="nav-btn">🎮 Games</a>
+        <a href="../help-wanted/" class="nav-btn">🆘 Help Wanted</a>
+      </div>
+    </nav>
+
+  <section class="news-section">
+  <h2>Latest News & Updates</h2>
+  <div id="newsContainer" class="news-grid">
+    <div class="loading">Loading news...</div>
+  </div>
+</section>
+  
+  <footer class="site-footer">
+    <div class="footer-content">
+      <p>&copy; <script>document.write(new Date().getFullYear());</script> ZamRock Radio - All Rights Reserved</p>
+      <div class="footer-links">
+        <a href="../about/">About</a>
+        <a href="../contact/">Contact</a>
+        <a href="../schedule/">Schedule</a>
+        <a href="../news/">News</a>
+      </div>
+    </div>
+  </footer>
+  
+  <script src="../js/main.js"></script>
+  <script src="../js/news.js"></script>
+
+</body>
+</html>

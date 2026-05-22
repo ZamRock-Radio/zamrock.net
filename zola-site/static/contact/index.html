@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - ZamRock Radio</title>
+    <link rel="icon" href="https://raw.githubusercontent.com/ZamRock-Radio/Media-Assets/main/Press-Kit/favicon.gif" type="image/gif">
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .contact-container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 30px;
+            background-color: rgba(46, 52, 64, 0.9);
+            border-radius: 10px;
+        }
+        
+        .contact-method {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 15px;
+            background-color: rgba(59, 66, 82, 0.7);
+            border-radius: 5px;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+        
+        .contact-method:hover {
+            transform: translateX(10px);
+            background-color: rgba(76, 86, 106, 0.8);
+        }
+        
+        .contact-icon {
+            font-size: 24px;
+            margin-right: 15px;
+            color: #81a1c1;
+            min-width: 30px;
+            text-align: center;
+        }
+        
+        .contact-details {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .contact-details h3 {
+            margin: 0 0 5px 0;
+            color: #81a1c1;
+        }
+        
+        .contact-details p, .contact-details a, .contact-details span {
+            margin: 0;
+            color: #d8dee9;
+            text-decoration: none;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            line-height: 1.6;
+        }
+        
+        .contact-details a:hover {
+            color: #81a1c1;
+            text-decoration: underline;
+        }
+
+        .contact-description {
+            font-size: 0.9em;
+            color: #aeb3bb;
+            margin-top: 5px;
+        }
+
+        .contact-description a {
+            color: #81a1c1;
+        }
+
+        .contact-details > a {
+            display: inline-block;
+            margin-top: 8px;
+            color: #81a1c1;
+            text-decoration: underline;
+        }
+
+        .contact-details > a:hover {
+            color: #d8dee9;
+        }
+
+        .contact-link {
+            color: #d8dee9;
+        }
+
+        .copy-btn {
+            background: rgba(129, 161, 193, 0.3);
+            border: 1px solid #81a1c1;
+            border-radius: 4px;
+            color: #81a1c1;
+            cursor: pointer;
+            font-size: 0.75em;
+            margin-left: 10px;
+            padding: 4px 8px;
+            vertical-align: middle;
+        }
+
+        .copy-btn:hover {
+            background: rgba(129, 161, 193, 0.5);
+        }
+
+        .copy-btn.copied {
+            background: rgba(136, 192, 208, 0.3);
+            color: #88c0d0;
+        }
+        
+        @media (max-width: 768px) {
+            .contact-container {
+                margin: 15px;
+                padding: 20px;
+                max-width: calc(100% - 30px);
+                width: auto;
+                box-sizing: border-box;
+            }
+
+            .contact-method {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .contact-icon {
+                margin: 0 0 10px 0;
+            }
+
+            .npub-text {
+                font-size: 0.7em;
+                word-break: break-all;
+                text-align: left;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .npub-text {
+                font-size: 0.75em;
+                color: #81a1c1;
+                word-break: break-all;
+            }
+        }
+    </style>
+</head>
+<body class="contact-page">
+    <div class="overlay"></div>
+    
+    <div class="container">
+        <h1 class="site-title"><a href="/">ZamRock Radio</a></h1>
+        <div class="tagline">ZAMZAM FOR LIFE...</div>
+        
+    <nav class="main-nav">
+      <div class="nav-row">
+        <a href="../schedule/" class="nav-btn">🎵 Schedule</a>
+        <a href="../news/" class="nav-btn">📰 News</a>
+        <a href="../about/" class="nav-btn">ℹ️ About</a>
+      </div>
+      <div class="nav-row">
+        <a href="../contact/" class="nav-btn active">📞 Contact</a>
+        <a href="../games/" class="nav-btn">🎮 Games</a>
+        <a href="../help-wanted/" class="nav-btn">🆘 Help Wanted</a>
+      </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <h2>Get In Touch</h2>
+            <p>Have questions, suggestions, or just want to say hello? We'd love to hear from you!</p>
+            
+            <div class="contact-container">
+                <h2>Chat Platforms</h2>
+                
+                <div class="contact-method">
+                    <div class="contact-icon">🔷</div>
+                    <div class="contact-details">
+                        <h3>Matrix</h3>
+                        <p class="contact-description">Our favorite! End-to-end encrypted, open-source, and decentralized. We consider this our most secure chat and it will be the focus of future development. Federation lets anyone communicate across servers.</p>
+                        <span class="contact-link">Open: </span><a href="https://matrix.to/#/#zamrock:unredacted.org" target="_blank">#zamrock:unredacted.org</a>
+                    </div>
+                </div>
+
+                <div class="contact-method">
+                    <div class="contact-icon">⚔️</div>
+                    <div class="contact-details">
+                        <h3>Revolt/Stoat</h3>
+                        <p class="contact-description">Our most active chat — we're closing in on 700 members. Similar to Discord but with much better Terms of Service, mostly open-source, and has features similar to Discord Nitro but free.</p>
+                        <span class="contact-link">Open: </span><a href="https://stt.gg/CsjKzYWm" target="_blank">stt.gg/CsjKzYWm</a>
+                    </div>
+                </div>
+
+                <div class="contact-method">
+                    <div class="contact-icon">✈️</div>
+                    <div class="contact-details">
+                        <h3>Telegram</h3>
+                        <p class="contact-description">Our official Telegram group. Fast, feature-rich, and cross-platform. Perfect for quick conversations and staying updated with our community.</p>
+                        <span class="contact-link">Open: </span><a href="https://t.me/+zNkDGCUw65U5Mjcx" target="_blank">t.me/+zNkDGCUw65U5Mjcx</a>
+                    </div>
+                </div>
+
+                <div class="contact-method">
+                    <div class="contact-icon">🔐</div>
+                    <div class="contact-details">
+                        <h3>Keybase</h3>
+                        <p class="contact-description">Secure team chat with end-to-end encryption, file sharing, and git integration. Great for private conversations and collaborating securely.</p>
+                        <span class="contact-link">Open: </span><a href="https://keybase.io/team/zamrock_radio" target="_blank">keybase.io/team/zamrock_radio</a>
+                    </div>
+                </div>
+
+                <div class="contact-method">
+                    <div class="contact-icon">⚡</div>
+                    <div class="contact-details">
+                        <h3>Fluxer</h3>
+                        <p class="contact-description">A newer open-source chat platform built in Sweden. Features voice/video with screen sharing, noise suppression, moderation tools, custom emojis, and self-hosting option. No email required to join.</p>
+                        <span class="contact-link">Open: </span><a href="https://fluxer.gg/3cDaqBp6" target="_blank">fluxer.gg/3cDaqBp6</a>
+                    </div>
+                </div>
+
+                <div class="contact-method">
+                    <div class="contact-icon">🎮</div>
+                    <div class="contact-details">
+                        <h3>GameVox</h3>
+                        <p class="contact-description">Crystal clear voice, spatial audio for gaming (GameLink), soundboard, screen share, video chat, and forums. Our server is self-hosted by our old friends at <strong>Mega Utilities</strong> — they host it and we appreciate it! <a href="https://stt.gg/JdQDaQ2F" target="_blank">Find them here</a> for links to all their other chats and socials.</p>
+                        <span class="contact-link">Open: </span><a href="https://gamevox.com/GCAG-5935" target="_blank">gamevox.com/GCAG-5935</a>
+                    </div>
+                </div>
+
+                <div class="contact-method">
+                    <div class="contact-icon">💬</div>
+                    <div class="contact-details">
+                        <h3>Discord</h3>
+                        <span>No longer accepting invites.</span>
+                        <p class="contact-description">We no longer support Discord due to their abuse of users' good faith in centralized chat. We left it open as a courtesy to our old members — it was the first chat server we made, RIP.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-container">
+                <h2>Social Platforms</h2>
+                
+                <div class="contact-method">
+                    <div class="contact-icon">🐘</div>
+                    <div class="contact-details">
+                        <h3>Mastodon</h3>
+                        <p class="contact-description">Fediverse social network. Open-source, decentralized, no algorithms, no ads, no tracking. Your followers and data stay with you even if you switch servers.</p>
+                        <span class="contact-link">Open: </span><a href="https://musicworld.social/@ZamRock" target="_blank">musicworld.social/@ZamRock</a>
+                    </div>
+                </div>
+
+                <div class="contact-method">
+                    <div class="contact-icon">☁️</div>
+                    <div class="contact-details">
+                        <h3>BlueSky</h3>
+                        <p class="contact-description">AT Protocol based. Open network with algorithmic feed choice, built-in moderation, and verification. No ads, no data selling, no Elon.</p>
+                        <span class="contact-link">Open: </span><a href="https://bsky.app/profile/zamrock.net" target="_blank">bsky.app/profile/zamrock.net</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-container">
+                <h2>Messaging Apps</h2>
+                
+                <div class="contact-method">
+                    <div class="contact-icon">🔵</div>
+                    <div class="contact-details">
+                        <h3>Vector</h3>
+                        <p class="contact-description">Privacy-first messenger built on Nostr. End-to-end encrypted with zero metadata leakage, no phone number required. We really love the Vector devs — open-source with an extensive app library, even though Vector is very new. Send us a message at our npub:</p>
+                        <p class="npub-text">npub16lncy0yy053yk0l5egpf7g3v3kvly9499a46klkwuu86wglhd5tsa4ynpw <button class="copy-btn" onclick="copyNpub(this)">Copy</button></p>
+                        <span class="contact-link">Open: </span><a href="https://vectorapp.io" target="_blank">vectorapp.io</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-content">
+        <p>&copy; <script>document.write(new Date().getFullYear());</script> ZamRock Radio - All Rights Reserved</p>
+        <div class="footer-links">
+          <a href="../about/">About</a>
+          <a href="../contact/">Contact</a>
+          <a href="../schedule/">Schedule</a>
+          <a href="../news/">News</a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script>
+        function copyNpub(btn) {
+            const npub = 'npub16lncy0yy053yk0l5egpf7g3v3kvly9499a46klkwuu86wglhd5tsa4ynpw';
+            navigator.clipboard.writeText(npub).then(function() {
+                btn.textContent = 'Copied!';
+                btn.classList.add('copied');
+                setTimeout(function() {
+                    btn.textContent = 'Copy';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

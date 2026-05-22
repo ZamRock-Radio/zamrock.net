@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Games - ZamRock Radio</title>
+  <link rel="icon" href="https://raw.githubusercontent.com/ZamRock-Radio/Media-Assets/main/Press-Kit/favicon.gif" type="image/gif">
+  
+  <meta name="description" content="Play games from ZamRock Radio - Free browser-based games">
+  <meta name="keywords" content="ZamRock, Games, Free Games, Browser Games, Retro">
+  <meta name="author" content="ZamRock Radio">
+  
+  <meta property="og:title" content="Games - ZamRock Radio">
+  <meta property="og:description" content="Play free browser-based games from ZamRock Radio">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://zamrock.net/games/">
+  
+  <link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    .games-container {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+    
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 25px;
+      margin-top: 25px;
+    }
+    
+    .game-card {
+      background: rgba(46, 52, 64, 0.95);
+      border: 3px solid var(--border-color);
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+    
+    .game-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--primary-color);
+    }
+    
+    .game-card h2 {
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+      color: var(--primary-color);
+    }
+    
+    .game-card p {
+      font-size: 0.6rem;
+      line-height: 1.8;
+      margin-bottom: 15px;
+      color: var(--text-color);
+    }
+    
+    .game-card .play-btn {
+      display: inline-block;
+      padding: 10px 25px;
+      background: var(--accent-color);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 0.7rem;
+      transition: background 0.3s;
+    }
+    
+    .game-card .play-btn:hover {
+      background: var(--primary-color);
+    }
+    
+    .coming-soon {
+      opacity: 0.6;
+    }
+    
+    .coming-soon .play-btn {
+      background: #555;
+      cursor: not-allowed;
+    }
+    
+    .page-title {
+      font-size: 1.2rem;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    
+    .page-subtitle {
+      font-size: 0.6rem;
+      text-align: center;
+      color: var(--primary-color);
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+  <div class="container">
+    <h1 class="site-title"><a href="/">ZamRock Radio</a></h1>
+    <div class="tagline">ZAMZAM FOR LIFE...</div>
+    
+    <nav class="main-nav">
+      <div class="nav-row">
+        <a href="../schedule/" class="nav-btn">🎵 Schedule</a>
+        <a href="../news/" class="nav-btn">📰 News</a>
+        <a href="../about/" class="nav-btn">ℹ️ About</a>
+      </div>
+      <div class="nav-row">
+        <a href="../contact/" class="nav-btn">📞 Contact</a>
+        <a href="../games/" class="nav-btn active">🎮 Games</a>
+        <a href="../help-wanted/" class="nav-btn">🆘 Help Wanted</a>
+      </div>
+    </nav>
+    
+    <div class="games-container">
+      <h2 class="page-title">Games</h2>
+      <p class="page-subtitle">Free browser-based games from ZamRock Radio</p>
+      
+      <div class="games-grid">
+        <div class="game-card">
+          <h2>Silent Ruins</h2>
+          <p>Explore procedurally generated ruins, collect fireflies, and master wall jumps in this retro platformer.</p>
+          <a href="silent-ruins/" class="play-btn">Play Now</a>
+        </div>
+        
+        <div class="game-card coming-soon">
+          <h2>More Coming Soon</h2>
+          <p>New games are in development. Check back later for updates!</p>
+          <span class="play-btn">Coming Soon</span>
+        </div>
+      </div>
+    </div>
+    
+    <footer class="site-footer">
+      <div class="footer-content">
+        <p>&copy; <script>document.write(new Date().getFullYear());</script> ZamRock Radio - All Rights Reserved</p>
+        <div class="footer-links">
+          <a href="../about/">About</a>
+          <a href="../contact/">Contact</a>
+          <a href="../schedule/">Schedule</a>
+          <a href="../news/">News</a>
+          <a href="../games/">Games</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

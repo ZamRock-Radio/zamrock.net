@@ -1,0 +1,376 @@
+/* Base Styles */
+:root {
+    --primary-color: #81a1c1;
+    --bg-color: #2e3440;
+    --text-color: #d8dee9;
+    --accent-color: #5e81ac;
+    --border-color: #d8dee9;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    font-family: 'Press Start 2P', system-ui, -apple-system, sans-serif;
+    background: #000 url('https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_014.jpg') no-repeat center center fixed;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: var(--text-color);
+    line-height: 1.6;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+/* Container for content */
+.container {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 15px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-width: 769px) {
+  .container {
+    max-width: max(800px, 75vw);
+  }
+}
+
+/* Overlay for better text readability */
+.overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgb(0 0 0 / 50%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Footer styles */
+.footer {
+    margin-top: auto;
+    padding: 20px 0;
+    text-align: center;
+    font-size: 0.7em;
+}
+
+.footer-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Social Links */
+.social-links {
+    margin-bottom: 10px;
+}
+
+.social-links a {
+    color: var(--text-color);
+    margin: 0 8px;
+    font-size: 1.2em;
+    transition: color 0.3s ease;
+}
+
+/* Site Title and Subtitle */
+.site-title {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 2.5rem;
+}
+
+.site-title a {
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+.tagline {
+    text-align: right;
+    margin: -10px 0 10px;
+    font-size: 0.9rem;
+    color: var(--primary-color);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding-right: 10px;
+}
+
+/* Footer Links */
+.footer-links {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.footer-links a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+/* Hover states - must come after all lower specificity selectors */
+.social-links a:hover {
+    color: var(--primary-color);
+}
+
+.footer-links a:hover {
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+/* Navigation - 2 Row Layout */
+.main-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.nav-row {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    width: 100%;
+}
+
+.nav-btn {
+    color: var(--text-color);
+    text-decoration: none;
+    padding: 6px 14px;
+    border: 2px solid var(--border-color);
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    text-align: center;
+    min-width: 110px;
+    font-size: 0.7em;
+    white-space: nowrap;
+    display: inline-block;
+    line-height: 1.2;
+    background: rgb(46 52 64 / 70%);
+    flex: 0 0 auto;
+}
+
+.nav-btn:hover,
+.nav-btn.active {
+    background: var(--primary-color);
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Mobile: Stack all buttons vertically */
+@media (width <= 768px) {
+    .main-nav {
+        gap: 5px;
+    }
+    
+    .nav-row {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .nav-btn {
+        width: 80%;
+        max-width: 250px;
+        margin: 5px 0;
+        text-align: center;
+    }
+}
+
+/* Player Styles */
+.player-container {
+    text-align: center;
+    margin-top: 20px;
+    position: relative;
+}
+
+.play-btn {
+    background: var(--primary-color);
+    color: white;
+    border: 2px solid var(--border-color);
+    padding: 10px 30px;
+    font-family: inherit;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.play-btn:hover {
+    background: var(--accent-color);
+}
+
+.volume-container {
+    margin-top: 15px;
+}
+
+.volume-slider {
+    width: 100px;
+    margin: 10px 0;
+}
+
+.stream-selector {
+    margin-top: 15px;
+}
+
+.stream-select {
+    background: rgb(46 52 64 / 90%);
+    color: var(--text-color);
+    border: 2px solid var(--border-color);
+    padding: 6px 12px;
+    font-family: inherit;
+    font-size: 13px;
+    cursor: pointer;
+    outline: none;
+    max-width: 100%;
+}
+
+.stream-select:hover {
+    border-color: var(--accent-color);
+}
+
+.stream-select option {
+    background: rgb(46 52 64);
+    color: var(--text-color);
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    padding: 20px 0;
+}
+
+/* Footer Styles */
+.site-footer {
+    background: rgb(46 52 64 / 90%);
+    color: var(--text-color);
+    padding: 20px 0;
+    margin-top: 40px;
+    border-top: 2px solid var(--border-color);
+}
+
+.site-footer .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Dark theme for Mastodon embeds */
+.mastodon-embed {
+    background: #2e3440 !important;
+    color: #d8dee9 !important;
+}
+
+.mastodon-embed .button {
+    background: #81a1c1 !important;
+    color: #2e3440 !important;
+}
+
+.mastodon-embed .button:hover {
+    background: #88c0d0 !important;
+}
+
+/* Responsive adjustments */
+@media (width <= 768px) {
+    .main-nav {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+    
+    .nav-btn {
+        text-align: center;
+        padding: 10px;
+    }
+    
+    .site-title {
+        font-size: 2rem;
+    }
+    
+    .tagline {
+        font-size: 0.8rem;
+    }
+}
+
+/* About Page Styles */
+.about-section {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    color: var(--text-color);
+}
+
+.about-section h1 {
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+}
+
+.about-section h2 {
+    color: var(--primary-color);
+    margin: 30px 0 15px;
+    font-size: 1.5em;
+}
+
+.about-content {
+    background: rgb(46 52 64 / 70%);
+    padding: 30px;
+    border-radius: 8px;
+    border: 2px solid var(--border-color);
+    line-height: 1.8;
+}
+
+.about-content p {
+    margin-bottom: 20px;
+}
+
+/* Language Switcher */
+.language-switcher {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    margin: 15px 0;
+}
+
+.lang-btn {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    background: rgb(46 52 64 / 70%);
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 0.7em;
+    text-transform: uppercase;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.lang-btn:hover {
+    background: var(--primary-color);
+    color: #fff;
+    border-color: var(--border-color);
+}
+
+.lang-btn.active {
+    background: var(--primary-color);
+    color: #fff;
+    border-color: var(--border-color);
+}
