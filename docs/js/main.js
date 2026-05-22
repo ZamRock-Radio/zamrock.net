@@ -277,6 +277,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const audio = document.getElementById('radioStream')
   const playButton = document.getElementById('playButton')
   const volumeSlider = document.getElementById('volumeSlider')
+  const streamSelect = document.getElementById('streamSelect')
+
+  const STREAMS = {
+    'mega-hifi': 'https://lo-fire.deathsmack-a51.workers.dev/hifi.aac',
+    original: 'https://lo-fire.deathsmack-a51.workers.dev/radio.mp3'
+  }
+
+  function setStreamSource () {
+    const val = streamSelect ? streamSelect.value : 'original'
+    audio.src = STREAMS[val] || STREAMS.original
+  }
 
   if (audio && playButton && volumeSlider) {
     // Store initial button text
@@ -284,6 +295,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize volume
     audio.volume = volumeSlider.value / 100
+
+    // Set initial stream source
+    setStreamSource()
+
+    // Update source on stream select change
+    if (streamSelect) {
+      streamSelect.addEventListener('change', function () {
+        const wasPlaying = playerState.status === 'playing'
+        if (wasPlaying) audio.pause()
+        setStreamSource()
+        if (wasPlaying) {
+          audio.play().catch(function () {
+            handlePlayerError(audio, playButton)
+          })
+        }
+      })
+    }
 
     // Listen for network online status
     window.addEventListener('online', () => {
