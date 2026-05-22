@@ -281,7 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const qualitySelect = document.getElementById('qualitySelect')
 
   const STREAMS = {
-    parent: {
+    alpha: {
       hifi: 'https://wild-haze-hifi.deathsmack-a51.workers.dev',
       standard: 'https://divine-paper-3624.deathsmack-a51.workers.dev'
     },
@@ -296,9 +296,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function setStreamSource () {
-    const relay = relaySelect ? relaySelect.value : 'parent'
+    const relay = relaySelect ? relaySelect.value : 'alpha'
     const quality = qualitySelect ? qualitySelect.value : 'hifi'
-    audio.src = (STREAMS[relay] && STREAMS[relay][quality]) || STREAMS.parent.hifi
+    audio.src = (STREAMS[relay] && STREAMS[relay][quality]) || STREAMS.alpha.hifi
   }
 
   if (audio && playButton && volumeSlider) {
