@@ -277,16 +277,28 @@ document.addEventListener('DOMContentLoaded', () => {
   const audio = document.getElementById('radioStream')
   const playButton = document.getElementById('playButton')
   const volumeSlider = document.getElementById('volumeSlider')
-  const streamSelect = document.getElementById('streamSelect')
+  const relaySelect = document.getElementById('relaySelect')
+  const qualitySelect = document.getElementById('qualitySelect')
 
   const STREAMS = {
-    'mega-hifi': 'https://lo-fire.deathsmack-a51.workers.dev/hifi.aac',
-    original: 'https://lo-fire.deathsmack-a51.workers.dev/radio.mp3'
+    parent: {
+      hifi: 'https://wild-haze-hifi.deathsmack-a51.workers.dev',
+      standard: 'https://divine-paper-3624.deathsmack-a51.workers.dev'
+    },
+    mega: {
+      hifi: 'https://megason-aac.deathsmack-a51.workers.dev',
+      standard: 'https://megason-mp3.deathsmack-a51.workers.dev'
+    },
+    'lo-fire': {
+      hifi: 'https://emberbeam-aac.deathsmack-a51.workers.dev',
+      standard: 'https://emberbeam-mp3.deathsmack-a51.workers.dev'
+    }
   }
 
   function setStreamSource () {
-    const val = streamSelect ? streamSelect.value : 'original'
-    audio.src = STREAMS[val] || STREAMS.original
+    const relay = relaySelect ? relaySelect.value : 'parent'
+    const quality = qualitySelect ? qualitySelect.value : 'hifi'
+    audio.src = (STREAMS[relay] && STREAMS[relay][quality]) || STREAMS.parent.hifi
   }
 
   if (audio && playButton && volumeSlider) {
@@ -299,19 +311,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // Set initial stream source
     setStreamSource()
 
-    // Update source on stream select change
-    if (streamSelect) {
-      streamSelect.addEventListener('change', function () {
-        const wasPlaying = playerState.status === 'playing'
-        if (wasPlaying) audio.pause()
-        setStreamSource()
-        if (wasPlaying) {
-          audio.play().catch(function () {
-            handlePlayerError(audio, playButton)
-          })
-        }
-      })
+    // Update source on either selector change
+    function onStreamChange () {
+      const wasPlaying = playerState.status === 'playing'
+      if (wasPlaying) audio.pause()
+      setStreamSource()
+      if (wasPlaying) {
+        audio.play().catch(function () {
+          handlePlayerError(audio, playButton)
+        })
+      }
     }
+
+    if (relaySelect) relaySelect.addEventListener('change', onStreamChange)
+    if (qualitySelect) qualitySelect.addEventListener('change', onStreamChange)
 
     // Listen for network online status
     window.addEventListener('online', () => {

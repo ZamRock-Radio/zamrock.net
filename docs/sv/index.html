@@ -73,9 +73,14 @@
     <input type="range" id="volumeSlider" min="0" max="100" value="50" class="volume-slider" />
   </div>
   <div class="stream-selector">
-    <select id="streamSelect" class="stream-select">
-      <option value="mega-hifi">Mega Relay (AAC 320k)</option>
-      <option value="original">Originalström (MP3 192k)</option>
+    <select id="relaySelect" class="stream-select">
+      <option value="parent" selected>Parent</option>
+      <option value="mega">Mega</option>
+      <option value="lo-fire">Lo-Fire</option>
+    </select>
+    <select id="qualitySelect" class="stream-select">
+      <option value="hifi" selected>HiFi (AAC)</option>
+      <option value="standard">Standard (MP3)</option>
     </select>
   </div>
 </div>
