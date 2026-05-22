@@ -105,6 +105,16 @@
     cursor: pointer;
 }
 
+.show-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgb(0 0 0 / 20%);
+}
+
+.show-card.current {
+    border-left: 4px solid #81a1c1;
+    background: rgb(129 161 193 / 10%);
+}
+
 .show-description {
     display: none;
     position: absolute;
@@ -122,13 +132,6 @@
     max-width: 100%;
     box-sizing: border-box;
     line-height: 1.5;
-}
-
-/* Show description on hover for desktop */
-@media (hover: hover) and (pointer: fine) {
-    .show-card:hover .show-description {
-        display: block;
-    }
 }
 
 /* For touch devices */
@@ -182,7 +185,7 @@
         z-index: 10;
         display: none;
         max-height: none;
-        opacity: 1;
+        opacity: 100%;
         margin-top: 10px;
         border: none;
     }
@@ -205,16 +208,6 @@
     margin-top: 20px;
 }
 
-.show-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 8px rgb(0 0 0 / 20%);
-}
-
-.show-card.current {
-    border-left: 4px solid #81a1c1;
-    background: rgb(129 161 193 / 10%);
-}
-
 .show-time {
     font-size: 0.9rem;
     color: #88c0d0;
@@ -231,7 +224,7 @@
 .show-host {
     font-size: 0.85rem;
     color: #d8dee9;
-    opacity: 0.8;
+    opacity: 80%;
     margin: 5px 0;
 }
 
@@ -244,7 +237,7 @@
 }
 
 /* Mobile styles */
-@media (width <= 768px) {
+@media (max-width: 768px) {
     .timezone-selector {
         flex-direction: column;
         align-items: flex-start;

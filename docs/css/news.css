@@ -19,7 +19,7 @@
   margin-bottom: 30px;
 }
 
-@media (min-width: 769px) {
+@media (width >= 769px) {
   .news-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -32,9 +32,6 @@
 
 .news-media {
   margin-top: 10px;
-}
-
-.news-media {
   text-align: center;
 }
 
@@ -52,6 +49,7 @@
   padding: 15px;
   overflow: hidden;
   min-height: 300px;
+  margin-bottom: 0;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -139,12 +137,8 @@
   padding: 20px 0;
 }
 
-@media (min-width: 769px) {
+@media (width >= 769px) {
   .news-container {
     max-width: max(800px, 75vw);
   }
-}
-
-.news-card {
-  margin-bottom: 0;
 }

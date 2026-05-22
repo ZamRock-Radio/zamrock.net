@@ -1,21 +1,23 @@
 body {
     font-family: monospace, sans-serif;
-    background-color: #000000;
-    color: #00FF00;
+    background-color: #000;
+    color: #0F0;
     margin: 0;
     padding: 20px;
     font-size: 14px;
     line-height: 1.2;
-    text-shadow: 0 0 2px rgba(0, 255, 0, 0.5);
+    text-shadow: 0 0 2px rgb(0 255 0 / 50%);
 }
 
 h1 {
     text-align: center;
     color: #FFA500;
     margin-bottom: 5px;
+
     /* Reduced bottom margin */
-    text-shadow: 0 0 3px rgba(255, 165, 0, 0.7);
+    text-shadow: 0 0 3px rgb(255 165 0 / 70%);
     font-size: 2em;
+
     /* Larger main title font */
 }
 
@@ -23,14 +25,19 @@ h2 {
     /* New subtitle style */
     text-align: center;
     color: #FFD700;
+
     /* Gold color for old feel */
     font-size: 1em;
+
     /* Smaller subtitle font */
     margin-top: 0;
+
     /* No margin above */
     margin-bottom: 20px;
+
     /* Space between title and schedule */
-    text-shadow: 0 0 2px rgba(255, 215, 0, 0.6);
+    text-shadow: 0 0 2px rgb(255 215 0 / 60%);
+
     /* Gold glow */
 }
 
@@ -41,9 +48,10 @@ h2 {
     height: 850px;
     margin: 20px auto;
     border: 3px solid #FFA500;
+
     /* Thicker border, amber color */
     overflow: hidden;
-    background-color: #000000;
+    background-color: #000;
 }
 
 .time-axis {
@@ -65,7 +73,7 @@ h2 {
     flex: 1;
     text-align: center;
     line-height: 40px;
-    color: #00FF00;
+    color: #0F0;
 }
 
 .show {
@@ -79,11 +87,14 @@ h2 {
     text-overflow: clip;
     white-space: normal;
     height: 80px;
+
     /* was 100px, adjusted to make room for margin. Corrected in JS as well */
     margin: 2px;
+
     /* Simplified for top/bottom and sides */
-    color: #00FF00;
+    color: #0F0;
     transition: background-color 0.3s ease;
+
     /* Add a smooth transition for highlighting */
 }
 
@@ -105,7 +116,7 @@ h2 {
     position: absolute;
     top: 3px;
     right: 5px;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgb(0 0 0 / 50%);
     padding: 2px;
     border-radius: 0;
 }
@@ -121,14 +132,19 @@ h2 {
 
 .current-show {
     background-color: #FFA500;
+
     /* Highlight color */
-    color: #000000;
+    color: #000;
+
     /* Text color for contrast */
     border: 2px solid #FF4500;
+
     /* Orange-Red */
-    box-shadow: 0 0 10px rgba(255, 165, 0, 0.8);
+    box-shadow: 0 0 10px rgb(255 165 0 / 80%);
+
     /* Glow effect */
     z-index: 6;
+
     /* Ensure it's above other show blocks */
     position: relative;
 }
@@ -136,9 +152,10 @@ h2 {
 .current-show .title,
 .current-show .description,
 .current-show .time {
-    color: #000000;
+    color: #000;
+
     /* Ensure the text is readable on the highlight */
-    text-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
+    text-shadow: 0 0 2px rgb(255 255 255 / 50%);
 }
 
 /* Blinking animation */
@@ -152,19 +169,25 @@ h2 {
     content: "Now Playing";
     position: absolute;
     top: -15px;
+
     /* Adjust as needed */
     left: 5px;
+
     /* Adjust as needed */
-    color: #FFFF00;
+    color: #FF0;
+
     /* Or any color you like */
     font-size: 0.7em;
+
     /* Adjust as needed */
     font-weight: bold;
     animation: blinker 1s linear infinite;
+
     /* Apply blinking animation */
     z-index: 7; /* Ensure it's above the highlight */
 
 }
+
 .current-hour {
     color: red;
 }

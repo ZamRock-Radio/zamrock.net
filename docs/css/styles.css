@@ -176,7 +176,7 @@ body {
 }
 
 /* Mobile: Stack all buttons vertically */
-@media (width <= 768px) {
+@media (max-width: 768px) {
     .main-nav {
         gap: 5px;
     }
@@ -293,7 +293,7 @@ body {
 }
 
 /* Responsive adjustments */
-@media (width <= 768px) {
+@media (max-width: 768px) {
     .main-nav {
         flex-direction: column;
         align-items: stretch;
