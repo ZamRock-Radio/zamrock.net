@@ -32,6 +32,19 @@
   <link rel="stylesheet" href="{{ get_url(path="css/styles.css", trailing_slash=false) }}"/>
   <link rel="stylesheet" href="{{ get_url(path="css/news.css", trailing_slash=false) }}"/>
   <link rel="stylesheet" href="{{ get_url(path="css/help-wanted.css", trailing_slash=false) }}"/>
+  <script>
+  (function(){
+    var lang = (navigator.language || navigator.userLanguage || '').substring(0, 2);
+    var path = window.location.pathname;
+    if (path === '/' || path === '') {
+      var map = { es:'es', pt:'pt', fr:'fr', sv:'sv', ja:'ja', ko:'ko', vi:'vi', ar:'ar' };
+      var full = { 'zh-CN':'zh-CN', 'zh-TW':'zh-TW' };
+      var fullLang = (navigator.language || navigator.userLanguage || '');
+      if (full[fullLang]) window.location.replace('/' + full[fullLang] + '/');
+      else if (map[lang] && lang !== 'en') window.location.replace('/' + map[lang] + '/');
+    }
+  })();
+  </script>
   {% block extra_head %}{% endblock extra_head %}
 </head>
 <body>
@@ -52,14 +65,6 @@
         <a href="{{ get_url(path="help-wanted/") }}" class="nav-btn">{{ i18n::t(key="nav_help") }}</a>
       </div>
     </nav>
-
-    <div class="language-switcher">
-      {% for code, _lang_config in config.languages %}
-        {% if code != lang %}
-          <a href="{{ get_url(path="@/_index.md", lang=code) }}" class="lang-btn">{{ code }}</a>
-        {% endif %}
-      {% endfor %}
-    </div>
 
     {% block content %}{% endblock content %}
   </div>

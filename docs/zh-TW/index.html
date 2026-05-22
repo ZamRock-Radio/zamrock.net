@@ -31,6 +31,19 @@
   <link rel="stylesheet" href="https://zamrock.net/css/styles.css"/>
   <link rel="stylesheet" href="https://zamrock.net/css/news.css"/>
   <link rel="stylesheet" href="https://zamrock.net/css/help-wanted.css"/>
+  <script>
+  (function(){
+    var lang = (navigator.language || navigator.userLanguage || '').substring(0, 2);
+    var path = window.location.pathname;
+    if (path === '/' || path === '') {
+      var map = { es:'es', pt:'pt', fr:'fr', sv:'sv', ja:'ja', ko:'ko', vi:'vi', ar:'ar' };
+      var full = { 'zh-CN':'zh-CN', 'zh-TW':'zh-TW' };
+      var fullLang = (navigator.language || navigator.userLanguage || '');
+      if (full[fullLang]) window.location.replace('/' + full[fullLang] + '/');
+      else if (map[lang] && lang !== 'en') window.location.replace('/' + map[lang] + '/');
+    }
+  })();
+  </script>
   
 </head>
 <body>
@@ -51,50 +64,6 @@
         <a href="https://zamrock.net/help-wanted" class="nav-btn">🆘 協助</a>
       </div>
     </nav>
-
-    <div class="language-switcher">
-      
-        
-          <a href="https://zamrock.net/vi/" class="lang-btn">vi</a>
-        
-      
-        
-          <a href="https://zamrock.net/ja/" class="lang-btn">ja</a>
-        
-      
-        
-          <a href="https://zamrock.net/zh-CN/" class="lang-btn">zh-CN</a>
-        
-      
-        
-          <a href="https://zamrock.net/sv/" class="lang-btn">sv</a>
-        
-      
-        
-          <a href="https://zamrock.net/es/" class="lang-btn">es</a>
-        
-      
-        
-          <a href="https://zamrock.net/ar/" class="lang-btn">ar</a>
-        
-      
-        
-          <a href="https://zamrock.net/" class="lang-btn">en</a>
-        
-      
-        
-          <a href="https://zamrock.net/ko/" class="lang-btn">ko</a>
-        
-      
-        
-          <a href="https://zamrock.net/fr/" class="lang-btn">fr</a>
-        
-      
-        
-          <a href="https://zamrock.net/pt/" class="lang-btn">pt</a>
-        
-      
-    </div>
 
     
 <div class="player-container">
