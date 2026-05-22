@@ -90,8 +90,6 @@ const timeAxis = document.getElementById('timeAxis')
 const startTime = 6
 const endTime = 30
 const scheduleDuration = endTime - startTime
-const rowHeight = 100
-
 // Create time axis labels
 for (let i = startTime; i <= endTime; i++) {
   const hour = i % 24
@@ -100,26 +98,6 @@ for (let i = startTime; i <= endTime; i++) {
   timeLabel.textContent = `${hour === 0 ? 24 : hour}:00`
   timeAxis.appendChild(timeLabel)
 }
-
-// Function to check for overlaps
-function isOverlapping (show, rowData) {
-  return rowData.some(r => show.start < r.end && show.end > r.start)
-}
-
-// Modified row assignment logic to minimize overlaps
-function findAvailableRow (show, rows) {
-  for (let i = 0; i < rows.length; i++) {
-    if (!isOverlapping(show, rows[i])) {
-      return i
-    }
-  }
-  return rows.length // No suitable row found, create a new one
-}
-
-// Create a data structure to track row occupancy
-const rows = [
-  []
-]
 
 // Function to get current time in Denver
 function getCurrentDenverTime () {
@@ -130,46 +108,6 @@ function getCurrentDenverTime () {
 }
 
 let currentShowElement = null // Store the currently highlighted show
-
-// Function to create and position a show block
-function createShowBlock (show) {
-  const showBlock = document.createElement('div')
-  showBlock.classList.add('show')
-
-  const startPercent = ((show.start - startTime) / scheduleDuration) * 100
-  const durationPercent = ((show.end - show.start) / scheduleDuration) * 100
-
-  // Find an available row with overlap prevention
-  const row = findAvailableRow(show, rows)
-
-  // If the row doesn't exist, create it
-  if (!rows[row]) {
-    rows[row] = []
-  }
-  rows[row].push({
-    start: show.start,
-    end: show.end
-  })
-
-  showBlock.style.left = `${startPercent}%`
-  showBlock.style.width = `${durationPercent}%`
-  showBlock.style.top = `${row * rowHeight + 40}px`
-  showBlock.style.height = `${rowHeight - 4}px` // ADJUSTED HEIGHT CALCULATION: rowHeight - (top margin + bottom margin)
-  showBlock.style.margin = '2px' // This is set in the CSS
-
-  const startTimeFormatted = show.start % 24
-  const endTimeFormatted = show.end % 24
-  const timeDisplay = `${startTimeFormatted === 0 ? 24 : startTimeFormatted}:00 - ${endTimeFormatted === 0 ? 24 : endTimeFormatted}:00`
-
-  showBlock.innerHTML = `
-        <div class="time">${timeDisplay}</div>
-        <div class="title">${show.title}</div>
-        <div class="description">${show.description}</div>
-    `
-
-  container.appendChild(showBlock)
-  return showBlock // Return the created show block
-}
 
 // Function to find the currently playing show
 function findCurrentShow (currentTime) {
@@ -231,9 +169,6 @@ function updateClock () {
 
   document.getElementById('local-time').innerHTML = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
 }
-
-// Create show blocks and store references to them
-const showElements = scheduleData.map(show => createShowBlock(show))
 
 // Initial highlight and update interval
 highlightCurrentShow()

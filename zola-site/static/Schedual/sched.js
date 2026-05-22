@@ -31,8 +31,6 @@ const timeAxis = document.getElementById('timeAxis')
 const startTime = 6
 const endTime = 30
 const scheduleDuration = endTime - startTime
-const rowHeight = 100
-
 // Create time axis labels
 for (let i = startTime; i <= endTime; i++) {
   const hour = i % 24
@@ -43,38 +41,6 @@ for (let i = startTime; i <= endTime; i++) {
 }
 
 // Function to check for overlaps
-function isOverlapping (playlist, rowData) {
-  return rowData.some(r => {
-    const rStart = timeToHours(r.start)
-    const rEnd = timeToHours(r.end)
-    const pStart = timeToHours(playlist.start)
-    const pEnd = timeToHours(playlist.end)
-
-    // Handle overnight for both
-    if (rEnd < rStart && pEnd < pStart) {
-      return true // Both overnight, assume overlap
-    }
-    if (rEnd < rStart) {
-      return pStart < rEnd || pEnd > rStart
-    }
-    if (pEnd < pStart) {
-      return rStart < pEnd || rEnd > pStart
-    }
-    return pStart < rEnd && pEnd > rStart
-  })
-}
-
-// Modified row assignment logic to minimize overlaps
-function findAvailableRow (playlist, rows) {
-  for (let i = 0; i < rows.length; i++) {
-    if (!isOverlapping(playlist, rows[i])) {
-      return i
-    }
-  }
-  return rows.length // No suitable row found, create a new one
-}
-
-// Create a data structure to track row occupancy
 const rows = [[]]
 
 // Function to get current time in Denver
@@ -86,104 +52,6 @@ function getCurrentDenverTime () {
 }
 
 let currentPlaylistElement = null // Store the currently highlighted playlist
-
-// Function to create and position a playlist block
-function createPlaylistBlock (playlist) {
-  const playlistBlock = document.createElement('div')
-  playlistBlock.classList.add('show')
-
-  const startHour = timeToHours(playlist.start)
-  const endHour = timeToHours(playlist.end)
-
-  // Handle overnight playlists (end < start means it goes into next day)
-  const isOvernight = endHour < startHour
-  if (isOvernight) {
-    playlistBlock.classList.add('overnight')
-  }
-
-  let displayEndHour = endHour
-  if (isOvernight) {
-    // For display, extend to next day
-    displayEndHour = endHour + 24
-  }
-
-  const startPercent = ((startHour - startTime) / scheduleDuration) * 100
-  const durationPercent = ((displayEndHour - startHour) / scheduleDuration) * 100
-
-  // Clamp to visible range
-  let adjustedStartPercent = startPercent
-  let adjustedDurationPercent = durationPercent
-
-  if (startPercent < 0) {
-    adjustedStartPercent = 0
-    adjustedDurationPercent = durationPercent + startPercent
-  }
-
-  if (startPercent + durationPercent > 100) {
-    adjustedDurationPercent = 100 - adjustedStartPercent
-  }
-
-  // Find an available row with overlap prevention
-  const row = findAvailableRow(playlist, rows)
-
-  // If the row doesn't exist, create it
-  if (!rows[row]) {
-    rows[row] = []
-  }
-  rows[row].push({
-    start: playlist.start,
-    end: playlist.end
-  })
-
-  playlistBlock.style.left = `${adjustedStartPercent}%`
-  playlistBlock.style.width = `${adjustedDurationPercent}%`
-  playlistBlock.style.top = `${row * rowHeight + 40}px`
-  playlistBlock.style.height = `${rowHeight - 4}px`
-  playlistBlock.style.margin = '2px'
-
-  const startTimeFormatted = Math.floor(startHour) % 24
-  const endTimeFormatted = Math.floor(endHour) % 24
-  const startMinutes = Math.round((startHour % 1) * 60)
-  const endMinutes = Math.round((endHour % 1) * 60)
-
-  const startDisplay = `${startTimeFormatted === 0 ? 24 : startTimeFormatted}:${startMinutes.toString().padStart(2, '0')}`
-  let endDisplay = `${endTimeFormatted === 0 ? 24 : endTimeFormatted}:${endMinutes.toString().padStart(2, '0')}`
-  if (isOvernight) {
-    endDisplay += ' (+1 day)'
-  }
-  const timeDisplay = `${startDisplay} - ${endDisplay}`
-
-  const description = playlist.description || ''
-
-  playlistBlock.innerHTML = `
-        <div class="time">${timeDisplay}</div>
-        <div class="title">${playlist.name}</div>
-        <div class="description">${description}</div>
-    `
-
-  // Add tooltip for hover and long press
-  if (description) {
-    playlistBlock.setAttribute('title', description)
-    playlistBlock.setAttribute('data-description', description)
-
-    // Handle long press on mobile
-    let longPressTimer
-    playlistBlock.addEventListener('touchstart', function (e) {
-      longPressTimer = setTimeout(() => {
-        alert(description)
-      }, 500)
-    })
-    playlistBlock.addEventListener('touchend', function (e) {
-      clearTimeout(longPressTimer)
-    })
-    playlistBlock.addEventListener('touchmove', function (e) {
-      clearTimeout(longPressTimer)
-    })
-  }
-
-  container.appendChild(playlistBlock)
-  return playlistBlock
-}
 
 // Function to find the currently playing playlist
 function findCurrentPlaylist (currentTime) {
@@ -245,18 +113,6 @@ function updateClock () {
   const seconds = localTime.getSeconds()
 
   document.getElementById('local-time').innerHTML = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
-}
-
-// Get list of all JSON files in Daily-Planner directory
-async function getAvailableSchedules () {
-  // Since we can't list files directly, we'll try common patterns
-  // This is a workaround - in production you might want a manifest file
-  const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
-  const dayAbbrevs = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']
-
-  // Try to fetch a manifest or common files
-  // For now, we'll try the current day first, then check for files containing the day
-  return days
 }
 
 // Check if a filename matches the current day
@@ -401,16 +257,7 @@ async function loadScheduleForDay (day) {
         currentHoliday ? `hol_${currentHoliday.substring(0, 4)}.json` : null
   ].filter(p => p !== null)
 
-  // Also try patterns with underscores (new export format)
-  const underscorePatterns = [
-        `*_${day.substring(0, 3)}.json`,
-        `*_${day}.json`,
-        '*_satsun.json',
-        '*_montue.json'
-  ]
-
   let loadedData = null
-  let loadedFilename = null
   const triedFiles = []
 
   // Try exact day first
@@ -419,7 +266,6 @@ async function loadScheduleForDay (day) {
     triedFiles.push(pattern)
     if (result && result.data) {
       loadedData = result.data
-      loadedFilename = result.filename
       break
     }
   }
@@ -437,7 +283,6 @@ async function loadScheduleForDay (day) {
       triedFiles.push(`${pattern}.json`)
       if (result && result.data) {
         loadedData = result.data
-        loadedFilename = result.filename
         break
       }
     }
@@ -461,9 +306,6 @@ async function loadScheduleForDay (day) {
     // Reset rows
     rows.length = 1
     rows[0] = []
-
-    // Create playlist blocks
-    const playlistElements = scheduleData.map(playlist => createPlaylistBlock(playlist))
 
     // Initial highlight
     highlightCurrentPlaylist()

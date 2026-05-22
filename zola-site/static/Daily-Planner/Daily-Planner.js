@@ -70,14 +70,6 @@ function updateActiveDaysDisplay () {
   }
 }
 
-function formatDuration (minutes) {
-  const hours = Math.floor(minutes / 60)
-  const mins = minutes % 60
-  if (hours === 0) return `${mins}m`
-  if (mins === 0) return `${hours}h`
-  return `${hours}h ${mins}m`
-}
-
 function escapeHtml (text) {
   const div = document.createElement('div')
   div.textContent = text
@@ -439,52 +431,6 @@ function setupEventListeners () {
   })
 }
 
-function addHoliday () {
-  const holidayId = $('#holiday-select').val()
-  if (!holidayId) return
-
-  if (!currentSchedule.holidays.includes(holidayId)) {
-    currentSchedule.holidays.push(holidayId)
-    updateScheduleUI()
-    saveToLocalStorage()
-    showNotification('Holiday added to schedule', 'success')
-  } else {
-    showNotification('This holiday is already added', 'info')
-  }
-
-  // Reset the dropdown
-  $('#holiday-select').val('')
-}
-
-function updateActiveDays () {
-  currentSchedule.days = []
-  $('input[name="days"]:checked').each(function () {
-    currentSchedule.days.push($(this).val())
-  })
-  updateScheduleUI()
-  saveToLocalStorage()
-}
-
-function createDefaultSchedule () {
-  currentSchedule = {
-    id: 'default',
-    name: 'My Schedule',
-    days: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'],
-    holidays: [],
-    shows: [
-      { id: 1, name: 'Morning Show', start: '06:00', end: '10:00', weight: 10, order: 0 },
-      { id: 2, name: 'Midday Mix', start: '10:00', end: '14:00', weight: 8, order: 1 },
-      { id: 3, name: 'Afternoon Drive', start: '14:00', end: '18:00', weight: 12, order: 2 },
-      { id: 4, name: 'Evening Show', start: '18:00', end: '22:00', weight: 8, order: 3 },
-      { id: 5, name: 'Late Night', start: '22:00', end: '02:00', weight: 6, order: 4 }
-    ]
-  }
-  nextId = 6
-  updateScheduleUI()
-  renderSchedule()
-  saveToLocalStorage()
-}
-
 function updateScheduleUI () {
   // Update checkboxes
   $('input[name="days"]').each(function () {
@@ -577,35 +523,6 @@ function renderSchedule () {
   })
 
   sortedPlaylists.forEach((p, i) => {
-    const startMin = timeToMinutes(p.start)
-    const endMin = timeToMinutes(p.end)
-    let duration = endMin - startMin
-
-    // Handle overnight playlists (end time is next day)
-    if (endMin < startMin) {
-      duration = (24 * 60 - startMin) + endMin
-    }
-
-    const durationStr = formatDuration(duration)
-
-    // Overlap with previous programme
-    const prev = sortedPlaylists[i - 1]
-    let overlap = 0
-    if (prev) {
-      const prevEnd = timeToMinutes(prev.end)
-      overlap = Math.max(0, prevEnd - startMin)
-
-      // Handle overnight playlists for overlap calculation
-      if (prevEnd < timeToMinutes(prev.start)) {
-        // Previous playlist ends the next day
-        overlap = Math.max(0, (24 * 60 - timeToMinutes(prev.start)) + timeToMinutes(p.start))
-      }
-    }
-
-    const overlapStr = formatDuration(overlap)
-    const weight = p.weight || 3 // Default weight if not set
-
-    // Check if overnight (end < start)
     const isOvernight = timeToMinutes(p.end) < timeToMinutes(p.start)
     const overnightClass = isOvernight ? 'overnight-playlist' : ''
     const overnightLabel = isOvernight ? ' (overnight)' : ''
