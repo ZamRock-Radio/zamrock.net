@@ -47,7 +47,7 @@ body {
     flex-direction: column;
 }
 
-@media (min-width: 769px) {
+@media (width >= 769px) {
   .container {
     max-width: max(800px, 75vw);
   }

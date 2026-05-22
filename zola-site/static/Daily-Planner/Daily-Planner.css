@@ -394,7 +394,6 @@ tr:hover {
   margin-right: 5px;
   cursor: pointer;
   font-size: 0.9em;
-  border-radius: 2px;
 }
 
 .move-controls {
@@ -415,11 +414,6 @@ tr:hover {
   border-radius: 2px;
 }
 
-.move-controls button:hover {
-  background: #555;
-}
-
-/* Action buttons */
 .actions button {
   background: transparent;
   border: 1px solid #555;
@@ -429,6 +423,10 @@ tr:hover {
   margin: 0 2px;
   cursor: pointer;
   transition: all 0.2s;
+}
+
+.move-controls button:hover {
+  background: #555;
 }
 
 .actions button:hover {
@@ -485,7 +483,7 @@ tr:hover {
 }
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .controls {
     padding: 10px;
   }

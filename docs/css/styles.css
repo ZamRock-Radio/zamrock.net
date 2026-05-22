@@ -47,7 +47,7 @@ body {
     flex-direction: column;
 }
 
-@media (min-width: 769px) {
+@media (width >= 769px) {
   .container {
     max-width: max(800px, 75vw);
   }
@@ -176,7 +176,7 @@ body {
 }
 
 /* Mobile: Stack all buttons vertically */
-@media (max-width: 768px) {
+@media (width <= 768px) {
     .main-nav {
         gap: 5px;
     }
@@ -293,7 +293,7 @@ body {
 }
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
+@media (width <= 768px) {
     .main-nav {
         flex-direction: column;
         align-items: stretch;

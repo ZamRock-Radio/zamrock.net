@@ -27,32 +27,30 @@ const HOLIDAYS = [
 ]
 
 // Helper functions
-function timeToMinutes(timeStr) {
+function timeToMinutes (timeStr) {
   if (!timeStr) return 0
   const [hours, minutes] = timeStr.split(':').map(Number)
   return hours * 60 + minutes
 }
 
-function minutesToTime(minutes) {
+function minutesToTime (minutes) {
   const h = Math.floor(minutes / 60) % 24
   const m = minutes % 60
   return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`
 }
 
-function showNotification(message, type = 'info') {
-  // Remove any existing notifications
+function showNotification (message, type = 'info') {
   $('.notification').remove()
 
   const notification = $(`<div class="notification ${type}">${message}</div>`)
   $('body').append(notification)
 
-  // Auto-hide after 3 seconds
   setTimeout(() => {
     notification.fadeOut(500, () => notification.remove())
   }, 3000)
 }
 
-function saveToLocalStorage() {
+function saveToLocalStorage () {
   try {
     localStorage.setItem('radioSchedule', JSON.stringify(currentSchedule))
   } catch (e) {
@@ -60,7 +58,7 @@ function saveToLocalStorage() {
   }
 }
 
-function updateActiveDaysDisplay() {
+function updateActiveDaysDisplay () {
   const display = $('#active-days-display')
 
   if (currentSchedule.days.length > 0) {
@@ -72,7 +70,7 @@ function updateActiveDaysDisplay() {
   }
 }
 
-function formatDuration(minutes) {
+function formatDuration (minutes) {
   const hours = Math.floor(minutes / 60)
   const mins = minutes % 60
   if (hours === 0) return `${mins}m`
@@ -80,13 +78,13 @@ function formatDuration(minutes) {
   return `${hours}h ${mins}m`
 }
 
-function escapeHtml(text) {
+function escapeHtml (text) {
   const div = document.createElement('div')
   div.textContent = text
   return div.innerHTML
 }
 
-function format12h(time24) {
+function format12h (time24) {
   if (!time24) return ''
   const [hours, minutes] = time24.split(':').map(Number)
   const period = hours >= 12 ? 'PM' : 'AM'
@@ -95,7 +93,7 @@ function format12h(time24) {
 }
 
 // Initialize data
-function initializeData() {
+function initializeData () {
   // Initialize holiday select dropdown
   const holidaySelect = $('#holiday-select')
   holidaySelect.empty().append('<option value="">Add Holiday...</option>')
@@ -132,11 +130,7 @@ function initializeData() {
       }
 
       // Update UI with loaded data
-      $('#schedule-name').val(currentSchedule.name)
-      $('input[name="days"]').each(function () {
-        const day = $(this).val()
-        $(this).prop('checked', currentSchedule.days.includes(day))
-      })
+      updateUIFromSchedule()
     }
   } catch (e) {
     console.error('Error loading schedule:', e)
@@ -154,7 +148,15 @@ function initializeData() {
   setupEventListeners()
 }
 
-function setupEventListeners() {
+function updateUIFromSchedule () {
+  $('#schedule-name').val(currentSchedule.name)
+  $('input[name="days"]').each(function () {
+    const day = $(this).val()
+    $(this).prop('checked', currentSchedule.days.includes(day))
+  })
+}
+
+function setupEventListeners () {
   // Time format toggle (display only - always saves in 24hr)
   $('#time-format-toggle').on('change', function () {
     use12HourFormat = $(this).is(':checked')
@@ -271,11 +273,11 @@ function setupEventListeners() {
       name: currentSchedule.name,
       days: currentSchedule.days,
       holidays: currentSchedule.holidays,
-      playlists: currentSchedule.playlists.map(({id, ...rest}) => rest) // Remove id from playlists
+      playlists: currentSchedule.playlists.map(({ id, ...rest }) => rest) // Remove id from playlists
     }
 
     // Build filename with better formatting: name_days_holidays.json
-    let filenameParts = []
+    const filenameParts = []
 
     // Add name part
     const namePart = currentSchedule.name.replace(/[^\w\s]/gi, '').replace(/\s+/g, '_').toLowerCase()
@@ -437,7 +439,7 @@ function setupEventListeners() {
   })
 }
 
-function addHoliday() {
+function addHoliday () {
   const holidayId = $('#holiday-select').val()
   if (!holidayId) return
 
@@ -454,7 +456,7 @@ function addHoliday() {
   $('#holiday-select').val('')
 }
 
-function updateActiveDays() {
+function updateActiveDays () {
   currentSchedule.days = []
   $('input[name="days"]:checked').each(function () {
     currentSchedule.days.push($(this).val())
@@ -463,7 +465,7 @@ function updateActiveDays() {
   saveToLocalStorage()
 }
 
-function createDefaultSchedule() {
+function createDefaultSchedule () {
   currentSchedule = {
     id: 'default',
     name: 'My Schedule',
@@ -483,7 +485,7 @@ function createDefaultSchedule() {
   saveToLocalStorage()
 }
 
-function updateScheduleUI() {
+function updateScheduleUI () {
   // Update checkboxes
   $('input[name="days"]').each(function () {
     $(this).prop('checked', currentSchedule.days.includes($(this).val()))
@@ -498,7 +500,7 @@ function updateScheduleUI() {
   updateActiveSelections()
 }
 
-function updateActiveSelections() {
+function updateActiveSelections () {
   const container = $('#active-selections')
   container.empty()
 
@@ -534,13 +536,13 @@ function updateActiveSelections() {
 }
 
 // Render schedule
-function renderSchedule() {
+function renderSchedule () {
   const tbody = $('#schedule tbody')
   tbody.empty()
 
   // Sort playlists based on current sort option
   const sortBy = $('#sort-by').val()
-  let sortedPlaylists = [...currentSchedule.playlists]
+  const sortedPlaylists = [...currentSchedule.playlists]
 
   switch (sortBy) {
     case 'name':
@@ -587,7 +589,7 @@ function renderSchedule() {
     const durationStr = formatDuration(duration)
 
     // Overlap with previous programme
-    const prev = sortedPlaylists[i-1]
+    const prev = sortedPlaylists[i - 1]
     let overlap = 0
     if (prev) {
       const prevEnd = timeToMinutes(prev.end)
@@ -784,7 +786,7 @@ function renderSchedule() {
     const id = tr.data('id')
     const current = currentSchedule.playlists.find(item => item.id === id)
     const targetIdx = isUp ? idx - 1 : idx + 1
-    const targetId = $(`#schedule tbody tr`).eq(targetIdx).data('id')
+    const targetId = $('#schedule tbody tr').eq(targetIdx).data('id')
     const targetPlaylist = currentSchedule.playlists.find(x => x.id === targetId)
 
     if (current && targetPlaylist) {
@@ -896,7 +898,7 @@ $(document).ready(function () {
 })
 
 // Load default schedule from Radio-Schedule.json
-function loadDefaultSchedule() {
+function loadDefaultSchedule () {
   fetch('Radio-Schedule.json')
     .then(response => {
       if (!response.ok) return null
@@ -922,12 +924,7 @@ function loadDefaultSchedule() {
           nextId = playlists.length + 1
 
           // Update UI
-          $('#schedule-name').val(currentSchedule.name)
-          $('input[name="days"]').each(function () {
-            const day = $(this).val()
-            $(this).prop('checked', currentSchedule.days.includes(day))
-          })
-
+          updateUIFromSchedule()
           renderSchedule()
           updateActiveSelections()
         }
@@ -940,7 +937,7 @@ function loadDefaultSchedule() {
 
 let isAddingPlaylist = false // Guard to prevent double-add
 
-function addNewPlaylist() {
+function addNewPlaylist () {
   if (isAddingPlaylist) return // Prevent double calls
   isAddingPlaylist = true
 
