@@ -247,7 +247,7 @@ body {
 }
 
 .stream-select option {
-    background: rgb(46 52 64);
+    background: rgb(10 10 10);
     color: var(--text-color);
 }
 
