@@ -119,22 +119,25 @@ isort .
 
 ## Git Workflow
 
-**ALWAYS use Codeberg as primary remote.** GitHub is a mirror only.
+**ALWAYS use Codeberg as primary remote.** GitHub is a mirror only — lint checks run on GitHub, and if they pass it auto-deploys.
+
+Flow: `push to Codeberg → auto-mirrors to GitHub → GitHub Actions lints → if green, deploys`
 
 Follow hub-level rules at `/home/deathsmack/hub/AGENTS.md`:
 
 - **Branch-only work**: Never commit to `main` or `master`
-- **Codeberg primary**: Fetch/push to Codeberg, mirrors to GitHub
+- **Codeberg primary**: Push to Codeberg only — it mirrors to GitHub automatically
 - **Sync before branching**: `git checkout main && git pull codeberg main`
-- **Push to Codeberg first**: `git push codeberg branch-name` then optionally `git push origin branch-name`
+- **Push**: `git push codeberg branch-name` — **never push to origin** (GitHub gets it via mirror)
+- **Clone**: `git clone git@codeberg:ZamRock-Radio/zamrock.net.git`
 - **Push frequently**: Don't let local commits pile up
 - **No PR merging**: Only push commits to working branches
 
-### Remotes
+### Remotes (use `codeberg` for everything)
 
 ```bash
-codeberg    git@codeberg:ZamRock-Radio/zamrock.net.git
-origin      git@github.com:ZamRock-Radio/zamrock.net.git
+codeberg    git@codeberg:ZamRock-Radio/zamrock.net.git   # PRIMARY — always use this
+origin      git@github.com:ZamRock-Radio/zamrock.net.git  # MIRROR ONLY — do not push directly
 ```
 
 ## Notes
