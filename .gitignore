@@ -49,3 +49,7 @@ Thumbs.db
 # Project specific
 CLI/zamrock_*.sh
 !CLI/zamrock_v-1_5_1.sh
+
+# Zola
+/zola-site/public/
+/zola-site/.sass-cache/

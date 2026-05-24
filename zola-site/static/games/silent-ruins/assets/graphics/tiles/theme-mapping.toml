@@ -1,0 +1,95 @@
+# Tile Theme Mapping
+# Maps game block types to tile indices for each theme
+# Format: BLOCK_TYPE = tile_index
+
+[kenney-pico-8]
+# Stone/Rock blocks
+GROUND = 0
+STONE = 5
+PLATFORM = 35
+RUINS_WALL = 12
+SMOOTH_STONE = 20
+DARK_STONE = 15
+PALE_STONE = 25
+FLAGGED_STONE = 30
+
+# Ruin blocks  
+MOSSY_STONE = 8
+BROKEN_STONE = 18
+CRACKED_STONE = 22
+ERODED_STONE = 40
+MOTTLED_STONE = 45
+VEINED_STONE = 50
+WEATHERED_STONE = 55
+MOSSY_BRICK = 60
+CRUMBLING_BRICK = 65
+
+# Ground
+EARTH = 2
+SAND = 85
+
+# Decorative
+GRASS = 90
+MOSS_PATCH = 95
+RUBBLE = 100
+COLUMN_BASE = 110
+MUSHROOM = 115
+
+# Hazards
+SPIKE = 120
+
+# Special
+VINE = 125
+WATER = 130
+DOOR = 135
+LADDER = 140
+
+# Items (these are sprites, not tiles)
+FIREFLY = sprite
+CHECKPOINT = sprite
+
+[kenney-farm]
+# Stone/Rock blocks
+GROUND = 0
+STONE = 5
+PLATFORM = 20
+RUINS_WALL = 10
+SMOOTH_STONE = 25
+DARK_STONE = 30
+PALE_STONE = 35
+FLAGGED_STONE = 40
+
+# Ruin blocks
+MOSSY_STONE = 50
+BROKEN_STONE = 55
+CRACKED_STONE = 60
+ERODED_STONE = 65
+MOTTLED_STONE = 70
+VEINED_STONE = 75
+WEATHERED_STONE = 80
+MOSSY_BRICK = 85
+CRUMBLING_BRICK = 90
+
+# Ground
+EARTH = 3
+SAND = 95
+
+# Decorative
+GRASS = 100
+MOSS_PATCH = 105
+RUBBLE = 110
+COLUMN_BASE = 15
+MUSHROOM = 15
+
+# Hazards
+SPIKE = 0
+
+# Special
+VINE = 20
+WATER = 25
+DOOR = 30
+LADDER = 35
+
+# Items (these are sprites, not tiles)
+FIREFLY = sprite
+CHECKPOINT = sprite
