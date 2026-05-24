@@ -1,13 +1,23 @@
 # ZamRock Radio - AGENTS.md
 
-AI agent guidelines for the zamrock.net repository. This is a static HTML/CSS/JS website with Python bots.
+AI agent guidelines for the zamrock.net repository. This is a Zola static site with Python bots.
 
 ## Project Overview
 
-- **Type**: Static website (no build step, no package.json)
-- **Structure**: Main site in `docs/`, Python bots in `Bots/`
+- **Type**: Zola static site generator (multilingual)
+- **Source**: `zola-site/` — templates in `templates/`, content in `content/`, config in `config.toml`
+- **Output**: Built to `docs/` (GitHub Pages root)
 - **Hosting**: GitHub Pages from `docs/` directory
 - **Python**: Discord bot in `Bots/Discord/ls/` using discord.py
+
+## Build & Dev
+
+```bash
+zola build
+zola serve        # dev server with live reload
+```
+
+Zola outputs to `../docs` (configured in `zola-site/config.toml`).
 
 ## Commands
 
@@ -15,8 +25,6 @@ AI agent guidelines for the zamrock.net repository. This is a static HTML/CSS/JS
 
 ```bash
 # JavaScript - ESLint (requires node_modules/ with eslint installed)
-eslint .
-# or if node_modules/.bin is not in PATH:
 ./node_modules/.bin/eslint .
 
 # Python - Flake8, Black, isort
@@ -36,23 +44,27 @@ black .
 isort .
 ```
 
-### Build & Test
-
-- **No build command** - static files are served directly
-- **No test framework configured** - CI has a placeholder test job:
-  ```yaml
-  - name: Run Tests
-    run: echo "Tests passed - no test suite configured"
-  ```
-- To run a single test in future: no test runner is set up yet
-
 ### CI/CD
 
 - GitHub Actions workflow: `.github/workflows/ci.yml`
 - Uses `github/super-linter/slim@v5` for linting
-- Sets up FFmpeg for audio processing utilities
+- Sets up Zola for build step
 
 ## Code Style Guidelines
+
+### Zola Templates (`zola-site/templates/`)
+
+- **Engine**: Tera (Jinja2-like, built into Zola)
+- **Files**: `base.html` (layout), `index.html` (homepage), `macros.html` (reusable macros)
+- **Tags**: `{% block name %}`, `{% include "file.html" %}`, `{{ variable }}`
+- **Translation**: Strings via `config.toml` `[languages.xx.translations]`, accessed with `{{ trans(key="key") }}`
+- **i18n content**: `_index.xx.md` in `zola-site/content/` per language
+
+### Content (`zola-site/content/`)
+
+- **Format**: Markdown files with Zola frontmatter (`+++`)
+- **Naming**: `_index.md` for section root, `_index.xx.md` for localized versions
+- **Sections**: Each page type gets a section under `content/`
 
 ### JavaScript (`.eslintrc.json`)
 
@@ -63,24 +75,22 @@ isort .
 - **Variables**: Use `const` and `let` (never `var`)
 - **Arrow functions**: Preferred for callbacks: `() => {}`
 - **Template literals**: Use backticks for interpolation: `` `url('${var}')` ``
-- **Async**: Use `async/await` pattern in newer code (`news.js`)
+- **Async**: Use `async/await` pattern
 - **Globals**: Declare browser APIs with comments: `/* global fetch, IntersectionObserver */`
-- **Module system**: No ES modules - scripts loaded via `<script>` tags in HTML
-- **File naming**: kebab-case (`main.js`, `news.js`, `neon-player.js`)
-- **Function/variable naming**: camelCase (`animateTabTitle`, `setRandomBackground`)
-- **Environment**: Browser + Node (es2021), configured in `.eslintrc.json`
+- **Module system**: No ES modules — scripts loaded via `<script>` tags
+- **File naming**: kebab-case (`main.js`, `news.js`)
+- **Function/variable naming**: camelCase
+- **Environment**: Browser + Node (es2021)
 
 ### Python (`.flake8`, `.python-black`, `.isort.cfg`)
 
 - **Formatter**: Black with line-length=88, target Python 3.7-3.10
 - **Linter**: Flake8 with max-line-length=88, max-complexity=10
-- **Import sorting**: isort with `multi_line_output=3` (Vertical Hanging Indent), line_length=88
+- **Import sorting**: isort with `multi_line_output=3`, line_length=88
 - **Naming**: snake_case for variables and functions
 - **Type hints**: Use where practical: `def query_openwebui(prompt: str) -> str`
 - **Shebang**: `#!/usr/bin/env python3` at top of executable scripts
-- **Comments**: Decorative banners with `# ──────────────────`
 - **Config**: Use `.env` file with `python-dotenv` (never commit secrets)
-- **Imports order**: Standard library → third-party → local (handled by isort)
 
 ### CSS (`docs/css/`)
 
@@ -88,19 +98,18 @@ isort .
 - **Theme**: Nord-like dark palette:
   - `--bg-color: #2e3440`
   - `--text-color: #d8dee9`
+  - `--box-bg: rgb(10 10 10 / 55%)`
+  - `--box-blur: blur(12px)`
+  - `--box-border: #333`
 - **Font**: `'Press Start 2P'` (pixel/retro font from Google Fonts)
-- **Preprocessor**: None (zola-site/sass/ directory exists but is empty)
-- **Structure**: External stylesheets in `docs/css/`, one file per page when needed
+- **Box style (standard)**: Use `background: var(--box-bg)`, `backdrop-filter: var(--box-blur)`, `border: 2px solid var(--box-border)` — do NOT hardcode rgba
 - **Naming**: kebab-case for classes and IDs
 
-### HTML (`docs/`)
+### HTML/Output (`docs/`)
 
-- **Tags**: Lowercase tag names
-- **IDs/Classes**: kebab-case naming convention
-- **Structure**: External CSS in `css/`, external JS in `js/`
-- **Meta tags**: Include SEO and Open Graph tags on all pages
-- **Template**: Use `docs/template.html` as reference for new pages
+- Generated by Zola — **do not edit `docs/` directly**, edit `zola-site/` source
 - **Scripts**: Load via `<script src="..."></script>` (no module type)
+- **Meta tags**: Include SEO and Open Graph tags on all pages
 
 ### JSON
 
@@ -110,11 +119,14 @@ isort .
 
 ## Git Workflow
 
+**ALWAYS use Codeberg as primary remote.** GitHub is a mirror only.
+
 Follow hub-level rules at `/home/deathsmack/hub/AGENTS.md`:
 
 - **Branch-only work**: Never commit to `main` or `master`
 - **Codeberg primary**: Fetch/push to Codeberg, mirrors to GitHub
 - **Sync before branching**: `git checkout main && git pull codeberg main`
+- **Push to Codeberg first**: `git push codeberg branch-name` then optionally `git push origin branch-name`
 - **Push frequently**: Don't let local commits pile up
 - **No PR merging**: Only push commits to working branches
 
@@ -127,8 +139,7 @@ origin      git@github.com:ZamRock-Radio/zamrock.net.git
 
 ## Notes
 
-- No `.cursorrules` or `.github/copilot-instructions.md` found in this repo
-- No existing AGENTS.md prior to this file
 - Hub-level rules at `/home/deathsmack/hub/AGENTS.md` also apply
 - Python bots should use venv for deployment (see hub AGENTS.md for details)
+- Zola version: whatever is installed on the system — `zola --version` to check
 - Node modules only contain ESLint tooling (no runtime dependencies)
