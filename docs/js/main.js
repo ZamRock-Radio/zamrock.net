@@ -282,8 +282,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const STREAMS = {
     alpha: {
-      hifi: 'https://wild-haze-hifi.deathsmack-a51.workers.dev',
-      standard: 'https://divine-paper-3624.deathsmack-a51.workers.dev'
+      hifi: 'https://wild-haze-hifi-tmp.deathsmack-a51.workers.dev',
+      standard: 'https://divine-paper-3624-tmp.deathsmack-a51.workers.dev'
     },
     mega: {
       hifi: 'https://megason-aac.deathsmack-a51.workers.dev',
