@@ -277,29 +277,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const audio = document.getElementById('radioStream')
   const playButton = document.getElementById('playButton')
   const volumeSlider = document.getElementById('volumeSlider')
-  const relaySelect = document.getElementById('relaySelect')
-  const qualitySelect = document.getElementById('qualitySelect')
-
-  const STREAMS = {
-    alpha: {
-      hifi: 'https://wild-haze-hifi.deathsmack-a51.workers.dev',
-      standard: 'https://divine-paper-3624.deathsmack-a51.workers.dev'
-    },
-    mega: {
-      hifi: 'https://megason-aac.deathsmack-a51.workers.dev',
-      standard: 'https://megason-mp3.deathsmack-a51.workers.dev'
-    },
-    'lo-fire': {
-      hifi: 'https://emberbeam-aac.deathsmack-a51.workers.dev',
-      standard: 'https://emberbeam-mp3.deathsmack-a51.workers.dev'
-    }
-  }
-
-  function setStreamSource () {
-    const relay = relaySelect ? relaySelect.value : 'alpha'
-    const quality = qualitySelect ? qualitySelect.value : 'hifi'
-    audio.src = (STREAMS[relay] && STREAMS[relay][quality]) || STREAMS.alpha.hifi
-  }
 
   if (audio && playButton && volumeSlider) {
     // Store initial button text
@@ -307,24 +284,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize volume
     audio.volume = volumeSlider.value / 100
-
-    // Set initial stream source
-    setStreamSource()
-
-    // Update source on either selector change
-    function onStreamChange () {
-      const wasPlaying = playerState.status === 'playing'
-      if (wasPlaying) audio.pause()
-      setStreamSource()
-      if (wasPlaying) {
-        audio.play().catch(function () {
-          handlePlayerError(audio, playButton)
-        })
-      }
-    }
-
-    if (relaySelect) relaySelect.addEventListener('change', onStreamChange)
-    if (qualitySelect) qualitySelect.addEventListener('change', onStreamChange)
 
     // Listen for network online status
     window.addEventListener('online', () => {
