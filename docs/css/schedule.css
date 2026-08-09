@@ -105,6 +105,16 @@
     cursor: pointer;
 }
 
+.show-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgb(0 0 0 / 20%);
+}
+
+.show-card.current {
+    border-left: 4px solid #81a1c1;
+    background: rgb(129 161 193 / 10%);
+}
+
 .show-description {
     display: none;
     position: absolute;
@@ -122,13 +132,6 @@
     max-width: 100%;
     box-sizing: border-box;
     line-height: 1.5;
-}
-
-/* Show description on hover for desktop */
-@media (hover: hover) and (pointer: fine) {
-    .show-card:hover .show-description {
-        display: block;
-    }
 }
 
 /* For touch devices */
@@ -203,16 +206,6 @@
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 20px;
     margin-top: 20px;
-}
-
-.show-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 8px rgb(0 0 0 / 20%);
-}
-
-.show-card.current {
-    border-left: 4px solid #81a1c1;
-    background: rgb(129 161 193 / 10%);
 }
 
 .show-time {
