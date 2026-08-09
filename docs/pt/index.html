@@ -67,22 +67,12 @@
 
     
 <div class="player-container">
-  <audio id="radioStream" crossorigin="anonymous"></audio>
-  <button id="playButton" class="play-btn">Tocar</button>
-  <div class="volume-container">
-    <input type="range" id="volumeSlider" min="0" max="100" value="50" class="volume-slider" />
-  </div>
-  <div class="stream-selector">
-    <select id="relaySelect" class="stream-select">
-      <option value="alpha" selected>Alpha</option>
-      <option value="mega">Mega</option>
-      <option value="lo-fire">Lo-Fire</option>
-    </select>
-    <select id="qualitySelect" class="stream-select">
-      <option value="hifi" selected>HiFi (AAC)</option>
-      <option value="standard">Standard (MP3)</option>
-    </select>
-  </div>
+  <button id="play-btn" class="play-btn">
+    <svg id="play-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+    <svg id="pause-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="display:none"><rect x="5" y="3" width="4" height="18"/><rect x="15" y="3" width="4" height="18"/></svg>
+    <span id="play-label">Listen Live</span>
+  </button>
+  <audio id="radio-audio" preload="none"></audio>
 </div>
 
 <section class="news-section">

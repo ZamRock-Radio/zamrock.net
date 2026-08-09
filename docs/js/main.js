@@ -158,107 +158,64 @@ function setRandomBackground () {
   img.src = randomImage
 }
 
-// Audio player state management
-const playerState = {
-  status: 'idle', // idle, playing, paused, error, reconnecting
-  reconnectAttempts: 0,
-  maxReconnectAttempts: 10,
-  baseReconnectDelay: 1000,
-  maxReconnectDelay: 30000,
-  reconnectTimer: null,
-  wasPlaying: false,
-  hasPlayedBefore: false,
-  initialText: 'Play'
+// Audio player — Icepick-style
+const STREAM = 'https://icepick-mp3.deathsmack-a51.workers.dev/radio.mp3'
+
+const radioAudio = document.getElementById('radio-audio')
+const playBtn = document.getElementById('play-btn')
+const playIcon = document.getElementById('play-icon')
+const pauseIcon = document.getElementById('pause-icon')
+const playLabel = document.getElementById('play-label')
+
+let isPlaying = false
+let reconnectTimer = null
+
+function startStream () {
+  const url = STREAM + '?t=' + Date.now()
+  radioAudio.src = url
+  radioAudio.load()
+  radioAudio.play().catch(function () {})
+  isPlaying = true
+  playBtn.classList.add('playing')
+  playIcon.style.display = 'none'
+  pauseIcon.style.display = 'block'
+  playLabel.textContent = 'On Air'
+  startWatchdog()
 }
 
-function getReconnectDelay () {
-  const delay = playerState.baseReconnectDelay * Math.pow(2, playerState.reconnectAttempts)
-  return Math.min(delay, playerState.maxReconnectDelay)
+function stopStream () {
+  radioAudio.pause()
+  radioAudio.removeAttribute('src')
+  radioAudio.load()
+  isPlaying = false
+  playBtn.classList.remove('playing')
+  playIcon.style.display = 'block'
+  pauseIcon.style.display = 'none'
+  playLabel.textContent = 'Listen Live'
+  stopWatchdog()
 }
 
-function setPlayerStatus (status, button) {
-  playerState.status = status
-
-  if (!button) return
-
-  switch (status) {
-    case 'idle':
-      button.textContent = playerState.hasPlayedBefore ? 'Play' : playerState.initialText
-      button.disabled = false
-      break
-    case 'playing':
-      button.textContent = 'Stop'
-      button.disabled = false
-      break
-    case 'paused':
-      button.textContent = 'Resume'
-      button.disabled = false
-      break
-    case 'error':
-      button.textContent = 'Error - Tap to Retry'
-      button.disabled = false
-      playerState.reconnectAttempts = 0
-      break
-    case 'reconnecting':
-      button.textContent = 'Reconnecting...'
-      button.disabled = true
-      break
-  }
+function reconnect () {
+  if (!isPlaying) return
+  stopWatchdog()
+  radioAudio.pause()
+  radioAudio.removeAttribute('src')
+  radioAudio.load()
+  setTimeout(startStream, 2000)
 }
 
-function reconnectStream (audio, button) {
-  if (playerState.reconnectAttempts >= playerState.maxReconnectAttempts) {
-    console.warn('Max reconnection attempts reached')
-    setPlayerStatus('error', button)
-    return
-  }
-
-  const delay = getReconnectDelay()
-  console.log(`Reconnecting in ${delay}ms (attempt ${playerState.reconnectAttempts + 1})`)
-
-  setPlayerStatus('reconnecting', button)
-
-  // Store the current source and try to reload
-  const currentSrc = audio.src
-
-  playerState.reconnectTimer = setTimeout(() => {
-    playerState.reconnectAttempts++
-
-    // Reset and try to play again
-    audio.src = ''
-    audio.src = currentSrc
-
-    audio.play().then(() => {
-      playerState.reconnectAttempts = 0
-      playerState.wasPlaying = true
-      playerState.hasPlayedBefore = true
-      setPlayerStatus('playing', button)
-    }).catch(() => {
-      // Will trigger error event, which will call reconnectStream again
-    })
-  }, delay)
+function startWatchdog () {
+  stopWatchdog()
+  reconnectTimer = setInterval(function () {
+    if (!isPlaying) return
+    if (radioAudio.paused || radioAudio.ended || radioAudio.error || radioAudio.readyState < 2) {
+      reconnect()
+    }
+  }, 30000)
 }
 
-function handlePlayerError (audio, button) {
-  console.warn('Player error:', audio.error)
-
-  // Cancel any pending reconnection
-  if (playerState.reconnectTimer) {
-    clearTimeout(playerState.reconnectTimer)
-    playerState.reconnectTimer = null
-  }
-
-  // If was playing, attempt to reconnect
-  if (playerState.wasPlaying) {
-    reconnectStream(audio, button)
-  } else {
-    setPlayerStatus('error', button)
-  }
-}
-
-function handlePlayerStalled (audio, button) {
-  console.warn('Player stalled, attempting to recover...')
-  audio.load()
+function stopWatchdog () {
+  if (reconnectTimer) { clearInterval(reconnectTimer); reconnectTimer = null }
 }
 
 // Initialize background rotation on page load
@@ -274,166 +231,60 @@ document.addEventListener('DOMContentLoaded', () => {
     clearInterval(backgroundInterval)
   })
 
-  const audio = document.getElementById('radioStream')
-  const playButton = document.getElementById('playButton')
-  const volumeSlider = document.getElementById('volumeSlider')
-  const relaySelect = document.getElementById('relaySelect')
-  const qualitySelect = document.getElementById('qualitySelect')
-
-  const STREAMS = {
-    alpha: {
-      hifi: 'https://wild-haze-hifi.deathsmack-a51.workers.dev',
-      standard: 'https://divine-paper-3624.deathsmack-a51.workers.dev'
-    },
-    mega: {
-      hifi: 'https://megason-aac.deathsmack-a51.workers.dev',
-      standard: 'https://megason-mp3.deathsmack-a51.workers.dev'
-    },
-    'lo-fire': {
-      hifi: 'https://emberbeam-aac.deathsmack-a51.workers.dev',
-      standard: 'https://emberbeam-mp3.deathsmack-a51.workers.dev'
-    }
-  }
-
-  function setStreamSource () {
-    const relay = relaySelect ? relaySelect.value : 'alpha'
-    const quality = qualitySelect ? qualitySelect.value : 'hifi'
-    audio.src = (STREAMS[relay] && STREAMS[relay][quality]) || STREAMS.alpha.hifi
-  }
-
-  if (audio && playButton && volumeSlider) {
-    // Store initial button text
-    playerState.initialText = playButton.textContent || 'Play'
-
-    // Initialize volume
-    audio.volume = volumeSlider.value / 100
-
-    // Set initial stream source
-    setStreamSource()
-
-    // Update source on either selector change
-    function onStreamChange () {
-      const wasPlaying = playerState.status === 'playing'
-      if (wasPlaying) audio.pause()
-      setStreamSource()
-      if (wasPlaying) {
-        audio.play().catch(function () {
-          handlePlayerError(audio, playButton)
-        })
-      }
-    }
-
-    if (relaySelect) relaySelect.addEventListener('change', onStreamChange)
-    if (qualitySelect) qualitySelect.addEventListener('change', onStreamChange)
-
-    // Listen for network online status
-    window.addEventListener('online', () => {
-      console.log('Network online, attempting to reconnect...')
-      if (playerState.wasPlaying || playerState.hasPlayedBefore) {
-        reconnectStream(audio, playButton)
-      }
+  // Icepick-style player wiring
+  if (radioAudio && playBtn && playLabel) {
+    radioAudio.addEventListener('error', () => {
+      if (isPlaying) reconnect()
+    })
+    radioAudio.addEventListener('stalled', () => {
+      if (isPlaying) reconnect()
+    })
+    radioAudio.addEventListener('ended', () => {
+      if (isPlaying) reconnect()
     })
 
-    // Listen for page visibility changes (user returns to tab)
-    document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'visible') {
-        console.log('Page visible, checking stream status...')
-        // Only reconnect if we were playing and stream is dead
-        if ((playerState.wasPlaying || playerState.hasPlayedBefore) && audio.paused && !playerState.reconnectTimer) {
-          audio.play().catch(() => {
-            handlePlayerError(audio, playButton)
-          })
-        }
-      }
-    })
-
-    // Player event listeners for error handling
-    audio.addEventListener('error', () => {
-      handlePlayerError(audio, playButton)
-    })
-
-    audio.addEventListener('stalled', () => {
-      handlePlayerStalled(audio, playButton)
-    })
-
-    audio.addEventListener('pause', () => {
-      // If we weren't explicitly pausing, this might be a stream drop
-      if (playerState.status === 'playing') {
-        console.warn('Stream paused unexpectedly')
-        playerState.wasPlaying = true
-        handlePlayerError(audio, playButton)
-      }
-    })
-
-    audio.addEventListener('playing', () => {
-      playerState.wasPlaying = true
-      playerState.hasPlayedBefore = true
-      playerState.reconnectAttempts = 0
-      setPlayerStatus('playing', playButton)
-    })
-
-    audio.addEventListener('ended', () => {
-      setPlayerStatus('paused', playButton)
-    })
-
-    // Play/pause toggle
-    playButton.addEventListener('click', () => {
-      const currentStatus = playerState.status
-
-      function doPlay (onSuccess) {
-        audio.play().then(() => {
-          playerState.wasPlaying = true
-          playerState.hasPlayedBefore = true
-          if (onSuccess) onSuccess()
-          setPlayerStatus('playing', playButton)
-        }).catch(() => {
-          if (currentStatus === 'reconnecting') {
-            setPlayerStatus('error', playButton)
-          } else {
-            handlePlayerError(audio, playButton)
-          }
-        })
-      }
-
-      // If error or idle, try to play
-      if (currentStatus === 'error' || currentStatus === 'idle') {
-        playerState.reconnectAttempts = 0
-        doPlay()
-        return
-      }
-
-      // If reconnecting, cancel and allow manual retry
-      if (currentStatus === 'reconnecting') {
-        if (playerState.reconnectTimer) {
-          clearTimeout(playerState.reconnectTimer)
-          playerState.reconnectTimer = null
-        }
-        doPlay()
-        return
-      }
-
-      // Normal play/pause toggle
-      if (audio.paused) {
-        doPlay()
+    playBtn.addEventListener('click', () => {
+      if (radioAudio.paused) {
+        startStream()
       } else {
-        audio.pause()
-        playerState.wasPlaying = playerState.status === 'playing'
-        setPlayerStatus('paused', playButton)
+        stopStream()
+      }
+    })
+  }
+
+  // Legacy player support (radioStream + playButton pages)
+  const legacyAudio = document.getElementById('radioStream')
+  const legacyButton = document.getElementById('playButton')
+
+  if (legacyAudio && legacyButton && !radioAudio) {
+    let legacyPlaying = false
+
+    legacyAudio.addEventListener('error', () => {
+      if (legacyPlaying) reconnectLegacy()
+    })
+    legacyAudio.addEventListener('stalled', () => {
+      if (legacyPlaying) reconnectLegacy()
+    })
+    legacyAudio.addEventListener('ended', () => {
+      if (legacyPlaying) reconnectLegacy()
+    })
+
+    legacyButton.addEventListener('click', () => {
+      if (legacyAudio.paused) {
+        legacyAudio.src = STREAM + '?t=' + Date.now()
+        legacyAudio.play().catch(() => {})
+        legacyPlaying = true
+        legacyButton.textContent = 'Stop'
+      } else {
+        legacyAudio.pause()
+        legacyPlaying = false
+        legacyButton.textContent = 'Play'
       }
     })
 
-    // Adjust volume
-    volumeSlider.addEventListener('input', () => {
-      audio.volume = volumeSlider.value / 100
-    })
-
-    // Expose player controls for external use
-    window.zamrockPlayer = {
-      play: () => audio.play(),
-      pause: () => audio.pause(),
-      getStatus: () => playerState.status,
-      getVolume: () => audio.volume,
-      setVolume: (v) => { audio.volume = v }
+    function reconnectLegacy () {
+      legacyAudio.src = STREAM + '?t=' + Date.now()
+      legacyAudio.play().catch(() => {})
     }
   }
 })

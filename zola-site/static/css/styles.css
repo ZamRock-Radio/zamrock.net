@@ -202,53 +202,36 @@ body {
 }
 
 .play-btn {
-    background: var(--primary-color);
-    color: white;
-    border: 2px solid var(--border-color);
-    padding: 10px 30px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 32px;
+    padding: 14px 32px;
+    background: transparent;
+    border: 1px solid var(--accent-color);
+    border-radius: 999px;
+    color: var(--accent-color);
     font-family: inherit;
-    font-size: 16px;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s;
 }
 
 .play-btn:hover {
     background: var(--accent-color);
+    color: #000;
 }
 
-.volume-container {
-    margin-top: 15px;
+.play-btn.playing {
+    border-color: #22c55e;
+    color: #22c55e;
 }
 
-.volume-slider {
-    width: 100px;
-    margin: 10px 0;
-}
-
-.stream-selector {
-    margin-top: 15px;
-}
-
-.stream-select {
-    background: var(--box-bg);
-    backdrop-filter: var(--box-blur);
-    color: var(--text-color);
-    border: 2px solid var(--box-border);
-    padding: 6px 12px;
-    font-family: inherit;
-    font-size: 13px;
-    cursor: pointer;
-    outline: none;
-    max-width: 100%;
-}
-
-.stream-select:hover {
-    border-color: var(--accent-color);
-}
-
-.stream-select option {
-    background: rgb(10 10 10);
-    color: var(--text-color);
+.play-btn.playing:hover {
+    background: #22c55e;
+    color: #000;
 }
 
 /* Main Content */
