@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZamRock Landing Mockups</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700&family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;600&family=Nunito:wght@400;600;700;800&family=Outfit:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #1a1b26;
+  --surface: #24253a;
+  --text: #c0caf5;
+  --text-dim: #565f89;
+  --accent: #7aa2f7;
+  --accent-hover: #89b4fa;
+  --border: #3b4261;
+  --radius: 8px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg); color: var(--text);
+  font-family: 'Inter', system-ui, sans-serif; min-height: 100vh;
+  padding: 40px 20px;
+}
+h1 { font-size: 1.6rem; margin-bottom: 6px; }
+.sub { color: var(--text-dim); margin-bottom: 32px; font-size: 0.95rem; }
+.sub code { color: var(--accent); font-family: 'JetBrains Mono', monospace; }
+.grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px; max-width: 1100px; margin: 0 auto;
+}
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px; text-decoration: none;
+  color: var(--text); display: flex; flex-direction: column; gap: 10px;
+  transition: transform .15s ease, border-color .15s ease;
+}
+.card:hover { transform: translateY(-3px); border-color: var(--accent); }
+.preview {
+  border-radius: 6px; overflow: hidden; border: 1px solid var(--border);
+  background: #11131f; height: 120px; display: flex; align-items: center; justify-content: center;
+  font-size: 2rem; letter-spacing: -1px; color: var(--accent); font-weight: 700;
+}
+.preview small { font-size: .55em; color: var(--text-dim); display: block; text-align: center; font-family: 'Inter'; font-weight: 400; }
+.tag { color: var(--text-dim); font-size: .8rem; font-family: 'JetBrains Mono', monospace; }
+.tag b { color: var(--accent); font-weight: 600; }
+h2 { font-family: 'Press Start 2P', monospace; font-size: .8rem; color: var(--accent); margin-bottom: 24px; letter-spacing: 1px; }
+</style>
+</head>
+<body>
+<center>
+  <h1>ZamRock Radio — Landing Mockups</h1>
+  <p class="sub">6 layout directions for the new zamrock.net homepage · branch <code>ui-mockups</code> · contents upgraded from forge/icepick pages</p>
+  <h2 style="margin-top:30px">Choose a Direction</h2>
+</center>
+<div class="grid">
+  <a class="card" href="forge-landing/">
+    <div class="preview"><span>⬢<small>git.zamrock.net style</small></span></div>
+    <b>1 · Forge Landing</b>
+    <span class="tag">Dark dev-fest · hero + stat cards · project grid · CTA. Modeled after the <b>git.zamrock.net</b> landing.</span>
+  </a>
+  <a class="card" href="icepick-landing/">
+    <div class="preview"><span>▤<small>icepick.zamrock.net style</small></span></div>
+    <b>2 · Product Landing</b>
+    <span class="tag">Clean hero stats · feature grids · stack chips · bold CTA. Modeled after <b>icepick.zamrock.net</b>.</span>
+  </a>
+  <a class="card" href="gallery-crossfade/">
+    <div class="preview"><span>◍<small>website_bg slideshow</small></span></div>
+    <b>3 · Gallery Crossfade</b>
+    <span class="tag">Rotating <b>website_bg</b> artwork · slow crossfades · floating glass content rail.</span>
+  </a>
+  <a class="card" href="record-store/">
+    <div class="preview"><span>◉<small>vinyl over bg_001</small></span></div>
+    <b>4 · Record Store</b>
+    <span class="tag">Polished version of today's page · glass record-card player · spinning vinyl · pill nav.</span>
+  </a>
+  <a class="card" href="nord-terminal/">
+    <div class="preview"><span>▚<small>NORAD terminal</small></span></div>
+    <b>5 · NORAD Terminal</b>
+    <span class="tag">WOPR personality · mono type · signal readouts · scanlines · dimmed bg art.</span>
+  </a>
+  <a class="card" href="broadcast-console/">
+    <div class="preview"><span>▮<small>studio hardware</small></span></div>
+    <b>6 · Broadcast Console</b>
+    <span class="tag">Studio deck: status bar · player + now-playing readout · news panel · meters.</span>
+  </a>
+</div>
+<center style="margin-top:30px; color:#565f89; font-size:.8rem">
+  Mockups are static HTML — open any folder's index.html in a browser. Backgrounds served from <code>zola-site/static/img/website_bg/</code>.
+</center>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZamRock Radio — Broadcast Console Mockup</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0e1016; --panel: #151924; --panel2: #1a1f2d; --text: #e6e9f4; --dim: #79819d;
+  --accent: #38d9a9; --accent2: #4cc9f0; --war: #ffb454; --border: #232a3c;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: 'Outfit', system-ui, sans-serif; min-height: 100vh; display: flex; flex-direction: column; }
+
+.statusbar {
+  display: flex; justify-content: space-between; align-items: center;
+  background: var(--panel); border-bottom: 1px solid var(--border);
+  padding: 10px 22px; font-family: 'JetBrains Mono', monospace; font-size: .7rem;
+  color: var(--dim); text-transform: uppercase; letter-spacing: 1px;
+}
+.statusbar .b { color: var(--text); font-weight: 600; }
+.statusbar .live { color: var(--accent); display: flex; align-items: center; gap: 8px; }
+.statusbar .live i { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); animation: p 1.5s infinite; }
+@keyframes p { 50% { opacity: .25; } }
+.statusbar .chip { border: 1px solid var(--border); padding: 3px 10px; border-radius: 20px; }
+.statusbar .chip.w { color: var(--war); }
+
+.main { flex: 1; max-width: 980px; width: 100%; margin: 0 auto; padding: 26px 22px 40px; }
+
+.brand { display: flex; align-items: baseline; gap: 14px; }
+.brand h1 { font-size: 1.5rem; font-weight: 800; letter-spacing: -.5px; }
+.brand h1 span { color: var(--accent); }
+.brand .tag { color: var(--dim); font-family: 'JetBrains Mono', monospace; font-size: .72rem; }
+
+.desk { display: grid; grid-template-columns: 1.4fr 1fr; gap: 18px; margin-top: 22px; }
+@media (max-width: 780px) { .desk { grid-template-columns: 1fr; } }
+.panel { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 20px; }
+.panel .hd { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.panel .hd .t { font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--dim); }
+.panel .hd .t b { color: var(--text); }
+.panel .hd .led { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+
+.meter { display: flex; gap: 3px; align-items: flex-end; height: 60px; margin-bottom: 14px; }
+.meter i { flex: 1; background: linear-gradient(180deg, var(--accent) 0 70%, var(--accent2) 70% 85%, var(--war) 85%); opacity: .25; animation: m 1.2s ease-in-out infinite alternate; }
+.meter i:nth-child(2n) { animation-delay: .3s; } .meter i:nth-child(3n) { animation-delay: .6s; }
+@keyframes m { from { height: 30%; } to { height: 95%; } }
+
+.console-row { display: flex; gap: 12px; margin-top: 18px; align-items: center; flex-wrap: wrap; }
+.play {
+  width: 62px; height: 62px; border-radius: 50%; border: none; cursor: pointer;
+  background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #06121e;
+  font-size: 1.35rem; font-weight: 800; flex-shrink: 0; transition: transform .15s ease, box-shadow .15s ease;
+}
+.play:hover { transform: scale(1.05); box-shadow: 0 0 24px rgba(56,217,169,.45); }
+.fader { flex: 1; min-width: 160px; }
+.fader input[type=range] { width: 100%; accent-color: var(--accent); }
+.fader .fl { display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: .62rem; color: var(--dim); }
+.sel { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+.sel button {
+  font-family: 'JetBrains Mono', monospace; font-size: .66rem; padding: 7px 12px;
+  background: var(--panel2); border: 1px solid var(--border); color: var(--dim); border-radius: 8px; cursor: pointer;
+}
+.sel button.on { color: var(--accent); border-color: var(--accent); }
+
+.rows { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+.row { display: flex; justify-content: space-between; align-items: center; background: var(--panel2); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; }
+.row .name { font-weight: 600; font-size: .9rem; }
+.row .meta { font-family: 'JetBrains Mono', monospace; font-size: .66rem; color: var(--dim); margin-top: 2px; }
+.row .time { font-family: 'JetBrains Mono', monospace; font-size: .72rem; color: var(--accent); }
+.row.upcoming .time { color: var(--dim); }
+
+.links { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin-top: 18px; }
+.links a {
+  text-decoration: none; color: var(--text); background: var(--panel);
+  border: 1px solid var(--border); border-radius: 10px; padding: 13px; font-size: .85rem; font-weight: 600;
+  transition: all .15s ease;
+}
+.links a:hover { border-color: var(--accent); transform: translateY(-2px); }
+.links a small { display: block; color: var(--dim); font-weight: 400; font-size: .72rem; margin-top: 4px; }
+
+.news { margin-top: 14px; display: flex; flex-direction: column; gap: 10px; }
+.news .item { background: var(--panel2); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
+.news .item .date { font-family: 'JetBrains Mono', monospace; font-size: .62rem; color: var(--accent2); text-transform: uppercase; letter-spacing: 1px; }
+.news .item p { font-size: .82rem; margin-top: 5px; color: var(--dim); line-height: 1.5; }
+
+.foot { text-align: center; color: var(--dim); font-family: 'JetBrains Mono', monospace; font-size: .68rem; padding: 18px; border-top: 1px solid var(--border); }
+.foot a { color: var(--accent); text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="statusbar">
+  <div><span class="b">ZAMROCK RADIO</span> — broadcast console</div>
+  <div class="live"><i></i> ON AIR</div>
+  <div><span class="chip">icepick 0.9.x</span> <span class="chip">castilesoap online</span> <span class="chip w">relay 3 standby</span></div>
+</div>
+
+<div class="main">
+  <div class="brand">
+    <h1>ZamRock <span>Console</span></h1>
+    <div class="tag">the board never sleeps · psi / afro / funk / surf / exotic</div>
+  </div>
+
+  <div class="desk">
+    <div class="panel">
+      <div class="hd"><div class="t"><b>MASTER OUTPUT</b> — MEGA RELAY</div><div class="led"></div></div>
+      <div class="meter"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="console-row">
+        <button class="play">▶</button>
+        <div class="fader">
+          <input type="range" min="0" max="100" value="62">
+          <div class="fl"><span>VOLUME</span><span>62</span></div>
+        </div>
+      </div>
+      <div class="sel">
+        <button class="on">AAC 320 · MEGA</button>
+        <button>MP3 192 · LO-FIRE</button>
+        <button>MP3 128 · REMIX</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="hd"><div class="t"><b>NOW PLAYING</b></div><div class="led"></div></div>
+      <div class="rows">
+        <div class="row"><div><div class="name">Witch — Lukombo Vibes</div><div class="meta">1977 · Zamrock · B-side deep cut</div></div><div class="time">3:42</div></div>
+        <div class="row upcoming"><div><div class="name">Musi-O-Tunya — Wings of Africa</div><div class="meta">up next · scheduled by icepick</div></div><div class="time">+0:18</div></div>
+        <div class="row upcoming"><div><div class="name">Amanaz — Khala My Friend</div><div class="meta">weighted playlist · shotgun buddy</div></div><div class="time">+6:44</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="links">
+    <a href="#">🎵 Schedule<small>broadcast plan</small></a>
+    <a href="#">📰 News<small>station intel</small></a>
+    <a href="#">🎮 Games<small>silent ruins & friends</small></a>
+    <a href="#">⚙️ The Forge<small>icepick · castilesoap · icetray</small></a>
+    <a href="#">ℹ️ About<small>mission</small></a>
+    <a href="#">📞 Contact<small>open channel</small></a>
+  </div>
+
+  <div class="panel" style="margin-top:18px">
+    <div class="hd"><div class="t"><b>STATION FEED</b></div><div class="led" style="background:var(--accent2);box-shadow:0 0 10px var(--accent2)"></div></div>
+    <div class="news">
+      <div class="item"><div class="date">2026-08-11 · infra</div><p>Kener status page now self-heals — dual-tunnel watchdog watching itself watching us.</p></div>
+      <div class="item"><div class="date">2026-08-06 · forge</div><p>CastileSoap ships its FastMCP server — schedule, playlists, and playback now speak to any MCP client.</p></div>
+      <div class="item"><div class="date">2026-08-01 · relays</div><p>New Icetray cube deployed — fetch once, broadcast many, never silence.</p></div>
+    </div>
+  </div>
+</div>
+
+<div class="foot">© 2026 ZamRock Radio — <a href="../index.html">all mockups</a></div>
+</body>
+</html>

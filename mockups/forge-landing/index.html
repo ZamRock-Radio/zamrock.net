@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZamRock Radio — Forge Landing Mockup</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d0f1a; --surface: #161a2e; --surface2: #1c2138;
+  --text: #dbe1ff; --dim: #8a93c8; --accent: #7aa2f7; --accent2: #bb9af7;
+  --border: #2a3050; --green: #9ece6a;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; }
+.top {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 16px 28px; border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; background: rgba(13,15,26,.9); backdrop-filter: blur(10px); z-index: 5;
+}
+.brand { font-weight: 800; font-size: 1.05rem; letter-spacing: -.5px; }
+.brand .dot { color: var(--accent); }
+.top a { color: var(--dim); text-decoration: none; font-size: .85rem; margin-left: 20px; }
+.top a:hover { color: var(--accent); }
+.sys { color: var(--dim); font-family: 'JetBrains Mono', monospace; font-size: .7rem; }
+.sys .ok { color: var(--green); }
+.hero { text-align: center; padding: 90px 20px 70px; position: relative; overflow: hidden; }
+.hero::before {
+  content: ''; position: absolute; inset: -50% -20%; z-index: 0;
+  background:
+    radial-gradient(600px 300px at 50% 0%, rgba(122,162,247,.18), transparent 70%),
+    radial-gradient(400px 200px at 80% 60%, rgba(187,154,247,.12), transparent 70%);
+}
+.hero > * { position: relative; z-index: 1; }
+.hero h1 { font-size: 2.6rem; font-weight: 800; letter-spacing: -1.5px; line-height: 1.15; }
+.hero h1 .grad {
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.hero p { color: var(--dim); max-width: 640px; margin: 18px auto 30px; font-size: 1.05rem; line-height: 1.7; }
+.cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.btn {
+  display: inline-block; padding: 12px 24px; border-radius: 8px; font-weight: 700;
+  font-size: .9rem; text-decoration: none; transition: transform .15s ease, background .15s ease;
+}
+.btn-primary { background: var(--accent); color: #0d0f1a; }
+.btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
+.btn-ghost { border: 1px solid var(--border); color: var(--text); }
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+.stats {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  max-width: 900px; margin: 0 auto; padding: 24px; gap: 16px;
+}
+.stat { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px; text-align: center; }
+.stat .num { font-size: 1.7rem; font-weight: 800; font-family: 'JetBrains Mono', monospace; color: var(--accent); }
+.stat .lbl { color: var(--dim); font-size: .78rem; margin-top: 6px; text-transform: uppercase; letter-spacing: 1px; }
+.section { max-width: 1080px; margin: 60px auto; padding: 0 24px; }
+.section h2 { font-size: 1.15rem; font-weight: 700; margin: 40px 0 18px; }
+.section h2 .n { color: var(--accent2); font-family: 'JetBrains Mono', monospace; margin-right: 10px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 16px; }
+.proj { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; transition: border-color .15s ease, transform .15s ease; }
+.proj:hover { border-color: var(--accent); transform: translateY(-2px); }
+.proj .head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.proj .emoji { font-size: 1.4rem; }
+.status { font-size: .65rem; font-family: 'JetBrains Mono', monospace; padding: 3px 8px; border-radius: 20px; background: #1a2040; color: var(--accent); border: 1px solid #2a3050; }
+.status.live { color: var(--green); border-color: #33402a; }
+.badge { font-size: .65rem; font-family: 'JetBrains Mono', monospace; color: var(--dim); margin-left: 8px; }
+.proj h3 { font-size: 1rem; margin-bottom: 6px; }
+.proj p { color: var(--dim); font-size: .85rem; line-height: 1.6; }
+.join {
+  max-width: 1080px; margin: 60px auto; padding: 40px 24px;
+  background: linear-gradient(120deg, var(--surface), var(--surface2));
+  border: 1px solid var(--border); border-radius: 12px; text-align: center;
+}
+.join h2 { font-size: 1.3rem; }
+.join p { color: var(--dim); margin: 10px auto 22px; max-width: 480px; font-size: .9rem; }
+footer { border-top: 1px solid var(--border); padding: 26px; text-align: center; color: var(--dim); font-size: .8rem; }
+footer a { color: var(--accent); text-decoration: none; margin: 0 8px; }
+.player-mini {
+  max-width: 480px; margin: -34px auto 10px; padding: 14px 18px;
+  background: rgba(22,26,46,.95); border: 1px solid var(--border); border-radius: 12px;
+  display: flex; align-items: center; gap: 14px; backdrop-filter: blur(8px);
+  position: relative; z-index: 2;
+}
+.player-mini .play { width: 44px; height: 44px; border-radius: 50%; background: var(--accent); border: none; color: #0d0f1a; font-size: 1.1rem; cursor: pointer; flex-shrink: 0; }
+.player-mini .info { flex: 1; min-width: 0; }
+.player-mini .st { color: var(--green); font-family: 'JetBrains Mono', monospace; font-size: .68rem; text-transform: uppercase; letter-spacing: 1px; }
+.player-mini .name { font-size: .95rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.player-mini .quality { color: var(--dim); font-family: 'JetBrains Mono', monospace; font-size: .7rem; }
+.flow { display: flex; align-items: center; gap: 10px; }
+.flow select { background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 8px 10px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: .75rem; }
+@media (max-width: 640px) { .hero h1 { font-size: 1.7rem; } .player-mini { flex-wrap: wrap; } }
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="brand">⬢ ZamRock<span class="dot">.net</span></div>
+  <div><a href="#projects">Projects</a><a href="#stats">Stats</a><a href="#join">Join</a><a href="https://git.zamrock.net">Forge</a></div>
+  <div class="sys"><span class="ok">●</span> system online — icepick 0.9.x</div>
+</div>
+
+<div class="hero">
+  <h1>The Radio Station<br>We <span class="grad">Wrote Ourselves</span></h1>
+  <p>Scheduler, DJ, relays, bots, wallet, status page — every serious piece of this station is home-grown. We don't rent software, we write it.</p>
+  <div class="cta">
+    <a class="btn btn-primary" href="#listen">▶ Listen Live</a>
+    <a class="btn btn-ghost" href="https://git.zamrock.net/ZamRock-Radio">Explore the Forge</a>
+  </div>
+</div>
+
+<div class="player-mini" id="listen">
+  <button class="play">▶</button>
+  <div class="info">
+    <div class="st">● Live — 24/7</div>
+    <div class="name">ZamRock Radio — Psychedelic · Afrobeat · Funk</div>
+  </div>
+  <div class="flow">
+    <select><option>Mega Relay · AAC 320k</option><option>Lo-Fire · MP3 192k</option></select>
+  </div>
+</div>
+
+<div class="stats" id="stats">
+  <div class="stat"><div class="num">35</div><div class="lbl">Repositories</div></div>
+  <div class="stat"><div class="num">6</div><div class="lbl">Active Bots</div></div>
+  <div class="stat"><div class="num">13</div><div class="lbl">CF Workers</div></div>
+  <div class="stat"><div class="num">3</div><div class="lbl">Servers</div></div>
+  <div class="stat"><div class="num">24/7</div><div class="lbl">On Air</div></div>
+</div>
+
+<div class="section" id="projects">
+  <h2><span class="n">//</span> What We Build</h2>
+  <div class="grid">
+    <div class="proj"><div class="head"><span class="emoji">📻</span><span><span class="status live">live</span><span class="badge">python</span></span></div>
+      <h3>Icepick</h3><p>The heart of the station. A custom Python scheduler that picks tracks, crossfades on the fly, and pushes the stream to Icecast. Schedules, playlists, shotgun mode, full dashboard. No LiquidSoap, no black boxes.</p></div>
+    <div class="proj"><div class="head"><span class="emoji">🎛️</span><span><span class="status live">active</span><span class="badge">python</span></span></div>
+      <h3>CastileSoap</h3><p>The DJ engine — it takes orders from AI. Auto-DJ with a FastMCP server handing the full schedule, playlists, and playback controls to LLM clients. You don't just run the station, you can talk to it.</p></div>
+    <div class="proj"><div class="head"><span class="emoji">🔁</span><span><span class="status live">active</span><span class="badge">python</span></span></div>
+      <h3>Icetray</h3><p>The relay tier, decentralized. Lightweight cubes anyone can run — pull the parent stream, re-serve to local listeners, spread load, cut distance. One dependency, Pi-class friendly.</p></div>
+    <div class="proj"><div class="head"><span class="emoji">🤖</span><span><span class="status live">active</span><span class="badge">typescript</span></span></div>
+      <h3>WOPR</h3><p>AI-powered Revolt bot with an OpenWebUI brain and a kill switch wired to health checks — when the brain goes down, it knows before you do.</p></div>
+    <div class="proj"><div class="head"><span class="emoji">⚡</span><span><span class="status live">active</span><span class="badge">typescript</span></span></div>
+      <h3>H4X</h3><p>An OpenCode-powered AI coding assistant living in your chat. Multi-model, code execution, file management — a dev environment that answers when called.</p></div>
+    <div class="proj"><div class="head"><span class="emoji">🐱</span><span><span class="status">alpha</span><span class="badge">typescript</span></span></div>
+      <h3>The Catalyst</h3><p>MRX tipbot with a full HD wallet, Cat Creds rating system, and gamified crypto lifecycle tiers. Crypto with personality.</p></div>
+    <div class="proj"><div class="head"><span class="emoji">🔗</span><span><span class="status live">active</span><span class="badge">python</span></span></div>
+      <h3>Matrix-Bridge</h3><p>Multi-platform message bridge — Revolt, Discord, Matrix, Fluxer, Telegram — with file uploads, webhooks, and content filtering. One conversation, every room.</p></div>
+    <div class="proj"><div class="head"><span class="emoji">📊</span><span><span class="status live">active</span><span class="badge">bash</span></span></div>
+      <h3>Kener</h3><p>Self-hosted status page with a dual-tunnel watchdog. Monitors the whole ZamRock infrastructure and recovers itself when something blinks.</p></div>
+    <div class="proj"><div class="head"><span class="emoji">🪙</span><span><span class="status live">active</span><span class="badge">typescript</span></span></div>
+      <h3>UCANN</h3><p>Metrix blockchain browser extension — MNS resolution, contract interaction, wallet integration backed by our own self-hosted metrixd node.</p></div>
+    <div class="proj"><div class="head"><span class="emoji">🎮</span><span><span class="status">beta</span><span class="badge">godot</span></span></div>
+      <h3>Silent Ruins</h3><p>Interactive fiction in Godot — atmospheric exploration with play tracking through Cloudflare Workers.</p></div>
+  </div>
+</div>
+
+<div class="join" id="join">
+  <h2>Join the Forge</h2>
+  <p>This is a private forge. Request access to contribute to ZamRock projects, ship side projects, and submit PRs.</p>
+  <a class="btn btn-primary" href="https://git.zamrock.net/user/login">Request Access</a>
+  <a class="btn btn-ghost" href="https://stt.gg/CsjKzYWm">Or reach us on Revolt — @deathsmack</a>
+</div>
+
+<footer>
+  © 2026 ZamRock Radio — Built on a Forgejo stack · <a href="https://git.zamrock.net">git.zamrock.net</a> <a href="https://status.zamrock.net">status</a> <a href="#">back to mockups</a>
+</footer>
+</body>
+</html>

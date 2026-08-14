@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZamRock Radio — NORAD Terminal Mockup</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-dim: rgba(4,10,6,.88); --green: #33ff77; --green-dim: #1f9c4e; --amber: #ffb454;
+  --red: #ff4444; --text: #b8f5c9;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'JetBrains Mono', monospace; color: var(--text); min-height: 100vh;
+  background: #020603 url('../../zola-site/static/img/website_bg/website_bg_014.jpg') no-repeat center fixed;
+  background-size: cover;
+}
+.scrim { position: fixed; inset: 0; background: var(--bg-dim); pointer-events: none; }
+.scanlines {
+  position: fixed; inset: 0; z-index: 3; pointer-events: none;
+  background: repeating-linear-gradient(0deg, rgba(0,0,0,.22) 0 1px, transparent 1px 3px);
+}
+.term { position: relative; z-index: 2; max-width: 760px; margin: 0 auto; padding: 22px 26px 40px; min-height: 100vh; display: flex; flex-direction: column; }
+
+.bar {
+  display: flex; justify-content: space-between; align-items: center;
+  border: 1px solid rgba(51,255,119,.3); background: rgba(0,0,0,.4);
+  padding: 8px 14px; font-size: .72rem; text-transform: uppercase; letter-spacing: 1px;
+}
+.bar .t { color: var(--amber); }
+.blink { animation: bl 1.3s steps(2) infinite; }
+@keyframes bl { 50% { opacity: 0; } }
+.brand { text-align: center; margin: 34px 0 20px; }
+.brand .pf { font-family: 'Press Start 2P', monospace; font-size: 1.25rem; color: var(--amber); letter-spacing: 1px; text-shadow: 0 0 24px rgba(255,180,84,.4); }
+.brand .sub { color: var(--green-dim); font-size: .72rem; margin-top: 12px; text-transform: uppercase; letter-spacing: 2px; }
+
+.menu { border: 1px solid rgba(51,255,119,.3); background: rgba(0,0,0,.45); padding: 16px 18px; }
+.menu .row { display: flex; justify-content: space-between; padding: 7px 4px; font-size: .85rem; cursor: pointer; border-left: 2px solid transparent; }
+.menu .row:hover { background: rgba(51,255,119,.08); border-left-color: var(--green); }
+.menu .row .k { color: var(--amber); }
+.menu .row .desc { color: var(--green-dim); }
+.menu .row a { color: var(--text); text-decoration: none; }
+
+.sig { margin-top: 18px; border: 1px solid rgba(51,255,119,.3); background: rgba(0,0,0,.45); padding: 14px 18px; }
+.sig .line { display: flex; justify-content: space-between; font-size: .74rem; padding: 4px 0; }
+.sig .ok { color: var(--green); } .sig .warn { color: var(--amber); }
+.prog { height: 10px; border: 1px solid rgba(51,255,119,.35); margin-top: 8px; background: rgba(0,0,0,.4); }
+.prog i { display: block; height: 100%; width: 87%; background: linear-gradient(90deg, var(--green-dim), var(--green)); animation: sweep 3s ease-in-out infinite alternate; }
+@keyframes sweep { from { width: 87%; } to { width: 94%; } }
+
+.player { margin-top: 18px; display: flex; gap: 14px; align-items: center; border: 1px solid rgba(51,255,119,.3); background: rgba(0,0,0,.45); padding: 16px 18px; }
+.player .go {
+  background: transparent; color: var(--green); border: 1px solid var(--green); font-family: inherit;
+  font-size: 1.2rem; padding: 10px 18px; cursor: pointer; transition: all .15s ease;
+}
+.player .go:hover { background: var(--green); color: #021104; box-shadow: 0 0 20px rgba(51,255,119,.5); }
+.player .info { flex: 1; }
+.player .info .st { color: var(--green); font-size: .68rem; text-transform: uppercase; letter-spacing: 1.5px; }
+.player .info .nm { font-size: .9rem; margin-top: 6px; }
+.player select { background: rgba(0,0,0,.5); color: var(--text); border: 1px solid rgba(51,255,119,.3); padding: 8px; font-family: inherit; font-size: .72rem; }
+
+.foot { margin-top: auto; text-align: center; color: var(--green-dim); font-size: .68rem; padding-top: 26px; text-transform: uppercase; letter-spacing: 2px; }
+.foot a { color: var(--amber); text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="scrim"></div>
+<div class="scanlines"></div>
+<div class="term">
+  <div class="bar">
+    <span>ZAMROCK COMMAND — LO-FIRE Ɨ</span>
+    <span class="t">ON AIR <span class="blink">▚</span></span>
+  </div>
+
+  <div class="brand">
+    <div class="pf">ZAMROCK RADIO</div>
+    <div class="sub">// welcome to the war room — do not start a global thermonuclear war</div>
+  </div>
+
+  <div class="menu">
+    <div class="row"><span><span class="k">&gt;</span> <a href="#">SCHEDULE_</a></span><span class="desc">broadcast plan</span></div>
+    <div class="row"><span><span class="k">&gt;</span> <a href="#">NEWS_</a></span><span class="desc">station intel</span></div>
+    <div class="row"><span><span class="k">&gt;</span> <a href="#">GAMES_</a></span><span class="desc">recreation module</span></div>
+    <div class="row"><span><span class="k">&gt;</span> <a href="#">ABOUT_</a></span><span class="desc">mission statement</span></div>
+    <div class="row"><span><span class="k">&gt;</span> <a href="#">CONTACT_</a></span><span class="desc">open channel</span></div>
+  </div>
+
+  <div class="sig">
+    <div class="line"><span>SIGNAL ACQUIRED</span><span class="ok">[OK]</span></div>
+    <div class="line"><span>LO-FIRE RELAY → ZAMROCK.NET</span><span class="ok">AAC 320 / MP3 192</span></div>
+    <div class="line"><span>MASTER SCHEDULER (ICEPICK)</span><span class="ok">RUNNING</span></div>
+    <div class="line"><span>DJ BRAIN (CASTILESOAP)</span><span class="ok">ONLINE</span></div>
+    <div class="line"><span>RELAY 4 — MEGA RELAY</span><span class="warn">STANDBY [OK]</span></div>
+    <div class="line"><span>LISTENER STREAM LOAD</span><span class="ok">87%</span></div>
+    <div class="prog"><i></i></div>
+  </div>
+
+  <div class="player">
+    <button class="go">▶</button>
+    <div class="info">
+      <div class="st">● SESSION ACTIVE</div>
+      <div class="nm">psychedelic > afrobeat > funk > surf > exotic</div>
+    </div>
+    <select>
+      <option>PRIMARY — AAC 320</option>
+      <option>BACKUP — MP3 192</option>
+      <option>RELAY — MP3 128</option>
+    </select>
+  </div>
+
+  <div class="foot">greetings professor falken — © 2026 zamrock radio · <a href="../index.html">all mockups</a></div>
+</div>
+</body>
+</html>

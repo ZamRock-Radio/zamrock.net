@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZamRock Radio — Record Store Mockup</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --text: #e9ecf5; --dim: rgba(233,236,245,.62); --glass: rgba(8,8,12,.62);
+  --glass-strong: rgba(8,8,12,.78); --accent: #f2c14e; --border: rgba(255,255,255,.14);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', sans-serif; color: var(--text); min-height: 100vh;
+  background: #0a0a0e url('../../zola-site/static/img/website_bg/website_bg_002.jpg') no-repeat center fixed;
+  background-size: cover; position: relative; display: flex; justify-content: center;
+}
+.overlay { position: fixed; inset: 0; background: rgba(5,5,9,.45); mix-blend-mode: multiply; pointer-events: none; }
+.wrap { max-width: 780px; width: 100%; padding: 30px 18px 40px; position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; }
+
+.logo { text-align: center; margin-top: 12px; }
+.logo .name { font-family: 'Press Start 2P', monospace; font-size: 1.35rem; letter-spacing: 1px; text-shadow: 0 3px 18px rgba(0,0,0,.8); }
+.logo .name span { color: var(--accent); }
+.logo .tag { color: var(--dim); font-family: 'JetBrains Mono', monospace; font-size: .7rem; letter-spacing: 3px; text-transform: uppercase; margin-top: 10px; }
+
+.pills { display: flex; gap: 8px; margin: 26px 0 8px; flex-wrap: wrap; justify-content: center; }
+.pill {
+  color: var(--dim); text-decoration: none; padding: 7px 14px; font-size: .78rem; font-weight: 600;
+  border: 1px solid var(--border); border-radius: 50px; background: var(--glass); backdrop-filter: blur(10px);
+  transition: all .2s ease;
+}
+.pill:hover { color: var(--accent); border-color: var(--accent); }
+
+.record-card {
+  width: 100%; max-width: 640px; margin-top: 18px;
+  background: var(--glass); backdrop-filter: blur(16px);
+  border: 1px solid var(--border); border-radius: 20px; padding: 26px 26px 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.5);
+}
+.now { display: flex; align-items: center; gap: 20px; }
+.vinyl {
+  width: 110px; height: 110px; border-radius: 50%; flex-shrink: 0; position: relative;
+  background: repeating-radial-gradient(circle at center, #141418 0 3px, #1d1d22 3px 6px);
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,.05), 0 0 0 10px rgba(0,0,0,.25);
+}
+.vinyl::after { content: ''; position: absolute; inset: 40px; border-radius: 50%; background: #f2c14e; box-shadow: inset 0 0 0 3px rgba(0,0,0,.3); }
+.vinyl.spin { animation: spin 3.2s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.track { flex: 1; min-width: 0; }
+.track .st { color: #9ece6a; font-family: 'JetBrains Mono', monospace; font-size: .66rem; letter-spacing: 1.5px; text-transform: uppercase; }
+.track .t1 { font-size: 1.15rem; font-weight: 800; margin-top: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.track .t2 { color: var(--dim); font-size: .85rem; margin-top: 4px; }
+.controls { display: flex; align-items: center; gap: 12px; margin-top: 20px; }
+.play {
+  width: 58px; height: 58px; border-radius: 50%; border: none; cursor: pointer; flex-shrink: 0;
+  background: linear-gradient(135deg, #f2c14e, #e8734a); color: #141414; font-size: 1.25rem; font-weight: 800;
+  transition: transform .15s ease;
+}
+.play:hover { transform: scale(1.06); }
+.flow { flex: 1; display: flex; gap: 10px; }
+.flow select {
+  flex: 1; background: rgba(0,0,0,.4); color: var(--text); border: 1px solid var(--border);
+  border-radius: 10px; padding: 11px 12px; font-family: 'JetBrains Mono', monospace; font-size: .76rem; cursor: pointer; outline: none;
+}
+.flow select:hover { border-color: var(--accent); }
+.vol input[type=range] { width: 90px; accent-color: var(--accent); }
+
+.shelf { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; width: 100%; margin-top: 18px; }
+.shelf-card {
+  background: var(--glass); backdrop-filter: blur(12px); border: 1px solid var(--border);
+  border-radius: 14px; padding: 16px; text-decoration: none; color: var(--text);
+  transition: all .2s ease;
+}
+.shelf-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+.shelf-card .k { font-family: 'JetBrains Mono', monospace; font-size: .6rem; color: var(--accent); text-transform: uppercase; letter-spacing: 1.5px; }
+.shelf-card h4 { font-size: .95rem; margin-top: 8px; }
+.shelf-card p { color: var(--dim); font-size: .76rem; line-height: 1.5; margin-top: 6px; }
+.foot { margin-top: 22px; color: var(--dim); font-size: .75rem; }
+.foot a { color: var(--text); }
+</style>
+</head>
+<body>
+<div class="overlay"></div>
+<div class="wrap">
+  <div class="logo">
+    <div class="name">ZAMROCK <span>RADIO</span></div>
+    <div class="tag">Zamzam For Life · Est. in the tape trade</div>
+  </div>
+
+  <div class="pills">
+    <a class="pill" href="#">🎵 Schedule</a>
+    <a class="pill" href="#">📰 News</a>
+    <a class="pill" href="#">🎮 Games</a>
+    <a class="pill" href="#">ℹ️ About</a>
+    <a class="pill" href="#">📞 Contact</a>
+  </div>
+
+  <div class="record-card">
+    <div class="now">
+      <div class="vinyl spin"></div>
+      <div class="track">
+        <div class="st">● Live · ZamRock Radio</div>
+        <div class="t1">Psychedelic · Afrobeat · Funk · Surf · Exotic</div>
+        <div class="t2">Listeners at the counter: 214 — pick a cratel</div>
+      </div>
+    </div>
+    <div class="controls">
+      <button class="play">▶</button>
+      <div class="flow">
+        <select>
+          <option>Mega Relay — AAC 320k</option>
+          <option>Lo-Fire — MP3 192k</option>
+          <option>Remix — MP3 128k</option>
+        </select>
+        <div class="vol"><input type="range" min="0" max="100" value="60"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="shelf">
+    <a class="shelf-card" href="#"><div class="k">Shelf 01</div><h4>Latest News</h4><p>Restocks, drops, station finds — the freshest pressings of the week.</p></a>
+    <a class="shelf-card" href="#"><div class="k">Shelf 02</div><h4>Games</h4><p>Silent Ruins, Lost at Sea, WOPR-style arcade bins in the back room.</p></a>
+    <a class="shelf-card" href="#"><div class="k">Shelf 03</div><h4>The Forge</h4><p>We build our own gear: Icepick, CastileSoap, Icetray. Take a look under the hood.</p></a>
+    <a class="shelf-card" href="#"><div class="k">Shelf 04</div><h4>Community</h4><p>Revolt, Matrix, Mastodon — the regulars' corner. Pull up a chair.</p></a>
+  </div>
+
+  <div class="foot">© 2026 ZamRock Radio — background: website_bg_002 · <a href="../index.html">all mockups</a></div>
+</div>
+</body>
+</html>

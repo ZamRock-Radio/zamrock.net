@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZamRock Radio — Gallery Crossfade Mockup</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --text: #f2f2f2; --dim: rgba(242,242,242,.65); --glass: rgba(10,10,14,.55);
+  --accent: #f2c14e; --accent2: #e8734a;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body { font-family: 'Inter', sans-serif; color: var(--text); overflow-x: hidden; }
+
+.bg { position: fixed; inset: 0; z-index: -2; background-size: cover; background-position: center; }
+.bg img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; opacity: 0; transition: opacity 2.2s ease; }
+.bg img.on { opacity: 1; }
+.scrim { position: fixed; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(5,5,8,.55), rgba(5,5,8,.25) 45%, rgba(5,5,8,.8)); }
+
+.rail {
+  max-width: 520px; min-height: 100vh; padding: 36px 40px 30px 40px;
+  display: flex; flex-direction: column; gap: 26px;
+  background: linear-gradient(90deg, rgba(8,8,12,.6), rgba(8,8,12,.15) 70%, transparent);
+  backdrop-filter: blur(2px);
+}
+.title { font-family: 'Press Start 2P', monospace; font-size: 1.05rem; line-height: 1.7; letter-spacing: 1px; }
+.title .l { color: var(--accent); }
+.tagline { color: var(--dim); font-family: 'JetBrains Mono', monospace; font-size: .78rem; letter-spacing: 2px; text-transform: uppercase; }
+.live {
+  display: inline-flex; align-items: center; gap: 10px; font-family: 'JetBrains Mono', monospace;
+  font-size: .72rem; color: #9ece6a; border: 1px solid rgba(158,206,106,.35);
+  padding: 6px 14px; border-radius: 30px; width: fit-content; backdrop-filter: blur(6px); background: rgba(0,0,0,.3);
+}
+.live i { width: 8px; height: 8px; border-radius: 50%; background: #9ece6a; animation: p 1.6s infinite; }
+@keyframes p { 50% { opacity: .25; } }
+nav { display: flex; flex-direction: column; gap: 8px; }
+.nav-btn {
+  display: flex; justify-content: space-between; align-items: center;
+  color: var(--text); text-decoration: none; padding: 12px 18px;
+  border: 1px solid rgba(255,255,255,.14); border-radius: 10px;
+  background: var(--glass); backdrop-filter: blur(10px); font-size: .95rem; font-weight: 600;
+  transition: all .2s ease;
+}
+.nav-btn .ar { color: var(--dim); font-family: 'JetBrains Mono', monospace; }
+.nav-btn:hover { border-color: var(--accent); transform: translateX(4px); }
+
+.player {
+  margin-top: auto; background: var(--glass); backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,.14); border-radius: 16px; padding: 20px;
+  display: flex; align-items: center; gap: 16px;
+}
+.play {
+  width: 56px; height: 56px; border-radius: 50%; border: none; cursor: pointer; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #101014; font-size: 1.2rem; font-weight: 800;
+  transition: transform .15s ease;
+}
+.play:hover { transform: scale(1.07); }
+.p-info { flex: 1; min-width: 0; }
+.p-src { font-size: .85rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.p-meta { color: var(--dim); font-family: 'JetBrains Mono', monospace; font-size: .68rem; margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+.p-quality { font-family: 'JetBrains Mono', monospace; font-size: .7rem; color: var(--accent); white-space: nowrap; }
+.counter { font-family: 'JetBrains Mono', monospace; font-size: .7rem; color: var(--dim); text-align: center; margin-top: 12px; }
+.counter b { color: var(--accent); }
+.foot { text-align: center; color: var(--dim); font-size: .75rem; }
+.foot a { color: var(--text); }
+</style>
+</head>
+<body>
+<div class="bg">
+  <img class="on" src="../../zola-site/static/img/website_bg/website_bg_001.jpg" alt="">
+  <img src="../../zola-site/static/img/website_bg/website_bg_006.jpg" alt="">
+  <img src="../../zola-site/static/img/website_bg/website_bg_009.jpg" alt="">
+  <img src="../../zola-site/static/img/website_bg/website_bg_014.jpg" alt="">
+</div>
+<div class="scrim"></div>
+
+<div class="rail">
+  <div>
+    <div class="title">ZAMROCK<br><span class="l">RADIO</span></div>
+    <div class="tagline">Zamzam For Life...</div>
+  </div>
+
+  <div class="live"><i></i> ON AIR — the art behind the music is rotating too</div>
+
+  <nav>
+    <a class="nav-btn" href="#schedule">Schedule <span class="ar">→</span></a>
+    <a class="nav-btn" href="#news">News <span class="ar">→</span></a>
+    <a class="nav-btn" href="#games">Games <span class="ar">→</span></a>
+    <a class="nav-btn" href="#about">About <span class="ar">→</span></a>
+    <a class="nav-btn" href="#contact">Contact <span class="ar">→</span></a>
+  </nav>
+
+  <div>
+    <div class="player">
+      <button class="play">▶</button>
+      <div class="p-info">
+        <div class="p-src">Psychedelic · Afrobeat · Funk · Surf · Exotic</div>
+        <div class="p-meta">ZamRock Radio · now playing</div>
+      </div>
+      <div class="p-quality">AAC 320k</div>
+    </div>
+    <div class="counter">gallery: <b id="n">001</b>/019 · website_bg series</div>
+  </div>
+
+  <div class="foot">© 2026 ZamRock Radio · <a href="../index.html">all mockups</a></div>
+</div>
+
+<script>
+const imgs = [...document.querySelectorAll('.bg img')];
+let cur = 0;
+setInterval(() => {
+  const next = (cur + 1) % imgs.length;
+  imgs[cur].classList.remove('on');
+  imgs[next].classList.add('on');
+  cur = next;
+  document.getElementById('n').textContent = String(cur + 1).padStart(3, '0');
+}, 15000);
+</script>
+</body>
+</html>
