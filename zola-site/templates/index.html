@@ -3,26 +3,26 @@
 {% block content %}
 <div class="player-container">
   <audio id="radioStream" crossorigin="anonymous"></audio>
-  <button id="playButton" class="play-btn">{{ i18n::t(key="play_btn") }}</button>
+  <button id="playButton" class="play-btn">{{ trans(key="play_btn") }}</button>
   <div class="volume-container">
     <input type="range" id="volumeSlider" min="0" max="100" value="50" class="volume-slider" />
   </div>
   <div class="stream-selector">
     <select id="streamSelect" class="stream-select">
-      <option value="mega-hifi">{{ i18n::t(key="stream_mega") }}</option>
-      <option value="original">{{ i18n::t(key="stream_original") }}</option>
+      <option value="mega-hifi">{{ trans(key="stream_mega") }}</option>
+      <option value="original">{{ trans(key="stream_original") }}</option>
     </select>
   </div>
 </div>
 
 <section class="news-section">
-  <h2>{{ i18n::t(key="news_title") }}</h2>
+  <h2>{{ trans(key="news_title") }}</h2>
   <div id="newsContainer" class="news-grid">
-    <div class="loading">{{ i18n::t(key="news_loading") }}</div>
+    <div class="loading">{{ trans(key="news_loading") }}</div>
   </div>
 </section>
 <div class="view-more">
-  <a href="news/" class="btn">{{ i18n::t(key="news_view_all") }}</a>
+  <a href="news/" class="btn">{{ trans(key="news_view_all") }}</a>
 </div>
 {% endblock content %}
 

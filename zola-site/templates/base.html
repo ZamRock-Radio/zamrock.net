@@ -1,4 +1,3 @@
-{% import "macros.html" as i18n %}
 <!DOCTYPE html>
 <html lang="{{ lang | default(value="en") }}" {% if lang == "ar" %}dir="rtl"{% endif %}>
 <head>
@@ -51,18 +50,18 @@
   <div class="overlay"></div>
   <div class="container">
     <h1 class="site-title"><a href="{{ get_url(path="@/_index.md", lang=lang) }}">{{ config.title }}</a></h1>
-    <div class="tagline">{{ i18n::t(key="tagline") }}</div>
+    <div class="tagline">{{ trans(key="tagline") }}</div>
 
     <nav class="main-nav">
       <div class="nav-row">
-        <a href="{{ get_url(path="schedule/") }}" class="nav-btn">{{ i18n::t(key="nav_schedule") }}</a>
-        <a href="{{ get_url(path="news/") }}" class="nav-btn">{{ i18n::t(key="nav_news") }}</a>
-        <a href="{{ get_url(path="about/") }}" class="nav-btn">{{ i18n::t(key="nav_about") }}</a>
+        <a href="{{ get_url(path="schedule/") }}" class="nav-btn">{{ trans(key="nav_schedule") }}</a>
+        <a href="{{ get_url(path="news/") }}" class="nav-btn">{{ trans(key="nav_news") }}</a>
+        <a href="{{ get_url(path="about/") }}" class="nav-btn">{{ trans(key="nav_about") }}</a>
       </div>
       <div class="nav-row">
-        <a href="{{ get_url(path="contact/") }}" class="nav-btn">{{ i18n::t(key="nav_contact") }}</a>
-        <a href="{{ get_url(path="games/") }}" class="nav-btn">{{ i18n::t(key="nav_games") }}</a>
-        <a href="{{ get_url(path="help-wanted/") }}" class="nav-btn">{{ i18n::t(key="nav_help") }}</a>
+        <a href="{{ get_url(path="contact/") }}" class="nav-btn">{{ trans(key="nav_contact") }}</a>
+        <a href="{{ get_url(path="games/") }}" class="nav-btn">{{ trans(key="nav_games") }}</a>
+        <a href="{{ get_url(path="help-wanted/") }}" class="nav-btn">{{ trans(key="nav_help") }}</a>
       </div>
     </nav>
 
@@ -71,13 +70,13 @@
 
   <footer class="site-footer">
     <div class="footer-content">
-      <p>&copy; <script>document.write(new Date().getFullYear());</script> {{ config.title }} — {{ i18n::t(key="footer_copyright") }}</p>
+      <p>&copy; <script>document.write(new Date().getFullYear());</script> {{ config.title }} — {{ trans(key="footer_copyright") }}</p>
       <div class="footer-links">
-        <a href="{{ get_url(path="about/") }}">{{ i18n::t(key="footer_about") }}</a>
-        <a href="{{ get_url(path="contact/") }}">{{ i18n::t(key="footer_contact") }}</a>
-        <a href="{{ get_url(path="schedule/") }}">{{ i18n::t(key="footer_schedule") }}</a>
-        <a href="{{ get_url(path="news/") }}">{{ i18n::t(key="footer_news") }}</a>
-        <a href="{{ get_url(path="games/") }}">{{ i18n::t(key="footer_games") }}</a>
+        <a href="{{ get_url(path="about/") }}">{{ trans(key="footer_about") }}</a>
+        <a href="{{ get_url(path="contact/") }}">{{ trans(key="footer_contact") }}</a>
+        <a href="{{ get_url(path="schedule/") }}">{{ trans(key="footer_schedule") }}</a>
+        <a href="{{ get_url(path="news/") }}">{{ trans(key="footer_news") }}</a>
+        <a href="{{ get_url(path="games/") }}">{{ trans(key="footer_games") }}</a>
       </div>
     </div>
   </footer>
