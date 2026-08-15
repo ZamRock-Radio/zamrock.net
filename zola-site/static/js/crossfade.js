@@ -13,10 +13,12 @@
   let misses = 0
   let stopped = false
 
+  const BASE_URL = 'https://git.zamrock.net/ZamRock-Radio/Media-Assets/raw/branch/main/Radio/Stream-Assets/backgrounds'
+
   function probe (i) {
     if (stopped) return
     const img = document.createElement('img')
-    img.src = `/img/website_bg/website_bg_${String(i).padStart(3, '0')}.jpg`
+    img.src = `${BASE_URL}/website_bg_${String(i).padStart(3, '0')}.jpg`
     img.alt = ''
     img.onload = function () {
       misses = 0
