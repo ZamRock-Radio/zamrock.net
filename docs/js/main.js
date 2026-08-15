@@ -1,18 +1,5 @@
 /* global Image */
 
-// Static header text
-const headerElement = document.querySelector('h1.site-title')
-const headerText = 'ZamRock Radio'
-
-// Ensure header has a link
-if (headerElement && !headerElement.querySelector('a')) {
-  const link = document.createElement('a')
-  link.href = 'https://zamrock.net'
-  link.textContent = headerElement.textContent
-  headerElement.textContent = ''
-  headerElement.appendChild(link)
-}
-
 // Array of titles for tab animation
 const titles = [
   '24m20ck 24d10',
@@ -59,22 +46,6 @@ function animateTabTitle () {
 // Start the tab title animation
 setTimeout(animateTabTitle, 1000)
 
-// Keep header text content up to date while preserving the link
-if (headerElement) {
-  const link = headerElement.querySelector('a')
-  if (link) {
-    link.textContent = headerText
-  } else {
-    headerElement.textContent = headerText
-    // Add link if it was missing
-    const newLink = document.createElement('a')
-    newLink.href = 'https://zamrock.net'
-    newLink.textContent = headerText
-    headerElement.textContent = ''
-    headerElement.appendChild(newLink)
-  }
-}
-
 // Mobile menu toggle function
 // eslint-disable-next-line no-unused-vars
 function toggleMenu (event) {
@@ -107,57 +78,6 @@ window.addEventListener('resize', () => {
   }
 })
 
-// Background images array with full URLs
-const backgroundImages = [
-  'https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_001.jpg',
-  'https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_002.jpg',
-  'https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_003.jpg',
-  'https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_004.jpg',
-  'https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_005.jpg',
-  'https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_006.jpg',
-  'https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_007.jpg',
-  'https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_008.jpg',
-  'https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_009.jpg',
-  'https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_010.jpg',
-  'https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_011.jpg',
-  'https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_012.jpg',
-  'https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_013.jpg',
-  'https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_014.jpg',
-  'https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_015.jpg',
-  'https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_016.jpg',
-  'https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_017.jpg',
-  'https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_018.jpg',
-  'https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_019.jpg',
-  'https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_020.jpg',
-  'https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_021.jpg',
-  'https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_022.jpg',
-  'https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_023.jpg',
-  'https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_024.jpg',
-  'https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_025.jpg',
-  'https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_026.jpg',
-  'https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_027.jpg',
-  'https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_028.jpg',
-  'https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_029.jpg',
-  'https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_030.jpg'
-]
-
-function setRandomBackground () {
-  if (backgroundImages.length === 0) return
-  const randomImage = backgroundImages[Math.floor(Math.random() * backgroundImages.length)]
-
-  // Preload the image before setting it as background
-  const img = new Image()
-  img.onload = function () {
-    // Only update the background if the image loads successfully
-    document.body.style.backgroundImage = `url('${randomImage}')`
-    document.body.style.backgroundSize = 'cover'
-    document.body.style.backgroundPosition = 'center'
-    document.body.style.backgroundAttachment = 'fixed'
-    document.body.style.backgroundRepeat = 'no-repeat'
-  }
-  img.src = randomImage
-}
-
 // Audio player state management
 const playerState = {
   status: 'idle', // idle, playing, paused, error, reconnecting
@@ -181,28 +101,39 @@ function setPlayerStatus (status, button) {
 
   if (!button) return
 
+  const statusEl = document.querySelector('[data-player-status]')
+  let label = ''
+
   switch (status) {
     case 'idle':
-      button.textContent = playerState.hasPlayedBefore ? 'Play' : playerState.initialText
+      label = playerState.hasPlayedBefore ? 'Play' : playerState.initialText
       button.disabled = false
       break
     case 'playing':
-      button.textContent = 'Stop'
+      label = 'Stop'
       button.disabled = false
       break
     case 'paused':
-      button.textContent = 'Resume'
+      label = 'Resume'
       button.disabled = false
       break
     case 'error':
-      button.textContent = 'Error - Tap to Retry'
+      label = 'Error - Tap to Retry'
       button.disabled = false
       playerState.reconnectAttempts = 0
       break
     case 'reconnecting':
-      button.textContent = 'Reconnecting...'
+      label = 'Reconnecting...'
       button.disabled = true
       break
+  }
+
+  if (statusEl) {
+    statusEl.textContent = label
+    button.textContent = status === 'playing' ? '⏸' : '▶'
+    button.setAttribute('aria-label', label)
+  } else {
+    button.textContent = label
   }
 }
 
@@ -261,70 +192,19 @@ function handlePlayerStalled (audio, button) {
   audio.load()
 }
 
-// Initialize background rotation on page load
+// Initialize player on page load
 document.addEventListener('DOMContentLoaded', () => {
-  // Set initial background
-  setRandomBackground()
-
-  // Rotate background every 20 seconds
-  const backgroundInterval = setInterval(setRandomBackground, 20000)
-
-  // Cleanup interval when page is unloaded
-  window.addEventListener('beforeunload', () => {
-    clearInterval(backgroundInterval)
-  })
-
   const audio = document.getElementById('radioStream')
   const playButton = document.getElementById('playButton')
   const volumeSlider = document.getElementById('volumeSlider')
-  const relaySelect = document.getElementById('relaySelect')
-  const qualitySelect = document.getElementById('qualitySelect')
-
-  const STREAMS = {
-    alpha: {
-      hifi: 'https://wild-haze-hifi.deathsmack-a51.workers.dev',
-      standard: 'https://divine-paper-3624.deathsmack-a51.workers.dev'
-    },
-    mega: {
-      hifi: 'https://megason-aac.deathsmack-a51.workers.dev',
-      standard: 'https://megason-mp3.deathsmack-a51.workers.dev'
-    },
-    'lo-fire': {
-      hifi: 'https://emberbeam-aac.deathsmack-a51.workers.dev',
-      standard: 'https://emberbeam-mp3.deathsmack-a51.workers.dev'
-    }
-  }
-
-  function setStreamSource () {
-    const relay = relaySelect ? relaySelect.value : 'alpha'
-    const quality = qualitySelect ? qualitySelect.value : 'hifi'
-    audio.src = (STREAMS[relay] && STREAMS[relay][quality]) || STREAMS.alpha.hifi
-  }
 
   if (audio && playButton && volumeSlider) {
     // Store initial button text
-    playerState.initialText = playButton.textContent || 'Play'
+    const statusEl = document.querySelector('[data-player-status]')
+    playerState.initialText = (statusEl && statusEl.textContent) || playButton.textContent || 'Play'
 
     // Initialize volume
     audio.volume = volumeSlider.value / 100
-
-    // Set initial stream source
-    setStreamSource()
-
-    // Update source on either selector change
-    function onStreamChange () {
-      const wasPlaying = playerState.status === 'playing'
-      if (wasPlaying) audio.pause()
-      setStreamSource()
-      if (wasPlaying) {
-        audio.play().catch(function () {
-          handlePlayerError(audio, playButton)
-        })
-      }
-    }
-
-    if (relaySelect) relaySelect.addEventListener('change', onStreamChange)
-    if (qualitySelect) qualitySelect.addEventListener('change', onStreamChange)
 
     // Listen for network online status
     window.addEventListener('online', () => {
