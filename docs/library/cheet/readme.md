@@ -1,3 +1,0 @@
-# Cheat Sheets
-
-Collection of sheets...
