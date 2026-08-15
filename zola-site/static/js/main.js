@@ -331,6 +331,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       localStorage.setItem('zamrock.immersive', on ? '1' : '0')
     } catch (e) { /* localStorage unavailable */ }
+    foldButton.textContent = on ? unfoldLabel : foldLabel
     foldButton.setAttribute('aria-label', on ? unfoldLabel : foldLabel)
     foldButton.setAttribute('title', on ? unfoldLabel : foldLabel)
   }
