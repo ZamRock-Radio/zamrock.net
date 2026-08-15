@@ -47,6 +47,7 @@ page_help = "Help Wanted — Volunteer Opportunities"
 page_help_sub = "ZamRock Radio is a community-powered station. Here's how you can help us grow and keep the psychedelic sounds flowing!"
 sched_now = "Now Playing"
 sched_upcoming = "Upcoming Playlists"
+lang_head = "Language"
 
 [languages.es]
 title = "ZamRock Radio"
@@ -89,6 +90,7 @@ page_help = "Se busca ayuda — Oportunidades de voluntariado"
 page_help_sub = "ZamRock Radio es una emisora impulsada por la comunidad. ¡Así puedes ayudarnos a crecer y mantener fluyendo los sonidos psicodélicos!"
 sched_now = "Sonando ahora"
 sched_upcoming = "Próximas listas de reproducción"
+lang_head = "Idioma"
 
 [languages.pt]
 title = "ZamRock Rádio"
@@ -131,6 +133,7 @@ page_help = "Precisa-se de ajuda — Oportunidades de voluntariado"
 page_help_sub = "A ZamRock Rádio é uma emissora movida pela comunidade. Veja como você pode nos ajudar a crescer e manter os sons psicodélicos fluindo!"
 sched_now = "Tocando agora"
 sched_upcoming = "Próximas playlists"
+lang_head = "Idioma"
 
 [languages.fr]
 title = "ZamRock Radio"
@@ -173,6 +176,7 @@ page_help = "Aide recherchée — Opportunités de bénévolat"
 page_help_sub = "ZamRock Radio est une station portée par sa communauté. Voici comment vous pouvez nous aider à grandir et à garder les sons psychédéliques en mouvement !"
 sched_now = "En écoute"
 sched_upcoming = "Playlists à venir"
+lang_head = "Langue"
 
 [languages.zh-CN]
 title = "ZamRock 电台"
@@ -215,6 +219,7 @@ page_help = "招聘志愿者 — 志愿机会"
 page_help_sub = "ZamRock 电台是一个由社区驱动的电台。以下是你帮助我们成长并让迷幻之声持续流淌的方式！"
 sched_now = "正在播放"
 sched_upcoming = "即将播出的播放列表"
+lang_head = "语言"
 
 [languages.zh-TW]
 title = "ZamRock 電台"
@@ -257,6 +262,7 @@ page_help = "招募志工 — 志工機會"
 page_help_sub = "ZamRock 電台是一個由社群驅動的電台。以下是你幫助我們成長並讓迷幻之聲持續流淌的方式！"
 sched_now = "正在播放"
 sched_upcoming = "即將播出的播放清單"
+lang_head = "語言"
 
 [languages.ar]
 title = "ZamRock راديو"
@@ -299,6 +305,7 @@ page_help = "مطلوب مساعدة — فرص التطوع"
 page_help_sub = "راديو ZamRock محطة يقودها المجتمع. إليك كيف يمكنك مساعدتنا على النمو وإبقاء الأصوات المخدرة تتدفق!"
 sched_now = "الآن على الهواء"
 sched_upcoming = "قوائم التشغيل القادمة"
+lang_head = "اللغة"
 
 [languages.sv]
 title = "ZamRock Radio"
@@ -341,6 +348,7 @@ page_help = "Hjälp sökes — Volontärmöjligheter"
 page_help_sub = "ZamRock Radio är en station som drivs av gemenskapen. Så här kan du hjälpa oss att växa och hålla de psykedeliska ljuden flödande!"
 sched_now = "Spelar nu"
 sched_upcoming = "Kommande spellistor"
+lang_head = "Språk"
 
 [languages.ja]
 title = "ZamRock ラジオ"
@@ -383,6 +391,7 @@ page_help = "ボランティア募集 — ボランティアの機会"
 page_help_sub = "ZamRock ラジオはコミュニティが支える放送局です。サイケデリックなサウンドを流し続けるために、あなたが成長を手助けできる方法をご紹介します！"
 sched_now = "再生中"
 sched_upcoming = "今後のプレイリスト"
+lang_head = "言語"
 
 [languages.vi]
 title = "ZamRock Radio"
@@ -425,6 +434,7 @@ page_help = "Cần trợ giúp — Cơ hội tình nguyện"
 page_help_sub = "ZamRock Radio là một đài do cộng đồng vận hành. Đây là cách bạn có thể giúp chúng tôi phát triển và giữ cho những âm thanh ảo giác luôn tuôn chảy!"
 sched_now = "Đang phát"
 sched_upcoming = "Danh sách phát sắp tới"
+lang_head = "Ngôn ngữ"
 
 [languages.ko]
 title = "ZamRock 라디오"
@@ -467,3 +477,4 @@ page_help = "도우미 모집 — 자원봉사 기회"
 page_help_sub = "ZamRock 라디오는 커뮤니티가 운영하는 방송국입니다. 사이키델릭 사운드가 계속 흐르도록 우리가 성장하는 데 도움을 줄 수 있는 방법은 다음과 같습니다!"
 sched_now = "재생 중"
 sched_upcoming = "다가오는 재생목록"
+lang_head = "언어"
