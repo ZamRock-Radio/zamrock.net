@@ -7,7 +7,7 @@
   const MAX_BG = 500
   const MISS_LIMIT = 8
   const intervalMs = 15000
-  const BASE_URL = 'https://git.zamrock.net/ZamRock-Radio/Media-Assets/raw/branch/zap-setup/Radio/Stream-Assets/backgrounds'
+  const BASE_URL = 'https://git.zamrock.net/ZamRock-Radio/Media-Assets/raw/branch/main/Radio/Stream-Assets/backgrounds'
   const bg = document.querySelector('.bg')
   if (!bg) return
 
