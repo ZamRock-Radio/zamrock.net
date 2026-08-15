@@ -57,6 +57,22 @@
 
       <div class="live"><i></i> En Vivo</div>
 
+      <div class="player">
+        <div class="p-row">
+          <button id="playButton" class="play-btn" aria-label="Reproducir">▶</button>
+          <div class="p-info">
+            <div class="p-src">Psicodélico · Afrobeat · Funk · Surf · Exótico</div>
+            <div class="p-meta" data-player-status>Sonando ahora</div>
+          </div>
+          <span class="p-quality">MP3 192k</span>
+        </div>
+        <audio id="radioStream" src="https://icepick.zamrock.net/radio.mp3" crossorigin="anonymous"></audio>
+        <div class="volume-container">
+          <label for="volumeSlider">Volumen</label>
+          <input type="range" id="volumeSlider" min="0" max="100" value="50" class="volume-slider" />
+        </div>
+      </div>
+
       
       <nav class="main-nav">
         
@@ -98,28 +114,6 @@
             <a href="https://gamevox.com/GCAG-5935" target="_blank" rel="noopener">GameVox</a>
           </div>
         </details>
-      </div>
-
-      <div class="player">
-        <div class="p-row">
-          <button id="playButton" class="play-btn" aria-label="Reproducir">▶</button>
-          <div class="p-info">
-            <div class="p-src">Psicodélico · Afrobeat · Funk · Surf · Exótico</div>
-            <div class="p-meta" data-player-status>Sonando ahora</div>
-          </div>
-          <span class="p-quality">AAC 320k</span>
-        </div>
-        <audio id="radioStream" src="https://divine-paper-3624.deathsmack-a51.workers.dev/" crossorigin="anonymous"></audio>
-        <div class="stream-selector">
-          <select id="streamSelect" class="stream-select">
-            <option value="original">Transmisión Original (MP3 192k)</option>
-            <option value="mega-hifi">Mega Relay (AAC 320k)</option>
-          </select>
-        </div>
-        <div class="volume-container">
-          <label for="volumeSlider">Volumen</label>
-          <input type="range" id="volumeSlider" min="0" max="100" value="50" class="volume-slider" />
-        </div>
       </div>
 
       <div class="gallery-counter">Galería <b id="n">001</b>/<b id="t">021</b></div>

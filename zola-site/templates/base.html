@@ -57,6 +57,22 @@
 
       <div class="live"><i></i> {{ trans(key="live_text") }}</div>
 
+      <div class="player">
+        <div class="p-row">
+          <button id="playButton" class="play-btn" aria-label="{{ trans(key="play_btn") }}">▶</button>
+          <div class="p-info">
+            <div class="p-src">{{ trans(key="p_genres") }}</div>
+            <div class="p-meta" data-player-status>{{ trans(key="p_now") }}</div>
+          </div>
+          <span class="p-quality">MP3 192k</span>
+        </div>
+        <audio id="radioStream" src="https://icepick.zamrock.net/radio.mp3" crossorigin="anonymous"></audio>
+        <div class="volume-container">
+          <label for="volumeSlider">{{ trans(key="volume") }}</label>
+          <input type="range" id="volumeSlider" min="0" max="100" value="50" class="volume-slider" />
+        </div>
+      </div>
+
       {% set nav_items = [
         { "key": "nav_schedule", "path": "schedule/", "match": "/schedule/" },
         { "key": "nav_news", "path": "news/", "match": "/news/" },
@@ -90,28 +106,6 @@
             <a href="https://gamevox.com/GCAG-5935" target="_blank" rel="noopener">GameVox</a>
           </div>
         </details>
-      </div>
-
-      <div class="player">
-        <div class="p-row">
-          <button id="playButton" class="play-btn" aria-label="{{ trans(key="play_btn") }}">▶</button>
-          <div class="p-info">
-            <div class="p-src">{{ trans(key="p_genres") }}</div>
-            <div class="p-meta" data-player-status>{{ trans(key="p_now") }}</div>
-          </div>
-          <span class="p-quality">AAC 320k</span>
-        </div>
-        <audio id="radioStream" src="https://divine-paper-3624.deathsmack-a51.workers.dev/" crossorigin="anonymous"></audio>
-        <div class="stream-selector">
-          <select id="streamSelect" class="stream-select">
-            <option value="original">{{ trans(key="stream_original") }}</option>
-            <option value="mega-hifi">{{ trans(key="stream_mega") }}</option>
-          </select>
-        </div>
-        <div class="volume-container">
-          <label for="volumeSlider">{{ trans(key="volume") }}</label>
-          <input type="range" id="volumeSlider" min="0" max="100" value="50" class="volume-slider" />
-        </div>
       </div>
 
       <div class="gallery-counter">{{ trans(key="gallery_label") }} <b id="n">001</b>/<b id="t">021</b></div>

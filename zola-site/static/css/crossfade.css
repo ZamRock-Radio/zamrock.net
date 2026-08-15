@@ -184,7 +184,6 @@ body {
 
 /* player card */
 .player {
-  margin-top: auto;
   background: var(--glass-strong, rgba(8, 8, 12, 0.78));
   backdrop-filter: blur(14px);
   border: 1px solid var(--border, rgba(255, 255, 255, 0.14));
@@ -243,27 +242,6 @@ body {
   font-size: 0.68rem;
   color: var(--accent, #f2c14e);
   white-space: nowrap;
-}
-
-.stream-selector {
-  margin-top: 10px;
-}
-
-.stream-select {
-  background: rgba(0, 0, 0, 0.4);
-  color: var(--text, #f2f2f2);
-  border: 1px solid var(--border, rgba(255, 255, 255, 0.14));
-  border-radius: 10px;
-  padding: 9px 10px;
-  font-family: var(--font-mono, 'JetBrains Mono', monospace);
-  font-size: 0.72rem;
-  cursor: pointer;
-  outline: none;
-  width: 100%;
-}
-
-.stream-select:hover {
-  border-color: var(--accent, #f2c14e);
 }
 
 .volume-container {
