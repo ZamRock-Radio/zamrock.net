@@ -1,21 +1,35 @@
 /* Crossfade background rotation.
  * Probes the website_bg series sequentially, skipping missing images,
- * and fades between loaded images every 15s, updating the #n gallery counter. */
+ * then shuffles through all loaded backgrounds (play-through then reshuffle),
+ * updating the #n gallery counter. */
 (function () {
   'use strict'
   const MAX_BG = 500
   const MISS_LIMIT = 8
   const intervalMs = 15000
+  const BASE_URL = 'https://git.zamrock.net/ZamRock-Radio/Media-Assets/raw/branch/main/Radio/Stream-Assets/backgrounds'
   const bg = document.querySelector('.bg')
   if (!bg) return
 
-const imgs = []
+  const imgs = []
   let misses = 0
   let stopped = false
   let started = false
-  let cur = 0
+  let order = []
+  let pos = 0
   const nEl = document.getElementById('n')
   const tEl = document.getElementById('t')
+
+  function shuffle () {
+    order = imgs.slice()
+    for (let i = order.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1))
+      const tmp = order[i]
+      order[i] = order[j]
+      order[j] = tmp
+    }
+    pos = 0
+  }
 
   function probe (i) {
     if (stopped) return
@@ -38,17 +52,21 @@ const imgs = []
     bg.appendChild(img)
   }
 
+  function show (img) {
+    if (nEl) nEl.textContent = String(imgs.indexOf(img) + 1).padStart(3, '0')
+    imgs.forEach(function (o) { o.classList.remove('on') })
+    img.classList.add('on')
+  }
+
   function start () {
     started = true
-    imgs[cur].classList.add('on')
-    if (nEl) nEl.textContent = String(cur + 1).padStart(3, '0')
+    shuffle()
+    show(order[pos])
     setInterval(function () {
       if (!imgs.length) return
-      const next = (cur + 1) % imgs.length
-      imgs[cur].classList.remove('on')
-      imgs[next].classList.add('on')
-      cur = next
-      if (nEl) nEl.textContent = String(cur + 1).padStart(3, '0')
+      pos++
+      if (pos >= order.length) shuffle()
+      show(order[pos])
     }, intervalMs)
   }
 
