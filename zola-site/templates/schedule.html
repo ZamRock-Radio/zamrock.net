@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Schedule — {{ config.title }}{% endblock title %}
+{% block description %}ZamRock Radio Schedule — Check out our daily playlist schedule and upcoming shows.{% endblock description %}
+{% block og_title %}ZamRock Radio Schedule{% endblock og_title %}
+{% block og_description %}Check out the ZamRock Radio schedule for upcoming shows and playlists.{% endblock og_description %}
+{% block tw_title %}ZamRock Radio Schedule{% endblock tw_title %}
+{% block tw_description %}Check out the ZamRock Radio schedule for upcoming shows and playlists.{% endblock tw_description %}
+
+{% block content %}
+<section class="schedule">
+  <div class="timezone-selector">
+    <div class="time-display">
+      <div id="current-day">Loading...</div>
+      <div id="current-time"></div>
+    </div>
+    <div class="timezone-controls">
+      <label for="timezone">Timezone:</label>
+      <select id="timezone">
+        <option value="auto">Auto-detect</option>
+        <option value="America/Denver" selected>Mountain Time (MT)</option>
+        <option value="America/New_York">Eastern Time (ET)</option>
+        <option value="America/Chicago">Central Time (CT)</option>
+        <option value="America/Los_Angeles">Pacific Time (PT)</option>
+        <option value="UTC">UTC</option>
+        <option value="Europe/London">London</option>
+        <option value="Europe/Kyiv">Ukraine (EET)</option>
+        <option value="Europe/Paris">Paris</option>
+        <option value="Asia/Tokyo">Tokyo</option>
+        <option value="Australia/Sydney">Sydney</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="shows-panel">
+    <h2>Now Playing</h2>
+    <div id="current-shows">
+      <div class="loading">Loading current shows...</div>
+    </div>
+  </div>
+
+  <div class="shows-panel">
+    <h2>Upcoming Playlists</h2>
+    <div id="upcoming-shows">
+      <div class="loading">Loading upcoming playlists...</div>
+    </div>
+  </div>
+</section>
+{% endblock content %}
+
+{% block scripts %}
+<script src="{{ get_url(path="js/schedule.js", trailing_slash=false) }}"></script>
+{% endblock scripts %}

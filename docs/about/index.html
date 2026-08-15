@@ -1,92 +1,171 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About - ZamRock Radio</title>
-    <link rel="icon" href="https://raw.githubusercontent.com/ZamRock-Radio/Media-Assets/main/Press-Kit/favicon.gif" type="image/gif">
-    
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="About ZamRock Radio - Fighting censorship through music and free speech">
-    <meta name="keywords" content="ZamRock, Radio, Free Speech, Censorship, Music, Uncensored">
-    
-    <!-- Open Graph / Facebook Meta Tags -->
-    <meta property="og:title" content="About ZamRock Radio - Fighting Censorship Through Music">
-    <meta property="og:description" content="ZamRock Radio is dedicated to promoting free speech and fighting censorship through music.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://zamrock.net/about/">
-    <meta property="og:image" content="https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_014.jpg">
-    
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="About ZamRock Radio">
-    <meta name="twitter:description" content="Fighting censorship through music and free speech">
-    <meta name="twitter:image" content="https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_014.jpg">
-    
-    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About — ZamRock Radio</title>
+
+  <link rel="icon" href="https://zamrock.net/favicon/favicon.ico" type="image/x-icon"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="https://zamrock.net/favicon/favicon-32x32.png"/>
+  <link rel="icon" type="image/png" sizes="16x16" href="https://zamrock.net/favicon/favicon-16x16.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="https://zamrock.net/favicon/apple-touch-icon.png"/>
+  <link rel="manifest" href="https://zamrock.net/favicon/site.webmanifest"/>
+
+  <meta name="description" content="About ZamRock Radio — Fighting censorship through music and free speech" />
+  <meta name="keywords" content="ZamRock, Radio, Online Radio, Music, Stream" />
+  <meta name="author" content="ZamRock Radio" />
+  <link rel="me" href="https://musicworld.social/@ZamRock" />
+
+  <meta property="og:title" content="About ZamRock Radio — Fighting Censorship Through Music" />
+  <meta property="og:description" content="ZamRock Radio is dedicated to promoting free speech and fighting censorship through music." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://zamrock.net/about/" />
+  <meta property="og:image" content="https://zamrock.net/img/website_bg/website_bg_014.jpg" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="About ZamRock Radio" />
+  <meta name="twitter:description" content="Fighting censorship through music and free speech" />
+  <meta name="twitter:image" content="https://zamrock.net/img/website_bg/website_bg_014.jpg" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+  <link data-theme="crossfade" rel="stylesheet" href="https://zamrock.net/css/crossfade.css" />
+  <script>
+  (function(){
+    var lang = (navigator.language || navigator.userLanguage || '').substring(0, 2);
+    var path = window.location.pathname;
+    if (path === '/' || path === '') {
+      var map = { es:'es', pt:'pt', fr:'fr', sv:'sv', ja:'ja', ko:'ko', vi:'vi', ar:'ar' };
+      var full = { 'zh-CN':'zh-CN', 'zh-TW':'zh-TW' };
+      var fullLang = (navigator.language || navigator.userLanguage || '');
+      if (full[fullLang]) window.location.replace('/' + full[fullLang] + '/');
+      else if (map[lang] && lang !== 'en') window.location.replace('/' + map[lang] + '/');
+    }
+  })();
+  </script>
+  
 </head>
 <body>
-    <div class="overlay"></div>
-    <div class="container">
-        <h1 class="site-title"><a href="https://zamrock.net">ZamRock Radio</a></h1>
+  <div class="bg" aria-hidden="true"></div>
+  <div class="scrim" aria-hidden="true"></div>
+
+  <div class="site">
+    <aside class="rail">
+      <div>
+        <h1 class="site-title"><a href="https://zamrock.net/">ZamRock Radio</a></h1>
         <div class="tagline">ZAMZAM FOR LIFE...</div>
+      </div>
+
+      <div class="live"><i></i> On Air</div>
+
+      
+      <nav class="main-nav">
         
-        <nav class="main-nav">
-            <div class="nav-row">
-                <a href="../schedule/" class="nav-btn">🎵 Schedule</a>
-                <a href="../news/" class="nav-btn">📰 News</a>
-                <a href="../about/" class="nav-btn active">ℹ️ About</a>
-            </div>
-            <div class="nav-row">
-                <a href="../contact/" class="nav-btn">📞 Contact</a>
-                <a href="../games/" class="nav-btn">🎮 Games</a>
-                <a href="../help-wanted/" class="nav-btn">🆘 Help Wanted</a>
-            </div>
-        </nav>
+        
+        <a class="nav-btn " href="https://zamrock.net/schedule">🎵 Schedule <span class="ar">→</span></a>
+        
+        
+        <a class="nav-btn " href="https://zamrock.net/news">📰 News <span class="ar">→</span></a>
+        
+        
+        <a class="nav-btn " href="https://zamrock.net/games">🎮 Games <span class="ar">→</span></a>
+        
+        
+        <a class="nav-btn active" href="https://zamrock.net/about">ℹ️ About <span class="ar">→</span></a>
+        
+        
+        <a class="nav-btn " href="https://zamrock.net/contact">📞 Contact <span class="ar">→</span></a>
+        
+        
+        <a class="nav-btn " href="https://zamrock.net/help-wanted">🆘 Help Wanted <span class="ar">→</span></a>
+        
+      </nav>
 
-        <section class="about-section">
-            <h1>About ZamRock Radio</h1>
-            <div class="about-content">
-                <p>ZamRock Radio is more than just a radio station - it's a movement dedicated to preserving and promoting uncensored music and free speech.</p>
-                
-                <h2>Our Mission</h2>
-                <p>In a world of increasing digital censorship, ZamRock Radio stands as a beacon of free expression. We provide a platform for artists and listeners who value artistic freedom and the free exchange of ideas.</p>
-                
-                <h2>Fighting Censorship</h2>
-                <p>ZamRock was built on the principle of bypassing political, economic, and social censorship. We believe in the power of music to transcend boundaries and bring people together, regardless of their background or beliefs.</p>
-                
-                <h2>For Those Without a Voice</h2>
-                <p>We stand in solidarity with those who don't have the freedom to express themselves. Like an amplephone amplifying the voices of the unheard, we provide a platform for music and ideas that might otherwise be silenced.</p>
-                
-                <h2>Our Technology</h2>
-                <p>Built with privacy and security in mind, our platform uses cutting-edge technology to ensure that the music and voices on our platform remain free from censorship and surveillance.</p>
-                
-                <h2>Join Our Community</h2>
-                <p>Be part of a growing community that values free speech, artistic expression, and the power of music to create change. Together, we can keep the airwaves free and open for all.</p>
-                
-                <div class="team-grid">
-                    <div class="team-member">
-                        <h3>Our Team</h3>
-                        <p>A collective of developers, artists, and free speech advocates working together to keep music free.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
+      <div class="chats">
+        <div class="head">Community</div>
+        <div class="chat-row">
+          <a class="chat-btn primary" href="https://stt.gg/CsjKzYWm" target="_blank" rel="noopener">Revolt</a>
+          <a class="chat-btn primary" href="https://vectorapp.io/invite/naddr1qqqqygxvcmpye63ks0u20wtruf9tfv5s9s4hywmp4se6a687qqhnsym5yupsgqqqsg2sxp9nrw#BAADAQIAGG5vc3RyLmNvbXB1dGluZ2NhY2hlLmNvbYbeh9xs8OVJvENnbNfZopw" target="_blank" rel="noopener">Vector</a>
+        </div>
+        <details class="more-chats">
+          <summary>more chats</summary>
+          <div class="more-grid">
+            <a href="https://musicworld.social/@ZamRock" target="_blank" rel="noopener">Mastodon</a>
+            <a href="https://matrix.to/#/#zamrock:unredacted.org" target="_blank" rel="noopener">Matrix</a>
+            <a href="https://bsky.app/profile/zamrock.net" target="_blank" rel="noopener">Bluesky</a>
+            <a href="https://t.me/+zNkDGCUw65U5Mjcx" target="_blank" rel="noopener">Telegram</a>
+            <a href="https://fluxer.gg/3cDaqBp6" target="_blank" rel="noopener">Fluxer</a>
+            <a href="https://keybase.io/team/zamrock_radio" target="_blank" rel="noopener">Keybase</a>
+            <a href="https://gamevox.com/GCAG-5935" target="_blank" rel="noopener">GameVox</a>
+          </div>
+        </details>
+      </div>
 
-    <footer class="site-footer">
-      <div class="footer-content">
-        <p>&copy; <script>document.write(new Date().getFullYear());</script> ZamRock Radio - All Rights Reserved</p>
-        <div class="footer-links">
-          <a href="../about/">About</a>
-          <a href="../contact/">Contact</a>
-          <a href="../schedule/">Schedule</a>
-          <a href="../news/">News</a>
+      <div class="player">
+        <div class="p-row">
+          <button id="playButton" class="play-btn" aria-label="Play">▶</button>
+          <div class="p-info">
+            <div class="p-src">Psychedelic · Afrobeat · Funk · Surf · Exotic</div>
+            <div class="p-meta" data-player-status>Now playing</div>
+          </div>
+          <span class="p-quality">AAC 320k</span>
+        </div>
+        <audio id="radioStream" src="https://divine-paper-3624.deathsmack-a51.workers.dev/" crossorigin="anonymous"></audio>
+        <div class="stream-selector">
+          <select id="streamSelect" class="stream-select">
+            <option value="original">Original Stream (MP3 192k)</option>
+            <option value="mega-hifi">Mega Relay (AAC 320k)</option>
+          </select>
+        </div>
+        <div class="volume-container">
+          <label for="volumeSlider">Volume</label>
+          <input type="range" id="volumeSlider" min="0" max="100" value="50" class="volume-slider" />
         </div>
       </div>
+
+      <div class="gallery-counter">Gallery <b id="n">001</b>/<b id="t">021</b></div>
+    </aside>
+
+    <main class="content">
+      
+<section class="page">
+  <h1 class="page-title">About ZamRock Radio</h1>
+  <div class="prose">
+    <p>ZamRock Radio is more than just a radio station — it's a movement dedicated to preserving and promoting uncensored music and free speech.</p>
+
+    <h2>Our Mission</h2>
+    <p>In a world of increasing digital censorship, ZamRock Radio stands as a beacon of free expression. We provide a platform for artists and listeners who value artistic freedom and the free exchange of ideas.</p>
+
+    <h2>Fighting Censorship</h2>
+    <p>ZamRock was built on the principle of bypassing political, economic, and social censorship. We believe in the power of music to transcend boundaries and bring people together, regardless of their background or beliefs.</p>
+
+    <h2>For Those Without a Voice</h2>
+    <p>We stand in solidarity with those who don't have the freedom to express themselves. Like an amplifone amplifying the voices of the unheard, we provide a platform for music and ideas that might otherwise be silenced.</p>
+
+    <h2>Our Technology</h2>
+    <p>Built with privacy and security in mind, our platform uses cutting-edge technology to ensure that the music and voices on our platform remain free from censorship and surveillance.</p>
+
+    <h2>Join Our Community</h2>
+    <p>Be part of a growing community that values free speech, artistic expression, and the power of music to create change. Together, we can keep the airwaves free and open for all.</p>
+  </div>
+</section>
+
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-links">
+        <a href="https://zamrock.net/about">About</a>
+        <a href="https://zamrock.net/contact">Contact</a>
+        <a href="https://zamrock.net/schedule">Schedule</a>
+        <a href="https://zamrock.net/news">News</a>
+        <a href="https://zamrock.net/games">Games</a>
+      </div>
+      <p>&copy; <script>document.write(new Date().getFullYear());</script> ZamRock Radio — All Rights Reserved</p>
     </footer>
-    
-    <script src="../js/main.js"></script>
+  </div>
+
+  <script src="https://zamrock.net/js/themes.js"></script>
+  <script src="https://zamrock.net/js/crossfade.js"></script>
+  <script src="https://zamrock.net/js/main.js"></script>
+  
 </body>
 </html>

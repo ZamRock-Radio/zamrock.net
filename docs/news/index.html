@@ -1,124 +1,158 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>News - ZamRock Radio</title>
-  <link rel="icon" href="../favicon/favicon.ico" type="image/x-icon"/>
-  <link rel="icon" type="image/png" sizes="32x32" href="../favicon/favicon-32x32.png"/>
-  <link rel="icon" type="image/png" sizes="16x16" href="../favicon/favicon-16x16.png"/>
-  <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png"/>
-  <link rel="manifest" href="../favicon/site.webmanifest"/>
-  
-  <!-- SEO Meta Tags -->
-  <meta name="description" content="Latest news and updates from ZamRock Radio" />
-  <meta name="keywords" content="ZamRock, Radio, News, Updates, Music" />
-  <meta name="author" content="ZamRock Radio" />
+  <title>News — ZamRock Radio</title>
 
-  <!-- Open Graph / Facebook Meta Tags -->
-  <meta property="og:title" content="News - ZamRock Radio" />
+  <link rel="icon" href="https://zamrock.net/favicon/favicon.ico" type="image/x-icon"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="https://zamrock.net/favicon/favicon-32x32.png"/>
+  <link rel="icon" type="image/png" sizes="16x16" href="https://zamrock.net/favicon/favicon-16x16.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="https://zamrock.net/favicon/apple-touch-icon.png"/>
+  <link rel="manifest" href="https://zamrock.net/favicon/site.webmanifest"/>
+
+  <meta name="description" content="Latest news and updates from ZamRock Radio" />
+  <meta name="keywords" content="ZamRock, Radio, Online Radio, Music, Stream" />
+  <meta name="author" content="ZamRock Radio" />
+  <link rel="me" href="https://musicworld.social/@ZamRock" />
+
+  <meta property="og:title" content="ZamRock Radio" />
   <meta property="og:description" content="Stay updated with the latest news and updates from ZamRock Radio" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://zamrock.net/news/" />
-  <meta property="og:image" content="https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_014.jpg" />
+  <meta property="og:image" content="https://zamrock.net/img/website_bg/website_bg_014.jpg" />
 
-  <!-- Twitter Card Meta Tags -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="News - ZamRock Radio" />
+  <meta name="twitter:title" content="ZamRock Radio" />
   <meta name="twitter:description" content="Stay updated with the latest news and updates from ZamRock Radio" />
-  <meta name="twitter:image" content="https://github.com/DeathSmack/zamrock/blob/main/docs/img/website_bg/website_bg_014.jpg?raw=true" />
+  <meta name="twitter:image" content="https://zamrock.net/img/website_bg/website_bg_014.jpg" />
 
-  <!-- Fonts and styles -->
-  <link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link rel="stylesheet" href="../css/styles.css"/>
-  <link rel="stylesheet" href="../css/news.css"/>
-  <style>
-    .news-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+  <link data-theme="crossfade" rel="stylesheet" href="https://zamrock.net/css/crossfade.css" />
+  <script>
+  (function(){
+    var lang = (navigator.language || navigator.userLanguage || '').substring(0, 2);
+    var path = window.location.pathname;
+    if (path === '/' || path === '') {
+      var map = { es:'es', pt:'pt', fr:'fr', sv:'sv', ja:'ja', ko:'ko', vi:'vi', ar:'ar' };
+      var full = { 'zh-CN':'zh-CN', 'zh-TW':'zh-TW' };
+      var fullLang = (navigator.language || navigator.userLanguage || '');
+      if (full[fullLang]) window.location.replace('/' + full[fullLang] + '/');
+      else if (map[lang] && lang !== 'en') window.location.replace('/' + map[lang] + '/');
     }
-    
-    .news-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-      gap: 20px;
-      margin-top: 20px;
-    }
-    
-    .news-card {
-      background: rgba(46, 52, 64, 0.9);
-      border: 2px solid var(--border-color);
-      border-radius: 8px;
-      overflow: hidden;
-      min-height: 300px;
-      padding: 15px;
-    }
-    
-    .mastodon-embed {
-      width: 100%;
-      min-height: 300px;
-      border: none;
-    }
-    
-    .loading-embed {
-      padding: 20px;
-      text-align: center;
-      color: var(--text-color);
-    }
-    
-    @media (max-width: 768px) {
-      .news-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .news-card {
-        min-height: auto;
-      }
-    }
-  </style>
+  })();
+  </script>
+  
 </head>
 <body>
-  <div class="overlay"></div>
-  <div class="container">
-    <h1 class="site-title"><a href="https://zamrock.net">ZamRock Radio</a></h1>
-    <div class="tagline">ZAMZAM FOR LIFE...</div>
-    
-    <nav class="main-nav">
-      <div class="nav-row">
-        <a href="../schedule/" class="nav-btn">🎵 Schedule</a>
-        <a href="../news/" class="nav-btn active">📰 News</a>
-        <a href="../about/" class="nav-btn">ℹ️ About</a>
-      </div>
-      <div class="nav-row">
-        <a href="../contact/" class="nav-btn">📞 Contact</a>
-        <a href="../games/" class="nav-btn">🎮 Games</a>
-        <a href="../help-wanted/" class="nav-btn">🆘 Help Wanted</a>
-      </div>
-    </nav>
+  <div class="bg" aria-hidden="true"></div>
+  <div class="scrim" aria-hidden="true"></div>
 
-  <section class="news-section">
-  <h2>Latest News & Updates</h2>
+  <div class="site">
+    <aside class="rail">
+      <div>
+        <h1 class="site-title"><a href="https://zamrock.net/">ZamRock Radio</a></h1>
+        <div class="tagline">ZAMZAM FOR LIFE...</div>
+      </div>
+
+      <div class="live"><i></i> On Air</div>
+
+      
+      <nav class="main-nav">
+        
+        
+        <a class="nav-btn " href="https://zamrock.net/schedule">🎵 Schedule <span class="ar">→</span></a>
+        
+        
+        <a class="nav-btn active" href="https://zamrock.net/news">📰 News <span class="ar">→</span></a>
+        
+        
+        <a class="nav-btn " href="https://zamrock.net/games">🎮 Games <span class="ar">→</span></a>
+        
+        
+        <a class="nav-btn " href="https://zamrock.net/about">ℹ️ About <span class="ar">→</span></a>
+        
+        
+        <a class="nav-btn " href="https://zamrock.net/contact">📞 Contact <span class="ar">→</span></a>
+        
+        
+        <a class="nav-btn " href="https://zamrock.net/help-wanted">🆘 Help Wanted <span class="ar">→</span></a>
+        
+      </nav>
+
+      <div class="chats">
+        <div class="head">Community</div>
+        <div class="chat-row">
+          <a class="chat-btn primary" href="https://stt.gg/CsjKzYWm" target="_blank" rel="noopener">Revolt</a>
+          <a class="chat-btn primary" href="https://vectorapp.io/invite/naddr1qqqqygxvcmpye63ks0u20wtruf9tfv5s9s4hywmp4se6a687qqhnsym5yupsgqqqsg2sxp9nrw#BAADAQIAGG5vc3RyLmNvbXB1dGluZ2NhY2hlLmNvbYbeh9xs8OVJvENnbNfZopw" target="_blank" rel="noopener">Vector</a>
+        </div>
+        <details class="more-chats">
+          <summary>more chats</summary>
+          <div class="more-grid">
+            <a href="https://musicworld.social/@ZamRock" target="_blank" rel="noopener">Mastodon</a>
+            <a href="https://matrix.to/#/#zamrock:unredacted.org" target="_blank" rel="noopener">Matrix</a>
+            <a href="https://bsky.app/profile/zamrock.net" target="_blank" rel="noopener">Bluesky</a>
+            <a href="https://t.me/+zNkDGCUw65U5Mjcx" target="_blank" rel="noopener">Telegram</a>
+            <a href="https://fluxer.gg/3cDaqBp6" target="_blank" rel="noopener">Fluxer</a>
+            <a href="https://keybase.io/team/zamrock_radio" target="_blank" rel="noopener">Keybase</a>
+            <a href="https://gamevox.com/GCAG-5935" target="_blank" rel="noopener">GameVox</a>
+          </div>
+        </details>
+      </div>
+
+      <div class="player">
+        <div class="p-row">
+          <button id="playButton" class="play-btn" aria-label="Play">▶</button>
+          <div class="p-info">
+            <div class="p-src">Psychedelic · Afrobeat · Funk · Surf · Exotic</div>
+            <div class="p-meta" data-player-status>Now playing</div>
+          </div>
+          <span class="p-quality">AAC 320k</span>
+        </div>
+        <audio id="radioStream" src="https://divine-paper-3624.deathsmack-a51.workers.dev/" crossorigin="anonymous"></audio>
+        <div class="stream-selector">
+          <select id="streamSelect" class="stream-select">
+            <option value="original">Original Stream (MP3 192k)</option>
+            <option value="mega-hifi">Mega Relay (AAC 320k)</option>
+          </select>
+        </div>
+        <div class="volume-container">
+          <label for="volumeSlider">Volume</label>
+          <input type="range" id="volumeSlider" min="0" max="100" value="50" class="volume-slider" />
+        </div>
+      </div>
+
+      <div class="gallery-counter">Gallery <b id="n">001</b>/<b id="t">021</b></div>
+    </aside>
+
+    <main class="content">
+      
+<section class="news-section">
+  <h2>Latest Updates</h2>
   <div id="newsContainer" class="news-grid">
     <div class="loading">Loading news...</div>
   </div>
 </section>
-  
-  <footer class="site-footer">
-    <div class="footer-content">
-      <p>&copy; <script>document.write(new Date().getFullYear());</script> ZamRock Radio - All Rights Reserved</p>
+
+    </main>
+
+    <footer class="site-footer">
       <div class="footer-links">
-        <a href="../about/">About</a>
-        <a href="../contact/">Contact</a>
-        <a href="../schedule/">Schedule</a>
-        <a href="../news/">News</a>
+        <a href="https://zamrock.net/about">About</a>
+        <a href="https://zamrock.net/contact">Contact</a>
+        <a href="https://zamrock.net/schedule">Schedule</a>
+        <a href="https://zamrock.net/news">News</a>
+        <a href="https://zamrock.net/games">Games</a>
       </div>
-    </div>
-  </footer>
+      <p>&copy; <script>document.write(new Date().getFullYear());</script> ZamRock Radio — All Rights Reserved</p>
+    </footer>
+  </div>
+
+  <script src="https://zamrock.net/js/themes.js"></script>
+  <script src="https://zamrock.net/js/crossfade.js"></script>
+  <script src="https://zamrock.net/js/main.js"></script>
   
-  <script src="../js/main.js"></script>
-  <script src="../js/news.js"></script>
+<script src="https://zamrock.net/js/news.js"></script>
 
 </body>
 </html>

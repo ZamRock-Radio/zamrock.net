@@ -35,11 +35,11 @@ Theme architecture: **multi-theme ready** — every theme is one CSS file + `dat
 - [x] Rewrite `index.html` content block: player card (existing IDs: `#radioStream #playButton #volumeSlider #streamSelect`) + news section (`#newsContainer`, `.news-card`)
 - [x] Keep player JS (`main.js`) + news JS (`news.js`) working — same element IDs/classes
 - [x] Update OG/twitter images → local `website_bg` (stop GitHub URLs)
-- [ ] Polish EVERY page for crossfade:
-  - [ ] about, contact, games, news, schedule, help-wanted → crossfade look (convert static → Zola templates where sensible)
-  - [ ] Responsive/mobile pass
+- [x] Polish EVERY page for crossfade:
+  - [x] about, contact, games, news, schedule, help-wanted → crossfade look (convert static → Zola templates where sensible)
+  - [x] Responsive/mobile pass for new page components
   - [ ] Clean legacy static/ junk (`old-b`, `Schedual`, `Daily-Planner`, `template.html`, `neon.html`)
-- [ ] Chat links: **Revolt + Vector primary**, others (Mastodon, Matrix, Bluesky, Telegram, Fluxer, Keybase, Discord) nested behind a "more" toggle — easy to find, out of view
+- [x] Chat links: **Revolt + Vector primary**, others (Mastodon, Matrix, Bluesky, Telegram, Fluxer, Keybase, Discord) nested behind a "more" toggle — easy to find, out of view. Vector invite updated to `https://vectorapp.io/invite/naddr1...`
 - [ ] Review pending remote branches for fold-in: `feature/supporters-page`, `contact-page-telegram`, `feature/game-section`, etc.
 
 ### Step C — Translations (after English polish is done)

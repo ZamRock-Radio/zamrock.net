@@ -1,151 +1,168 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Games - ZamRock Radio</title>
-  <link rel="icon" href="https://raw.githubusercontent.com/ZamRock-Radio/Media-Assets/main/Press-Kit/favicon.gif" type="image/gif">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Games — ZamRock Radio</title>
+
+  <link rel="icon" href="https://zamrock.net/favicon/favicon.ico" type="image/x-icon"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="https://zamrock.net/favicon/favicon-32x32.png"/>
+  <link rel="icon" type="image/png" sizes="16x16" href="https://zamrock.net/favicon/favicon-16x16.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="https://zamrock.net/favicon/apple-touch-icon.png"/>
+  <link rel="manifest" href="https://zamrock.net/favicon/site.webmanifest"/>
+
+  <meta name="description" content="Play games from ZamRock Radio — Free browser-based games" />
+  <meta name="keywords" content="ZamRock, Radio, Online Radio, Music, Stream" />
+  <meta name="author" content="ZamRock Radio" />
+  <link rel="me" href="https://musicworld.social/@ZamRock" />
+
+  <meta property="og:title" content="Games — ZamRock Radio" />
+  <meta property="og:description" content="Play free browser-based games from ZamRock Radio" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://zamrock.net/games/" />
+  <meta property="og:image" content="https://zamrock.net/img/website_bg/website_bg_014.jpg" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Games — ZamRock Radio" />
+  <meta name="twitter:description" content="Play free browser-based games from ZamRock Radio" />
+  <meta name="twitter:image" content="https://zamrock.net/img/website_bg/website_bg_014.jpg" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+  <link data-theme="crossfade" rel="stylesheet" href="https://zamrock.net/css/crossfade.css" />
+  <script>
+  (function(){
+    var lang = (navigator.language || navigator.userLanguage || '').substring(0, 2);
+    var path = window.location.pathname;
+    if (path === '/' || path === '') {
+      var map = { es:'es', pt:'pt', fr:'fr', sv:'sv', ja:'ja', ko:'ko', vi:'vi', ar:'ar' };
+      var full = { 'zh-CN':'zh-CN', 'zh-TW':'zh-TW' };
+      var fullLang = (navigator.language || navigator.userLanguage || '');
+      if (full[fullLang]) window.location.replace('/' + full[fullLang] + '/');
+      else if (map[lang] && lang !== 'en') window.location.replace('/' + map[lang] + '/');
+    }
+  })();
+  </script>
   
-  <meta name="description" content="Play games from ZamRock Radio - Free browser-based games">
-  <meta name="keywords" content="ZamRock, Games, Free Games, Browser Games, Retro">
-  <meta name="author" content="ZamRock Radio">
-  
-  <meta property="og:title" content="Games - ZamRock Radio">
-  <meta property="og:description" content="Play free browser-based games from ZamRock Radio">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://zamrock.net/games/">
-  
-  <link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/styles.css">
-  <style>
-    .games-container {
-      max-width: 900px;
-      margin: 30px auto;
-      padding: 20px;
-    }
-    
-    .games-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 25px;
-      margin-top: 25px;
-    }
-    
-    .game-card {
-      background: rgba(46, 52, 64, 0.95);
-      border: 3px solid var(--border-color);
-      border-radius: 10px;
-      padding: 20px;
-      text-align: center;
-      transition: transform 0.3s, border-color 0.3s;
-    }
-    
-    .game-card:hover {
-      transform: translateY(-5px);
-      border-color: var(--primary-color);
-    }
-    
-    .game-card h2 {
-      font-size: 0.9rem;
-      margin-bottom: 10px;
-      color: var(--primary-color);
-    }
-    
-    .game-card p {
-      font-size: 0.6rem;
-      line-height: 1.8;
-      margin-bottom: 15px;
-      color: var(--text-color);
-    }
-    
-    .game-card .play-btn {
-      display: inline-block;
-      padding: 10px 25px;
-      background: var(--accent-color);
-      color: #fff;
-      text-decoration: none;
-      border-radius: 5px;
-      font-size: 0.7rem;
-      transition: background 0.3s;
-    }
-    
-    .game-card .play-btn:hover {
-      background: var(--primary-color);
-    }
-    
-    .coming-soon {
-      opacity: 0.6;
-    }
-    
-    .coming-soon .play-btn {
-      background: #555;
-      cursor: not-allowed;
-    }
-    
-    .page-title {
-      font-size: 1.2rem;
-      text-align: center;
-      margin-bottom: 10px;
-    }
-    
-    .page-subtitle {
-      font-size: 0.6rem;
-      text-align: center;
-      color: var(--primary-color);
-      margin-bottom: 20px;
-    }
-  </style>
 </head>
 <body>
-  <div class="overlay"></div>
-  <div class="container">
-    <h1 class="site-title"><a href="https://zamrock.net">ZamRock Radio</a></h1>
-    <div class="tagline">ZAMZAM FOR LIFE...</div>
-    
-    <nav class="main-nav">
-      <div class="nav-row">
-        <a href="../schedule/" class="nav-btn">🎵 Schedule</a>
-        <a href="../news/" class="nav-btn">📰 News</a>
-        <a href="../about/" class="nav-btn">ℹ️ About</a>
+  <div class="bg" aria-hidden="true"></div>
+  <div class="scrim" aria-hidden="true"></div>
+
+  <div class="site">
+    <aside class="rail">
+      <div>
+        <h1 class="site-title"><a href="https://zamrock.net/">ZamRock Radio</a></h1>
+        <div class="tagline">ZAMZAM FOR LIFE...</div>
       </div>
-      <div class="nav-row">
-        <a href="../contact/" class="nav-btn">📞 Contact</a>
-        <a href="../games/" class="nav-btn active">🎮 Games</a>
-        <a href="../help-wanted/" class="nav-btn">🆘 Help Wanted</a>
-      </div>
-    </nav>
-    
-    <div class="games-container">
-      <h2 class="page-title">Games</h2>
-      <p class="page-subtitle">Free browser-based games from ZamRock Radio</p>
+
+      <div class="live"><i></i> On Air</div>
+
       
-      <div class="games-grid">
-        <div class="game-card">
-          <h2>Silent Ruins</h2>
-          <p>Explore procedurally generated ruins, collect fireflies, and master wall jumps in this retro platformer.</p>
-          <a href="silent-ruins/" class="play-btn">Play Now</a>
-        </div>
+      <nav class="main-nav">
         
-        <div class="game-card coming-soon">
-          <h2>More Coming Soon</h2>
-          <p>New games are in development. Check back later for updates!</p>
-          <span class="play-btn">Coming Soon</span>
+        
+        <a class="nav-btn " href="https://zamrock.net/schedule">🎵 Schedule <span class="ar">→</span></a>
+        
+        
+        <a class="nav-btn " href="https://zamrock.net/news">📰 News <span class="ar">→</span></a>
+        
+        
+        <a class="nav-btn active" href="https://zamrock.net/games">🎮 Games <span class="ar">→</span></a>
+        
+        
+        <a class="nav-btn " href="https://zamrock.net/about">ℹ️ About <span class="ar">→</span></a>
+        
+        
+        <a class="nav-btn " href="https://zamrock.net/contact">📞 Contact <span class="ar">→</span></a>
+        
+        
+        <a class="nav-btn " href="https://zamrock.net/help-wanted">🆘 Help Wanted <span class="ar">→</span></a>
+        
+      </nav>
+
+      <div class="chats">
+        <div class="head">Community</div>
+        <div class="chat-row">
+          <a class="chat-btn primary" href="https://stt.gg/CsjKzYWm" target="_blank" rel="noopener">Revolt</a>
+          <a class="chat-btn primary" href="https://vectorapp.io/invite/naddr1qqqqygxvcmpye63ks0u20wtruf9tfv5s9s4hywmp4se6a687qqhnsym5yupsgqqqsg2sxp9nrw#BAADAQIAGG5vc3RyLmNvbXB1dGluZ2NhY2hlLmNvbYbeh9xs8OVJvENnbNfZopw" target="_blank" rel="noopener">Vector</a>
+        </div>
+        <details class="more-chats">
+          <summary>more chats</summary>
+          <div class="more-grid">
+            <a href="https://musicworld.social/@ZamRock" target="_blank" rel="noopener">Mastodon</a>
+            <a href="https://matrix.to/#/#zamrock:unredacted.org" target="_blank" rel="noopener">Matrix</a>
+            <a href="https://bsky.app/profile/zamrock.net" target="_blank" rel="noopener">Bluesky</a>
+            <a href="https://t.me/+zNkDGCUw65U5Mjcx" target="_blank" rel="noopener">Telegram</a>
+            <a href="https://fluxer.gg/3cDaqBp6" target="_blank" rel="noopener">Fluxer</a>
+            <a href="https://keybase.io/team/zamrock_radio" target="_blank" rel="noopener">Keybase</a>
+            <a href="https://gamevox.com/GCAG-5935" target="_blank" rel="noopener">GameVox</a>
+          </div>
+        </details>
+      </div>
+
+      <div class="player">
+        <div class="p-row">
+          <button id="playButton" class="play-btn" aria-label="Play">▶</button>
+          <div class="p-info">
+            <div class="p-src">Psychedelic · Afrobeat · Funk · Surf · Exotic</div>
+            <div class="p-meta" data-player-status>Now playing</div>
+          </div>
+          <span class="p-quality">AAC 320k</span>
+        </div>
+        <audio id="radioStream" src="https://divine-paper-3624.deathsmack-a51.workers.dev/" crossorigin="anonymous"></audio>
+        <div class="stream-selector">
+          <select id="streamSelect" class="stream-select">
+            <option value="original">Original Stream (MP3 192k)</option>
+            <option value="mega-hifi">Mega Relay (AAC 320k)</option>
+          </select>
+        </div>
+        <div class="volume-container">
+          <label for="volumeSlider">Volume</label>
+          <input type="range" id="volumeSlider" min="0" max="100" value="50" class="volume-slider" />
         </div>
       </div>
+
+      <div class="gallery-counter">Gallery <b id="n">001</b>/<b id="t">021</b></div>
+    </aside>
+
+    <main class="content">
+      
+<section class="page">
+  <h1 class="page-title">Games</h1>
+  <p class="page-subtitle">Free browser-based games from ZamRock Radio</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <h2>Silent Ruins</h2>
+      <p>Explore procedurally generated ruins, collect fireflies, and master wall jumps in this retro platformer.</p>
+      <a class="btn" href="/games/silent-ruins/game.html">Play Now</a>
     </div>
-    
+
+    <div class="card muted">
+      <h2>More Coming Soon</h2>
+      <p>New games are in development. Check back later for updates!</p>
+      <span class="btn disabled">Coming Soon</span>
+    </div>
+  </div>
+</section>
+
+    </main>
+
     <footer class="site-footer">
-      <div class="footer-content">
-        <p>&copy; <script>document.write(new Date().getFullYear());</script> ZamRock Radio - All Rights Reserved</p>
-        <div class="footer-links">
-          <a href="../about/">About</a>
-          <a href="../contact/">Contact</a>
-          <a href="../schedule/">Schedule</a>
-          <a href="../news/">News</a>
-          <a href="../games/">Games</a>
-        </div>
+      <div class="footer-links">
+        <a href="https://zamrock.net/about">About</a>
+        <a href="https://zamrock.net/contact">Contact</a>
+        <a href="https://zamrock.net/schedule">Schedule</a>
+        <a href="https://zamrock.net/news">News</a>
+        <a href="https://zamrock.net/games">Games</a>
       </div>
+      <p>&copy; <script>document.write(new Date().getFullYear());</script> ZamRock Radio — All Rights Reserved</p>
     </footer>
   </div>
+
+  <script src="https://zamrock.net/js/themes.js"></script>
+  <script src="https://zamrock.net/js/crossfade.js"></script>
+  <script src="https://zamrock.net/js/main.js"></script>
+  
 </body>
 </html>

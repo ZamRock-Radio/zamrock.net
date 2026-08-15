@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Games — {{ config.title }}{% endblock title %}
+{% block description %}Play games from {{ config.title }} — Free browser-based games{% endblock description %}
+{% block og_title %}Games — {{ config.title }}{% endblock og_title %}
+{% block og_description %}Play free browser-based games from {{ config.title }}{% endblock og_description %}
+{% block tw_title %}Games — {{ config.title }}{% endblock tw_title %}
+{% block tw_description %}Play free browser-based games from {{ config.title }}{% endblock tw_description %}
+
+{% block content %}
+<section class="page">
+  <h1 class="page-title">Games</h1>
+  <p class="page-subtitle">Free browser-based games from ZamRock Radio</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <h2>Silent Ruins</h2>
+      <p>Explore procedurally generated ruins, collect fireflies, and master wall jumps in this retro platformer.</p>
+      <a class="btn" href="/games/silent-ruins/game.html">Play Now</a>
+    </div>
+
+    <div class="card muted">
+      <h2>More Coming Soon</h2>
+      <p>New games are in development. Check back later for updates!</p>
+      <span class="btn disabled">Coming Soon</span>
+    </div>
+  </div>
+</section>
+{% endblock content %}

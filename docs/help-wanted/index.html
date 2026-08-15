@@ -1,214 +1,268 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ZamRock Radio - Help Wanted</title>
-  <link rel="icon" href="../favicon/favicon.ico" type="image/x-icon"/>
-  <link rel="icon" type="image/png" sizes="32x32" href="../favicon/favicon-32x32.png"/>
-  <link rel="icon" type="image/png" sizes="16x16" href="../favicon/favicon-16x16.png"/>
-  <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png"/>
-  <link rel="manifest" href="../favicon/site.webmanifest"/>
+  <title>Help Wanted — ZamRock Radio</title>
 
-  <!-- SEO Meta Tags -->
-  <meta name="description" content="ZamRock Radio - Help Wanted. Volunteer opportunities to support the station." />
-  <meta name="keywords" content="ZamRock, Radio, Volunteer, Help, Relay, Mirrors, Stickers" />
+  <link rel="icon" href="https://zamrock.net/favicon/favicon.ico" type="image/x-icon"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="https://zamrock.net/favicon/favicon-32x32.png"/>
+  <link rel="icon" type="image/png" sizes="16x16" href="https://zamrock.net/favicon/favicon-16x16.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="https://zamrock.net/favicon/apple-touch-icon.png"/>
+  <link rel="manifest" href="https://zamrock.net/favicon/site.webmanifest"/>
+
+  <meta name="description" content="ZamRock Radio — Help Wanted. Volunteer opportunities to support the station." />
+  <meta name="keywords" content="ZamRock, Radio, Online Radio, Music, Stream" />
   <meta name="author" content="ZamRock Radio" />
+  <link rel="me" href="https://musicworld.social/@ZamRock" />
 
-  <!-- Open Graph / Facebook Meta Tags -->
-  <meta property="og:title" content="ZamRock Radio - Help Wanted" />
+  <meta property="og:title" content="Help Wanted — ZamRock Radio" />
   <meta property="og:description" content="Check out how you can help ZamRock Radio grow." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://zamrock.net/help-wanted/" />
-  <meta property="og:image" content="https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_014.jpg" />
+  <meta property="og:image" content="https://zamrock.net/img/website_bg/website_bg_014.jpg" />
 
-  <!-- Twitter Card Meta Tags -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="ZamRock Radio - Help Wanted" />
+  <meta name="twitter:title" content="Help Wanted — ZamRock Radio" />
   <meta name="twitter:description" content="Check out how you can help ZamRock Radio grow." />
-  <meta name="twitter:image" content="https://github.com/DeathSmack/zamrock/blob/main/docs/img/website_bg/website_bg_014.jpg?raw=true" />
+  <meta name="twitter:image" content="https://zamrock.net/img/website_bg/website_bg_014.jpg" />
 
-  <!-- Fonts and styles -->
-  <link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="../css/styles.css"/>
-  <link rel="stylesheet" href="../css/help-wanted.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+  <link data-theme="crossfade" rel="stylesheet" href="https://zamrock.net/css/crossfade.css" />
+  <script>
+  (function(){
+    var lang = (navigator.language || navigator.userLanguage || '').substring(0, 2);
+    var path = window.location.pathname;
+    if (path === '/' || path === '') {
+      var map = { es:'es', pt:'pt', fr:'fr', sv:'sv', ja:'ja', ko:'ko', vi:'vi', ar:'ar' };
+      var full = { 'zh-CN':'zh-CN', 'zh-TW':'zh-TW' };
+      var fullLang = (navigator.language || navigator.userLanguage || '');
+      if (full[fullLang]) window.location.replace('/' + full[fullLang] + '/');
+      else if (map[lang] && lang !== 'en') window.location.replace('/' + map[lang] + '/');
+    }
+  })();
+  </script>
+  
 </head>
 <body>
-  <div class="overlay"></div>
-  <div class="container">
-    <h1 class="site-title"><a href="https://zamrock.net">ZamRock Radio</a></h1>
-    <div class="tagline">ZAMZAM FOR LIFE...</div>
+  <div class="bg" aria-hidden="true"></div>
+  <div class="scrim" aria-hidden="true"></div>
 
-    <nav class="main-nav">
-      <div class="nav-row">
-        <a href="../schedule/" class="nav-btn">🎵 Schedule</a>
-        <a href="../news/" class="nav-btn">📰 News</a>
-        <a href="../about/" class="nav-btn">ℹ️ About</a>
+  <div class="site">
+    <aside class="rail">
+      <div>
+        <h1 class="site-title"><a href="https://zamrock.net/">ZamRock Radio</a></h1>
+        <div class="tagline">ZAMZAM FOR LIFE...</div>
       </div>
-      <div class="nav-row">
-        <a href="../contact/" class="nav-btn">📞 Contact</a>
-        <a href="../games/" class="nav-btn">🎮 Games</a>
-        <a href="../help-wanted/" class="nav-btn active">🆘 Help Wanted</a>
+
+      <div class="live"><i></i> On Air</div>
+
+      
+      <nav class="main-nav">
+        
+        
+        <a class="nav-btn " href="https://zamrock.net/schedule">🎵 Schedule <span class="ar">→</span></a>
+        
+        
+        <a class="nav-btn " href="https://zamrock.net/news">📰 News <span class="ar">→</span></a>
+        
+        
+        <a class="nav-btn " href="https://zamrock.net/games">🎮 Games <span class="ar">→</span></a>
+        
+        
+        <a class="nav-btn " href="https://zamrock.net/about">ℹ️ About <span class="ar">→</span></a>
+        
+        
+        <a class="nav-btn " href="https://zamrock.net/contact">📞 Contact <span class="ar">→</span></a>
+        
+        
+        <a class="nav-btn active" href="https://zamrock.net/help-wanted">🆘 Help Wanted <span class="ar">→</span></a>
+        
+      </nav>
+
+      <div class="chats">
+        <div class="head">Community</div>
+        <div class="chat-row">
+          <a class="chat-btn primary" href="https://stt.gg/CsjKzYWm" target="_blank" rel="noopener">Revolt</a>
+          <a class="chat-btn primary" href="https://vectorapp.io/invite/naddr1qqqqygxvcmpye63ks0u20wtruf9tfv5s9s4hywmp4se6a687qqhnsym5yupsgqqqsg2sxp9nrw#BAADAQIAGG5vc3RyLmNvbXB1dGluZ2NhY2hlLmNvbYbeh9xs8OVJvENnbNfZopw" target="_blank" rel="noopener">Vector</a>
+        </div>
+        <details class="more-chats">
+          <summary>more chats</summary>
+          <div class="more-grid">
+            <a href="https://musicworld.social/@ZamRock" target="_blank" rel="noopener">Mastodon</a>
+            <a href="https://matrix.to/#/#zamrock:unredacted.org" target="_blank" rel="noopener">Matrix</a>
+            <a href="https://bsky.app/profile/zamrock.net" target="_blank" rel="noopener">Bluesky</a>
+            <a href="https://t.me/+zNkDGCUw65U5Mjcx" target="_blank" rel="noopener">Telegram</a>
+            <a href="https://fluxer.gg/3cDaqBp6" target="_blank" rel="noopener">Fluxer</a>
+            <a href="https://keybase.io/team/zamrock_radio" target="_blank" rel="noopener">Keybase</a>
+            <a href="https://gamevox.com/GCAG-5935" target="_blank" rel="noopener">GameVox</a>
+          </div>
+        </details>
       </div>
-    </nav>
 
-    <div class="help-wanted-container">
-      <h2>🚨 Help Wanted — Volunteer Opportunities</h2>
-      <p class="intro-text">
-        ZamRock Radio is a community-powered station. Here's how you can help us grow and keep the psychedelic sounds flowing!
-      </p>
-
-      <div class="help-grid">
-        <!-- Host a Relay -->
-        <div class="help-card">
-          <div class="help-icon">📡</div>
-          <h3>Host a Relay</h3>
-          <p class="help-desc">
-            Run a Liquidsoap/Icecast relay to mirror our stream. Use a VPS, a home PI, or any always-on Linux box. Every relay takes load off our main server and makes playback snappier for listeners in your region.
-          </p>
-          <ul class="help-pros">
-            <li>🎧 Any host works — VPS, Raspberry PI, or spare Linux box</li>
-            <li>⚡ Lightweight — 128k, 192k, or 320k bitrate options</li>
-            <li>📡 Reduces lag and buffering for nearby listeners</li>
-            <li>🏆 We'll list your relay on our "Network" page</li>
-            <li>📱 We'll shout you out on Mastodon/Twitter when you go live</li>
-          </ul>
-          <a href="../contact/" class="help-btn">Offer a Relay</a>
+      <div class="player">
+        <div class="p-row">
+          <button id="playButton" class="play-btn" aria-label="Play">▶</button>
+          <div class="p-info">
+            <div class="p-src">Psychedelic · Afrobeat · Funk · Surf · Exotic</div>
+            <div class="p-meta" data-player-status>Now playing</div>
+          </div>
+          <span class="p-quality">AAC 320k</span>
         </div>
-
-        <!-- Flyer Campaigns -->
-        <div class="help-card">
-          <div class="help-icon">📰</div>
-          <h3>Flyer Campaigns</h3>
-          <p class="help-desc">
-            Be our street-level ambassador! We'll send you print-ready PDFs/PNGs — you decide where they go: record stores, cafes, music venues, bulletin boards, or your own front fence.
-          </p>
-          <ul class="help-pros">
-            <li>🖨️ We design and ship the files — you pick the spots</li>
-            <li>📍 Stick them up in your neighborhood, campus, or scene hubs</li>
-            <li>📸 Snap a photo of your flyer in the wild — we repost!</li>
-            <li>🎁 Every postcard-worthy spot becomes a story we share</li>
-            <li>📡 Want a custom QR code? Just ask when you contact us</li>
-          </ul>
-          <a href="../contact/" class="help-btn">Get Flyer Files</a>
+        <audio id="radioStream" src="https://divine-paper-3624.deathsmack-a51.workers.dev/" crossorigin="anonymous"></audio>
+        <div class="stream-selector">
+          <select id="streamSelect" class="stream-select">
+            <option value="original">Original Stream (MP3 192k)</option>
+            <option value="mega-hifi">Mega Relay (AAC 320k)</option>
+          </select>
         </div>
-
-        <!-- Sticker Resellers -->
-        <div class="help-card">
-          <div class="help-icon">🏷️</div>
-          <h3>Sticker Resellers</h3>
-          <p class="help-desc">
-            Got a shop? Become an official ZamRock sticker reseller. We'll feature your store on our website's "Where to Buy" section and drop a thank-you post on our social feeds.
-          </p>
-          <ul class="help-pros">
-            <li>🏪 Perfect for record stores, cafes, music shops, and zine distros</li>
-            <li>📦 We ship the starter pack upfront — no upfront cost</li>
-            <li>💰 You keep a cut of every sale, we handle the tracking</li>
-            <li>🤝 "Official ZamRock Reseller" digital badge for your site</li>
-            <li>📱 Boosted on our Mastodon, Twitter, and Instagram stories</li>
-          </ul>
-          <a href="../contact/" class="help-btn">Apply to Resell</a>
+        <div class="volume-container">
+          <label for="volumeSlider">Volume</label>
+          <input type="range" id="volumeSlider" min="0" max="100" value="50" class="volume-slider" />
         </div>
-
-        <!-- Social Media Help -->
-        <div class="help-card">
-          <div class="help-icon">📱</div>
-          <h3>Social Media</h3>
-          <p class="help-desc">
-            Help us grow our Mastodon, Twitter, and Instagram presence. If you live and breathe social media, we want you to help craft posts, create visuals, and engage with the psychedelic music community.
-          </p>
-          <ul class="help-pros">
-            <li>✍️ Draft posts about new music drops and themed weeks</li>
-            <li>📸 Design shareable graphics, memes, and story templates</li>
-            <li>📡 Grow our follower count by engaging the scene</li>
-            <li>🎵 Curate weekly "Now Spinning" and "Throwback" posts</li>
-            <li>📱 We'll credit you in posts and pin your profile link</li>
-          </ul>
-          <a href="../contact/" class="help-btn">Join Media Team</a>
-        </div>
-
-        <!-- Library Mirrors -->
-        <div class="help-card">
-          <div class="help-icon">🗄️</div>
-          <h3>Library Mirrors</h3>
-          <p class="help-desc">
-            Our music library is always hungry for storage. Host a mirror on your VPS, dedicated server, or even a high-capacity Raspberry PI with an external drive. We provide the rsync scripts — you provide the space.
-          </p>
-          <ul class="help-pros">
-            <li>💾 We give you the sync scripts (rsync over SSH)</li>
-            <li>🔒 Secure, read-only access — safe for your box</li>
-            <li>📡 100Mbps+ preferred, but every bit helps</li>
-            <li>🤝 Your name/link on our "Thanks" page forever</li>
-            <li>🏆 We'll write a "New Mirror" shout-out post for you</li>
-          </ul>
-          <a href="../contact/" class="help-btn">Offer Storage</a>
-        </div>
-
-        <!-- Music Blog Writers -->
-        <div class="help-card">
-          <div class="help-icon">✍️</div>
-          <h3>Music Blog Writers</h3>
-          <p class="help-desc">
-            Love writing about psychedelic rock, Afrobeat, funk, and rare grooves? Write for our blog and help listeners discover hidden gems from our daily playlists. Your words, your voice, our platform.
-          </p>
-          <ul class="help-pros">
-            <li>🎵 Review albums and tracks from our daily rotations</li>
-            <li>🎤 Interview guest DJs and emerging artists</li>
-            <li>📰 Monthly "What's New" and "Deep Cuts" roundups</li>
-            <li>🔗 We backlink to your personal blog or portfolio</li>
-            <li>📱 We'll excerpt your posts on our social feeds</li>
-          </ul>
-          <a href="../contact/" class="help-btn">Write for Us</a>
-        </div>
-
-        <!-- Guest DJs -->
-        <div class="help-card">
-          <div class="help-icon">🎧</div>
-          <h3>Guest DJs</h3>
-          <p class="help-desc">
-            Got a killer mix that fits our psychedelic/funk/afrobeat vibe? Send it in and we'll slot you on the schedule, promote your set on our site, and drop a "Guest DJ" badge for your socials.
-          </p>
-          <ul class="help-pros">
-            <li>🎶 Send us your mix (MP3/FLAC, 60-90 min, clean transitions)</li>
-            <li>📡 We'll feature you on our public schedule for a week</li>
-            <li>🎵 Showcase your own tracks or curated deep-cuts vibes</li>
-            <li>🏆 "Guest DJ" badge + featured post on our social media</li>
-            <li>🔗 Your mix stays in our archives with full credit</li>
-          </ul>
-          <a href="../contact/" class="help-btn">Apply to DJ</a>
-        </div>
-
-        <!-- Dev Help -->
-        <div class="help-card">
-          <div class="help-icon">💻</div>
-          <h3>Dev Help</h3>
-          <p class="help-desc">
-            We've got open-source repos (bSky-Bot, Matrix-Bridge, Stoat, Lang) and closed-source ones that go beta when ready. Scan our hub, pick a project, and contribute code, docs, or testing.
-          </p>
-          <ul class="help-pros">
-             <li>💻 We've got 15+ active projects in various stages of development</li>
-            <li>📖 bSky-Bot, Matrix-Bridge, Stoat, Lang — all open-source</li>
-            <li>🔒 Closed-source tools (Mega-Bridger, Vector-Apps) go beta when solid</li>
-            <li>🎵 Code contributions, docs, testing, or bug reports all welcome</li>
-            <li>📱 We'll feature you on our "Contributors" page + social shoutout</li>
-          </ul>
-          <a href="../contact/" class="help-btn">Join Dev Team</a>
-        </div>
-
       </div>
+
+      <div class="gallery-counter">Gallery <b id="n">001</b>/<b id="t">021</b></div>
+    </aside>
+
+    <main class="content">
+      
+<section class="page">
+  <h1 class="page-title">🚨 Help Wanted — Volunteer Opportunities</h1>
+  <p class="page-subtitle">ZamRock Radio is a community-powered station. Here's how you can help us grow and keep the psychedelic sounds flowing!</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon">📡</div>
+      <h2>Host a Relay</h2>
+      <p>Run a Liquidsoap/Icecast relay to mirror our stream. Use a VPS, a home PI, or any always-on Linux box. Every relay takes load off our main server and makes playback snappier for listeners in your region.</p>
+      <ul class="pros">
+        <li>🎧 Any host works — VPS, Raspberry PI, or spare Linux box</li>
+        <li>⚡ Lightweight — 128k, 192k, or 320k bitrate options</li>
+        <li>📡 Reduces lag and buffering for nearby listeners</li>
+        <li>🏆 We'll list your relay on our "Network" page</li>
+        <li>📱 We'll shout you out on Mastodon when you go live</li>
+      </ul>
+      <a class="btn" href="https://zamrock.net/contact">Offer a Relay</a>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">📰</div>
+      <h2>Flyer Campaigns</h2>
+      <p>Be our street-level ambassador! We'll send you print-ready PDFs/PNGs — you decide where they go: record stores, cafes, music venues, bulletin boards, or your own front fence.</p>
+      <ul class="pros">
+        <li>🖨️ We design and ship the files — you pick the spots</li>
+        <li>📍 Stick them up in your neighborhood, campus, or scene hubs</li>
+        <li>📸 Snap a photo of your flyer in the wild — we repost!</li>
+        <li>🎁 Every postcard-worthy spot becomes a story we share</li>
+        <li>📡 Want a custom QR code? Just ask when you contact us</li>
+      </ul>
+      <a class="btn" href="https://zamrock.net/contact">Get Flyer Files</a>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">🏷️</div>
+      <h2>Sticker Resellers</h2>
+      <p>Got a shop? Become an official ZamRock sticker reseller. We'll feature your store on our website's "Where to Buy" section and drop a thank-you post on our social feeds.</p>
+      <ul class="pros">
+        <li>🏪 Perfect for record stores, cafes, music shops, and zine distros</li>
+        <li>📦 We ship the starter pack upfront — no upfront cost</li>
+        <li>💰 You keep a cut of every sale, we handle the tracking</li>
+        <li>🤝 "Official ZamRock Reseller" digital badge for your site</li>
+        <li>📱 Boosted on our Mastodon and social stories</li>
+      </ul>
+      <a class="btn" href="https://zamrock.net/contact">Apply to Resell</a>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">📱</div>
+      <h2>Social Media</h2>
+      <p>Help us grow our Mastodon and social presence. If you live and breathe social media, we want you to help craft posts, create visuals, and engage with the psychedelic music community.</p>
+      <ul class="pros">
+        <li>✍️ Draft posts about new music drops and themed weeks</li>
+        <li>📸 Design shareable graphics, memes, and story templates</li>
+        <li>📡 Grow our follower count by engaging the scene</li>
+        <li>🎵 Curate weekly "Now Spinning" and "Throwback" posts</li>
+        <li>📱 We'll credit you in posts and pin your profile link</li>
+      </ul>
+      <a class="btn" href="https://zamrock.net/contact">Join Media Team</a>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">🗄️</div>
+      <h2>Library Mirrors</h2>
+      <p>Our music library is always hungry for storage. Host a mirror on your VPS, dedicated server, or even a high-capacity Raspberry PI with an external drive. We provide the rsync scripts — you provide the space.</p>
+      <ul class="pros">
+        <li>💾 We give you the sync scripts (rsync over SSH)</li>
+        <li>🔒 Secure, read-only access — safe for your box</li>
+        <li>📡 100Mbps+ preferred, but every bit helps</li>
+        <li>🤝 Your name/link on our "Thanks" page forever</li>
+        <li>🏆 We'll write a "New Mirror" shout-out post for you</li>
+      </ul>
+      <a class="btn" href="https://zamrock.net/contact">Offer Storage</a>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">✍️</div>
+      <h2>Music Blog Writers</h2>
+      <p>Love writing about psychedelic rock, Afrobeat, funk, and rare grooves? Write for our blog and help listeners discover hidden gems from our daily playlists. Your words, your voice, our platform.</p>
+      <ul class="pros">
+        <li>🎵 Review albums and tracks from our daily rotations</li>
+        <li>🎤 Interview guest DJs and emerging artists</li>
+        <li>📰 Monthly "What's New" and "Deep Cuts" roundups</li>
+        <li>🔗 We backlink to your personal blog or portfolio</li>
+        <li>📱 We'll excerpt your posts on our social feeds</li>
+      </ul>
+      <a class="btn" href="https://zamrock.net/contact">Write for Us</a>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">🎧</div>
+      <h2>Guest DJs</h2>
+      <p>Got a killer mix that fits our psychedelic/funk/afrobeat vibe? Send it in and we'll slot you on the schedule, promote your set on our site, and drop a "Guest DJ" badge for your socials.</p>
+      <ul class="pros">
+        <li>🎶 Send us your mix (MP3/FLAC, 60-90 min, clean transitions)</li>
+        <li>📡 We'll feature you on our public schedule for a week</li>
+        <li>🎵 Showcase your own tracks or curated deep-cuts vibes</li>
+        <li>🏆 "Guest DJ" badge + featured post on our social media</li>
+        <li>🔗 Your mix stays in our archives with full credit</li>
+      </ul>
+      <a class="btn" href="https://zamrock.net/contact">Apply to DJ</a>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">💻</div>
+      <h2>Dev Help</h2>
+      <p>We've got open-source repos (bSky-Bot, Matrix-Bridge, Stoat, Lang) and closed-source ones that go beta when ready. Scan our hub, pick a project, and contribute code, docs, or testing.</p>
+      <ul class="pros">
+        <li>💻 We've got 15+ active projects in various stages of development</li>
+        <li>📖 bSky-Bot, Matrix-Bridge, Stoat, Lang — all open-source</li>
+        <li>🔒 Closed-source tools (Mega-Bridger, Vector-Apps) go beta when solid</li>
+        <li>🎵 Code contributions, docs, testing, or bug reports all welcome</li>
+        <li>📱 We'll feature you on our "Contributors" page + social shoutout</li>
+      </ul>
+      <a class="btn" href="https://zamrock.net/contact">Join Dev Team</a>
     </div>
   </div>
+</section>
 
-  <footer class="site-footer">
-    <div class="footer-content">
-      <p>&copy; <script>document.write(new Date().getFullYear());</script> ZamRock Radio - All Rights Reserved</p>
+    </main>
+
+    <footer class="site-footer">
       <div class="footer-links">
-        <a href="../about/">About</a>
-        <a href="../contact/">Contact</a>
-        <a href="../schedule/">Schedule</a>
-        <a href="../news/">News</a>
+        <a href="https://zamrock.net/about">About</a>
+        <a href="https://zamrock.net/contact">Contact</a>
+        <a href="https://zamrock.net/schedule">Schedule</a>
+        <a href="https://zamrock.net/news">News</a>
+        <a href="https://zamrock.net/games">Games</a>
       </div>
-    </div>
-  </footer>
+      <p>&copy; <script>document.write(new Date().getFullYear());</script> ZamRock Radio — All Rights Reserved</p>
+    </footer>
+  </div>
+
+  <script src="https://zamrock.net/js/themes.js"></script>
+  <script src="https://zamrock.net/js/crossfade.js"></script>
+  <script src="https://zamrock.net/js/main.js"></script>
+  
 </body>
 </html>

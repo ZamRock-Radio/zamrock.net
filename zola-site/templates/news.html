@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}News — {{ config.title }}{% endblock title %}
+{% block description %}Latest news and updates from {{ config.title }}{% endblock description %}
+{% block og_description %}Stay updated with the latest news and updates from {{ config.title }}{% endblock og_description %}
+{% block tw_description %}Stay updated with the latest news and updates from {{ config.title }}{% endblock tw_description %}
+
+{% block content %}
+<section class="news-section">
+  <h2>{{ trans(key="news_title") }}</h2>
+  <div id="newsContainer" class="news-grid">
+    <div class="loading">{{ trans(key="news_loading") }}</div>
+  </div>
+</section>
+{% endblock content %}
+
+{% block scripts %}
+<script src="{{ get_url(path="js/news.js", trailing_slash=false) }}"></script>
+{% endblock scripts %}
