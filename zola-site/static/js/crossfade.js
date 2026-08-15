@@ -9,11 +9,13 @@
   const bg = document.querySelector('.bg')
   if (!bg) return
 
-  const imgs = []
+const imgs = []
   let misses = 0
   let stopped = false
-
-  const BASE_URL = 'https://git.zamrock.net/ZamRock-Radio/Media-Assets/raw/branch/main/Radio/Stream-Assets/backgrounds'
+  let started = false
+  let cur = 0
+  const nEl = document.getElementById('n')
+  const tEl = document.getElementById('t')
 
   function probe (i) {
     if (stopped) return
@@ -23,35 +25,28 @@
     img.onload = function () {
       misses = 0
       imgs.push(img)
+      if (tEl) tEl.textContent = String(imgs.length).padStart(3, '0')
+      if (!started) start()
       probe(i + 1)
     }
     img.onerror = function () {
       img.remove()
       misses++
-      if (misses >= MISS_LIMIT || i >= MAX_BG) {
-        stopped = true
-        start(imgs.slice())
-      } else {
-        probe(i + 1)
-      }
+      if (misses >= MISS_LIMIT || i >= MAX_BG) stopped = true
+      else probe(i + 1)
     }
     bg.appendChild(img)
   }
 
-  function start (list) {
-    if (!list.length) return
-    const nEl = document.getElementById('n')
-    const tEl = document.getElementById('t')
-    if (tEl) tEl.textContent = String(list.length).padStart(3, '0')
-
-    let cur = 0
-    list[cur].classList.add('on')
+  function start () {
+    started = true
+    imgs[cur].classList.add('on')
     if (nEl) nEl.textContent = String(cur + 1).padStart(3, '0')
-
     setInterval(function () {
-      const next = (cur + 1) % list.length
-      list[cur].classList.remove('on')
-      list[next].classList.add('on')
+      if (!imgs.length) return
+      const next = (cur + 1) % imgs.length
+      imgs[cur].classList.remove('on')
+      imgs[next].classList.add('on')
       cur = next
       if (nEl) nEl.textContent = String(cur + 1).padStart(3, '0')
     }, intervalMs)
