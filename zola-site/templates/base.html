@@ -71,6 +71,11 @@
           <label for="volumeSlider">{{ trans(key="volume") }}</label>
           <input type="range" id="volumeSlider" min="0" max="100" value="50" class="volume-slider" />
         </div>
+        <button id="foldButton" class="fold-btn" type="button"
+          aria-label="{{ trans(key="fold_layout") }}"
+          data-label-fold="{{ trans(key="fold_layout") }}"
+          data-label-unfold="{{ trans(key="unfold_layout") }}"
+          title="{{ trans(key="fold_layout") }}">⛶</button>
       </div>
 
       {% set nav_items = [

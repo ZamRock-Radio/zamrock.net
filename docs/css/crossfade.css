@@ -184,6 +184,7 @@ body {
 
 /* player card */
 .player {
+  position: relative;
   background: var(--glass-strong, rgba(8, 8, 12, 0.78));
   backdrop-filter: blur(14px);
   border: 1px solid var(--border, rgba(255, 255, 255, 0.14));
@@ -262,6 +263,50 @@ body {
 .volume-slider {
   flex: 1;
   accent-color: var(--accent, #f2c14e);
+}
+
+.fold-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.14));
+  background: var(--glass, rgba(10, 10, 14, 0.55));
+  color: var(--dim, rgba(242, 242, 242, 0.65));
+  font-size: 0.95rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.fold-btn:hover {
+  color: var(--accent, #f2c14e);
+  border-color: var(--accent, #f2c14e);
+}
+
+/* immersive / now-playing mode: player only, full background */
+body.immersive .site {
+  padding: 24px;
+}
+
+body.immersive .rail {
+  background: transparent;
+  backdrop-filter: none;
+  border-color: transparent;
+  box-shadow: none;
+  padding: 0;
+  gap: 0;
+}
+
+body.immersive .rail > :not(.player),
+body.immersive .content,
+body.immersive .site-footer {
+  display: none;
 }
 
 .gallery-counter {

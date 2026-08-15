@@ -1,4 +1,4 @@
-/* global Image */
+/* global Image, localStorage */
 
 // Array of titles for tab animation
 const titles = [
@@ -316,5 +316,31 @@ document.addEventListener('DOMContentLoaded', () => {
       setVolume: (v) => { audio.volume = v }
     }
   }
+})
+
+// Immersive mode toggle: fold layout to player-only
+document.addEventListener('DOMContentLoaded', () => {
+  const foldButton = document.getElementById('foldButton')
+  if (!foldButton) return
+
+  const foldLabel = foldButton.getAttribute('data-label-fold') || 'Enter Now Playing mode'
+  const unfoldLabel = foldButton.getAttribute('data-label-unfold') || 'Exit Now Playing mode'
+
+  const setImmersive = (on) => {
+    document.body.classList.toggle('immersive', on)
+    try {
+      localStorage.setItem('zamrock.immersive', on ? '1' : '0')
+    } catch (e) { /* localStorage unavailable */ }
+    foldButton.setAttribute('aria-label', on ? unfoldLabel : foldLabel)
+    foldButton.setAttribute('title', on ? unfoldLabel : foldLabel)
+  }
+
+  foldButton.addEventListener('click', () => {
+    setImmersive(!document.body.classList.contains('immersive'))
+  })
+
+  try {
+    if (localStorage.getItem('zamrock.immersive') === '1') setImmersive(true)
+  } catch (e) { /* localStorage unavailable */ }
 })
 
