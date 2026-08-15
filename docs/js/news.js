@@ -47,6 +47,34 @@ function createNewsCard (post) {
   return card
 }
 
+// Language → Mastodon account, matching the regional ZamRock accounts so the
+// newsfeed shows posts in the same language as the page (/zh-CN/ → Chinese, etc.)
+const NEWS_ACCOUNTS = {
+  en: { instance: 'musicworld.social', id: '114289974100154452' },
+  es: { instance: 'mastodon.la', id: '116601174957600522' },
+  pt: { instance: 'organica.social', id: '116594721906567131' },
+  'zh-TW': { instance: 'g0v.social', id: '116606219420725428' },
+  'zh-CN': { instance: 'tea.codes', id: '116606231850444878' },
+  ar: { instance: 'mastodon.tn', id: '116608436579474898' },
+  fr: { instance: 'mastodon.re', id: '116608492501547897' }
+}
+
+const NEWS_LANG_ALIASES = {
+  'zh-cn': 'zh-CN',
+  'zh-hans': 'zh-CN',
+  'zh-tw': 'zh-TW',
+  'zh-hant': 'zh-TW'
+}
+
+function getNewsLang () {
+  const raw = (document.documentElement.lang || 'en').trim()
+  return NEWS_LANG_ALIASES[raw.toLowerCase()] || raw
+}
+
+function getNewsAccount () {
+  return NEWS_ACCOUNTS[getNewsLang()] || NEWS_ACCOUNTS.en
+}
+
 const CF_WORKER = 'https://website-newsfeed.deathsmack-a51.workers.dev/'
 const PROXIES = [
   'https://corsproxy.io/?url=',
@@ -54,7 +82,9 @@ const PROXIES = [
 ]
 
 async function fetchPosts (limit, maxId) {
-  let api = `statuses?limit=${limit}&exclude_replies=true&exclude_reblogs=true`
+  const lang = getNewsLang()
+  const account = getNewsAccount()
+  let api = `statuses?lang=${encodeURIComponent(lang)}&limit=${limit}&exclude_replies=true&exclude_reblogs=true`
   if (maxId) api += `&max_id=${maxId}`
 
   // Try CF Worker first (direct, no proxy)
@@ -68,7 +98,7 @@ async function fetchPosts (limit, maxId) {
   }
 
   // Fall back to public proxies
-  let apiUrl = 'https://musicworld.social/api/v1/accounts/114289974100154452/statuses' +
+  let apiUrl = `https://${account.instance}/api/v1/accounts/${account.id}/statuses` +
     `?limit=${limit}&exclude_replies=true&exclude_reblogs=true`
   if (maxId) apiUrl += `&max_id=${maxId}`
 

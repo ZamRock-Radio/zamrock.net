@@ -266,22 +266,29 @@ body {
 }
 
 .fold-btn {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
+  margin-top: 14px;
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 10px;
   border: 1px solid var(--border, rgba(255, 255, 255, 0.14));
   background: var(--glass, rgba(10, 10, 14, 0.55));
   color: var(--dim, rgba(242, 242, 242, 0.65));
-  font-size: 0.95rem;
-  line-height: 1;
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   transition: all 0.2s ease;
+}
+
+.fold-btn::before {
+  content: '⛶';
+  font-size: 0.85rem;
+  line-height: 1;
 }
 
 .fold-btn:hover {
@@ -290,8 +297,11 @@ body {
 }
 
 /* immersive / now-playing mode: player only, full background */
-body.immersive .site {
+ body.immersive .site {
+  max-width: none;
+  margin: 0;
   padding: 24px;
+  align-items: end;
 }
 
 body.immersive .rail {
@@ -319,6 +329,49 @@ body.immersive .site-footer {
 
 .gallery-counter b {
   color: var(--accent, #f2c14e);
+}
+
+/* language switcher — bottom of the rail, easy to find */
+.langs {
+  margin-top: 4px;
+}
+
+.langs .head {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.62rem;
+  color: var(--dim, rgba(242, 242, 242, 0.65));
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+.lang-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.lang-link {
+  flex: 1 1 auto;
+  text-align: center;
+  text-decoration: none;
+  color: var(--dim, rgba(242, 242, 242, 0.65));
+  font-size: 0.68rem;
+  padding: 6px 8px;
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.1));
+  border-radius: 8px;
+  transition: all 0.15s ease;
+}
+
+.lang-link:hover {
+  color: var(--accent, #f2c14e);
+  border-color: var(--accent, #f2c14e);
+}
+
+.lang-link.active {
+  color: var(--accent, #f2c14e);
+  border-color: var(--accent, #f2c14e);
+  background: var(--accent-dim, rgba(242, 193, 78, 0.14));
 }
 
 /* chat links — Revolt + Vector primary, rest nested */
