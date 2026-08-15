@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>{% block title %}{{ config.title }}{% endblock title %}</title>
+
   <link rel="icon" href="{{ get_url(path="favicon/favicon.ico", trailing_slash=false) }}" type="image/x-icon"/>
   <link rel="icon" type="image/png" sizes="32x32" href="{{ get_url(path="favicon/favicon-32x32.png", trailing_slash=false) }}"/>
   <link rel="icon" type="image/png" sizes="16x16" href="{{ get_url(path="favicon/favicon-16x16.png", trailing_slash=false) }}"/>
@@ -19,18 +20,15 @@
   <meta property="og:description" content="{% block og_description %}{{ config.description }}{% endblock og_description %}" />
   <meta property="og:type" content="{% block og_type %}website{% endblock og_type %}" />
   <meta property="og:url" content="{{ current_url | default(value=config.base_url) | safe }}" />
-  {% block og_image %}<meta property="og:image" content="https://raw.githubusercontent.com/DeathSmack/zamrock/main/docs/img/website_bg/website_bg_014.jpg" />{% endblock og_image %}
+  {% block og_image %}<meta property="og:image" content="{{ get_url(path="img/website_bg/website_bg_014.jpg", trailing_slash=false) }}" />{% endblock og_image %}
 
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="{% block tw_title %}{{ config.title }}{% endblock tw_title %}" />
   <meta name="twitter:description" content="{% block tw_description %}{{ config.description }}{% endblock tw_description %}" />
-  {% block tw_image %}<meta name="twitter:image" content="https://github.com/DeathSmack/zamrock/blob/6227f3fb00eb3e802a17fe9d6666a831daf02fc7/docs/img/website_bg/website_bg_014.jpg?raw=true" />{% endblock tw_image %}
+  {% block tw_image %}<meta name="twitter:image" content="{{ get_url(path="img/website_bg/website_bg_014.jpg", trailing_slash=false) }}" />{% endblock tw_image %}
 
-  <link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link rel="stylesheet" href="{{ get_url(path="css/styles.css", trailing_slash=false) }}"/>
-  <link rel="stylesheet" href="{{ get_url(path="css/news.css", trailing_slash=false) }}"/>
-  <link rel="stylesheet" href="{{ get_url(path="css/help-wanted.css", trailing_slash=false) }}"/>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+  <link data-theme="crossfade" rel="stylesheet" href="{{ get_url(path="css/crossfade.css", trailing_slash=false) }}" />
   <script>
   (function(){
     var lang = (navigator.language || navigator.userLanguage || '').substring(0, 2);
@@ -47,30 +45,77 @@
   {% block extra_head %}{% endblock extra_head %}
 </head>
 <body>
-  <div class="overlay"></div>
-  <div class="container">
-    <h1 class="site-title"><a href="{{ get_url(path="@/_index.md", lang=lang) }}">{{ config.title }}</a></h1>
-    <div class="tagline">{{ trans(key="tagline") }}</div>
+  <div class="bg" aria-hidden="true"></div>
+  <div class="scrim" aria-hidden="true"></div>
 
-    <nav class="main-nav">
-      <div class="nav-row">
-        <a href="{{ get_url(path="schedule/") }}" class="nav-btn">{{ trans(key="nav_schedule") }}</a>
-        <a href="{{ get_url(path="news/") }}" class="nav-btn">{{ trans(key="nav_news") }}</a>
-        <a href="{{ get_url(path="about/") }}" class="nav-btn">{{ trans(key="nav_about") }}</a>
+  <div class="site">
+    <aside class="rail">
+      <div>
+        <h1 class="site-title"><a href="{{ get_url(path="@/_index.md", lang=lang) }}">{{ config.title }}</a></h1>
+        <div class="tagline">{{ trans(key="tagline") }}</div>
       </div>
-      <div class="nav-row">
-        <a href="{{ get_url(path="contact/") }}" class="nav-btn">{{ trans(key="nav_contact") }}</a>
-        <a href="{{ get_url(path="games/") }}" class="nav-btn">{{ trans(key="nav_games") }}</a>
-        <a href="{{ get_url(path="help-wanted/") }}" class="nav-btn">{{ trans(key="nav_help") }}</a>
+
+      <div class="live"><i></i> {{ trans(key="live_text") }}</div>
+
+      <nav class="main-nav">
+        <a class="nav-btn" href="{{ get_url(path="schedule/") }}">{{ trans(key="nav_schedule") }} <span class="ar">→</span></a>
+        <a class="nav-btn" href="{{ get_url(path="news/") }}">{{ trans(key="nav_news") }} <span class="ar">→</span></a>
+        <a class="nav-btn" href="{{ get_url(path="games/") }}">{{ trans(key="nav_games") }} <span class="ar">→</span></a>
+        <a class="nav-btn" href="{{ get_url(path="about/") }}">{{ trans(key="nav_about") }} <span class="ar">→</span></a>
+        <a class="nav-btn" href="{{ get_url(path="contact/") }}">{{ trans(key="nav_contact") }} <span class="ar">→</span></a>
+        <a class="nav-btn" href="{{ get_url(path="help-wanted/") }}">{{ trans(key="nav_help") }} <span class="ar">→</span></a>
+      </nav>
+
+      <div class="chats">
+        <div class="head">{{ trans(key="chats_head") }}</div>
+        <div class="chat-row">
+          <a class="chat-btn primary" href="https://stt.gg/CsjKzYWm" target="_blank" rel="noopener">Revolt</a>
+          <a class="chat-btn primary" href="https://vectorapp.io" target="_blank" rel="noopener">Vector</a>
+        </div>
+        <details class="more-chats">
+          <summary>{{ trans(key="more_chats") }}</summary>
+          <div class="more-grid">
+            <a href="https://musicworld.social/@ZamRock" target="_blank" rel="noopener">Mastodon</a>
+            <a href="https://matrix.to/#/#zamrock:unredacted.org" target="_blank" rel="noopener">Matrix</a>
+            <a href="https://bsky.app/profile/zamrock.net" target="_blank" rel="noopener">Bluesky</a>
+            <a href="https://t.me/+zNkDGCUw65U5Mjcx" target="_blank" rel="noopener">Telegram</a>
+            <a href="https://fluxer.gg/3cDaqBp6" target="_blank" rel="noopener">Fluxer</a>
+            <a href="https://keybase.io/team/zamrock_radio" target="_blank" rel="noopener">Keybase</a>
+            <a href="https://gamevox.com/GCAG-5935" target="_blank" rel="noopener">GameVox</a>
+          </div>
+        </details>
       </div>
-    </nav>
 
-    {% block content %}{% endblock content %}
-  </div>
+      <div class="player">
+        <div class="p-row">
+          <button id="playButton" class="play-btn" aria-label="{{ trans(key="play_btn") }}">▶</button>
+          <div class="p-info">
+            <div class="p-src">{{ trans(key="p_genres") }}</div>
+            <div class="p-meta" data-player-status>{{ trans(key="p_now") }}</div>
+          </div>
+          <span class="p-quality">AAC 320k</span>
+        </div>
+        <audio id="radioStream" src="https://divine-paper-3624.deathsmack-a51.workers.dev/" crossorigin="anonymous"></audio>
+        <div class="stream-selector">
+          <select id="streamSelect" class="stream-select">
+            <option value="original">{{ trans(key="stream_original") }}</option>
+            <option value="mega-hifi">{{ trans(key="stream_mega") }}</option>
+          </select>
+        </div>
+        <div class="volume-container">
+          <label for="volumeSlider">{{ trans(key="volume") }}</label>
+          <input type="range" id="volumeSlider" min="0" max="100" value="50" class="volume-slider" />
+        </div>
+      </div>
 
-  <footer class="site-footer">
-    <div class="footer-content">
-      <p>&copy; <script>document.write(new Date().getFullYear());</script> {{ config.title }} — {{ trans(key="footer_copyright") }}</p>
+      <div class="gallery-counter">{{ trans(key="gallery_label") }} <b id="n">001</b>/<b id="t">021</b></div>
+    </aside>
+
+    <main class="content">
+      {% block content %}{% endblock content %}
+    </main>
+
+    <footer class="site-footer">
       <div class="footer-links">
         <a href="{{ get_url(path="about/") }}">{{ trans(key="footer_about") }}</a>
         <a href="{{ get_url(path="contact/") }}">{{ trans(key="footer_contact") }}</a>
@@ -78,9 +123,12 @@
         <a href="{{ get_url(path="news/") }}">{{ trans(key="footer_news") }}</a>
         <a href="{{ get_url(path="games/") }}">{{ trans(key="footer_games") }}</a>
       </div>
-    </div>
-  </footer>
+      <p>&copy; <script>document.write(new Date().getFullYear());</script> {{ config.title }} — {{ trans(key="footer_copyright") }}</p>
+    </footer>
+  </div>
 
+  <script src="{{ get_url(path="js/themes.js", trailing_slash=false) }}"></script>
+  <script src="{{ get_url(path="js/crossfade.js", trailing_slash=false) }}"></script>
   {% block scripts %}{% endblock scripts %}
 </body>
 </html>

@@ -31,10 +31,10 @@ Rollback safety: Zola 0.22.1 binary backed up on `zola-v1-bak` branch (`tools/zo
 Theme architecture: **multi-theme ready** — every theme is one CSS file + `data-theme` attribute; `themes.js` swaps `<link>` stylesheets + persists in `localStorage`. Adding theme #2 later = drop in one CSS file.
 
 - [x] Crossfade mockup → real theme: `static/css/crossfade.css` + `static/js/crossfade.js` (bg rotation) + `static/js/themes.js` (theme switch plumbing)
-- [ ] Rewrite `base.html` to crossfade skeleton (bg slideshow, glass rail, nav pills) — keep `trans()` i18n
-- [ ] Rewrite `index.html` content block: player card (existing IDs: `#radioStream #playButton #volumeSlider #streamSelect`) + news section (`#newsContainer`, `.news-card`)
-- [ ] Keep player JS (`main.js`) + news JS (`news.js`) working — same element IDs/classes
-- [ ] Update OG/twitter images → local `website_bg` (stop GitHub URLs)
+- [x] Rewrite `base.html` to crossfade skeleton (bg slideshow, glass rail, nav pills) — keep `trans()` i18n
+- [x] Rewrite `index.html` content block: player card (existing IDs: `#radioStream #playButton #volumeSlider #streamSelect`) + news section (`#newsContainer`, `.news-card`)
+- [x] Keep player JS (`main.js`) + news JS (`news.js`) working — same element IDs/classes
+- [x] Update OG/twitter images → local `website_bg` (stop GitHub URLs)
 - [ ] Polish EVERY page for crossfade:
   - [ ] about, contact, games, news, schedule, help-wanted → crossfade look (convert static → Zola templates where sensible)
   - [ ] Responsive/mobile pass
@@ -44,8 +44,9 @@ Theme architecture: **multi-theme ready** — every theme is one CSS file + `dat
 
 ### Step C — Translations (after English polish is done)
 
+- [ ] **Every page must be translatable** — homepage + ALL subpages (about, contact, games, news, schedule, help-wanted) render via Zola templates using `trans()` keys; NO hardcoded English in templates
 - [ ] Freeze final English string inventory from Steps A/B
-- [ ] Update `config.toml` `[languages.*.translations]` for all 11 languages
+- [ ] Add ALL UI strings to `config.toml` `[languages.*.translations]` for all 11 languages
 - [ ] Convert each page's content per-language (start with EN, then all langs)
 - [ ] Verify each language renders (RTL check for `ar`)
 
