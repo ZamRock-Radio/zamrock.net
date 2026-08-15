@@ -57,13 +57,19 @@
 
       <div class="live"><i></i> {{ trans(key="live_text") }}</div>
 
+      {% set nav_items = [
+        { "key": "nav_schedule", "path": "schedule/", "match": "/schedule/" },
+        { "key": "nav_news", "path": "news/", "match": "/news/" },
+        { "key": "nav_games", "path": "games/", "match": "/games/" },
+        { "key": "nav_about", "path": "about/", "match": "/about/" },
+        { "key": "nav_contact", "path": "contact/", "match": "/contact/" },
+        { "key": "nav_help", "path": "help-wanted/", "match": "/help-wanted/" }
+      ] %}
       <nav class="main-nav">
-        <a class="nav-btn" href="{{ get_url(path="schedule/") }}">{{ trans(key="nav_schedule") }} <span class="ar">→</span></a>
-        <a class="nav-btn" href="{{ get_url(path="news/") }}">{{ trans(key="nav_news") }} <span class="ar">→</span></a>
-        <a class="nav-btn" href="{{ get_url(path="games/") }}">{{ trans(key="nav_games") }} <span class="ar">→</span></a>
-        <a class="nav-btn" href="{{ get_url(path="about/") }}">{{ trans(key="nav_about") }} <span class="ar">→</span></a>
-        <a class="nav-btn" href="{{ get_url(path="contact/") }}">{{ trans(key="nav_contact") }} <span class="ar">→</span></a>
-        <a class="nav-btn" href="{{ get_url(path="help-wanted/") }}">{{ trans(key="nav_help") }} <span class="ar">→</span></a>
+        {% for item in nav_items %}
+        {% set match = item.match %}
+        <a class="nav-btn {% if current_path is starting_with(pat = match) %}active{% endif %}" href="{{ get_url(path=item.path) }}">{{ trans(key=item.key) }} <span class="ar">→</span></a>
+        {% endfor %}
       </nav>
 
       <div class="chats">

@@ -172,6 +172,16 @@ body {
   transform: translateX(4px);
 }
 
+.nav-btn.active {
+  border-color: var(--accent, #f2c14e);
+  background: var(--accent-dim, rgba(242, 193, 78, 0.14));
+  color: var(--accent, #f2c14e);
+}
+
+.nav-btn.active .ar {
+  color: var(--accent, #f2c14e);
+}
+
 /* player card */
 .player {
   margin-top: auto;
