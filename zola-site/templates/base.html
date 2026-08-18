@@ -28,7 +28,7 @@
   {% block tw_image %}<meta name="twitter:image" content="{{ get_url(path="img/website_bg/website_bg_014.jpg", trailing_slash=false) }}" />{% endblock tw_image %}
 
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
-  <link data-theme="crossfade" rel="stylesheet" href="{{ get_url(path="css/crossfade.css", trailing_slash=false) }}?v=8" />
+  <link data-theme="crossfade" rel="stylesheet" href="{{ get_url(path="css/crossfade.css", trailing_slash=false) }}?v=9" />
   <script>
   (function(){
     var lang = (navigator.language || navigator.userLanguage || '').substring(0, 2);
@@ -61,10 +61,10 @@
         <div class="p-row">
           <button id="playButton" class="play-btn" aria-label="{{ trans(key="play_btn") }}">▶</button>
           <div class="p-info">
-            <div class="p-src">{{ trans(key="p_genres") }}</div>
+            <div class="p-src"><span class="p-genres">{{ trans(key="p_genres") }}</span><span class="mini-title">ᘔᗩᗰᖇOᑕK.ᑎET</span></div>
             <div class="p-meta" data-player-status>{{ trans(key="p_now") }}</div>
           </div>
-          <span class="p-quality">MP3 192k</span>
+          <span class="p-quality">MP3 320k</span>
         </div>
         <audio id="radioStream" src="https://icepick.zamrock.net/radio.mp3" crossorigin="anonymous"></audio>
         <div class="volume-container">
@@ -154,9 +154,9 @@
     </footer>
   </div>
 
-  <script src="{{ get_url(path="js/themes.js", trailing_slash=false) }}?v=8"></script>
-  <script src="{{ get_url(path="js/crossfade.js", trailing_slash=false) }}?v=8"></script>
-  <script src="{{ get_url(path="js/main.js", trailing_slash=false) }}?v=8"></script>
+  <script src="{{ get_url(path="js/themes.js", trailing_slash=false) }}?v=9"></script>
+  <script src="{{ get_url(path="js/crossfade.js", trailing_slash=false) }}?v=9"></script>
+  <script src="{{ get_url(path="js/main.js", trailing_slash=false) }}?v=9"></script>
   {% block scripts %}{% endblock scripts %}
 </body>
 </html>

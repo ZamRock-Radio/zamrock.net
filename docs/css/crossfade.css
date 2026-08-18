@@ -325,6 +325,25 @@ body.immersive .player {
   backdrop-filter: blur(9px);
 }
 
+/* mini player: brand title only, no genres/status/bitrate clutter */
+.mini-title {
+  display: none;
+}
+
+body.immersive .p-genres,
+body.immersive .p-meta,
+body.immersive .p-quality {
+  display: none;
+}
+
+body.immersive .mini-title {
+  display: inline-block;
+  font-family: var(--font-head, 'Press Start 2P', monospace);
+  font-size: 0.9rem;
+  color: var(--text, #f2f2f2);
+  white-space: nowrap;
+}
+
 .gallery-counter {
   font-family: var(--font-mono, 'JetBrains Mono', monospace);
   font-size: 0.68rem;
