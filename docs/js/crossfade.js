@@ -6,7 +6,8 @@
   'use strict'
   const MAX_BG = 500
   const MISS_LIMIT = 8
-  const intervalMs = 15000
+  const MIN_MS = 15000
+  const MAX_MS = 30000
   const BASE_URL = 'https://git.zamrock.net/ZamRock-Radio/Media-Assets/raw/branch/main/Radio/Stream-Assets/backgrounds'
   const bg = document.querySelector('.bg')
   if (!bg) return
@@ -58,16 +59,23 @@
     img.classList.add('on')
   }
 
+  function randomMs () {
+    return MIN_MS + Math.floor(Math.random() * (MAX_MS - MIN_MS + 1))
+  }
+
   function start () {
     started = true
     shuffle()
     show(order[pos])
-    setInterval(function () {
-      if (!imgs.length) return
-      pos++
-      if (pos >= order.length) shuffle()
-      show(order[pos])
-    }, intervalMs)
+    ;(function tick () {
+      setTimeout(function () {
+        if (!imgs.length) return
+        pos++
+        if (pos >= order.length) shuffle()
+        show(order[pos])
+        tick()
+      }, randomMs())
+    })()
   }
 
   probe(1)
