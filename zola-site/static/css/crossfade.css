@@ -319,6 +319,12 @@ body.immersive .site-footer {
   display: none;
 }
 
+/* immersive player: keep the blur, drop the shade to almost nothing */
+body.immersive .player {
+  background: rgba(8, 8, 12, 0.12);
+  backdrop-filter: blur(14px);
+}
+
 .gallery-counter {
   font-family: var(--font-mono, 'JetBrains Mono', monospace);
   font-size: 0.68rem;
