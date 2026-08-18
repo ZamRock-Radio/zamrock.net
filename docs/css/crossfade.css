@@ -322,7 +322,7 @@ body.immersive .site-footer {
 /* immersive player: keep the blur, drop the shade to almost nothing */
 body.immersive .player {
   background: rgba(8, 8, 12, 0.12);
-  backdrop-filter: blur(14px);
+  backdrop-filter: blur(9px);
 }
 
 .gallery-counter {
