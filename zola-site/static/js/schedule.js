@@ -4,6 +4,12 @@ let currentShows = []
 let upcomingShows = []
 let userTimezone = 'auto' // Start with auto-detect
 
+// Icepick API endpoint (CORS enabled server-side)
+const ICEPICK_SCHEDULE_URL = 'https://icepick.zamrock.net/schedule'
+
+// Icepick days_mask: bit0=Mon ... bit6=Sun
+const dayNamesByMask = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']
+
 // Timezone mapping for display
 const timezoneMap = {
   auto: 'Auto (Browser Time)',
@@ -24,6 +30,30 @@ const currentShowsContainer = document.getElementById('current-shows')
 const upcomingShowsContainer = document.getElementById('upcoming-shows')
 const mobileMenuToggle = document.getElementById('mobileMenuToggle')
 const mainNav = document.getElementById('mainNav')
+
+// Convert an Icepick slot to the internal show format
+function slotToShow (slot) {
+  const days = []
+  for (let i = 0; i < 7; i++) {
+    if (slot.days_mask & (1 << i)) days.push(dayNamesByMask[i])
+  }
+
+  let showName = slot.target
+  if (!showName) {
+    showName = slot.name || 'Untitled'
+    showName = showName.replace(/\s+ds$/, '')
+  }
+
+  return {
+    show: showName,
+    start: slot.start_time || '00:00',
+    end: slot.end_time || '01:00',
+    host: 'Automated Playlist',
+    description: '',
+    days: days.length === 7 ? 'daily' : days,
+    overnight: slot.cross_midnight === 1
+  }
+}
 
 // Initialize the schedule
 async function initSchedule () {
@@ -55,50 +85,52 @@ async function initSchedule () {
     updateSchedule() // Update schedule with new timezone
   })
 
-  // Load schedule data from local JSON (primary) with Worker fallback
+  // Load schedule data from Icepick API (primary) with local JSON fallback
   try {
-    // Try local JSON file first (relative to current page)
-    let data
-    const localResponse = await fetch('../Daily-Planner/zamrock-schedule.json')
-    if (localResponse.ok) {
-      data = await localResponse.json()
+    try {
+      const icepickResponse = await fetch(ICEPICK_SCHEDULE_URL)
+      if (icepickResponse.ok) {
+        const slots = await icepickResponse.json()
+        if (Array.isArray(slots) && slots.length > 0) {
+          scheduleData = slots.map(slotToShow)
+        }
+      }
+    } catch (e) {
+      console.log('Icepick schedule unavailable:', e)
     }
 
-    // Try Cloudflare Worker as secondary source (if configured)
-    if (!data) {
+    // Fallback: local static JSON (offline / if Icepick is down)
+    if (scheduleData.length === 0) {
       try {
-        const workerResponse = await fetch('https://icy-voice-api.deathsmack-a51.workers.dev/schedule')
-        if (workerResponse.ok) {
-          data = await workerResponse.json()
+        const localResponse = await fetch('../Daily-Planner/zamrock-schedule.json')
+        if (localResponse.ok) {
+          const localData = await localResponse.json()
+          if (localData && localData.playlists && Array.isArray(localData.playlists)) {
+            scheduleData = localData.playlists.map(p => ({
+              show: p.name || 'Untitled',
+              start: p.start || '00:00',
+              end: p.end || '01:00',
+              host: 'Automated Playlist',
+              description: '',
+              days: p.days || 'daily',
+              overnight: p.overnight || false
+            }))
+          }
         }
       } catch (e) {
-        console.log('Worker unavailable')
+        console.log('Local schedule unavailable')
       }
     }
-
-    if (!data || !data.playlists || !Array.isArray(data.playlists)) {
-      throw new Error('Invalid schedule format or missing playlists')
-    }
-
-    // Convert new format to internal format
-    scheduleData = data.playlists.map(p => ({
-      show: p.name || 'Untitled',
-      start: p.start || '00:00',
-      end: p.end || '01:00',
-      host: 'Automated Playlist',
-      description: '',
-      days: p.days || 'daily',
-      overnight: p.overnight || false
-    }))
 
     if (scheduleData.length === 0) {
       throw new Error('No schedule data found')
     }
-    updateSchedule()
   } catch (error) {
     console.error('Error loading schedule data:', error)
     currentShowsContainer.innerHTML = '<div class="error">Error loading schedule. Please try again later.</div>'
   }
+
+  updateSchedule()
 
   // Update time and schedule every minute
   updateCurrentTime()
