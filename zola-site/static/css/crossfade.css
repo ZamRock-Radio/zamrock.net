@@ -75,6 +75,7 @@ body {
 
 /* left glass rail */
 .rail {
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -1127,5 +1128,83 @@ body.immersive .mini-title {
 
   .contact-icon {
     margin: 0 0 6px;
+  }
+}
+
+/* phones: portrait-friendly sizing */
+@media (max-width: 600px) {
+  .site {
+    padding: 14px 12px 26px;
+    gap: 18px;
+  }
+
+  .rail {
+    padding: 18px 14px;
+    gap: 18px;
+    border-radius: 14px;
+  }
+
+  .player {
+    padding: 14px;
+    border-radius: 14px;
+  }
+
+  .play-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 1.05rem;
+  }
+
+  .p-quality {
+    font-size: 0.6rem;
+  }
+
+  .volume-container {
+    margin-top: 10px;
+  }
+
+  .fold-btn {
+    margin-top: 12px;
+  }
+
+  .news-section,
+  .page {
+    padding: 18px 14px;
+    border-radius: 14px;
+  }
+
+  .news-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .chat-btn {
+    font-size: 0.75rem;
+    padding: 10px 8px;
+  }
+
+  .lang-link {
+    font-size: 0.65rem;
+    padding: 8px 6px;
+  }
+
+  .site-footer {
+    font-size: 0.62rem;
+  }
+
+  .footer-links {
+    gap: 12px;
+  }
+
+  body.immersive .site {
+    padding: 14px;
+  }
+
+  body.immersive .player {
+    padding: 14px;
+    border-radius: 14px;
+  }
+
+  body.immersive .mini-title {
+    font-size: 0.7rem;
   }
 }
