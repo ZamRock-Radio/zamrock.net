@@ -188,6 +188,8 @@ function handlePlayerError (audio, button) {
 }
 
 function handlePlayerStalled (audio, button) {
+  // Only recover if the user wants the stream playing; never restart a stopped player
+  if (playerState.status !== 'playing') return
   console.warn('Player stalled, attempting to recover...')
   audio.load()
 }
@@ -209,7 +211,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Listen for network online status
     window.addEventListener('online', () => {
       console.log('Network online, attempting to reconnect...')
-      if (playerState.wasPlaying || playerState.hasPlayedBefore) {
+      // Only reconnect if the user was actively listening, not if they stopped
+      if (playerState.wasPlaying) {
         reconnectStream(audio, playButton)
       }
     })
@@ -218,8 +221,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') {
         console.log('Page visible, checking stream status...')
-        // Only reconnect if we were playing and stream is dead
-        if ((playerState.wasPlaying || playerState.hasPlayedBefore) && audio.paused && !playerState.reconnectTimer) {
+        // Only reconnect if we were playing when the tab hid and stream is dead
+        if (playerState.wasPlaying && audio.paused && !playerState.reconnectTimer) {
           audio.play().catch(() => {
             handlePlayerError(audio, playButton)
           })
@@ -297,7 +300,8 @@ document.addEventListener('DOMContentLoaded', () => {
         doPlay()
       } else {
         audio.pause()
-        playerState.wasPlaying = playerState.status === 'playing'
+        // User explicitly stopped: clear playing flag so nothing auto-restarts
+        playerState.wasPlaying = false
         setPlayerStatus('paused', playButton)
       }
     })
