@@ -20,12 +20,12 @@
   <meta property="og:description" content="{% block og_description %}{{ config.description }}{% endblock og_description %}" />
   <meta property="og:type" content="{% block og_type %}website{% endblock og_type %}" />
   <meta property="og:url" content="{{ current_url | default(value=config.base_url) | safe }}" />
-  {% block og_image %}<meta property="og:image" content="{{ get_url(path="img/website_bg/website_bg_014.jpg", trailing_slash=false) }}" />{% endblock og_image %}
+  {% block og_image %}<meta property="og:image" content="{{ get_url(path="img/website_bg/website_bg_025.jpg", trailing_slash=false) }}" />{% endblock og_image %}
 
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="{% block tw_title %}{{ config.title }}{% endblock tw_title %}" />
   <meta name="twitter:description" content="{% block tw_description %}{{ config.description }}{% endblock tw_description %}" />
-  {% block tw_image %}<meta name="twitter:image" content="{{ get_url(path="img/website_bg/website_bg_014.jpg", trailing_slash=false) }}" />{% endblock tw_image %}
+  {% block tw_image %}<meta name="twitter:image" content="{{ get_url(path="img/website_bg/website_bg_025.jpg", trailing_slash=false) }}"/>{% endblock tw_image %}
 
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
   <link data-theme="crossfade" rel="stylesheet" href="{{ get_url(path="css/crossfade.css", trailing_slash=false) }}?v=16" />
