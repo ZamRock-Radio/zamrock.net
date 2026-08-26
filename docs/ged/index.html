@@ -220,6 +220,50 @@
       text-decoration: none;
     }
 
+    .callout {
+      display: flex;
+      gap: 20px;
+      background: rgba(232, 115, 74, 0.08);
+      border: 1px solid rgba(232, 115, 74, 0.3);
+      border-left: 4px solid var(--accent2);
+      border-radius: 12px;
+      padding: 24px;
+      margin: 28px 0;
+    }
+
+    .callout-icon {
+      font-size: 2rem;
+      flex-shrink: 0;
+      padding-top: 4px;
+    }
+
+    .callout-body h3 {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--accent2);
+      margin: 0 0 12px;
+    }
+
+    .callout-body p {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: var(--text);
+      margin: 0 0 12px;
+    }
+
+    .callout-body p:last-child { margin-bottom: 0; }
+
+    .callout-source {
+      font-size: 0.72rem;
+      color: var(--dim);
+      font-style: italic;
+      margin-top: 8px !important;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 10px;
+    }
+
     @media (max-width: 700px) {
       body { padding: 24px 16px 40px; }
       .report-header h1 { font-size: 1.1rem; letter-spacing: 2px; }
@@ -334,6 +378,16 @@
 
     <div class="chart-container">
       <canvas id="healthChart"></canvas>
+    </div>
+
+    <div class="callout">
+      <div class="callout-icon">💀</div>
+      <div class="callout-body">
+        <h3>The System Gets Its Money's Worth</h3>
+        <p>Social Security's full retirement age is now 66–67. A GED/dropout holder who dies at 75 collects maybe <strong>8–9 years</strong> of benefits after paying into the system for 40+ years. A college-educated person who lives to 87 collects for <strong>20+ years</strong>. The math works out real nice for the government — extract decades of physical labor, pay out a fraction of the benefits.</p>
+        <p>And it's worse than that because the jobs available without a diploma are the ones that <strong>destroy your body</strong> — construction, warehouse, factory, agriculture. So they're broken down AND dying sooner. The 12-year life expectancy gap isn't just abstract "years of life" — it's years where your knees still work, where you can actually do something with retirement.</p>
+        <p class="callout-source">Life expectancy data: Rostron et al. (2010), Hummer &amp; Hernandez (2010) — NHIS Linked Mortality Files. Social Security full retirement age: ssa.gov, 2024.</p>
+      </div>
     </div>
 
     <section class="prose">
