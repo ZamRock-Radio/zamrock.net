@@ -7,8 +7,8 @@ Check items as we complete them. Track references below.
 
 ## Done (already on page)
 
-- [x] **WWII population stats** — 32M males 15-44, 16M served (50%), 405K died, 670K wounded
-  - Sources: Census Bureau 1940, ABC factsheet, National WW2 Museum, CRS RL32492
+- [x] **WWII population stats** — 32M males 15-44, 16M served (50%), ~413K died (incl. merchant marine), 1.7M on disability rolls, 504K+ psychiatric
+  - Sources: Census Bureau 1940, ABC factsheet, National WW2 Museum, CRS RL32492, JAMA 1947, Wikipedia WWII casualties, Census Bureau 2025
 - [x] **GI Bill / mortgage data** — VA loans 4% zero-down, $8,600 homes, homeownership 43.6%→61.9%
   - Sources: NBER Klaman 1961, Richmond Fed 2023, AEI Pinto 2015
 - [x] **Sex worker education** — 72% diploma or less, 47% dancers have GED/diploma, college-educated earn 31% more

@@ -1,0 +1,10 @@
+name = "ged-view-counter"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+[[kv_namespaces]]
+  binding = "GED_VIEWS"
+  id = "42755942ca8448dc94bdcc69dba046c2"
+
+[triggers]
+  crons = ["*/30 * * * *"]
