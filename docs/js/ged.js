@@ -50,22 +50,22 @@
     };
   }
 
-  // --- Chart 1: Weekly Earnings ---
+  // --- Chart 1: Yearly Earnings ---
   new Chart(document.getElementById('earningsChart'), {
     type: 'bar',
     data: {
-      labels: ['Less than HS Diploma', 'GED Holder', 'HS Diploma'],
+      labels: ['Less than HS Diploma', 'GED Holder', 'HS Diploma', 'College Degree'],
       datasets: [{
-        label: 'Median Weekly Earnings ($)',
-        data: [738, 860, 930],
-        backgroundColor: [COLORS.dropoutBg, COLORS.gedBg, COLORS.diplomaBg],
-        borderColor: [COLORS.dropout, COLORS.ged, COLORS.diploma],
+        label: 'Median Annual Earnings ($)',
+        data: [38376, 44720, 48360, 74688],
+        backgroundColor: [COLORS.dropoutBg, COLORS.gedBg, COLORS.diplomaBg, 'rgba(129, 140, 248, 0.85)'],
+        borderColor: [COLORS.dropout, COLORS.ged, COLORS.diploma, '#818cf8'],
         borderWidth: 2,
         borderRadius: 6
       }]
     },
     options: {
-      ...barOpts('Median Weekly Earnings (BLS 2024)'),
+      ...barOpts('Median Annual Earnings — Full-Time Workers (BLS 2024)'),
       scales: {
         ...barOpts('').scales,
         y: {
@@ -73,7 +73,7 @@
           beginAtZero: true,
           ticks: {
             ...barOpts('').scales.y.ticks,
-            callback: function (v) { return '$' + v; }
+            callback: function (v) { return '$' + (v / 1000).toFixed(0) + 'k'; }
           }
         }
       },
@@ -81,7 +81,7 @@
         ...barOpts('').plugins,
         tooltip: {
           callbacks: {
-            label: function (ctx) { return '$' + ctx.raw + '/week'; }
+            label: function (ctx) { return '$' + ctx.raw.toLocaleString() + '/year'; }
           }
         }
       }
