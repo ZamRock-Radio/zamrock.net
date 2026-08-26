@@ -142,6 +142,10 @@
       background: var(--border);
     }
 
+    .comp-row.cols-3 {
+      grid-template-columns: 1fr 1.5fr 2fr;
+    }
+
     .comp-row > * {
       background: rgba(10, 10, 14, 0.85);
       padding: 12px 16px;
@@ -290,6 +294,11 @@
     <section class="prose">
       <p>The General Educational Development (GED) test is widely sold as a "second chance" for people who didn't finish high school. But the research is clear: GED holders are <strong>statistically indistinguishable from dropouts</strong> on many key measures — and far below diploma holders. Here's the proof.</p>
 
+      <h2>How We Got Here</h2>
+      <p>The GED was created in <strong>1942–1943</strong> at the request of the U.S. Armed Forces Institute. Thousands of young men had left high school early to serve in World War II — the military needed a way for them to prove they had the equivalent of a diploma so they could access the GI Bill when they got home. The test was originally called the <strong>Tests of General Educational Development</strong>, and it was designed on purpose to be passable by someone who learned on the job rather than in a classroom.</p>
+      <p>That origin story matters. The GED was never meant to be an educational standard — it was a <strong>convenience measure</strong> for a specific wartime problem. It was designed to let veterans demonstrate ability, not to certify they'd completed a curriculum. When the Servicemen's Readjustment Act of 1944 (the GI Bill) made GED holders eligible for college funding and home loans, the credential's purpose was cemented: <strong>not education, but access</strong>.</p>
+      <p>Over the decades the GED expanded far beyond veterans. By the 1960s it was available to any adult dropout. States adopted it as a cheaper alternative to adult education programs. Today roughly 500,000 people take the GED each year. But the test's DNA hasn't changed — it was built as a shortcut, and the labor market treats it like one.</p>
+
       <h2>Key Findings at a Glance</h2>
     </section>
 
@@ -300,9 +309,9 @@
         <div class="stat-detail">Over a 40-year career that's $396,000 — enough to buy a house in most of the country. HS diploma: $48,360 vs GED: $38,376 (BLS 2024)</div>
       </div>
       <div class="stat-card">
-        <div class="stat-number">12x</div>
+        <div class="stat-number">1,200%</div>
         <div class="stat-label">Less Likely to Get a Degree</div>
-        <div class="stat-detail">By age 25-29: 43.7% of diploma holders have a college degree vs just 3.7% of GED holders — a 12 to 1 gap (NLSY97)</div>
+        <div class="stat-detail">By age 25-29: 43.7% of diploma holders have a college degree vs just 3.7% of GED holders — diploma holders are over 12 times more likely (NLSY97)</div>
       </div>
       <div class="stat-card">
         <div class="stat-number">18pts</div>
@@ -310,7 +319,7 @@
         <div class="stat-detail">70% of diploma holders work full-time vs 52% of GED holders. That's 18 percentage points — nearly 1 in 5 GED holders who should be working full-time aren't (LINCS/CPS)</div>
       </div>
       <div class="stat-card">
-        <div class="stat-number">2.25x</div>
+        <div class="stat-number">225%</div>
         <div class="stat-label">Unemployment Rate</div>
         <div class="stat-detail">GED holders: 9% unemployed vs diploma holders: 4% — more than double the odds of being out of work (NAAL 2003)</div>
       </div>
@@ -355,7 +364,7 @@
 
     <div class="stat-grid">
       <div class="stat-card">
-        <div class="stat-number">2x</div>
+        <div class="stat-number">200%</div>
         <div class="stat-label">Smoking Rate</div>
         <div class="stat-detail">44% of GED holders smoke vs 22% of diploma holders — that's 1 in 2 GED holders lighting up. Highest rate of any education level (NHIS 2006-2014)</div>
       </div>
@@ -370,7 +379,7 @@
         <div class="stat-detail">Less than HS diploma: 50 more years at age 25 vs 62 years for grad degree holders. That's 12 years of life — retirement, grandkids, everything (Rostron et al.)</div>
       </div>
       <div class="stat-card">
-        <div class="stat-number">3.1x</div>
+        <div class="stat-number">310%</div>
         <div class="stat-label">More Health Problems</div>
         <div class="stat-detail">GED holders have higher prevalence of ALL 25 health indicators studied — obesity, depression, diabetes, vision loss, the works (Zajacova 2012)</div>
       </div>
@@ -397,12 +406,12 @@
 
     <div class="stat-grid">
       <div class="stat-card">
-        <div class="stat-number">4x</div>
+        <div class="stat-number">400%</div>
         <div class="stat-label">More Likely Incarcerated</div>
         <div class="stat-detail">31% of GED holders have been to prison by age 37 vs 8% of diploma holders — nearly 4 times the rate (NLSY97)</div>
       </div>
       <div class="stat-card">
-        <div class="stat-number">2:1</div>
+        <div class="stat-number">200%</div>
         <div class="stat-label">Arrest Rate</div>
         <div class="stat-detail">69% of GED holders have been arrested at some point vs 35% of diploma holders — more than 2 to 1 (NLSY97)</div>
       </div>
@@ -430,6 +439,46 @@
     <div class="chart-container">
       <canvas id="smokingChart"></canvas>
     </div>
+
+    <section class="prose">
+      <h2>No Other Country Does This</h2>
+      <p>The GED is a uniquely American invention. Most developed nations don't offer a shortcut credential that claims equivalence with their standard high school diploma — because they understand what happens when you do.</p>
+
+      <div class="comparison-table">
+        <div class="comp-row comp-header">
+          <div class="comp-metric">Country</div>
+          <div class="comp-val ged">System</div>
+          <div class="comp-val diploma">GED Equivalent?</div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-metric">United Kingdom</div>
+          <div class="comp-val ged">GCSEs (age 16) + A-Levels (age 18)</div>
+          <div class="comp-val diploma">No. Adult learners retake actual GCSEs — no shortcut credential</div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-metric">Germany</div>
+          <div class="comp-val ged">Abitur (rigorous exit exam) + Ausbildung (vocational)</div>
+          <div class="comp-val diploma">No. Dropouts enter vocational training, not a equivalency test</div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-metric">Japan</div>
+          <div class="comp-val ged">Upper secondary school (99%+ graduation rate)</div>
+          <div class="comp-val diploma">No. High school is nearly universal; no equivalency exists</div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-metric">France</div>
+          <div class="comp-val ged">Baccalauréat (national exit exam)</div>
+          <div class="comp-val diploma">No. The Bac is rigorous and has no equivalent shortcut</div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-metric">United States</div>
+          <div class="comp-val ged">GED test (4 subjects, ~7 hours)</div>
+          <div class="comp-val ged">Yes — marketed as "equivalent" but treated as dropout-level</div>
+        </div>
+      </div>
+
+      <p>Other countries sort students by ability through tiered systems — the German Abitur, the UK's GCSE/A-Level split, France's Bac — rather than offering a single test that erases the difference. The result: their credentials <strong>mean something</strong>. The U.S. GED means "you passed a test," and the labor market knows it.</p>
+    </section>
 
     <section class="prose">
       <h2>The Bottom Line</h2>
