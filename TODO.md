@@ -98,7 +98,7 @@ Check items as we complete them. Track references below.
 - [x] 38% homeless have <HS diploma vs 15% general pop (Burt 1999, Natl Coalition for Homeless)
   - Sources: Burt et al. 1999, Stinson 2010, Natl Conference of Mayors
 - [ ] Risk of homelessness by education level
-- [ ] Chronic homelessness vs education
+- [x] Chronic homelessness vs education — 36% meet federal criteria; median 22 months; California 2023, UChicago BFI 2021, Canadian longitudinal (Hwang 2016), HYRRS youth study
 
 ## 8. Voting & Political Power
 - [x] Turnout: advanced degree 82.5% vs HS grad 52.5% (Census 2024)
@@ -148,6 +148,8 @@ Check items as we complete them. Track references below.
 | 56 | Payday loans | Caplan et al. 2017 | Lacking college degree = significant predictor of payday borrowing; OR=5.2 for social assistance | SCF 2013 |
 | 57 | Bankruptcy | Foohey et al. 2022 | 9 filer groups; Black households 2x share; women's issue | CBP 2013-2019 |
 | 58 | Political | Pew 2018 | College grads 2x donate (43% vs 22%) | Doyle & Skinner 2017, ETS |
+| 59 | Homeless | CA Statewide 2023 | 63% HS/GED or less; 36% chronic; median 22 months | UChicago BFI, Hwang 2016 |
+| 60 | Homeless youth | HYRRS 2021 | 1 in 3 YEH no milestone vs 5.4% nationally; 87% more likely to drop out | Hynes 2014 |
 
 ---
 
