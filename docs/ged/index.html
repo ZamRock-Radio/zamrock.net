@@ -1,360 +1,537 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>GED vs High School Diploma — The Data — ZamRock Radio</title>
-
-  <link rel="icon" href="https://zamrock.net/favicon/favicon.ico" type="image/x-icon"/>
-  <link rel="icon" type="image/png" sizes="32x32" href="https://zamrock.net/favicon/favicon-32x32.png"/>
-  <link rel="icon" type="image/png" sizes="16x16" href="https://zamrock.net/favicon/favicon-16x16.png"/>
-  <link rel="apple-touch-icon" sizes="180x180" href="https://zamrock.net/favicon/apple-touch-icon.png"/>
-  <link rel="manifest" href="https://zamrock.net/favicon/site.webmanifest"/>
-
+  <title>GED vs High School Diploma — The Data</title>
   <meta name="description" content="The GED is not equivalent to a high school diploma. Here's the data — earnings, employment, college outcomes, and peer-reviewed research." />
-  <meta name="keywords" content="ZamRock, Radio, Online Radio, Music, Stream" />
-  <meta name="author" content="ZamRock Radio" />
-  <link rel="me" href="https://musicworld.social/@ZamRock" />
-
   <meta property="og:title" content="GED vs High School Diploma — The Data" />
-  <meta property="og:description" content="The GED is not equivalent to a high school diploma. Here's the data — earnings, employment, college outcomes, and peer-reviewed research." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://zamrock.net/ged/" />
-  <meta property="og:image" content="https://zamrock.net/img/website_bg/website_bg_025_wm_v0.0.2.jpg" />
-
+  <meta property="og:description" content="The GED is not equivalent to a high school diploma. Here's the data." />
+  <meta property="og:type" content="article" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="GED vs High School Diploma — The Data" />
   <meta name="twitter:description" content="The GED is not equivalent to a high school diploma. Here's the data." />
-  <meta name="twitter:image" content="https://zamrock.net/img/website_bg/website_bg_025_wm_v0.0.2.jpg"/>
-
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
-  <link data-theme="crossfade" rel="stylesheet" href="https://zamrock.net/css/crossfade.css?v=16" />
-  <script>
-  (function(){
-    var lang = (navigator.language || navigator.userLanguage || '').substring(0, 2);
-    var path = window.location.pathname;
-    if (path === '/' || path === '') {
-      var map = { es:'es', pt:'pt', fr:'fr', sv:'sv', ja:'ja', ko:'ko', vi:'vi', ar:'ar' };
-      var full = { 'zh-CN':'zh-CN', 'zh-TW':'zh-TW' };
-      var fullLang = (navigator.language || navigator.userLanguage || '');
-      if (full[fullLang]) window.location.replace('/' + full[fullLang] + '/');
-      else if (map[lang] && lang !== 'en') window.location.replace('/' + map[lang] + '/');
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.min.css" />
+  <style>
+    :root {
+      --text: #f2f2f2;
+      --dim: rgba(242, 242, 242, 0.65);
+      --accent: #f2c14e;
+      --accent2: #e8734a;
+      --border: rgba(255, 255, 255, 0.14);
+      --radius: 14px;
+      --font-head: 'Press Start 2P', monospace;
+      --font-body: 'Inter', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
     }
-  })();
-  </script>
-  
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.min.css" />
 
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--text);
+      background: #0a0a0e;
+      min-height: 100vh;
+      padding: 40px 20px 60px;
+    }
+
+    .report {
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    .report-header {
+      text-align: center;
+      margin-bottom: 48px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .report-header h1 {
+      font-family: var(--font-mono);
+      font-size: 1.6rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .report-header .tagline {
+      font-size: 1.05rem;
+      color: var(--dim);
+      line-height: 1.6;
+    }
+
+    .prose {
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: var(--text);
+    }
+
+    .prose h2 {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent);
+      margin: 36px 0 12px;
+    }
+
+    .prose p { margin: 0 0 16px; }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin: 28px 0;
+    }
+
+    .stat-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px 16px;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-family: var(--font-mono);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .stat-detail {
+      font-size: 0.72rem;
+      line-height: 1.5;
+      color: var(--dim);
+    }
+
+    .chart-container {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 24px;
+      margin: 20px 0 28px;
+    }
+
+    .comparison-table {
+      margin: 24px 0;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .comp-row {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+    }
+
+    .comp-row > * {
+      background: rgba(10, 10, 14, 0.85);
+      padding: 12px 16px;
+      font-size: 0.85rem;
+    }
+
+    .comp-header > * {
+      background: rgba(10, 10, 14, 0.95);
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent);
+    }
+
+    .comp-metric { font-weight: 600; }
+    .comp-val { text-align: center; }
+    .comp-val.dropout { color: #9ca3af; }
+    .comp-val.ged { color: var(--accent2); }
+    .comp-val.diploma { color: var(--accent); }
+
+    .source-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .source-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 16px 18px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .source-tag {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent);
+      white-space: nowrap;
+      min-width: 110px;
+      padding-top: 2px;
+    }
+
+    .source-text {
+      font-size: 0.82rem;
+      line-height: 1.6;
+      color: var(--dim);
+    }
+
+    .source-text a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+
+    .source-text a:hover { border-bottom-color: var(--accent); }
+
+    .report-footer {
+      text-align: center;
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 0.75rem;
+      color: var(--dim);
+    }
+
+    .report-footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    @media (max-width: 700px) {
+      body { padding: 24px 16px 40px; }
+      .report-header h1 { font-size: 1.1rem; letter-spacing: 2px; }
+      .stat-grid { grid-template-columns: 1fr 1fr; }
+      .stat-number { font-size: 1.2rem; }
+      .comp-row { grid-template-columns: 1fr 1fr; }
+      .comp-header { display: none; }
+      .comp-row > *:first-child { grid-column: 1 / -1; text-align: left; font-weight: 700; color: var(--text); }
+      .comp-row > *:nth-child(2)::before { content: 'Dropout: '; color: #9ca3af; }
+      .comp-row > *:nth-child(3)::before { content: 'GED: '; color: var(--accent2); }
+      .comp-row > *:nth-child(4)::before { content: 'Diploma: '; color: var(--accent); }
+      .source-item { flex-direction: column; gap: 6px; }
+      .source-tag { min-width: 0; }
+    }
+  </style>
 </head>
 <body>
-  <div class="bg" aria-hidden="true"></div>
-  <div class="scrim" aria-hidden="true"></div>
+  <article class="report">
+    <header class="report-header">
+      <h1>GED vs High School Diploma</h1>
+      <p class="tagline">The GED is marketed as equivalent. The data says otherwise.</p>
+    </header>
 
-  <div class="site">
-    <aside class="rail">
-      <div>
-        <h1 class="site-title"><a href="https://zamrock.net/">ZamRock Radio</a></h1>
-        <div class="tagline">ZAMZAM FOR LIFE...</div>
+    <section class="prose">
+      <p>The General Educational Development (GED) test is widely sold as a "second chance" for people who didn't finish high school. But the research is clear: GED holders are <strong>statistically indistinguishable from dropouts</strong> on many key measures — and far below diploma holders. Here's the proof.</p>
+
+      <h2>Key Findings at a Glance</h2>
+    </section>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-number">$9,900</div>
+        <div class="stat-label">Annual Earnings Gap</div>
+        <div class="stat-detail">HS diploma: $48,360/yr vs GED/no diploma: $38,376/yr (BLS 2024)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">12:1</div>
+        <div class="stat-label">College Degree Gap</div>
+        <div class="stat-detail">By age 25-29: 43.7% of diploma holders have a degree vs 3.7% of GED holders (NLSY97)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">18pts</div>
+        <div class="stat-label">Full-Time Employment Gap</div>
+        <div class="stat-detail">Diploma holders are 18 percentage points more likely to be employed full-time (LINCS/CPS)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">9% vs 4%</div>
+        <div class="stat-label">Unemployment Rate</div>
+        <div class="stat-detail">GED holders: 9% unemployed vs diploma holders: 4% (NAAL 2003)</div>
+      </div>
+    </div>
+
+    <section class="prose">
+      <h2>Weekly Earnings</h2>
+      <p>GED holders earn more than dropouts but less than diploma holders across the board.</p>
+    </section>
+    <div class="chart-container">
+      <canvas id="earningsChart"></canvas>
+    </div>
+
+    <section class="prose">
+      <h2>Employment Rates</h2>
+      <p>Having a regular high school diploma substantially increases the probability of full-time employment. GED holders fall roughly 10 percentage points below diploma holders.</p>
+    </section>
+    <div class="chart-container">
+      <canvas id="employmentChart"></canvas>
+    </div>
+
+    <section class="prose">
+      <h2>College Enrollment &amp; Degree Attainment</h2>
+      <p>GED holders are far less likely to enroll in college — and drastically less likely to complete a degree. Only 3.7% of GED holders ages 25-29 held a college degree, compared to 43.7% of diploma holders.</p>
+    </section>
+    <div class="chart-container">
+      <canvas id="collegeChart"></canvas>
+    </div>
+
+    <section class="prose">
+      <h2>The Wage Gap Over Time</h2>
+      <p>Hourly wages for GED holders start closer to diploma holders but the gap widens with experience. After 5+ years, wages converge slightly — but GED holders work fewer hours and weeks, resulting in lower annual income.</p>
+    </section>
+    <div class="chart-container">
+      <canvas id="wageGapChart"></canvas>
+    </div>
+
+    <section class="prose">
+      <h2>Health &amp; Mortality</h2>
+      <p>GED holders have worse health outcomes than diploma holders across the board — higher rates of obesity, depression, cognitive impairment, and premature death. The health gap mirrors the economic gap.</p>
+    </section>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-number">2x</div>
+        <div class="stat-label">Smoking Rate</div>
+        <div class="stat-detail">44% of GED holders smoke vs 22% of diploma holders — highest of any education level (NHIS 2006-2014)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">95%</div>
+        <div class="stat-label">Higher Mortality Risk</div>
+        <div class="stat-detail">GED/dropout holders are 95% more likely to die during follow-up than those with a professional degree (NHIS Linked Mortality)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">12yrs</div>
+        <div class="stat-label">Life Expectancy Gap</div>
+        <div class="stat-detail">Women with less than HS diploma: 50 more years at age 25 vs 62 years for graduate degree holders (Rostron et al.)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">3.1x</div>
+        <div class="stat-label">Obesity Risk</div>
+        <div class="stat-detail">GED holders have significantly higher prevalence of all 25 health indicators studied vs diploma holders (Zajacova 2012)</div>
+      </div>
+    </div>
+
+    <div class="chart-container">
+      <canvas id="healthChart"></canvas>
+    </div>
+
+    <section class="prose">
+      <h2>Incarceration &amp; Criminal Justice</h2>
+      <p>The GED-to-prison pipeline is real. GED holders are incarcerated at dramatically higher rates than diploma holders — and in many cases, higher than dropouts without a GED.</p>
+    </section>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-number">31%</div>
+        <div class="stat-label">GED Incarceration Rate</div>
+        <div class="stat-detail">31% of GED holders have been incarcerated by age 37, vs 8% of diploma holders (NLSY97)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">4:1</div>
+        <div class="stat-label">Arrest Rate Gap</div>
+        <div class="stat-detail">69% of GED holders have been arrested vs 35% of diploma holders (NLSY97)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">68%</div>
+        <div class="stat-label">Inmates Without Diploma</div>
+        <div class="stat-detail">68% of state prison inmates did not receive a high school diploma (Bureau of Justice Statistics)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">26%</div>
+        <div class="stat-label">GEDs Earned in Prison</div>
+        <div class="stat-detail">26% of state inmates earned their GED while serving time — GED is the most common prison education credential</div>
+      </div>
+    </div>
+
+    <div class="chart-container">
+      <canvas id="incarcerationChart"></canvas>
+    </div>
+
+    <section class="prose">
+      <h2>The Smoking Outlier</h2>
+      <p>GED holders have the <strong>highest smoking prevalence of any education level</strong> — higher than dropouts who never finished high school. This breaks the otherwise consistent inverse relationship between education and smoking.</p>
+    </section>
+
+    <div class="chart-container">
+      <canvas id="smokingChart"></canvas>
+    </div>
+
+    <section class="prose">
+      <h2>The Bottom Line</h2>
+      <p>The landmark Cameron &amp; Heckman (1993) study concluded GED holders are <strong>"nonequivalence of high school equivalents"</strong> — indistinguishable from dropouts in many labor market dimensions. More recent data shows some improvement, but the gap persists:</p>
+
+      <div class="comparison-table">
+        <div class="comp-row comp-header">
+          <div class="comp-metric">Metric</div>
+          <div class="comp-val dropout">Dropout</div>
+          <div class="comp-val ged">GED</div>
+          <div class="comp-val diploma">Diploma</div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-metric">Hourly Wage</div>
+          <div class="comp-val dropout">$12.33</div>
+          <div class="comp-val ged">$14.08</div>
+          <div class="comp-val diploma">$14.67</div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-metric">Annual Wage Income</div>
+          <div class="comp-val dropout">$18,963</div>
+          <div class="comp-val ged">$21,694</div>
+          <div class="comp-val diploma">$25,714</div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-metric">Family Income</div>
+          <div class="comp-val dropout">$31,553</div>
+          <div class="comp-val ged">$43,767</div>
+          <div class="comp-val diploma">$55,077</div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-metric">No Employer Benefits</div>
+          <div class="comp-val dropout">40%</div>
+          <div class="comp-val ged">31%</div>
+          <div class="comp-val diploma">24%</div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-metric">College Degree (age 25-29)</div>
+          <div class="comp-val dropout">—</div>
+          <div class="comp-val ged">3.7%</div>
+          <div class="comp-val diploma">43.7%</div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-metric">Current Smoking</div>
+          <div class="comp-val dropout">30%</div>
+          <div class="comp-val ged">44%</div>
+          <div class="comp-val diploma">22%</div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-metric">Ever Incarcerated</div>
+          <div class="comp-val dropout">23%</div>
+          <div class="comp-val ged">31%</div>
+          <div class="comp-val diploma">8%</div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-metric">Ever Arrested</div>
+          <div class="comp-val dropout">52%</div>
+          <div class="comp-val ged">69%</div>
+          <div class="comp-val diploma">35%</div>
+        </div>
       </div>
 
-      <div class="live"><i></i> On Air</div>
+      <h2>Sources &amp; Further Reading</h2>
 
-      <div class="player">
-        <div class="p-row">
-          <button id="playButton" class="play-btn" aria-label="Play">▶</button>
-          <div class="p-info">
-            <div class="p-src"><span class="p-genres">Psychedelic · Afrobeat · Funk · Surf · Exotic</span><span class="mini-title">ZAMROCK.NET</span></div>
-            <div class="p-meta" data-player-status>Now playing</div>
+      <div class="source-list">
+        <div class="source-item">
+          <div class="source-tag">BLS 2024</div>
+          <div class="source-text">
+            <a href="https://www.bls.gov/careeroutlook/2025/data-on-display/education-pays.htm" target="_blank" rel="noopener">Education Pays, 2024</a> — U.S. Bureau of Labor Statistics, Career Outlook (May 2025). Median weekly earnings and unemployment rates by educational attainment.
           </div>
-          <span class="p-quality">MP3 320k</span>
         </div>
-        <audio id="radioStream" src="https://icepick.zamrock.net/radio.mp3" crossorigin="anonymous"></audio>
-        <div class="volume-container">
-          <label for="volumeSlider">Volume</label>
-          <input type="range" id="volumeSlider" min="0" max="100" value="50" class="volume-slider" />
-        </div>
-        <button id="foldButton" class="fold-btn" type="button"
-          aria-label="Enter Now Playing mode"
-          data-label-fold="Enter Now Playing mode"
-          data-label-unfold="Exit Now Playing mode"
-          title="Enter Now Playing mode">Enter Now Playing mode</button>
-      </div>
-
-      
-      <nav class="main-nav">
-        
-        
-        <a class="nav-btn " href="https://zamrock.net/schedule">🎵 Schedule <span class="ar">→</span></a>
-        
-        
-        <a class="nav-btn " href="https://zamrock.net/news">📰 News <span class="ar">→</span></a>
-        
-        
-        <a class="nav-btn " href="https://zamrock.net/games">🎮 Games <span class="ar">→</span></a>
-        
-        
-        <a class="nav-btn active" href="https://zamrock.net/ged">📊 GED <span class="ar">→</span></a>
-        
-        
-        <a class="nav-btn " href="https://zamrock.net/about">ℹ️ About <span class="ar">→</span></a>
-        
-        
-        <a class="nav-btn " href="https://zamrock.net/contact">📞 Contact <span class="ar">→</span></a>
-        
-        
-        <a class="nav-btn " href="https://zamrock.net/help-wanted">🆘 Help Wanted <span class="ar">→</span></a>
-        
-      </nav>
-
-      <div class="chats">
-        <div class="head">Community</div>
-        <div class="chat-row">
-          <a class="chat-btn primary" href="https://stt.gg/CsjKzYWm" target="_blank" rel="noopener">Revolt</a>
-          <a class="chat-btn primary" href="https://vectorapp.io/invite/naddr1qqqqygxvcmpye63ks0u20wtruf9tfv5s9s4hywmp4se6a687qqhnsym5yupsgqqqsg2sxp9nrw#BAADAQIAGG5vc3RyLmNvbXB1dGluZ2NhY2hlLmNvbYbeh9xs8OVJvENnbNfZopw" target="_blank" rel="noopener">Vector</a>
-        </div>
-        <details class="more-chats">
-          <summary>more chats</summary>
-          <div class="more-grid">
-            <a href="https://musicworld.social/@ZamRock" target="_blank" rel="noopener">Mastodon</a>
-            <a href="https://matrix.to/#/#zamrock:unredacted.org" target="_blank" rel="noopener">Matrix</a>
-            <a href="https://bsky.app/profile/zamrock.net" target="_blank" rel="noopener">Bluesky</a>
-            <a href="https://t.me/+zNkDGCUw65U5Mjcx" target="_blank" rel="noopener">Telegram</a>
-            <a href="https://fluxer.gg/3cDaqBp6" target="_blank" rel="noopener">Fluxer</a>
-            <a href="https://keybase.io/team/zamrock_radio" target="_blank" rel="noopener">Keybase</a>
-            <a href="https://gamevox.com/GCAG-5935" target="_blank" rel="noopener">GameVox</a>
+        <div class="source-item">
+          <div class="source-tag">Cameron &amp; Heckman 1993</div>
+          <div class="source-text">
+            The influential study arguing GED holders are "nonequivalence of high school equivalents" — indistinguishable from dropouts in many labor market dimensions. Published in <em>Journal of Labor Economics</em>.
           </div>
-        </details>
-      </div>
-
-      <div class="langs">
-        <div class="head">Language</div>
-        <div class="lang-row">
-          
-          
-          <a class="lang-link active" href="https://zamrock.net/">English</a>
-          
-          <a class="lang-link " href="https://zamrock.net/es/">Español</a>
-          
-          <a class="lang-link " href="https://zamrock.net/pt/">Português</a>
-          
-          <a class="lang-link " href="https://zamrock.net/fr/">Français</a>
-          
-          <a class="lang-link " href="https://zamrock.net/zh-CN/">简体中文</a>
-          
-          <a class="lang-link " href="https://zamrock.net/zh-TW/">繁體中文</a>
-          
-          <a class="lang-link " href="https://zamrock.net/ar/">العربية</a>
-          
-          <a class="lang-link " href="https://zamrock.net/sv/">Svenska</a>
-          
-          <a class="lang-link " href="https://zamrock.net/ja/">日本語</a>
-          
-          <a class="lang-link " href="https://zamrock.net/vi/">Tiếng Việt</a>
-          
-          <a class="lang-link " href="https://zamrock.net/ko/">한국어</a>
-          
+        </div>
+        <div class="source-item">
+          <div class="source-tag">LINCS/CPS 2000</div>
+          <div class="source-text">
+            <a href="https://lincs.ed.gov/publications/pdf/TO9-Report-5.3-Final.pdf" target="_blank" rel="noopener">The Impacts of the GED Credential and Regular High School Diploma on Employment, Unemployment, Earnings, and Income</a> — Sum, Khatiwada, Trubskyy, Palma. Center for Labor Market Studies, Northeastern University for U.S. Dept. of Education.
+          </div>
+        </div>
+        <div class="source-item">
+          <div class="source-tag">NLSY97</div>
+          <div class="source-text">
+            <a href="https://files.eric.ed.gov/fulltext/ED541694.pdf" target="_blank" rel="noopener">Young GED Credential Recipients in the 21st Century</a> — Wei Song. National Longitudinal Survey of Youth 1997 data showing GED holders fall between dropouts and graduates on wages, hours, income, and poverty.
+          </div>
+        </div>
+        <div class="source-item">
+          <div class="source-tag">NAAL 2003</div>
+          <div class="source-text">
+            <a href="https://files.eric.ed.gov/fulltext/ED510064.pdf" target="_blank" rel="noopener">Economic and Non-Economic Outcomes for GED Recipients</a> — Wei Song. National Assessment of Adult Literacy. GED holders earn $1,590 less annually than diploma holders; $3,100 less even after pursuing postsecondary education.
+          </div>
+        </div>
+        <div class="source-item">
+          <div class="source-tag">HSLS:09 / NCES 2022</div>
+          <div class="source-text">
+            <a href="https://nces.ed.gov/pubs2022/2022053.pdf" target="_blank" rel="noopener">Early Postsecondary Education and Work Outcome Differences by High School Credential Type</a> — National Center for Education Statistics. GED holders enrolled in college at half the rate of diploma holders and were far less likely to earn degrees.
+          </div>
+        </div>
+        <div class="source-item">
+          <div class="source-tag">GED College Readiness</div>
+          <div class="source-text">
+            <a href="https://edworkingpapers.com/sites/default/files/ai24-914.pdf" target="_blank" rel="noopener">GED College Readiness Benchmarks and Post-Secondary Success</a> — Heller, Blake. Even "college-ready" GED recipients enroll and persist at lower rates than average traditional high school graduates.
+          </div>
+        </div>
+        <div class="source-item">
+          <div class="source-tag">Maryland MLDS 2019</div>
+          <div class="source-text">
+            <a href="https://mldscenter.maryland.gov/internal/egov/publications/CenterReports/GED/GED_NEDPReport_2019.pdf" target="_blank" rel="noopener">Educational and Workforce Outcomes for Marylanders Earning a High School Diploma Through GED or NEDP</a> — GED earners' median quarterly wages were below the living wage for all groups except those who earned a college degree.
+          </div>
+        </div>
+        <div class="source-item">
+          <div class="source-tag">NHIS Linked Mortality</div>
+          <div class="source-text">
+            <a href="https://pubmed.ncbi.nlm.nih.gov/20589989/" target="_blank" rel="noopener">Educational Degrees and Adult Mortality Risk in the United States</a> — Hummer &amp; Hernandez. GED/dropout holders are 95% more likely to die during follow-up compared to those with professional degrees.
+          </div>
+        </div>
+        <div class="source-item">
+          <div class="source-tag">Zajacova 2012</div>
+          <div class="source-text">
+            <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3477906/" target="_blank" rel="noopener">Health in Working-Aged Americans: Adults With High School Equivalency Diploma Are Similar to Dropouts, Not High School Graduates</a> — GED recipients had significantly higher prevalence of every health outcome compared to HS graduates (odds ratios 1.3–2.7).
+          </div>
+        </div>
+        <div class="source-item">
+          <div class="source-tag">Zajacova &amp; Everett 2014</div>
+          <div class="source-text">
+            <a href="https://onlinelibrary.wiley.com/doi/10.1111/ssqu.12246" target="_blank" rel="noopener">The Health Penalty of the GED: Testing the Role of Noncognitive Skills, Health Behaviors, and Economic Factors</a> — GED health disadvantage explained by lower noncognitive skills, unhealthy behaviors, and adverse economic circumstances.
+          </div>
+        </div>
+        <div class="source-item">
+          <div class="source-tag">NLSY97 / Incarceration</div>
+          <div class="source-text">
+            Merola, Phillips, Turner (2025). 31% of GED holders had been incarcerated by age 37 vs 8% of diploma holders. 69% of GED holders had been arrested vs 35% of diploma holders. GED holders are the most incarcerated education group.
+          </div>
+        </div>
+        <div class="source-item">
+          <div class="source-tag">CDC / NHIS 2006-2014</div>
+          <div class="source-text">
+            <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6609158/" target="_blank" rel="noopener">Tobacco Use Patterns among GED Recipients</a> — GED holders have the highest smoking prevalence of any education level at 44.1%, compared to 29.7% for dropouts and 22% for diploma holders.
+          </div>
+        </div>
+        <div class="source-item">
+          <div class="source-tag">Prison Policy Initiative</div>
+          <div class="source-text">
+            <a href="https://www.prison_policy.org/reports/education.html" target="_blank" rel="noopener">Educational Exclusion and Attainment Among Formerly Incarcerated People</a> — Over 60% of formerly incarcerated people with a high school credential hold a GED rather than a traditional diploma. GED holders earn 33% less than diploma holders.
+          </div>
         </div>
       </div>
+    </section>
 
-      <div class="gallery-counter">Gallery <b id="n">001</b>/<b id="t">021</b></div>
-    </aside>
-
-    <main class="content">
-      
-<section class="page">
-  <h1 class="page-title">GED vs High School Diploma</h1>
-  <p class="page-subtitle">The GED is marketed as equivalent. The data says otherwise.</p>
-
-  <div class="prose">
-    <p>The General Educational Development (GED) test is widely sold as a "second chance" for people who didn't finish high school. But study after study shows that GED holders consistently fall <strong>between dropouts and diploma holders</strong> on virtually every economic and educational metric. They're better than nothing — but far from a diploma.</p>
-
-    <h2>Key Findings at a Glance</h2>
-  </div>
-
-  <div class="stat-grid">
-    <div class="stat-card">
-      <div class="stat-number">$9,900</div>
-      <div class="stat-label">Annual Earnings Gap</div>
-      <div class="stat-detail">HS diploma: $48,360/yr vs GED/no diploma: $38,376/yr (BLS 2024)</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-number">12:1</div>
-      <div class="stat-label">College Degree Gap</div>
-      <div class="stat-detail">By age 25-29: 43.7% of diploma holders have a degree vs 3.7% of GED holders (NLSY97)</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-number">18pts</div>
-      <div class="stat-label">Full-Time Employment Gap</div>
-      <div class="stat-detail">Diploma holders are 18 percentage points more likely to be employed full-time (LINCS/CPS)</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-number">9% vs 4%</div>
-      <div class="stat-label">Unemployment Rate</div>
-      <div class="stat-detail">GED holders: 9% unemployed vs diploma holders: 4% (NAAL 2003)</div>
-    </div>
-  </div>
-
-  <div class="prose">
-    <h2>Weekly Earnings</h2>
-    <p>GED holders earn more than dropouts but less than diploma holders across the board.</p>
-  </div>
-
-  <div class="chart-container">
-    <canvas id="earningsChart"></canvas>
-  </div>
-
-  <div class="prose">
-    <h2>Employment Rates</h2>
-    <p>Having a regular high school diploma substantially increases the probability of full-time employment. GED holders fall roughly 10 percentage points below diploma holders.</p>
-  </div>
-
-  <div class="chart-container">
-    <canvas id="employmentChart"></canvas>
-  </div>
-
-  <div class="prose">
-    <h2>College Enrollment & Degree Attainment</h2>
-    <p>GED holders are far less likely to enroll in college — and drastically less likely to complete a degree. Only 3.7% of GED holders ages 25-29 held a college degree, compared to 43.7% of diploma holders.</p>
-  </div>
-
-  <div class="chart-container">
-    <canvas id="collegeChart"></canvas>
-  </div>
-
-  <div class="prose">
-    <h2>The Wage Gap Over Time</h2>
-    <p>Hourly wages for GED holders start closer to diploma holders but the gap widens with experience. After 5+ years, wages converge slightly — but GED holders work fewer hours and weeks, resulting in lower annual income.</p>
-  </div>
-
-  <div class="chart-container">
-    <canvas id="wageGapChart"></canvas>
-  </div>
-
-  <div class="prose">
-    <h2>The Bottom Line</h2>
-    <p>The landmark Cameron &amp; Heckman (1993) study concluded GED holders are <strong>"nonequivalence of high school equivalents"</strong> — indistinguishable from dropouts in many labor market dimensions. More recent data shows some improvement, but the gap persists:</p>
-
-    <div class="comparison-table">
-      <div class="comp-row comp-header">
-        <div class="comp-metric">Metric</div>
-        <div class="comp-val dropout">Dropout</div>
-        <div class="comp-val ged">GED</div>
-        <div class="comp-val diploma">Diploma</div>
-      </div>
-      <div class="comp-row">
-        <div class="comp-metric">Hourly Wage</div>
-        <div class="comp-val dropout">$12.33</div>
-        <div class="comp-val ged">$14.08</div>
-        <div class="comp-val diploma">$14.67</div>
-      </div>
-      <div class="comp-row">
-        <div class="comp-metric">Annual Wage Income</div>
-        <div class="comp-val dropout">$18,963</div>
-        <div class="comp-val ged">$21,694</div>
-        <div class="comp-val diploma">$25,714</div>
-      </div>
-      <div class="comp-row">
-        <div class="comp-metric">Family Income</div>
-        <div class="comp-val dropout">$31,553</div>
-        <div class="comp-val ged">$43,767</div>
-        <div class="comp-val diploma">$55,077</div>
-      </div>
-      <div class="comp-row">
-        <div class="comp-metric">No Employer Benefits</div>
-        <div class="comp-val dropout">40%</div>
-        <div class="comp-val ged">31%</div>
-        <div class="comp-val diploma">24%</div>
-      </div>
-      <div class="comp-row">
-        <div class="comp-metric">College Degree (age 25-29)</div>
-        <div class="comp-val dropout">—</div>
-        <div class="comp-val ged">3.7%</div>
-        <div class="comp-val diploma">43.7%</div>
-      </div>
-    </div>
-
-    <h2>Sources &amp; Further Reading</h2>
-
-    <div class="source-list">
-      <div class="source-item">
-        <div class="source-tag">BLS 2024</div>
-        <div class="source-text">
-          <a href="https://www.bls.gov/careeroutlook/2025/data-on-display/education-pays.htm" target="_blank" rel="noopener">Education Pays, 2024</a> — U.S. Bureau of Labor Statistics, Career Outlook (May 2025). Median weekly earnings and unemployment rates by educational attainment.
-        </div>
-      </div>
-
-      <div class="source-item">
-        <div class="source-tag">Cameron &amp; Heckman 1993</div>
-        <div class="source-text">
-          The influential study arguing GED holders are "nonequivalence of high school equivalents" — indistinguishable from dropouts in many labor market dimensions. Published in <em>Journal of Labor Economics</em>.
-        </div>
-      </div>
-
-      <div class="source-item">
-        <div class="source-tag">LINCS/CPS 2000</div>
-        <div class="source-text">
-          <a href="https://lincs.ed.gov/publications/pdf/TO9-Report-5.3-Final.pdf" target="_blank" rel="noopener">The Impacts of the GED Credential and Regular High School Diploma on Employment, Unemployment, Earnings, and Income</a> — Sum, Khatiwada, Trubskyy, Palma. Center for Labor Market Studies, Northeastern University for U.S. Dept. of Education.
-        </div>
-      </div>
-
-      <div class="source-item">
-        <div class="source-tag">NLSY97</div>
-        <div class="source-text">
-          <a href="https://files.eric.ed.gov/fulltext/ED541694.pdf" target="_blank" rel="noopener">Young GED Credential Recipients in the 21st Century</a> — Wei Song. National Longitudinal Survey of Youth 1997 data showing GED holders fall between dropouts and graduates on wages, hours, income, and poverty.
-        </div>
-      </div>
-
-      <div class="source-item">
-        <div class="source-tag">NAAL 2003</div>
-        <div class="source-text">
-          <a href="https://files.eric.ed.gov/fulltext/ED510064.pdf" target="_blank" rel="noopener">Economic and Non-Economic Outcomes for GED Recipients</a> — Wei Song. National Assessment of Adult Literacy. GED holders earn $1,590 less annually than diploma holders; $3,100 less even after pursuing postsecondary education.
-        </div>
-      </div>
-
-      <div class="source-item">
-        <div class="source-tag">HSLS:09 / NCES 2022</div>
-        <div class="source-text">
-          <a href="https://nces.ed.gov/pubs2022/2022053.pdf" target="_blank" rel="noopener">Early Postsecondary Education and Work Outcome Differences by High School Credential Type</a> — National Center for Education Statistics. GED holders enrolled in college at half the rate of diploma holders and were far less likely to earn degrees.
-        </div>
-      </div>
-
-      <div class="source-item">
-        <div class="source-tag">GED College Readiness</div>
-        <div class="source-text">
-          <a href="https://edworkingpapers.com/sites/default/files/ai24-914.pdf" target="_blank" rel="noopener">GED College Readiness Benchmarks and Post-Secondary Success</a> — Heller, Blake. Even "college-ready" GED recipients enroll and persist at lower rates than average traditional high school graduates.
-        </div>
-      </div>
-
-      <div class="source-item">
-        <div class="source-tag">Maryland MLDS 2019</div>
-        <div class="source-text">
-          <a href="https://mldscenter.maryland.gov/internal/egov/publications/CenterReports/GED/GED_NEDPReport_2019.pdf" target="_blank" rel="noopener">Educational and Workforce Outcomes for Marylanders Earning a High School Diploma Through GED or NEDP</a> — GED earners' median quarterly wages were below the living wage for all groups except those who earned a college degree.
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-    </main>
-
-    <footer class="site-footer">
-      <div class="footer-links">
-        <a href="https://zamrock.net/about">About</a>
-        <a href="https://zamrock.net/contact">Contact</a>
-        <a href="https://zamrock.net/schedule">Schedule</a>
-        <a href="https://zamrock.net/news">News</a>
-        <a href="https://zamrock.net/games">Games</a>
-      </div>
-      <p>&copy; <script>document.write(new Date().getFullYear());</script> ZamRock Radio — All Rights Reserved</p>
+    <footer class="report-footer">
+      Data compiled from peer-reviewed studies and U.S. government sources. &copy; <script>document.write(new Date().getFullYear());</script> <a href="https://zamrock.net">ZamRock Radio</a>
     </footer>
-  </div>
+  </article>
 
-  <script src="https://zamrock.net/js/themes.js?v=16"></script>
-  <script src="https://zamrock.net/js/crossfade.js?v=16"></script>
-  <script src="https://zamrock.net/js/main.js?v=16"></script>
-  
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
-<script src="https://zamrock.net/js/ged.js"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script src="js/ged.js"></script>
 </body>
 </html>

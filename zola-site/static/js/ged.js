@@ -249,4 +249,158 @@
       }
     }
   });
+
+  // --- Chart 5: Health Indicators ---
+  new Chart(document.getElementById('healthChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Smoking Rate', 'Obesity', 'Depression', 'Cognitive Impairment', 'No Preventive Care'],
+      datasets: [
+        {
+          label: 'GED Holder',
+          data: [44, 38, 22, 18, 35],
+          backgroundColor: COLORS.gedBg,
+          borderColor: COLORS.ged,
+          borderWidth: 2,
+          borderRadius: 6
+        },
+        {
+          label: 'HS Diploma',
+          data: [22, 28, 14, 10, 20],
+          backgroundColor: COLORS.diplomaBg,
+          borderColor: COLORS.diploma,
+          borderWidth: 2,
+          borderRadius: 6
+        }
+      ]
+    },
+    options: {
+      ...barOpts('Health Disparities (Zajacova 2012 / NHIS / CDC)'),
+      scales: {
+        ...barOpts('').scales,
+        y: {
+          ...barOpts('').scales.y,
+          beginAtZero: true,
+          ticks: {
+            ...barOpts('').scales.y.ticks,
+            callback: function (v) { return v + '%'; }
+          }
+        }
+      },
+      plugins: {
+        ...barOpts('').plugins,
+        tooltip: {
+          callbacks: {
+            label: function (ctx) { return ctx.dataset.label + ': ' + ctx.raw + '%'; }
+          }
+        }
+      }
+    }
+  });
+
+  // --- Chart 6: Incarceration ---
+  new Chart(document.getElementById('incarcerationChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Ever Arrested', 'Ever Incarcerated'],
+      datasets: [
+        {
+          label: 'Dropout',
+          data: [52, 23],
+          backgroundColor: COLORS.dropoutBg,
+          borderColor: COLORS.dropout,
+          borderWidth: 2,
+          borderRadius: 6
+        },
+        {
+          label: 'GED Holder',
+          data: [69, 31],
+          backgroundColor: COLORS.gedBg,
+          borderColor: COLORS.ged,
+          borderWidth: 2,
+          borderRadius: 6
+        },
+        {
+          label: 'HS Diploma',
+          data: [35, 8],
+          backgroundColor: COLORS.diplomaBg,
+          borderColor: COLORS.diploma,
+          borderWidth: 2,
+          borderRadius: 6
+        }
+      ]
+    },
+    options: {
+      ...barOpts('Criminal Justice Contact — NLSY97 (by age 37)'),
+      scales: {
+        ...barOpts('').scales,
+        y: {
+          ...barOpts('').scales.y,
+          beginAtZero: true,
+          ticks: {
+            ...barOpts('').scales.y.ticks,
+            callback: function (v) { return v + '%'; }
+          }
+        }
+      },
+      plugins: {
+        ...barOpts('').plugins,
+        tooltip: {
+          callbacks: {
+            label: function (ctx) { return ctx.dataset.label + ': ' + ctx.raw + '%'; }
+          }
+        }
+      }
+    }
+  });
+
+  // --- Chart 7: Smoking by Education ---
+  new Chart(document.getElementById('smokingChart'), {
+    type: 'bar',
+    data: {
+      labels: ['College Degree', 'Some College', 'HS Diploma', 'HS Dropout', 'GED Holder'],
+      datasets: [{
+        label: 'Current Smoking Rate (%)',
+        data: [8.3, 20.9, 22, 29.7, 44.1],
+        backgroundColor: [
+          'rgba(156, 163, 175, 0.6)',
+          'rgba(156, 163, 175, 0.6)',
+          COLORS.diplomaBg,
+          COLORS.dropoutBg,
+          COLORS.gedBg
+        ],
+        borderColor: [
+          '#9ca3af',
+          '#9ca3af',
+          COLORS.diploma,
+          COLORS.dropout,
+          COLORS.ged
+        ],
+        borderWidth: 2,
+        borderRadius: 6
+      }]
+    },
+    options: {
+      ...barOpts('Smoking Prevalence by Education (NATS 2014 / NHIS)'),
+      scales: {
+        ...barOpts('').scales,
+        y: {
+          ...barOpts('').scales.y,
+          beginAtZero: true,
+          ticks: {
+            ...barOpts('').scales.y.ticks,
+            callback: function (v) { return v + '%'; }
+          }
+        }
+      },
+      plugins: {
+        ...barOpts('').plugins,
+        tooltip: {
+          callbacks: {
+            label: function (ctx) { return ctx.dataset.label + ': ' + ctx.raw + '%'; }
+          }
+        }
+      }
+    }
+  });
 })();
