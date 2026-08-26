@@ -1242,6 +1242,17 @@ body.immersive .mini-title {
   margin-bottom: 8px;
 }
 
+.stat-compare {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent, #f2c14e);
+  padding: 6px 10px;
+  margin: 6px 0 8px;
+  background: rgba(242, 193, 78, 0.1);
+  border-radius: 6px;
+  border-left: 3px solid var(--accent, #f2c14e);
+}
+
 .stat-detail {
   font-size: 0.75rem;
   line-height: 1.5;
