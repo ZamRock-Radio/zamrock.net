@@ -12,13 +12,15 @@ export default {
     }
 
     const allTime = await env.GED_VIEWS.get('allTime') || '0';
-    const todayUniqueIPs = await env.GED_VIEWS.get('todayUniqueIPs') || '0';
+    const allTimeRequests = await env.GED_VIEWS.get('allTimeRequests') || '0';
+    const todayVisits = await env.GED_VIEWS.get('todayVisits') || '0';
     const todayRequests = await env.GED_VIEWS.get('todayRequests') || '0';
     const lastRun = await env.GED_VIEWS.get('lastRun') || 'never';
 
     return new Response(JSON.stringify({
       allTime: parseInt(allTime, 10),
-      todayUniqueIPs: parseInt(todayUniqueIPs, 10),
+      allTimeRequests: parseInt(allTimeRequests, 10),
+      todayVisits: parseInt(todayVisits, 10),
       todayRequests: parseInt(todayRequests, 10),
       lastRun,
     }), {
@@ -33,21 +35,67 @@ export default {
 
 async function runCountingLogic(env) {
   const now = new Date();
-  const lastCount = await env.GED_VIEWS.get('count');
-
-  const yesterday = getDateNDaysAgo(1);
   const today = getDateNDaysAgo(0);
+  const yesterday = getDateNDaysAgo(1);
 
+  // Query yesterday's FINAL unique visitor count (day is complete, no more new visitors)
+  // and today's running count. Only accumulate when yesterday's number is new.
+  let yesterdayVisits = 0;
+  let todayVisits = 0;
+  let todayRequests = 0;
+
+  const yStart = `${yesterday}T00:00:00Z`;
+  const yEnd = `${today}T00:00:00Z`;
+
+  // Today (running)
+  const tEnd = `${getDateNDaysAgo(-1)}T00:00:00Z`;
+  const todayResult = await queryGedVisitsDetailed(env, `${today}T00:00:00Z`, tEnd);
+  todayVisits = todayResult.visits;
+  todayRequests = todayResult.requests;
+
+  // Accumulate: only add yesterday's count if we haven't already
+  let allTime = parseInt(await env.GED_VIEWS.get('allTime') || '0', 10);
+  let allTimeRequests = parseInt(await env.GED_VIEWS.get('allTimeRequests') || '0', 10);
+  const lastAccumulatedDate = await env.GED_VIEWS.get('lastAccumulatedDate');
+
+  // Query yesterday's total requests for accumulation
+  let yesterdayRequests = 0;
+  if (lastAccumulatedDate !== yesterday) {
+    const yResult = await queryGedVisitsDetailed(env, yStart, yEnd);
+    yesterdayVisits = yResult.visits;
+    yesterdayRequests = yResult.requests;
+    allTime += yesterdayVisits;
+    allTimeRequests += yesterdayRequests;
+    await env.GED_VIEWS.put('lastAccumulatedDate', yesterday);
+  }
+
+  // Always update today's snapshot
+  await env.GED_VIEWS.put('allTime', String(allTime));
+  await env.GED_VIEWS.put('allTimeRequests', String(allTimeRequests));
+  await env.GED_VIEWS.put('todayVisits', String(todayVisits));
+  await env.GED_VIEWS.put('todayRequests', String(todayRequests));
+  await env.GED_VIEWS.put('lastRun', now.toISOString());
+}
+
+async function queryGedVisits(env, start, end) {
+  const result = await queryGedVisitsDetailed(env, start, end);
+  return result.visits;
+}
+
+async function queryGedVisitsDetailed(env, start, end) {
   const query = `{
     viewer {
       zones(filter: { zoneTag: "${env.ZONE_ID}" }) {
-        httpRequests1dGroups(
-          filter: { date_geq: "${yesterday}", date_leq: "${today}" }
-          limit: 2
+        httpRequestsAdaptiveGroups(
+          filter: {
+            datetime_geq: "${start}",
+            datetime_lt: "${end}",
+            clientRequestPath_like: "/ged%"
+          },
+          limit: 100
         ) {
-          dimensions { date }
-          uniq { uniques }
-          sum { requests }
+          count
+          sum { visits }
         }
       }
     }
@@ -63,39 +111,16 @@ async function runCountingLogic(env) {
   });
 
   const data = await resp.json();
-  const groups = data?.data?.viewer?.zones?.[0]?.httpRequests1dGroups || [];
+  const groups = data?.data?.viewer?.zones?.[0]?.httpRequestsAdaptiveGroups || [];
 
-  // Sum unique IPs across yesterday + today (deduplicated by CF)
-  let uniqueIPs = 0;
+  let visits = 0;
   let requests = 0;
   for (const g of groups) {
-    uniqueIPs += g?.uniq?.uniques || 0;
-    requests += g?.sum?.requests || 0;
+    visits += g?.sum?.visits || 0;
+    requests += g?.count || 0;
   }
 
-  // Accumulate all-time total
-  let allTime = parseInt(await env.GED_VIEWS.get('allTime') || '0', 10);
-
-  if (lastCount !== null) {
-    const prevViews = parseInt(lastCount, 10);
-    if (uniqueIPs > prevViews) {
-      allTime += (uniqueIPs - prevViews);
-    }
-  } else {
-    // First run — seed with current count
-    allTime = uniqueIPs;
-  }
-
-  // Only write if something changed
-  const currentAllTime = parseInt(await env.GED_VIEWS.get('allTime') || '0', 10);
-  if (allTime !== currentAllTime || lastCount !== String(uniqueIPs)) {
-    await env.GED_VIEWS.put('allTime', String(allTime));
-    await env.GED_VIEWS.put('count', String(uniqueIPs));
-    await env.GED_VIEWS.put('todayDate', today);
-    await env.GED_VIEWS.put('todayUniqueIPs', String(uniqueIPs));
-    await env.GED_VIEWS.put('todayRequests', String(requests));
-    await env.GED_VIEWS.put('lastRun', now.toISOString());
-  }
+  return { visits, requests };
 }
 
 function getDateNDaysAgo(n) {
