@@ -268,6 +268,116 @@
       padding-top: 10px;
     }
 
+    .print-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 22px;
+      color: var(--dim);
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 20px;
+    }
+
+    .print-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--text);
+      border-color: var(--accent);
+    }
+
+    .chart-print-img {
+      display: none;
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    @media print {
+      body {
+        background: white !important;
+        color: #1a1a1a !important;
+        padding: 0 !important;
+        font-size: 10.5pt;
+        line-height: 1.5;
+      }
+
+      .report {
+        max-width: 100%;
+        margin: 0;
+      }
+
+      .print-btn { display: none !important; }
+
+      .chart-container canvas { display: none !important; }
+      .chart-container .chart-print-img { display: block !important; }
+      .chart-container {
+        border: 1px solid #bbb !important;
+        background: white !important;
+        padding: 12px !important;
+        min-height: 0 !important;
+      }
+
+      .stat-card {
+        background: white !important;
+        border: 1px solid #bbb !important;
+      }
+      .stat-number { color: #1a1a1a !important; }
+      .stat-label { color: #333 !important; }
+      .stat-detail { color: #444 !important; }
+
+      .stat-compare {
+        background: #f5f5f5 !important;
+        border: 1px solid #ddd !important;
+        border-left: 3px solid #888 !important;
+        color: #333 !important;
+      }
+
+      .comp-header > * { background: #eee !important; color: #333 !important; }
+      .comp-row > * { background: white !important; border-bottom: 1px solid #ddd !important; }
+      .comp-val.ged { color: #b33 !important; }
+      .comp-val.diploma { color: #0066cc !important; }
+      .comp-val.dropout { color: #666 !important; }
+
+      .callout {
+        border-left: 3px solid #b33 !important;
+        background: #fafafa !important;
+      }
+      .callout-accent { background: #f8f8f8 !important; }
+      .callout-body h3 { color: #b33 !important; }
+      .callout-body p { color: #1a1a1a !important; }
+
+      .source-item { border: 1px solid #ddd !important; background: white !important; }
+      .source-tag { color: #333 !important; }
+      .source-text { color: #444 !important; }
+      .source-text a { color: #0066cc !important; }
+
+      .report-header { border-bottom-color: #ccc !important; }
+      .report-header .tagline { color: #444 !important; }
+      .report-footer { border-top-color: #ccc !important; color: #666 !important; }
+
+      .prose h2 { color: #1a1a1a !important; }
+
+      a { color: #0066cc !important; }
+
+      h2 { page-break-after: avoid; }
+      .stat-grid { page-break-inside: avoid; }
+      .chart-container { page-break-inside: avoid; }
+      .comparison-table { page-break-inside: avoid; }
+      .callout { page-break-inside: avoid; }
+
+      @page {
+        margin: 1.5cm;
+        size: A4;
+      }
+    }
+
     @media (max-width: 700px) {
       body { padding: 24px 16px 40px; }
       .report-header h1 { font-size: 1.1rem; letter-spacing: 2px; }
@@ -289,6 +399,7 @@
     <header class="report-header">
       <h1>GED vs High School Diploma</h1>
       <p class="tagline">The GED is marketed as equivalent. The data says otherwise.</p>
+      <button class="print-btn" onclick="printReport()">🖨️ Print This Report</button>
     </header>
 
     <section class="prose">
@@ -615,18 +726,18 @@
     </section>
 
     <div class="stat-grid">
-      <div class="stat-card">
-        <div class="stat-number">1 in 27</div>
-        <div class="stat-label">GED → College Degree</div>
-        <div class="stat-compare">🎰 Same odds as a royal flush in poker</div>
-        <div class="stat-detail">Only 3.7% of GED holders get a college degree by age 25-29. Diploma holders: 43.7% — nearly half (NLSY97)</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number">7.5%</div>
-        <div class="stat-label">Bottom to Top Income</div>
-        <div class="stat-compare">🪙 Flip a coin 3 times, get heads every time</div>
-        <div class="stat-detail">Only 7.5% of Americans born in the bottom 20% make it to the top 20%. In Denmark it's 1 in 8. The "American Dream" works better in other countries (Chetty et al.)</div>
-      </div>
+        <div class="stat-card">
+          <div class="stat-number">1 in 27</div>
+          <div class="stat-label">GED → College Degree</div>
+          <div class="stat-compare">🎰 Nearly as bad as a single-number roulette bet</div>
+          <div class="stat-detail">Only 3.7% of GED holders get a college degree by age 25-29. Diploma holders: 43.7% — nearly half (NLSY97)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">7.5%</div>
+          <div class="stat-label">Bottom to Top Income</div>
+          <div class="stat-compare">📋 About the same as getting a callback on a job application</div>
+          <div class="stat-detail">Only 7.5% of Americans born in the bottom 20% make it to the top 20%. In Denmark it's 1 in 8. The "American Dream" works better in other countries (Chetty et al.)</div>
+        </div>
       <div class="stat-card">
         <div class="stat-number">1 in 3</div>
         <div class="stat-label">GED → Prison by 37</div>
@@ -647,15 +758,15 @@
         <h3>The House Always Wins</h3>
         <p>You know how lottery players think "if I just play enough times, I'll win"? The GED works the same way. People think "if I just get the GED, things will turn around." But the odds are stacked like a casino:</p>
 
-        <p><strong>GED holder getting a college degree:</strong> 3.7% — worse than the odds of a roulette bet on a single number (2.7%). The casino gives you better odds than the GED gives you of finishing college.</p>
+        <p><strong>GED holder getting a college degree:</strong> 3.7% — almost as bad as betting one number on a roulette wheel (2.7%). You'd have to sit at that roulette table 27 times to win once. You'd have to watch 27 GED holders to see one finish college. The casino gives you about the same odds the GED gives you of actually making it through college.</p>
 
-        <p><strong>Bottom quintile → top quintile:</strong> 7.5% — the same odds as flipping a coin three times and getting heads every time. You'd need to be born 13 times in the right family to guarantee ending up on top.</p>
+        <p><strong>Bottom quintile → top quintile:</strong> 7.5% — roughly the same as getting a callback on a job application. You'd have to apply to 13 jobs to get one callback. You'd have to be born 13 times in the right family to guarantee ending up on top. In Denmark, that number is 1 in 8 — the "American Dream" works better in other countries.</p>
 
-        <p><strong>GED holder going to prison:</strong> 31% — nearly 1 in 3. That's better odds than your GED leading to a degree. The test that's "equivalent" to a diploma is more likely to lead you to a cell than to a classroom.</p>
+        <p><strong>GED holder going to prison:</strong> 31% — nearly 1 in 3. That's better odds than your GED leading to a degree. The test that's "equivalent" to a diploma is more likely to lead you to a cell than to a classroom. You're 8x more likely to end up behind bars than in a graduation cap.</p>
 
         <p>And here's the part nobody tells you: <strong>even when it works, it barely works.</strong> Young people from poverty who had strong academic outcomes in high school — who actually beat the odds — ended up earning <strong>no more at age 30</strong> than the average student who was simply born into a more affluent family. The floor is higher, but the ceiling is the same. You're running harder just to stay in place.</p>
 
-        <p class="callout-source">Roulette odds:2.7% (European). Coin flip: 12.5% for 3 heads. Lottery: Powerball 1 in292M. Chetty et al. (2014): intergenerational mobility data. TNTP "Paths of Opportunity" (2024): poverty + strong academics = still only matches average affluent income.</p>
+        <p class="callout-source">Roulette odds: 2.7% (single number, European wheel). Job callback rate: ~7-10% average, varies by field. Powerball: 1 in 292M. Chetty et al. (2014): intergenerational mobility data. TNTP "Paths of Opportunity" (2024): poverty + strong academics = still only matches average affluent income.</p>
       </div>
     </div>
 
@@ -671,32 +782,32 @@
           <div class="comp-val diploma">Details</div>
         </div>
         <div class="comp-row cols-3">
-          <div class="comp-metric">UT High School (TX)</div>
+          <div class="comp-metric"><a href="https://highschool.utexas.edu/texas-diploma-program" target="_blank" rel="noopener">UT High School (TX)</a></div>
           <div class="comp-val ged">Under 21</div>
           <div class="comp-val diploma">Tuition-free for TX residents, 75+ courses, AP/honors/dual credit, Cognia-accredited</div>
         </div>
         <div class="comp-row cols-3">
-          <div class="comp-metric">K12 Online Public Schools</div>
+          <div class="comp-metric"><a href="https://www.k12.com" target="_blank" rel="noopener">K12 Online Public Schools</a></div>
           <div class="comp-val ged">Varies by state</div>
           <div class="comp-val diploma">Free in many states, Cognia-accredited, same diploma as brick-and-mortar</div>
         </div>
         <div class="comp-row cols-3">
-          <div class="comp-metric">Penn Foster</div>
+          <div class="comp-metric"><a href="https://www.pennfoster.edu" target="_blank" rel="noopener">Penn Foster</a></div>
           <div class="comp-val ged">No age limit</div>
           <div class="comp-val diploma">Regionally accredited, self-paced, adult-friendly, ~$2,000</div>
         </div>
         <div class="comp-row cols-3">
-          <div class="comp-metric">Excel High School</div>
+          <div class="comp-metric"><a href="https://www.excelhs.net" target="_blank" rel="noopener">Excel High School</a></div>
           <div class="comp-val ged">No age limit (18+)</div>
           <div class="comp-val diploma">Regionally accredited, test-out options, self-paced, adult track</div>
         </div>
         <div class="comp-row cols-3">
-          <div class="comp-metric">James Madison HS</div>
+          <div class="comp-metric"><a href="https://www.jamesmadisonhs.org" target="_blank" rel="noopener">James Madison HS</a></div>
           <div class="comp-val ged">No age limit</div>
           <div class="comp-val diploma">Cognia + DEAC accredited, self-paced, ~$1,800</div>
         </div>
         <div class="comp-row cols-3">
-          <div class="comp-metric">Career Online HS</div>
+          <div class="comp-metric"><a href="https://careeronlinehs.org" target="_blank" rel="noopener">Career Online HS</a></div>
           <div class="comp-val ged">21+</div>
           <div class="comp-val diploma">Often free through public libraries, Cognia-accredited, includes career certificate</div>
         </div>
@@ -715,17 +826,17 @@
           <div class="comp-val diploma">Details</div>
         </div>
         <div class="comp-row cols-3">
-          <div class="comp-metric">American High School Academy</div>
+          <div class="comp-metric"><a href="https://www.americanhighschoolacademy.org" target="_blank" rel="noopener">American High School Academy</a></div>
           <div class="comp-val ged">Varies</div>
           <div class="comp-val diploma">Cognia-accredited, 16+, campuses in Kendall & North Miami, online option, free for eligible MDCPS students, 10,000+ graduates</div>
         </div>
         <div class="comp-row cols-3">
-          <div class="comp-metric">Excel High School</div>
+          <div class="comp-metric"><a href="https://www.excelhs.net" target="_blank" rel="noopener">Excel High School</a></div>
           <div class="comp-val ged">~$2,000</div>
           <div class="comp-val diploma">Online, 18+ adult track, Cognia-accredited, self-paced, accepted by FL colleges</div>
         </div>
         <div class="comp-row cols-3">
-          <div class="comp-metric">Sunshine State Academy</div>
+          <div class="comp-metric"><a href="https://www.sunshinestateacademy.com" target="_blank" rel="noopener">Sunshine State Academy</a></div>
           <div class="comp-val ged">$3,000</div>
           <div class="comp-val diploma">Online, 19+, prior credits transferred, private-school diploma</div>
         </div>
@@ -739,22 +850,22 @@
           <div class="comp-val diploma">Details</div>
         </div>
         <div class="comp-row cols-3">
-          <div class="comp-metric">Emily Griffith Technical College</div>
+          <div class="comp-metric"><a href="https://www.emilygriffith.edu" target="_blank" rel="noopener">Emily Griffith Technical College</a></div>
           <div class="comp-val ged">$150</div>
           <div class="comp-val diploma">17+, 8 weeks, hybrid (in-person + online), Denver, includes CTE career cert, authorized by CO SB 23-007</div>
         </div>
         <div class="comp-row cols-3">
-          <div class="comp-metric">Community College of Denver</div>
+          <div class="comp-metric"><a href="https://www.ccd.edu" target="_blank" rel="noopener">Community College of Denver</a></div>
           <div class="comp-val ged">$50</div>
           <div class="comp-val diploma">18+, in-person, self-paced, 10 credits needed (Math, English, Civics, Financial Literacy), evening/weekend classes</div>
         </div>
         <div class="comp-row cols-3">
-          <div class="comp-metric">Colorado Mountain College</div>
+          <div class="comp-metric"><a href="https://www.coloradomtn.edu" target="_blank" rel="noopener">Colorado Mountain College</a></div>
           <div class="comp-val ged">$125</div>
           <div class="comp-val diploma">18+, one semester, in-person + remote, offered in English and Spanish</div>
         </div>
         <div class="comp-row cols-3">
-          <div class="comp-metric">Career Online HS (via libraries)</div>
+          <div class="comp-metric"><a href="https://www.coloradovirtuallibrary.org" target="_blank" rel="noopener">Career Online HS (via libraries)</a></div>
           <div class="comp-val ged">Free</div>
           <div class="comp-val diploma">19+, free through CO public libraries, 18 months to complete, includes career certificate</div>
         </div>
@@ -1017,5 +1128,29 @@
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
   <script src="/js/ged.js"></script>
+  <script>
+    function printReport() {
+      var containers = document.querySelectorAll('.chart-container');
+      var created = [];
+
+      containers.forEach(function(container) {
+        var canvas = container.querySelector('canvas');
+        if (canvas) {
+          var img = document.createElement('img');
+          img.src = canvas.toDataURL('image/png', 1.0);
+          img.className = 'chart-print-img';
+          img.style.filter = 'saturate(0.4) contrast(1.1)';
+          container.appendChild(img);
+          created.push(img);
+        }
+      });
+
+      window.print();
+
+      setTimeout(function() {
+        created.forEach(function(img) { img.remove(); });
+      }, 1500);
+    }
+  </script>
 </body>
 </html>
