@@ -286,6 +286,15 @@
           borderWidth: 2,
           pointRadius: 4,
           pointBackgroundColor: COLORS.diploma
+        },
+        {
+          label: 'College Degree',
+          data: [8.3, 24, 10, 7, 14, 100],
+          backgroundColor: 'rgba(129, 140, 248, 0.2)',
+          borderColor: '#818cf8',
+          borderWidth: 2,
+          pointRadius: 4,
+          pointBackgroundColor: '#818cf8'
         }
       ]
     },
