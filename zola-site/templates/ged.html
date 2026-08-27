@@ -97,6 +97,9 @@
       margin-top: 14px;
     }
 
+    .report-header .byline .by-author { color: #f2c14e; }
+    .report-header .byline .by-ai { color: #33DB98; }
+
     .prose {
       font-size: 0.95rem;
       line-height: 1.75;
@@ -441,6 +444,8 @@
       .report-header { border-bottom-color: #ccc !important; }
       .report-header .tagline { color: #444 !important; }
       .report-header .byline { color: #666 !important; }
+      .report-header .byline .by-author { color: #8a6d1a !important; }
+      .report-header .byline .by-ai { color: #166a4c !important; }
       .report-footer { border-top-color: #ccc !important; color: #666 !important; }
 
       .share-row { display: none !important; }
@@ -483,7 +488,7 @@
     <header class="report-header">
       <h1>GED vs High School Diploma</h1>
       <p class="tagline">The GED is marketed as equivalent. The data says otherwise.</p>
-      <p class="byline">Written by 치명타<br>Data sourced, parsed, and polished by H3X<br>August 27, 2026</p>
+      <p class="byline">Written by <span class="by-author">치명타</span><br>Data sourced, parsed, and polished by <span class="by-ai">H3X</span><br>August 27, 2026</p>
       <button class="print-btn" onclick="printReport()">🖨️ Print This Report</button>
     </header>
 
