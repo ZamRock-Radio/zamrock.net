@@ -261,6 +261,15 @@
       labels: ['Smoking Rate', 'Obesity', 'Depression', 'Cognitive Impairment', 'No Preventive Care', 'College Degree Attainment'],
       datasets: [
         {
+          label: 'HS Dropout',
+          data: [29.7, 38, 22, 18, 35, 1],
+          backgroundColor: 'rgba(107, 114, 128, 0.2)',
+          borderColor: COLORS.dropout,
+          borderWidth: 2,
+          pointRadius: 4,
+          pointBackgroundColor: COLORS.dropout
+        },
+        {
           label: 'GED Holder',
           data: [44, 38, 22, 18, 35, 3.7],
           backgroundColor: 'rgba(232, 115, 74, 0.2)',
