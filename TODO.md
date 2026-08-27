@@ -162,3 +162,54 @@ Check items as we complete them. Track references below.
 - **FRED** — more housing/credit data by education
 - **CFPB** — debt collections by education, credit card debt by education
 - **Census ACS** — rent burden by education (median rent as % of income)
+
+---
+
+## Back-Overview: The Page As Built
+
+**File:** `zola-site/templates/ged.html` (~2,035 lines) · **JS:** `zola-site/static/js/ged.js` (7 Chart.js charts) · **Build:** Zola → `docs/` · **Branch:** `crossfade` · Published at `/ged/`
+
+### The running thesis (one line)
+The GED is marketed as "equivalent" but is treated as dropout-level by everyone who matters (employers, colleges, the military that invented it), and it **locks the holder in** — there is no way to convert a GED into a diploma later. A diploma is always the better move, even if it takes longer or costs a little money.
+
+### The "no going back" point (editorial anchor)
+The page must keep hammering this: **once you take the GED there is no switching back.** The GED is a one-way door. A real diploma — including online/state programs with flexible age limits (UT High School, Penn Foster, Excel HS, JMHS, Career Online HS) — keeps options open and is *still* available to adults. Waiting and earning slightly less meanwhile is always better than a permanent credential ceiling. Editing rule: any sentence that implies the GED keeps future options open is wrong and should be tightened.
+
+### Incarceration section — LOCKED editorial stance
+**We stick with the source data as-is.** The NLSY97 numbers (by age 37): GED holders **31% ever incarcerated / 69% ever arrested** vs dropouts without a GED **23% / 52%** vs diploma holders **8% / 35%**. GED holders have *higher* criminal-justice contact than regular dropouts. The fact that many GEDs are earned inside prison doesn't change the outcome: by age ~40 a GED holder is far more likely to have a jail record than a dropout. Taking it in jail, after jail, or before jail — **they still went to jail**, and at that point decided a GED was a good idea. Not misleading, not a lie. Keep the original vibe: **GED = better chance of having a record than a regular dropout.**
+
+### Section map (in order)
+1. How We Got Here (WWII manpower crisis, GI Bill, ACE/Pearson origins)
+2. Key Findings at a Glance (4 stat cards)
+3. Annual Earnings, Employment Rates, College Enrollment, Wage Gap, Health & Mortality (charts)
+4. Incarceration & Criminal Justice (charts + arrest-to-conviction callout)
+5. Car Insurance / Medical Costs / Collections / Mortgage (the hidden taxes)
+6. Smoking Outlier (chart)
+7. Life Beyond the Numbers (marriage, kids, divorce, hours)
+8. The Cycle Continues (kids in poverty, generational lock-in)
+9. Who Really Benefits? (prisons, government, employers, politicians, ACE/Pearson)
+10. Who Administers the GED (examiners need degrees)
+11. What Real Education Looks Like (Jewish/Hindu American attainment)
+12. Military / NASA comparisons (GED = worse odds than dying in space)
+13. Think You Can Beat the Odds / Where GED Holders Actually Work
+14. You're Not Going Anywhere (travel/passport trap)
+15. **You Have Another Option** (online diploma programs — the positive alternative)
+16. Before You Take the Test
+17. No Other Country Does This (international comparison table)
+18. Credit scores / Immigration labor / No government representation / Voting / Homelessness
+19. The Bottom Line (Dropout vs GED vs Diploma table)
+20. Sources (78 citations)
+
+### Key numbers fingerprint (BCD = bottom-line table "Dropout / GED / Diploma")
+- Earnings: 38,376 / 44,720 / 48,360 (BLS full-time) · $9,900/yr GED→diploma gap = $396K over 40 yrs
+- Hourly wage (BCD): $12.33 / $14.08 / $14.67 · Family income: $31,553 / $43,767 / $55,077
+- College degree by 25–29: — / **3.7%** / **43.7%** (1 in 27 for GED)
+- Incarcerated (BCD): 23% / 31% / 8% · Ever arrested (BCD): 52% / 69% / 35%
+- Smoking (BCD): 30% / 44% / 22% · Life expectancy: 75 (≤HS) vs 87 (grad degree)
+- Military: GED = Tier 2, capped at 10% of accessions, ~2x attrition, Marines treat GED = dropout
+
+### Polish notes / known rough edges (per editing pass)
+- A couple of malformed tags to fix during edits: stray `</p>` (line ~673), one `div` grid spacing oddity in the "Think You Can Beat the Odds" stat-grid (~line 1040)
+- Redundancy watch: the "house always wins"/betting metaphor appears 3+ times (key findings, earnings callout, NASA callout, odds section) — keep it in the two strongest spots
+- "That's the trap / exact trap" phrasing repeats heavily — fine intentionally, but avoid stacking in adjacent sections
+- `source-wi` anchor used once ([12]) vs `source-12` for the same citation — normalize at edit time
