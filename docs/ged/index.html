@@ -2232,6 +2232,11 @@
     var SHARE_TEXT = '3.7% of GED holders finish college. Here\u0027s what nobody tells you about the GED trap.';
     var SHARE_URL = 'https://zamrock.net/ged/';
 
+    function setOrDel(obj, key, val) {
+      if (val === undefined) delete obj[key];
+      else obj[key] = val;
+    }
+
     function chartPrintState(chart) {
       var state = {
         chart: chart,
@@ -2241,7 +2246,10 @@
         legend: chart.options.plugins && chart.options.plugins.legend
           && chart.options.plugins.legend.labels
           && chart.options.plugins.legend.labels.color,
-        scales: []
+        title: chart.options.plugins && chart.options.plugins.title
+          && chart.options.plugins.title.color,
+        scales: [],
+        live: []
       };
       Object.keys(chart.options.scales || {}).forEach(function (k) {
         var s = chart.options.scales[k];
@@ -2249,7 +2257,19 @@
           state.scales.push({
             key: k,
             ticks: s.ticks && s.ticks.color,
-            grid: s.grid && s.grid.color
+            grid: s.grid && s.grid.color,
+            points: s.pointLabels && s.pointLabels.color
+          });
+        }
+      });
+      Object.keys(chart.scales || {}).forEach(function (k) {
+        var s = chart.scales[k];
+        if (s && s.options) {
+          state.live.push({
+            key: k,
+            ticks: s.options.ticks && s.options.ticks.color,
+            grid: s.options.grid && s.options.grid.color,
+            points: s.options.pointLabels && s.options.pointLabels.color
           });
         }
       });
@@ -2259,22 +2279,28 @@
     function chartApplyPrint(state) {
       var c = state.chart;
       c.options.animation = false;
-      c.options.color = '#333';
+      c.options.color = '#1a1a1a';
       c.options.borderColor = '#ccc';
       if (c.options.plugins && c.options.plugins.legend && c.options.plugins.legend.labels) {
-        c.options.plugins.legend.labels.color = '#333';
+        c.options.plugins.legend.labels.color = '#1a1a1a';
+      }
+      if (c.options.plugins && c.options.plugins.title) {
+        c.options.plugins.title.color = '#1a1a1a';
       }
       Object.keys(c.options.scales || {}).forEach(function (k) {
         var s = c.options.scales[k];
         if (s) {
-          if (s.ticks) s.ticks.color = '#333';
+          if (s.ticks) s.ticks.color = '#1a1a1a';
           if (s.grid) s.grid.color = '#ddd';
+          if (s.pointLabels) s.pointLabels.color = '#1a1a1a';
         }
       });
-      (c.scales || {}).forEach(function (scale) {
-        if (scale.options) {
-          if (scale.options.ticks) scale.options.ticks.color = '#333';
-          if (scale.options.grid) scale.options.grid.color = '#ddd';
+      Object.keys(c.scales || {}).forEach(function (k) {
+        var s = c.scales[k];
+        if (s && s.options) {
+          if (s.options.ticks) s.options.ticks.color = '#1a1a1a';
+          if (s.options.grid) s.options.grid.color = '#ddd';
+          if (s.options.pointLabels) s.options.pointLabels.color = '#1a1a1a';
         }
       });
       c.update();
@@ -2282,24 +2308,29 @@
 
     function chartRestore(state) {
       var c = state.chart;
-      c.options.animation = state.anim;
-      c.options.color = state.color;
-      c.options.borderColor = state.border;
-      if (state.legend !== undefined
-        && c.options.plugins && c.options.plugins.legend && c.options.plugins.legend.labels) {
-        c.options.plugins.legend.labels.color = state.legend;
+      setOrDel(c.options, 'animation', state.anim);
+      setOrDel(c.options, 'color', state.color);
+      setOrDel(c.options, 'borderColor', state.border);
+      if (c.options.plugins && c.options.plugins.legend && c.options.plugins.legend.labels) {
+        setOrDel(c.options.plugins.legend.labels, 'color', state.legend);
+      }
+      if (c.options.plugins && c.options.plugins.title) {
+        setOrDel(c.options.plugins.title, 'color', state.title);
       }
       state.scales.forEach(function (sc) {
         var s = c.options.scales && c.options.scales[sc.key];
         if (s) {
-          if (s.ticks && sc.ticks !== undefined) s.ticks.color = sc.ticks;
-          if (s.grid && sc.grid !== undefined) s.grid.color = sc.grid;
+          if (s.ticks) setOrDel(s.ticks, 'color', sc.ticks);
+          if (s.grid) setOrDel(s.grid, 'color', sc.grid);
+          if (s.pointLabels) setOrDel(s.pointLabels, 'color', sc.points);
         }
       });
-      (c.scales || {}).forEach(function (scale) {
-        if (scale.options) {
-          if (scale.options.ticks) scale.options.ticks.color = '#f2f2f2';
-          if (scale.options.grid) scale.options.grid.color = 'rgba(255, 255, 255, 0.08)';
+      state.live.forEach(function (sc) {
+        var s = c.scales && c.scales[sc.key];
+        if (s && s.options) {
+          if (s.options.ticks && sc.ticks !== undefined) s.options.ticks.color = sc.ticks;
+          if (s.options.grid && sc.grid !== undefined) s.options.grid.color = sc.grid;
+          if (s.options.pointLabels && sc.points !== undefined) s.options.pointLabels.color = sc.points;
         }
       });
       c.update();
