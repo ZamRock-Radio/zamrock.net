@@ -258,11 +258,11 @@
   new Chart(document.getElementById('healthChart'), {
     type: 'radar',
     data: {
-      labels: ['Smoking Rate', 'Obesity', 'Depression', 'Cognitive Impairment', 'No Preventive Care'],
+      labels: ['Smoking Rate', 'Obesity', 'Depression', 'Cognitive Impairment', 'No Preventive Care', 'College Degree Attainment'],
       datasets: [
         {
           label: 'GED Holder',
-          data: [44, 38, 22, 18, 35],
+          data: [44, 38, 22, 18, 35, 3.7],
           backgroundColor: 'rgba(232, 115, 74, 0.2)',
           borderColor: COLORS.ged,
           borderWidth: 2,
@@ -271,7 +271,7 @@
         },
         {
           label: 'HS Diploma',
-          data: [22, 28, 14, 10, 20],
+          data: [22, 28, 14, 10, 20, 43.7],
           backgroundColor: 'rgba(242, 193, 78, 0.2)',
           borderColor: COLORS.diploma,
           borderWidth: 2,
@@ -289,7 +289,7 @@
         },
         title: {
           display: true,
-          text: 'Health Disparities (Zajacova 2012 / NHIS / CDC)',
+          text: 'Education & Health Outcomes (Zajacova 2012 / NHIS / CDC / NCES)',
           color: COLORS.text,
           font: { family: "'JetBrains Mono', monospace", size: 13, weight: '600' },
           padding: { bottom: 20 }
