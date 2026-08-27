@@ -109,6 +109,13 @@
       color: #fff;
     }
 
+    .section-lead {
+      font-size: 1.55rem;
+      font-weight: 800;
+      line-height: 1.3;
+      color: #fff;
+    }
+
     .stat-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -578,7 +585,7 @@
 
     <section class="prose">
       <h2>Employment Rates</h2>
-      <p>Having a regular high school diploma substantially increases the probability of full-time employment.<sup><a href="#source-1">[1]</a></sup> GED holders fall roughly 10 percentage points below diploma holders.</p>
+      <p>Having a regular high school diploma substantially increases the probability of full-time employment.<sup><a href="#source-1">[1]</a></sup><sup><a href="#source-3">[3]</a></sup> GED holders fall roughly 10 percentage points below diploma holders.</p>
     </section>
     <div class="chart-container">
       <canvas id="employmentChart"></canvas>
@@ -586,23 +593,17 @@
 
     <section class="prose">
       <h2>College Enrollment &amp; Degree Attainment</h2>
-      <p>GED holders are far less likely to enroll in college — and drastically less likely to complete a degree.<sup><a href="#source-6">[6]</a></sup> Only 3.7% of GED holders ages 25-29 held a college degree, compared to 43.7% of diploma holders.</p>
+      <p>GED holders are far less likely to enroll in college — and drastically less likely to complete a degree.<sup><a href="#source-6">[6]</a></sup><sup><a href="#source-7">[7]</a></sup> Only 3.7% of GED holders ages 25-29 held a college degree, compared to 43.7% of diploma holders.</p>
     </section>
-    <div class="chart-container">
-      <canvas id="collegeChart"></canvas>
-    </div>
 
     <section class="prose">
       <h2>The Wage Gap Over Time</h2>
       <p>Hourly wages for GED holders start closer to diploma holders but the gap widens with experience. After 5+ years, wages converge slightly — but GED holders work fewer hours and weeks, resulting in lower annual income.</p>
     </section>
-    <div class="chart-container">
-      <canvas id="wageGapChart"></canvas>
-    </div>
 
     <section class="prose">
       <h2>Health &amp; Mortality</h2>
-      <p>GED holders have worse health outcomes than diploma holders across the board — higher rates of obesity, depression, cognitive impairment, and premature death. The health gap mirrors the economic gap.</p>
+      <p>GED holders have worse health outcomes than diploma holders across the board — higher rates of obesity, depression, cognitive impairment, and premature death. The health gap mirrors the economic gap and survives tests that control for noncognitive skills, health behaviors, and income.<sup><a href="#source-11">[11]</a></sup></p>
     </section>
 
     <div class="stat-grid">
@@ -619,7 +620,7 @@
       <div class="stat-card">
         <div class="stat-number">12yrs</div>
         <div class="stat-label">Shorter Life</div>
-        <div class="stat-detail">At age 25, a person with less than a high school diploma can expect to live to ~75. A grad degree holder can expect to live to ~87. That's <strong>12 more years</strong> — retirement, grandkids, everything (Rostron et al.)</div>
+        <div class="stat-detail">At age 25, a person with less than a high school diploma can expect to live to ~75. A grad degree holder can expect to live to ~87. That's <strong>12 more years</strong> — retirement, grandkids, everything.<sup><a href="#source-84">[84]</a></sup></div>
       </div>
       <div class="stat-card">
         <div class="stat-number">310%</div>
@@ -633,8 +634,18 @@
     </div>
 
     <section class="prose">
+      <h2>The Smoking Outlier</h2>
+      <p>GED holders have the <strong>highest smoking prevalence of any education level</strong> — higher than dropouts who never finished high school. This breaks the otherwise consistent inverse relationship between education and smoking.</p>
+    </section>
+
+    <div class="chart-container">
+      <canvas id="smokingChart"></canvas>
+    </div>
+
+    <section class="prose">
       <h2>Incarceration &amp; Criminal Justice</h2>
-      <p>The GED-to-prison pipeline is real. GED holders are incarcerated at dramatically higher rates than diploma holders — <strong>4x the rate</strong> (31% vs 8%). And yes, part of that is because prisons hand out GEDs like candy — over 1 in 4 inmates earn one behind bars. But that's the point: the GED has become the credential of the incarcerated. Whether you got it before or after the cell door closed, the result is the same. <strong>You now hold a piece of paper that marks you as someone the system already processed.</strong></p>
+      <p class="section-lead">The GED has become the credential of the incarcerated.</p>
+      <p>The GED-to-prison pipeline is real. GED holders are incarcerated at dramatically higher rates than diploma holders — <strong>4x the rate</strong> (31% vs 8%). And yes, part of that is because prisons hand out GEDs like candy — over 1 in 4 inmates earn one behind bars. Whether you got it before or after the cell door closed, the result is the same. <strong>You now hold a piece of paper that marks you as someone the system already processed.</strong></p>
     </section>
 
     <div class="stat-grid">
@@ -651,12 +662,21 @@
       <div class="stat-card">
         <div class="stat-number">68%</div>
         <div class="stat-label">Inmates Without Diploma</div>
-        <div class="stat-detail">68% of state prison inmates never finished high school — the pipeline from dropout to cell is direct (Bureau of Justice Statistics)</div>
+        <div class="stat-detail">68% of state prison inmates never finished high school.<sup><a href="#source-83">[83]</a></sup></div>
       </div>
       <div class="stat-card">
         <div class="stat-number">26%</div>
         <div class="stat-label">GEDs Earned in Prison</div>
-        <div class="stat-detail">Over 1 in 4 state inmates earned their GED behind bars — and of those with a GED, only 9% earned it outside prison.<sup><a href="#source-15">[15]</a></sup><sup><a href="#source-27">[27]</a></sup> Dropouts without a GED have lower incarceration than GED holders (23% vs 31%) — partly because they never entered the system at all. No arrest, no jail, no free GED course. The ones who stay clean never get the credential. The ones who get caught get it inside. And inside, you've got nothing to do — no job, no family, no life. The GED is just a way to pass years. <strong>It's not education. It's a participation trophy in a cage.</strong></div>
+        <div class="stat-detail">Over 1 in 4 state inmates earned their GED behind bars — only 9% of GED holders get it outside prison.<sup><a href="#source-15">[15]</a></sup><sup><a href="#source-27">[27]</a></sup> It's not education — it's a participation trophy in a cage.</div>
+      </div>
+    </div>
+
+    <div class="callout callout-accent">
+      <div class="callout-icon">⚖️</div>
+      <div class="callout-content">
+        <strong>Same Crime, Double the Conviction Rate: GED Holders Can't Beat the Charges</strong>
+        <p>Here's what the chart doesn't show you: <strong>GED holders get arrested more AND convicted more.</strong> Look at the math: 69% of GED holders get arrested, 31% end up in prison — that's a <strong>45% arrest-to-prison conversion rate</strong>. Diploma holders? 35% arrested, 8% imprisoned — only <strong>23% conversion</strong>. GED holders are nearly <strong>twice as likely to be convicted when charged with the same exact crime</strong>.</p>
+        <p>Why? GED holders can't afford lawyers. They take plea bargains because the alternative is worse. They sit in pretrial detention (which increases guilty pleas by 46%). And when they do get sentenced, they're 10% less likely to get probation than diploma holders. The system doesn't just arrest more GED holders — it <strong>convicts more of them per arrest</strong> (U.S. Sentencing Commission 2023, Franklin 2013, Vera Institute 2020).</p>
       </div>
     </div>
 
@@ -664,43 +684,28 @@
       <canvas id="incarcerationChart"></canvas>
     </div>
 
-    <div class="callout callout-accent">
-      <div class="callout-icon">⚖️</div>
-      <div class="callout-content">
-        <strong>The Arrest-to-Prison Pipeline: GED Holders Can't Beat the Charges</strong>
-        <p>Here's what the chart doesn't show you: <strong>GED holders get arrested more AND convicted more.</strong> Look at the math: 69% of GED holders get arrested, 31% end up in prison — that's a <strong>45% arrest-to-prison conversion rate</strong>. Diploma holders? 35% arrested, 8% imprisoned — only <strong>23% conversion</strong>. GED holders are nearly <strong>twice as likely to be convicted when charged with the same exact crime</strong>.</p>
-        <p>Why? GED holders can't afford lawyers. They take plea bargains because the alternative is worse. They sit in pretrial detention (which increases guilty pleas by 46%). And when they do get sentenced, they're 10% less likely to get probation than diploma holders. The system doesn't just arrest more GED holders — it <strong>convicts more of them per arrest</strong> (U.S. Sentencing Commission 2023, Franklin 2013, Vera Institute 2020).</p>
-      </div>
-    </div>
-
     <section class="prose">
-      <h2>Car Insurance: The Hidden Education Tax</h2>
-      <p>Your education level affects how much you pay for car insurance — even when you're a safe driver with a clean record. Insurers use credit-based insurance scores, which are <strong>highly correlated with education and income</strong>. The result: GED holders pay more for the same coverage.<sup><a href="#source-60">[60]</a></sup></p>
-      <p>A Consumer Reports investigation found that drivers with no high school degree pay up to <strong>$115 more per year</strong> than those with advanced degrees — for identical coverage and driving records. In Washington, D.C., the gap exceeds <strong>5% of total premium</strong>. Progressive charged $101 more, Liberty Mutual $62 more. State Farm had the smallest gap but still showed discrimination. The data was controlled for driving history, vehicle type, and coverage level — the only variable left was education.<sup><a href="#source-60">[60]</a></sup><sup><a href="#source-61">[61]</a></sup></p>
-      <p>Over 40 years of driving, that $62–$115 annual gap adds up to <strong>$2,480–$4,600</strong> — on top of the $396,000 you already lose from lower earnings. It's not a lot in any single year. But it's <strong>another mechanism that quietly extracts money from people with less education</strong> — and you never even know it's happening because your premium is "competitive."</p>
-
       <h2>Out-of-Pocket Medical Costs</h2>
-      <p>GED holders earn less, work jobs with worse or no health benefits, and have worse health outcomes. All three compound into <strong>higher out-of-pocket medical spending</strong> relative to income.<sup><a href="#source-62">[62]</a></sup></p>
-      <p>BLS Consumer Expenditure data shows that in 2024, college graduate households spent <strong>$7,792/year</strong> on healthcare vs <strong>$4,715</strong> for less-than-college households. But that's misleading — college grads can <strong>afford</strong> more care. When you look at out-of-pocket spending as a share of income, the picture flips. Less-educated adults spend <strong>29.5% of their income</strong> on housing (vs 23.4% for college grads), leaving less for medical bills, prescriptions, and dental work they need but can't afford.<sup><a href="#source-62">[62]</a></sup><sup><a href="#source-63">[63]</a></sup></p>
-      <p>The result: <strong>29–32% of adults with a HS diploma or less report past-due medical bills</strong>, compared to 17–18% of college/graduate degree holders. They delay care, skip medications, and end up in emergency rooms — which costs the system more and costs them more. GED holders don't just earn less. They <strong>pay more for being alive</strong> in every way the system can charge them.</p>
+      <p>GED holders earn less, have worse or no health benefits, and worse health outcomes — all of which compound into <strong>higher out-of-pocket medical spending</strong> relative to income.<sup><a href="#source-62">[62]</a></sup></p>
+      <p>BLS Consumer Expenditure data shows that in 2024, college graduate households spent <strong>$7,792/year</strong> on healthcare vs <strong>$4,715</strong> for less-than-college households. But college grads can <strong>afford</strong> more care. As a share of income, the picture flips: less-educated adults spend <strong>29.5% of their income</strong> on housing (vs 23.4% for college grads), leaving less for medical bills, prescriptions, and dental work they need but can't afford.<sup><a href="#source-62">[62]</a></sup><sup><a href="#source-63">[63]</a></sup></p>
+      <p>The result: <strong>29–32% of adults with a HS diploma or less report past-due medical bills</strong>, vs 17–18% of college/graduate degree holders. They delay care, skip medications, end up in emergency rooms — costing the system more and them more. GED holders don't just earn less. They <strong>pay more for being alive</strong> in every way the system can charge them.</p>
 
       <h2>The Collections Pipeline</h2>
       <p>Education protects you from debt collection. Lack of education feeds you into it.<sup><a href="#source-64">[64]</a></sup></p>
-      <p>CFPB data shows that <strong>31.6% of consumers with credit reports</strong> have one or more collections tradelines. Low-income households (under $25K) comprise <strong>42% of all collection accounts</strong>. Among student loan borrowers, <strong>30% with some college or an associate degree</strong> are behind on payments, versus just <strong>11% with a bachelor's</strong> and <strong>8% with a graduate degree</strong>. The dropout-to-college pipeline doesn't just limit your earnings — it determines whether debt collectors come after you.<sup><a href="#source-64">[64]</a></sup><sup><a href="#source-65">[65]</a></sup></p>
-      <p>Medical debt is the most common collections tradeline. Adults with a high school diploma or less are <strong>1.7x more likely</strong> to carry past-due medical bills than college graduates. When those bills go to collections, they damage your credit score (which already starts lower if you have less education), which makes it harder to rent an apartment, get a car loan, or qualify for a mortgage. <strong>The system punishes you for being poor, then makes it harder to stop being poor.</strong></p>
+      <p>CFPB data shows <strong>31.6% of consumers with credit reports</strong> have one or more collections tradelines, and low-income households (under $25K) comprise <strong>42% of all collection accounts</strong>. Among student loan borrowers, <strong>30% with some college or an associate degree</strong> are behind on payments, vs just <strong>11% with a bachelor's</strong> and <strong>8% with a graduate degree</strong>. The dropout-to-college pipeline doesn't just limit your earnings — it determines whether debt collectors come after you.<sup><a href="#source-64">[64]</a></sup><sup><a href="#source-65">[65]</a></sup></p>
+      <p>Medical debt is the most common collections tradeline — adults with a high school diploma or less are <strong>1.7x more likely</strong> to carry past-due medical bills than college graduates. Those bills damage your credit score (which already starts lower with less education), which makes it harder to rent an apartment, get a car loan, or qualify for a mortgage. <strong>The system punishes you for being poor, then makes it harder to stop being poor.</strong></p>
+<p>And when the bills pile up, the traps and the exits are both rigged. Payday borrowers are far more likely to lack a college degree and not own a home — the people with least room to absorb a bad loan are the ones the lenders target.<sup><a href="#source-68">[68]</a></sup> When it all finally collapses, bankruptcy is a women's issue and Black households file at 2x their share of the population — the same people the GED pipeline already signals as fair game.<sup><a href="#source-69">[69]</a></sup></p>
 
       <h2>Mortgage Approval: Education as a Gatekeeper</h2>
       <p>Your education level doesn't just affect how much you earn — it affects whether a bank will lend you money to buy a home.<sup><a href="#source-66">[66]</a></sup></p>
-      <p>HMDA data shows that census tracts with <strong>5% or fewer college graduates</strong> had a <strong>20.7% mortgage denial rate</strong> and only a 54.3% closing rate. Tracts with <strong>15%+ college graduates</strong> had a <strong>12.7% denial rate</strong> and 65.7% closing rate. That's a 63% higher chance of being denied if you live in a less-educated neighborhood. Income is the strongest predictor (at DTI over 50%, denial rates jump 15–17 percentage points), and income is directly tied to education.<sup><a href="#source-66">[66]</a></sup><sup><a href="#source-67">[67]</a></sup></p>
-      <p>GED holders who do qualify for mortgages face higher interest rates because their lower credit scores and higher debt-to-income ratios signal "risk" to lenders. Over 30 years, even a 0.5% rate difference on a $300,000 mortgage adds up to <strong>$31,000 in extra interest</strong> — money that goes to the bank because you have less education. The homeownership gap isn't just about income. It's about <strong>who the system trusts with money</strong>.</p>
+      <p>HMDA data shows census tracts with <strong>5% or fewer college graduates</strong> had a <strong>20.7% mortgage denial rate</strong> and only a 54.3% closing rate. Tracts with <strong>15%+ college graduates</strong> had a <strong>12.7% denial rate</strong> and 65.7% closing rate — a <strong>63% higher chance of being denied</strong> if you live in a less-educated neighborhood. Income is the strongest predictor (at DTI over 50%, denial rates jump 15–17 points), and income is directly tied to education.<sup><a href="#source-66">[66]</a></sup><sup><a href="#source-67">[67]</a></sup></p>
+      <p>GED holders who do qualify face higher interest rates because lower credit scores and higher debt-to-income ratios signal "risk" to lenders. Over 30 years, a 0.5% rate difference on a $300,000 mortgage adds up to <strong>$31,000 in extra interest</strong> — money that goes to the bank because you have less education. The homeownership gap isn't just about income. It's about <strong>who the system trusts with money</strong>.</p>
 
-      <h2>The Smoking Outlier</h2>
-      <p>GED holders have the <strong>highest smoking prevalence of any education level</strong> — higher than dropouts who never finished high school. This breaks the otherwise consistent inverse relationship between education and smoking.</p>
+      <h2>Car Insurance: The Hidden Education Tax</h2>
+      <p>Your education level affects how much you pay for car insurance — even as a safe driver with a clean record. Insurers use credit-based insurance scores, <strong>highly correlated with education and income</strong>, so GED holders pay more for the same coverage.<sup><a href="#source-60">[60]</a></sup></p>
+      <p>A Consumer Reports investigation found drivers with no high school degree pay up to <strong>$115 more per year</strong> than those with advanced degrees — for identical coverage and driving records. In Washington, D.C., the gap exceeds <strong>5% of total premium</strong>. Progressive charged $101 more, Liberty Mutual $62 more, State Farm the smallest gap — still discrimination. The data was controlled for driving history, vehicle type, and coverage level; the only variable left was education.<sup><a href="#source-60">[60]</a></sup><sup><a href="#source-61">[61]</a></sup></p>
+      <p>Over 40 years of driving, that $62–$115 annual gap adds up to <strong>$2,480–$4,600</strong> — on top of the $396,000 you already lose from lower earnings. It's not much in any single year, but it's <strong>another mechanism that quietly extracts money from people with less education</strong> — and you never even know it's happening because your premium is "competitive."</p>
     </section>
-
-    <div class="chart-container">
-      <canvas id="smokingChart"></canvas>
-    </div>
 
     <section class="prose">
       <h2>Life Beyond the Numbers</h2>
@@ -724,7 +729,7 @@
         <div class="stat-number">50%+</div>
         <div class="stat-label">Divorce Rate</div>
         <div class="stat-compare">💔 Nearly 2x college-educated rate (~27%)</div>
-        <div class="stat-detail">Financial stress is the #1 predictor of divorce. GED holders earn less, work unstable jobs, and have fewer savings — which means money fights, which means splits. It's not that they're bad partners. It's that the system makes it nearly impossible to build a stable household (NLSY79, BLS 2024)</div>
+        <div class="stat-detail">Financial stress is the #1 predictor of divorce. GED holders earn less, work unstable jobs, and have fewer savings — which means money fights, which means splits. It's not that they're bad partners. It's that the system makes it nearly impossible to build a stable household.<sup><a href="#source-85">[85]</a></sup></div>
       </div>
       <div class="stat-card">
         <div class="stat-number">120hrs</div>
@@ -740,7 +745,7 @@
         <h3>The Jobs That Break Your Body</h3>
         <p>GED holders cluster in the occupations that <strong>destroy the body</strong>: construction, warehouse work, food preparation, cleaning, transportation. These are jobs with the highest injury rates, the worst working conditions, and the least room for advancement.</p>
         <p>Meanwhile, diploma holders are more likely to work in office/administrative roles (14% vs 9%), have better benefits (76% get medical insurance vs 69% for GED), and are more likely to have retirement plans, life insurance, and tuition reimbursement. The GED doesn't just limit income — it limits <strong>what happens to your body while you earn it</strong>.</p>
-        <p class="callout-source">Occupation data: Song (2010), NLSY97. Benefits data: NLSY97 Table 7. Maryland MLDS (2019): GED earners' median quarterly wages below living wage for all groups except those who earned a college degree.</p>
+        <p class="callout-source">Occupation data: Song (2010), NLSY97. Benefits data: NLSY97 Table 7. Maryland MLDS (2019): GED earners' median quarterly wages below living wage for all groups except those who earned a college degree.<sup><a href="#source-8">[8]</a></sup></p>
       </div>
     </div>
 
@@ -801,7 +806,8 @@
       <div class="callout-icon">📉</div>
       <div class="callout-content">
         <strong>Even When It Works, It Barely Works</strong>
-        <p>Let's say your kid beats the odds. They don't drop out. They don't get a GED. They actually graduate high school — maybe even college. They did everything you couldn't. They escaped the cycle. <strong>And even then, they still don't catch up.</strong> Students from poverty who had strong academic outcomes in high school — who actually beat every statistical odd — ended up earning <strong>no more at age 30</strong> than the average student who was simply born into a more affluent family and got average grades.<sup><a href="#source-24">[24]</a></sup> The kid born rich who got C's makes the same money at 30 as the kid born poor who got A's. Your kid ran harder just to stand still. The floor is higher, but the ceiling never moves.</p>
+        <p>There's a story you get told your whole life: <strong>poor kids can beat the odds.</strong> If you're broke, your kid just needs to work a little harder — study more, stay out of trouble, actually graduate — and they'll be fine. The deck is stacked, sure, but hard work flips it. That's the promise. So let's test it.</p>
+        <p>Let's say your kid does everything right. They don't drop out. They don't get a GED. They actually graduate high school — maybe even college. They did everything you couldn't. They escaped the cycle. <strong>And even then, they still don't catch up.</strong> Students from poverty who had strong academic outcomes in high school — who actually beat every statistical odd — ended up earning <strong>no more at age 30</strong> than the average student who was simply born into a more affluent family and got average grades.<sup><a href="#source-24">[24]</a></sup> The kid born rich who got C's makes the same money at 30 as the kid born poor who got A's. Your kid ran harder just to stand still. The floor is higher, but the ceiling never moves.</p>
         <p>And here's the number you need to beat: <strong>45% of children whose mothers didn't finish high school also don't finish high school.</strong><sup><a href="#source-39">[39]</a></sup> That's the cycle. Nearly half of kids follow the parent's path — not because they're not smart, but because the system locked them in before they were born. Your income determines their zip code. Their zip code determines their school. Their school determines their future. And even if they beat THAT — even if they graduate — <strong>the ceiling still doesn't move.</strong></p>
         <p class="callout-source">TNTP "Paths of Opportunity" (2024): High-achieving students from poverty who beat the odds earn no more at age 30 than average students born into affluent families [24]. Chetty et al. (2014): 7.5% bottom-to-top quintile mobility. PMC longitudinal study (2012): 45% of children whose mothers did not complete high school also did not complete high school [39].</p>
       </div>
@@ -943,7 +949,7 @@
       <div class="stat-card">
         <div class="stat-number">2x</div>
         <div class="stat-label">Higher Attrition Rate</div>
-        <div class="stat-detail">GED holders leave the military at nearly double the rate of diploma holders — even when they score the same on aptitude tests. The military calls it "first-term attrition."<sup><a href="#source-28">[28]</a></sup></div>
+        <div class="stat-detail">GED holders leave the military at nearly double the rate of diploma holders — even when they score the same on aptitude tests. The military calls it "first-term attrition."<sup><a href="#source-28">[28]</a></sup><sup><a href="#source-33">[33]</a></sup></div>
       </div>
       <div class="stat-card">
         <div class="stat-number">2.4x</div>
@@ -1071,6 +1077,10 @@
       </div>
     </div>
 
+    <div class="chart-container">
+      <canvas id="collegeChart"></canvas>
+    </div>
+
     <div class="callout">
       <div class="callout-icon">🎰</div>
       <div class="callout-body">
@@ -1121,6 +1131,10 @@
         <div class="stat-compare">🧹 7.2% — nights, weekends, alone</div>
         <div class="stat-detail">Janitors, maids, building cleaners. Median pay $29,000. Working alone at night means no witnesses, no safety net, no one to call if something goes wrong. Highest rate of workplace violence of any occupation (BLS 2024)</div>
       </div>
+    </div>
+
+    <div class="chart-container">
+      <canvas id="wageGapChart"></canvas>
     </div>
 
     <div class="callout callout-accent">
@@ -1418,28 +1432,28 @@
       <h2>Homelessness: The Education Pipeline</h2>
       <p>The homeless population is <strong>dramatically less educated</strong> than the general population — and the GED is overrepresented in both directions: too many GED holders among the homeless, too few college grads.<sup><a href="#source-71">[71]</a></sup></p>
 
-      <div class="stat-grid">
-        <div class="stat-card">
-          <div class="stat-number">66%</div>
-          <div class="stat-label">Homeless with HS or Less</div>
-          <div class="stat-detail">Two-thirds of sheltered homeless have a HS diploma/GED or less. Only 10% hold a college degree. Compare: 35% of the general population has a bachelor's or higher (California Statewide Study 2023).</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">30.4%</div>
-          <div class="stat-label">Homeless without Diploma</div>
-          <div class="stat-detail">30.4% of sheltered homeless adults have less than HS. 36.4% have HS/GED. Only 5.8% are college graduates. GED holders are overrepresented relative to diploma holders (UChicago BFI 2021).</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">36%</div>
-          <div class="stat-label">Chronically Homeless</div>
-          <div class="stat-detail">36% of homeless adults meet federal criteria for chronic homelessness (12+ months continuous or 4+ episodes in 3 years + disabling condition). Median length: 22 months (California 2023).</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">87%</div>
-          <div class="stat-label">More Likely to Drop Out</div>
-          <div class="stat-detail">Homeless youth are 87% more likely to stop attending school than housed peers. Nearly 1 in 3 young homeless adults have NO educational milestone — vs 5.4% nationally (Hynes 2014, HYRRS 2017).</div>
-        </div>
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-number">66%</div>
+        <div class="stat-label">Homeless with HS or Less</div>
+        <div class="stat-detail">Two-thirds of sheltered homeless have a HS diploma/GED or less. Only 10% hold a college degree. Compare: 35% of the general population has a bachelor's or higher (California Statewide Study 2023).</div>
       </div>
+      <div class="stat-card">
+        <div class="stat-number">30.4%</div>
+        <div class="stat-label">Homeless without Diploma</div>
+        <div class="stat-detail">30.4% of sheltered homeless adults have less than HS. 36.4% have HS/GED. Only 5.8% are college graduates. GED holders are overrepresented relative to diploma holders (UChicago BFI 2021).</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">36%</div>
+        <div class="stat-label">Chronically Homeless</div>
+        <div class="stat-detail">36% of homeless adults meet federal criteria for chronic homelessness (12+ months continuous or 4+ episodes in 3 years + disabling condition). Median length: 22 months (California 2023).</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">87%</div>
+        <div class="stat-label">More Likely to Drop Out</div>
+        <div class="stat-detail">Homeless youth are 87% more likely to stop attending school than housed peers. Nearly 1 in 3 young homeless adults have NO educational milestone — vs 5.4% nationally (Hynes 2014, HYRRS 2017).</div>
+      </div>
+    </div>
 
       <p>The California Statewide Study of People Experiencing Homelessness (2023) — the largest such study ever conducted in the U.S. — found that <strong>63% of homeless adults had at least a HS diploma/GED</strong>, but only 10% held a college degree. Twenty-nine percent had a HS diploma or GED, 24% had some college but no degree, and 10% had an associate's or bachelor's. The missing group? <strong>37% had no diploma and no GED</strong> — nearly 4x the rate in the general population (10.4%).<sup><a href="#source-71">[71]</a></sup></p>
       <p>Here's the GED trap in miniature: <strong>GED holders make up a disproportionate share of the homeless population</strong> because they cluster in the exact jobs that lead to homelessness — construction, food service, warehouse, cleaning. When those jobs disappear (layoff, injury, seasonal), there's no savings buffer, no employer network, no degree to fall back on. The UChicago BFI study found that 36.4% of sheltered homeless had a HS diploma/GED — higher than their 29% share of the general population.<sup><a href="#source-71">[71]</a></sup><sup><a href="#source-72">[72]</a></sup></p>
@@ -1990,6 +2004,24 @@
           <div class="source-tag">[82]</div>
           <div class="source-text">
             Miami Dade College (mdc.edu, official site). Average class size 21; student/teacher ratio 21:1. Open-enrollment public college; largest in Florida.
+          </div>
+        </div>
+        <div class="source-item" id="source-83">
+          <div class="source-tag">[83]</div>
+          <div class="source-text">
+            Bureau of Justice Statistics. "Education and Correctional Populations," <a href="https://bjs.ojp.gov/content/pub/pdf/ecp.pdf" target="_blank" rel="noopener">Bureau of Justice Statistics Special Report</a> (2003). 68% of state prison inmates never finished high school — the pipeline from dropout to cell is direct.
+          </div>
+        </div>
+      <div class="source-item" id="source-84">
+          <div class="source-tag">[84]</div>
+          <div class="source-text">
+            Rostron BL, Boies JL, Arias E. "Education Reporting and Classification on Death Certificates in the United States," <a href="https://www.cdc.gov/nchs/data/series/sr_02/sr02_151.pdf" target="_blank" rel="noopener">Vital and Health Statistics, Series 2, No. 151</a> (National Center for Health Statistics, 2010). At age 25, those with less than a high school education can expect ~75 more years; those with a graduate degree ~87 — a roughly 12-year gap in life expectancy.
+          </div>
+        </div>
+        <div class="source-item" id="source-85">
+          <div class="source-tag">[85]</div>
+          <div class="source-text">
+            U.S. Bureau of Labor Statistics. "Patterns of marriage and divorce from ages 15 to 55: Evidence from the NLSY79," <a href="https://www.bls.gov/mlr/2024/article/patterns-of-marriage-and-divorce-from-ages-15-to-55-evidence-from-the-nlsy79.htm" target="_blank" rel="noopener">Monthly Labor Review</a> (2024). Among those who never earned a bachelor's degree, at least half of first marriages end in divorce, vs ~27% of men with a bachelor's degree — nearly double the rate.
           </div>
         </div>
       </div>

@@ -138,25 +138,29 @@
 
   // --- Chart 3: College Enrollment & Degree ---
   new Chart(document.getElementById('collegeChart'), {
-    type: 'bar',
+    type: 'line',
     data: {
       labels: ['College Enrollment\n(Ages 18-29)', 'College Degree\n(Ages 25-29)'],
       datasets: [
         {
           label: 'GED Holder',
           data: [17, 3.7],
-          backgroundColor: COLORS.gedBg,
           borderColor: COLORS.ged,
-          borderWidth: 2,
-          borderRadius: 6
+          backgroundColor: COLORS.gedBg,
+          borderWidth: 3,
+          pointRadius: 5,
+          pointBackgroundColor: COLORS.ged,
+          tension: 0.3
         },
         {
           label: 'HS Diploma',
           data: [34, 43.7],
-          backgroundColor: COLORS.diplomaBg,
           borderColor: COLORS.diploma,
-          borderWidth: 2,
-          borderRadius: 6
+          backgroundColor: COLORS.diplomaBg,
+          borderWidth: 3,
+          pointRadius: 5,
+          pointBackgroundColor: COLORS.diploma,
+          tension: 0.3
         }
       ]
     },
@@ -252,47 +256,63 @@
 
   // --- Chart 5: Health Indicators ---
   new Chart(document.getElementById('healthChart'), {
-    type: 'bar',
+    type: 'radar',
     data: {
       labels: ['Smoking Rate', 'Obesity', 'Depression', 'Cognitive Impairment', 'No Preventive Care'],
       datasets: [
         {
           label: 'GED Holder',
           data: [44, 38, 22, 18, 35],
-          backgroundColor: COLORS.gedBg,
+          backgroundColor: 'rgba(232, 115, 74, 0.2)',
           borderColor: COLORS.ged,
           borderWidth: 2,
-          borderRadius: 6
+          pointRadius: 4,
+          pointBackgroundColor: COLORS.ged
         },
         {
           label: 'HS Diploma',
           data: [22, 28, 14, 10, 20],
-          backgroundColor: COLORS.diplomaBg,
+          backgroundColor: 'rgba(242, 193, 78, 0.2)',
           borderColor: COLORS.diploma,
           borderWidth: 2,
-          borderRadius: 6
+          pointRadius: 4,
+          pointBackgroundColor: COLORS.diploma
         }
       ]
     },
     options: {
-      ...barOpts('Health Disparities (Zajacova 2012 / NHIS / CDC)'),
-      scales: {
-        ...barOpts('').scales,
-        y: {
-          ...barOpts('').scales.y,
-          beginAtZero: true,
-          ticks: {
-            ...barOpts('').scales.y.ticks,
-            callback: function (v) { return v + '%'; }
-          }
-        }
-      },
+      responsive: true,
+      maintainAspectRatio: true,
       plugins: {
-        ...barOpts('').plugins,
+        legend: {
+          labels: { font: { size: 12 }, padding: 16 }
+        },
+        title: {
+          display: true,
+          text: 'Health Disparities (Zajacova 2012 / NHIS / CDC)',
+          color: COLORS.text,
+          font: { family: "'JetBrains Mono', monospace", size: 13, weight: '600' },
+          padding: { bottom: 20 }
+        },
         tooltip: {
           callbacks: {
             label: function (ctx) { return ctx.dataset.label + ': ' + ctx.raw + '%'; }
           }
+        }
+      },
+      scales: {
+        r: {
+          beginAtZero: true,
+          ticks: {
+            backdropColor: 'transparent',
+            font: { size: 10 }
+          },
+          pointLabels: {
+            font: { size: 11 },
+            color: COLORS.dim
+          },
+          grid: { color: COLORS.grid },
+          angleLines: { color: COLORS.grid }
         }
       }
     }
@@ -300,33 +320,40 @@
 
   // --- Chart 6: Incarceration ---
   new Chart(document.getElementById('incarcerationChart'), {
-    type: 'bar',
+    type: 'line',
     data: {
       labels: ['Ever Arrested', 'Ever Incarcerated'],
       datasets: [
         {
           label: 'Dropout',
           data: [52, 23],
-          backgroundColor: COLORS.dropoutBg,
           borderColor: COLORS.dropout,
+          backgroundColor: 'rgba(107, 114, 128, 0.15)',
           borderWidth: 2,
-          borderRadius: 6
+          borderDash: [5, 5],
+          pointRadius: 5,
+          pointBackgroundColor: COLORS.dropout,
+          tension: 0.3
         },
         {
           label: 'GED Holder',
           data: [69, 31],
-          backgroundColor: COLORS.gedBg,
           borderColor: COLORS.ged,
-          borderWidth: 2,
-          borderRadius: 6
+          backgroundColor: 'rgba(232, 115, 74, 0.15)',
+          borderWidth: 3,
+          pointRadius: 5,
+          pointBackgroundColor: COLORS.ged,
+          tension: 0.3
         },
         {
           label: 'HS Diploma',
           data: [35, 8],
-          backgroundColor: COLORS.diplomaBg,
           borderColor: COLORS.diploma,
+          backgroundColor: 'rgba(242, 193, 78, 0.15)',
           borderWidth: 2,
-          borderRadius: 6
+          pointRadius: 5,
+          pointBackgroundColor: COLORS.diploma,
+          tension: 0.3
         }
       ]
     },
