@@ -7,18 +7,22 @@
   <meta name="description" content="The GED is not equivalent to a high school diploma. 40+ peer-reviewed studies show GED holders earn less, work less, die younger, and go to prison more. Here's every stat." />
   <meta name="keywords" content="GED vs diploma, GED worth it, GED statistics, high school equivalency, GED employment rates, GED earnings, GED prison rate, should I get my GED, GED alternatives" />
   <link rel="canonical" href="https://zamrock.net/ged/" />
+  <link rel="icon" href="/img/ged-favicon.ico" type="image/x-icon" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/ged-favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/ged-favicon-16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/ged-apple-touch-icon.png" />
   <meta property="og:title" content="GED vs High School Diploma — The Data Doesn't Lie" />
   <meta property="og:description" content="40+ peer-reviewed studies. Every stat chains together to create an exact trap. The GED is not a second chance — it's a consolation prize that costs you $396,000." />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://zamrock.net/ged/" />
-  <meta property="og:image" content="https://zamrock.net/img/ged-og.png" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
+  <meta property="og:image" content="https://zamrock.net/img/ged-og.jpg" />
+  <meta property="og:image:width" content="768" />
+  <meta property="og:image:height" content="512" />
   <meta property="og:image:alt" content="GED vs High School Diploma — earnings, employment, incarceration, life expectancy. The data doesn't lie." />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="GED vs High School Diploma — The Data Doesn't Lie" />
   <meta name="twitter:description" content="40+ peer-reviewed studies. The GED costs you $396,000 and closes doors a diploma keeps open." />
-  <meta name="twitter:image" content="https://zamrock.net/img/ged-og.png" />
+  <meta name="twitter:image" content="https://zamrock.net/img/ged-og.jpg" />
   <meta name="twitter:image:alt" content="GED vs High School Diploma — the data doesn't lie" />
   <script type="application/ld+json">
   {
@@ -106,6 +110,13 @@
     .lead-in {
       font-size: 1.06em;
       font-weight: 800;
+      color: #fff;
+    }
+
+    .section-lead {
+      font-size: 1.55rem;
+      font-weight: 800;
+      line-height: 1.3;
       color: #fff;
     }
 
@@ -424,6 +435,9 @@
       .report-header .tagline { color: #444 !important; }
       .report-footer { border-top-color: #ccc !important; color: #666 !important; }
 
+      .share-row { display: none !important; }
+      #page-views { display: none !important; }
+
       .prose h2 { color: #1a1a1a !important; }
 
       a { color: #0066cc !important; }
@@ -466,6 +480,7 @@
 
     <section class="prose">
       <p>The General Educational Development (GED) test is widely sold as a "second chance" for people who didn't finish high school. But the research is clear: GED holders are <strong>statistically indistinguishable from dropouts</strong> on many key measures — and far below diploma holders. If you're reading this because you dropped out, or you're thinking about taking the GED, or someone you love did — <strong>this page is for you.</strong> Every stat chains together to create <strong>an exact trap</strong> — not bad luck, not a maybe, but a system designed to keep you exactly where you are.</p>
+      <p class="section-lead">Here's the whole point, up front: <strong>if you drop out and do nothing — nothing at all — the door to a real diploma stays open for the rest of your life.</strong> You can come to your senses at 25, 35, or 50 and still walk back in and finish. <strong>But take the GED and the same door welds shut.</strong> The GED is sold as a second chance — it's actually the thing that takes your chance away, permanently.</p>
 
       <h2>How We Got Here</h2>
       <p>The GED was created in <strong>1942</strong> at the request of the U.S. Armed Forces Institute.<sup><a href="#source-19">[19]</a></sup> But the real reason it existed has nothing to do with education — it was a <strong>manpower crisis response</strong> born from catastrophic losses.</p>
@@ -578,7 +593,7 @@
 
     <section class="prose">
       <h2>Employment Rates</h2>
-      <p>Having a regular high school diploma substantially increases the probability of full-time employment.<sup><a href="#source-1">[1]</a></sup> GED holders fall roughly 10 percentage points below diploma holders.</p>
+      <p>Having a regular high school diploma substantially increases the probability of full-time employment.<sup><a href="#source-1">[1]</a></sup><sup><a href="#source-3">[3]</a></sup> GED holders fall roughly 10 percentage points below diploma holders.</p>
     </section>
     <div class="chart-container">
       <canvas id="employmentChart"></canvas>
@@ -586,23 +601,17 @@
 
     <section class="prose">
       <h2>College Enrollment &amp; Degree Attainment</h2>
-      <p>GED holders are far less likely to enroll in college — and drastically less likely to complete a degree.<sup><a href="#source-6">[6]</a></sup> Only 3.7% of GED holders ages 25-29 held a college degree, compared to 43.7% of diploma holders.</p>
+      <p>GED holders are far less likely to enroll in college — and drastically less likely to complete a degree.<sup><a href="#source-6">[6]</a></sup><sup><a href="#source-7">[7]</a></sup> Only 3.7% of GED holders ages 25-29 held a college degree, compared to 43.7% of diploma holders.</p>
     </section>
-    <div class="chart-container">
-      <canvas id="collegeChart"></canvas>
-    </div>
 
     <section class="prose">
       <h2>The Wage Gap Over Time</h2>
       <p>Hourly wages for GED holders start closer to diploma holders but the gap widens with experience. After 5+ years, wages converge slightly — but GED holders work fewer hours and weeks, resulting in lower annual income.</p>
     </section>
-    <div class="chart-container">
-      <canvas id="wageGapChart"></canvas>
-    </div>
 
     <section class="prose">
       <h2>Health &amp; Mortality</h2>
-      <p>GED holders have worse health outcomes than diploma holders across the board — higher rates of obesity, depression, cognitive impairment, and premature death. The health gap mirrors the economic gap.</p>
+      <p>GED holders have worse health outcomes than diploma holders across the board — higher rates of obesity, depression, cognitive impairment, and premature death. The health gap mirrors the economic gap and survives tests that control for noncognitive skills, health behaviors, and income.<sup><a href="#source-11">[11]</a></sup></p>
     </section>
 
     <div class="stat-grid">
@@ -619,7 +628,7 @@
       <div class="stat-card">
         <div class="stat-number">12yrs</div>
         <div class="stat-label">Shorter Life</div>
-        <div class="stat-detail">At age 25, a person with less than a high school diploma can expect to live to ~75. A grad degree holder can expect to live to ~87. That's <strong>12 more years</strong> — retirement, grandkids, everything (Rostron et al.)</div>
+        <div class="stat-detail">At age 25, a person with less than a high school diploma can expect to live to ~75. A grad degree holder can expect to live to ~87. That's <strong>12 more years</strong> — retirement, grandkids, everything.<sup><a href="#source-84">[84]</a></sup></div>
       </div>
       <div class="stat-card">
         <div class="stat-number">310%</div>
@@ -633,8 +642,18 @@
     </div>
 
     <section class="prose">
+      <h2>The Smoking Outlier</h2>
+      <p>GED holders have the <strong>highest smoking prevalence of any education level</strong> — higher than dropouts who never finished high school. This breaks the otherwise consistent inverse relationship between education and smoking.</p>
+    </section>
+
+    <div class="chart-container">
+      <canvas id="smokingChart"></canvas>
+    </div>
+
+    <section class="prose">
       <h2>Incarceration &amp; Criminal Justice</h2>
-      <p>The GED-to-prison pipeline is real. GED holders are incarcerated at dramatically higher rates than diploma holders — <strong>4x the rate</strong> (31% vs 8%). And yes, part of that is because prisons hand out GEDs like candy — over 1 in 4 inmates earn one behind bars. But that's the point: the GED has become the credential of the incarcerated. Whether you got it before or after the cell door closed, the result is the same. <strong>You now hold a piece of paper that marks you as someone the system already processed.</strong></p>
+      <p class="section-lead">The GED has become the credential of the incarcerated.</p>
+      <p>The GED-to-prison pipeline is real. GED holders are incarcerated at dramatically higher rates than diploma holders — <strong>4x the rate</strong> (31% vs 8%). And yes, part of that is because prisons hand out GEDs like candy — over 1 in 4 inmates earn one behind bars. Whether you got it before or after the cell door closed, the result is the same. <strong>You now hold a piece of paper that marks you as someone the system already processed.</strong></p>
     </section>
 
     <div class="stat-grid">
@@ -651,12 +670,21 @@
       <div class="stat-card">
         <div class="stat-number">68%</div>
         <div class="stat-label">Inmates Without Diploma</div>
-        <div class="stat-detail">68% of state prison inmates never finished high school — the pipeline from dropout to cell is direct (Bureau of Justice Statistics)</div>
+        <div class="stat-detail">68% of state prison inmates never finished high school.<sup><a href="#source-83">[83]</a></sup></div>
       </div>
       <div class="stat-card">
         <div class="stat-number">26%</div>
         <div class="stat-label">GEDs Earned in Prison</div>
-        <div class="stat-detail">Over 1 in 4 state inmates earned their GED behind bars — and of those with a GED, only 9% earned it outside prison.<sup><a href="#source-15">[15]</a></sup><sup><a href="#source-27">[27]</a></sup> Dropouts without a GED have lower incarceration than GED holders (23% vs 31%) — partly because they never entered the system at all. No arrest, no jail, no free GED course. The ones who stay clean never get the credential. The ones who get caught get it inside. And inside, you've got nothing to do — no job, no family, no life. The GED is just a way to pass years. <strong>It's not education. It's a participation trophy in a cage.</strong></div>
+        <div class="stat-detail">Over 1 in 4 state inmates earned their GED behind bars — only 9% of GED holders get it outside prison.<sup><a href="#source-15">[15]</a></sup><sup><a href="#source-27">[27]</a></sup> It's not education — it's a participation trophy in a cage.</div>
+      </div>
+    </div>
+
+    <div class="callout callout-accent">
+      <div class="callout-icon">⚖️</div>
+      <div class="callout-content">
+        <strong>Same Crime, Double the Conviction Rate: GED Holders Can't Beat the Charges</strong>
+        <p>Here's what the chart doesn't show you: <strong>GED holders get arrested more AND convicted more.</strong> Look at the math: 69% of GED holders get arrested, 31% end up in prison — that's a <strong>45% arrest-to-prison conversion rate</strong>. Diploma holders? 35% arrested, 8% imprisoned — only <strong>23% conversion</strong>. GED holders are nearly <strong>twice as likely to be convicted when charged with the same exact crime</strong>.</p>
+        <p>Why? GED holders can't afford lawyers. They take plea bargains because the alternative is worse. They sit in pretrial detention (which increases guilty pleas by 46%). And when they do get sentenced, they're 10% less likely to get probation than diploma holders. The system doesn't just arrest more GED holders — it <strong>convicts more of them per arrest</strong> (U.S. Sentencing Commission 2023, Franklin 2013, Vera Institute 2020).</p>
       </div>
     </div>
 
@@ -664,43 +692,28 @@
       <canvas id="incarcerationChart"></canvas>
     </div>
 
-    <div class="callout callout-accent">
-      <div class="callout-icon">⚖️</div>
-      <div class="callout-content">
-        <strong>The Arrest-to-Prison Pipeline: GED Holders Can't Beat the Charges</strong>
-        <p>Here's what the chart doesn't show you: <strong>GED holders get arrested more AND convicted more.</strong> Look at the math: 69% of GED holders get arrested, 31% end up in prison — that's a <strong>45% arrest-to-prison conversion rate</strong>. Diploma holders? 35% arrested, 8% imprisoned — only <strong>23% conversion</strong>. GED holders are nearly <strong>twice as likely to be convicted when charged with the same exact crime</strong>.</p>
-        <p>Why? GED holders can't afford lawyers. They take plea bargains because the alternative is worse. They sit in pretrial detention (which increases guilty pleas by 46%). And when they do get sentenced, they're 10% less likely to get probation than diploma holders. The system doesn't just arrest more GED holders — it <strong>convicts more of them per arrest</strong> (U.S. Sentencing Commission 2023, Franklin 2013, Vera Institute 2020).</p>
-      </div>
-    </div>
-
     <section class="prose">
-      <h2>Car Insurance: The Hidden Education Tax</h2>
-      <p>Your education level affects how much you pay for car insurance — even when you're a safe driver with a clean record. Insurers use credit-based insurance scores, which are <strong>highly correlated with education and income</strong>. The result: GED holders pay more for the same coverage.<sup><a href="#source-60">[60]</a></sup></p>
-      <p>A Consumer Reports investigation found that drivers with no high school degree pay up to <strong>$115 more per year</strong> than those with advanced degrees — for identical coverage and driving records. In Washington, D.C., the gap exceeds <strong>5% of total premium</strong>. Progressive charged $101 more, Liberty Mutual $62 more. State Farm had the smallest gap but still showed discrimination. The data was controlled for driving history, vehicle type, and coverage level — the only variable left was education.<sup><a href="#source-60">[60]</a></sup><sup><a href="#source-61">[61]</a></sup></p>
-      <p>Over 40 years of driving, that $62–$115 annual gap adds up to <strong>$2,480–$4,600</strong> — on top of the $396,000 you already lose from lower earnings. It's not a lot in any single year. But it's <strong>another mechanism that quietly extracts money from people with less education</strong> — and you never even know it's happening because your premium is "competitive."</p>
-
       <h2>Out-of-Pocket Medical Costs</h2>
-      <p>GED holders earn less, work jobs with worse or no health benefits, and have worse health outcomes. All three compound into <strong>higher out-of-pocket medical spending</strong> relative to income.<sup><a href="#source-62">[62]</a></sup></p>
-      <p>BLS Consumer Expenditure data shows that in 2024, college graduate households spent <strong>$7,792/year</strong> on healthcare vs <strong>$4,715</strong> for less-than-college households. But that's misleading — college grads can <strong>afford</strong> more care. When you look at out-of-pocket spending as a share of income, the picture flips. Less-educated adults spend <strong>29.5% of their income</strong> on housing (vs 23.4% for college grads), leaving less for medical bills, prescriptions, and dental work they need but can't afford.<sup><a href="#source-62">[62]</a></sup><sup><a href="#source-63">[63]</a></sup></p>
-      <p>The result: <strong>29–32% of adults with a HS diploma or less report past-due medical bills</strong>, compared to 17–18% of college/graduate degree holders. They delay care, skip medications, and end up in emergency rooms — which costs the system more and costs them more. GED holders don't just earn less. They <strong>pay more for being alive</strong> in every way the system can charge them.</p>
+      <p>GED holders earn less, have worse or no health benefits, and worse health outcomes — all of which compound into <strong>higher out-of-pocket medical spending</strong> relative to income.<sup><a href="#source-62">[62]</a></sup></p>
+      <p>BLS Consumer Expenditure data shows that in 2024, college graduate households spent <strong>$7,792/year</strong> on healthcare vs <strong>$4,715</strong> for less-than-college households. But college grads can <strong>afford</strong> more care. As a share of income, the picture flips: less-educated adults spend <strong>29.5% of their income</strong> on housing (vs 23.4% for college grads), leaving less for medical bills, prescriptions, and dental work they need but can't afford.<sup><a href="#source-62">[62]</a></sup><sup><a href="#source-63">[63]</a></sup></p>
+      <p>The result: <strong>29–32% of adults with a HS diploma or less report past-due medical bills</strong>, vs 17–18% of college/graduate degree holders. They delay care, skip medications, end up in emergency rooms — costing the system more and them more. GED holders don't just earn less. They <strong>pay more for being alive</strong> in every way the system can charge them.</p>
 
       <h2>The Collections Pipeline</h2>
       <p>Education protects you from debt collection. Lack of education feeds you into it.<sup><a href="#source-64">[64]</a></sup></p>
-      <p>CFPB data shows that <strong>31.6% of consumers with credit reports</strong> have one or more collections tradelines. Low-income households (under $25K) comprise <strong>42% of all collection accounts</strong>. Among student loan borrowers, <strong>30% with some college or an associate degree</strong> are behind on payments, versus just <strong>11% with a bachelor's</strong> and <strong>8% with a graduate degree</strong>. The dropout-to-college pipeline doesn't just limit your earnings — it determines whether debt collectors come after you.<sup><a href="#source-64">[64]</a></sup><sup><a href="#source-65">[65]</a></sup></p>
-      <p>Medical debt is the most common collections tradeline. Adults with a high school diploma or less are <strong>1.7x more likely</strong> to carry past-due medical bills than college graduates. When those bills go to collections, they damage your credit score (which already starts lower if you have less education), which makes it harder to rent an apartment, get a car loan, or qualify for a mortgage. <strong>The system punishes you for being poor, then makes it harder to stop being poor.</strong></p>
+      <p>CFPB data shows <strong>31.6% of consumers with credit reports</strong> have one or more collections tradelines, and low-income households (under $25K) comprise <strong>42% of all collection accounts</strong>. Among student loan borrowers, <strong>30% with some college or an associate degree</strong> are behind on payments, vs just <strong>11% with a bachelor's</strong> and <strong>8% with a graduate degree</strong>. The dropout-to-college pipeline doesn't just limit your earnings — it determines whether debt collectors come after you.<sup><a href="#source-64">[64]</a></sup><sup><a href="#source-65">[65]</a></sup></p>
+      <p>Medical debt is the most common collections tradeline — adults with a high school diploma or less are <strong>1.7x more likely</strong> to carry past-due medical bills than college graduates. Those bills damage your credit score (which already starts lower with less education), which makes it harder to rent an apartment, get a car loan, or qualify for a mortgage. <strong>The system punishes you for being poor, then makes it harder to stop being poor.</strong></p>
+<p>And when the bills pile up, the traps and the exits are both rigged. Payday borrowers are far more likely to lack a college degree and not own a home — the people with least room to absorb a bad loan are the ones the lenders target.<sup><a href="#source-68">[68]</a></sup> When it all finally collapses, bankruptcy is a women's issue and Black households file at 2x their share of the population — the same people the GED pipeline already signals as fair game.<sup><a href="#source-69">[69]</a></sup></p>
 
       <h2>Mortgage Approval: Education as a Gatekeeper</h2>
       <p>Your education level doesn't just affect how much you earn — it affects whether a bank will lend you money to buy a home.<sup><a href="#source-66">[66]</a></sup></p>
-      <p>HMDA data shows that census tracts with <strong>5% or fewer college graduates</strong> had a <strong>20.7% mortgage denial rate</strong> and only a 54.3% closing rate. Tracts with <strong>15%+ college graduates</strong> had a <strong>12.7% denial rate</strong> and 65.7% closing rate. That's a 63% higher chance of being denied if you live in a less-educated neighborhood. Income is the strongest predictor (at DTI over 50%, denial rates jump 15–17 percentage points), and income is directly tied to education.<sup><a href="#source-66">[66]</a></sup><sup><a href="#source-67">[67]</a></sup></p>
-      <p>GED holders who do qualify for mortgages face higher interest rates because their lower credit scores and higher debt-to-income ratios signal "risk" to lenders. Over 30 years, even a 0.5% rate difference on a $300,000 mortgage adds up to <strong>$31,000 in extra interest</strong> — money that goes to the bank because you have less education. The homeownership gap isn't just about income. It's about <strong>who the system trusts with money</strong>.</p>
+      <p>HMDA data shows census tracts with <strong>5% or fewer college graduates</strong> had a <strong>20.7% mortgage denial rate</strong> and only a 54.3% closing rate. Tracts with <strong>15%+ college graduates</strong> had a <strong>12.7% denial rate</strong> and 65.7% closing rate — a <strong>63% higher chance of being denied</strong> if you live in a less-educated neighborhood. Income is the strongest predictor (at DTI over 50%, denial rates jump 15–17 points), and income is directly tied to education.<sup><a href="#source-66">[66]</a></sup><sup><a href="#source-67">[67]</a></sup></p>
+      <p>GED holders who do qualify face higher interest rates because lower credit scores and higher debt-to-income ratios signal "risk" to lenders. Over 30 years, a 0.5% rate difference on a $300,000 mortgage adds up to <strong>$31,000 in extra interest</strong> — money that goes to the bank because you have less education. The homeownership gap isn't just about income. It's about <strong>who the system trusts with money</strong>.</p>
 
-      <h2>The Smoking Outlier</h2>
-      <p>GED holders have the <strong>highest smoking prevalence of any education level</strong> — higher than dropouts who never finished high school. This breaks the otherwise consistent inverse relationship between education and smoking.</p>
+      <h2>Car Insurance: The Hidden Education Tax</h2>
+      <p>Your education level affects how much you pay for car insurance — even as a safe driver with a clean record. Insurers use credit-based insurance scores, <strong>highly correlated with education and income</strong>, so GED holders pay more for the same coverage.<sup><a href="#source-60">[60]</a></sup></p>
+      <p>A Consumer Reports investigation found drivers with no high school degree pay up to <strong>$115 more per year</strong> than those with advanced degrees — for identical coverage and driving records. In Washington, D.C., the gap exceeds <strong>5% of total premium</strong>. Progressive charged $101 more, Liberty Mutual $62 more, State Farm the smallest gap — still discrimination. The data was controlled for driving history, vehicle type, and coverage level; the only variable left was education.<sup><a href="#source-60">[60]</a></sup><sup><a href="#source-61">[61]</a></sup></p>
+      <p>Over 40 years of driving, that $62–$115 annual gap adds up to <strong>$2,480–$4,600</strong> — on top of the $396,000 you already lose from lower earnings. It's not much in any single year, but it's <strong>another mechanism that quietly extracts money from people with less education</strong> — and you never even know it's happening because your premium is "competitive."</p>
     </section>
-
-    <div class="chart-container">
-      <canvas id="smokingChart"></canvas>
-    </div>
 
     <section class="prose">
       <h2>Life Beyond the Numbers</h2>
@@ -724,7 +737,7 @@
         <div class="stat-number">50%+</div>
         <div class="stat-label">Divorce Rate</div>
         <div class="stat-compare">💔 Nearly 2x college-educated rate (~27%)</div>
-        <div class="stat-detail">Financial stress is the #1 predictor of divorce. GED holders earn less, work unstable jobs, and have fewer savings — which means money fights, which means splits. It's not that they're bad partners. It's that the system makes it nearly impossible to build a stable household (NLSY79, BLS 2024)</div>
+        <div class="stat-detail">Financial stress is the #1 predictor of divorce. GED holders earn less, work unstable jobs, and have fewer savings — which means money fights, which means splits. It's not that they're bad partners. It's that the system makes it nearly impossible to build a stable household.<sup><a href="#source-85">[85]</a></sup></div>
       </div>
       <div class="stat-card">
         <div class="stat-number">120hrs</div>
@@ -740,7 +753,7 @@
         <h3>The Jobs That Break Your Body</h3>
         <p>GED holders cluster in the occupations that <strong>destroy the body</strong>: construction, warehouse work, food preparation, cleaning, transportation. These are jobs with the highest injury rates, the worst working conditions, and the least room for advancement.</p>
         <p>Meanwhile, diploma holders are more likely to work in office/administrative roles (14% vs 9%), have better benefits (76% get medical insurance vs 69% for GED), and are more likely to have retirement plans, life insurance, and tuition reimbursement. The GED doesn't just limit income — it limits <strong>what happens to your body while you earn it</strong>.</p>
-        <p class="callout-source">Occupation data: Song (2010), NLSY97. Benefits data: NLSY97 Table 7. Maryland MLDS (2019): GED earners' median quarterly wages below living wage for all groups except those who earned a college degree.</p>
+        <p class="callout-source">Occupation data: Song (2010), NLSY97. Benefits data: NLSY97 Table 7. Maryland MLDS (2019): GED earners' median quarterly wages below living wage for all groups except those who earned a college degree.<sup><a href="#source-8">[8]</a></sup></p>
       </div>
     </div>
 
@@ -801,7 +814,8 @@
       <div class="callout-icon">📉</div>
       <div class="callout-content">
         <strong>Even When It Works, It Barely Works</strong>
-        <p>Let's say your kid beats the odds. They don't drop out. They don't get a GED. They actually graduate high school — maybe even college. They did everything you couldn't. They escaped the cycle. <strong>And even then, they still don't catch up.</strong> Students from poverty who had strong academic outcomes in high school — who actually beat every statistical odd — ended up earning <strong>no more at age 30</strong> than the average student who was simply born into a more affluent family and got average grades.<sup><a href="#source-24">[24]</a></sup> The kid born rich who got C's makes the same money at 30 as the kid born poor who got A's. Your kid ran harder just to stand still. The floor is higher, but the ceiling never moves.</p>
+        <p>There's a story you get told your whole life: <strong>poor kids can beat the odds.</strong> If you're broke, your kid just needs to work a little harder — study more, stay out of trouble, actually graduate — and they'll be fine. The deck is stacked, sure, but hard work flips it. That's the promise. So let's test it.</p>
+        <p>Let's say your kid does everything right. They don't drop out. They don't get a GED. They actually graduate high school — maybe even college. They did everything you couldn't. They escaped the cycle. <strong>And even then, they still don't catch up.</strong> Students from poverty who had strong academic outcomes in high school — who actually beat every statistical odd — ended up earning <strong>no more at age 30</strong> than the average student who was simply born into a more affluent family and got average grades.<sup><a href="#source-24">[24]</a></sup> The kid born rich who got C's makes the same money at 30 as the kid born poor who got A's. Your kid ran harder just to stand still. The floor is higher, but the ceiling never moves.</p>
         <p>And here's the number you need to beat: <strong>45% of children whose mothers didn't finish high school also don't finish high school.</strong><sup><a href="#source-39">[39]</a></sup> That's the cycle. Nearly half of kids follow the parent's path — not because they're not smart, but because the system locked them in before they were born. Your income determines their zip code. Their zip code determines their school. Their school determines their future. And even if they beat THAT — even if they graduate — <strong>the ceiling still doesn't move.</strong></p>
         <p class="callout-source">TNTP "Paths of Opportunity" (2024): High-achieving students from poverty who beat the odds earn no more at age 30 than average students born into affluent families [24]. Chetty et al. (2014): 7.5% bottom-to-top quintile mobility. PMC longitudinal study (2012): 45% of children whose mothers did not complete high school also did not complete high school [39].</p>
       </div>
@@ -809,12 +823,18 @@
 
     <section class="prose">
       <h2>Who Really Benefits?</h2>
-      <p>The stats are overwhelming. The GED fails on every measure — earnings, employment, college, health, incarceration, life expectancy. So the obvious question is: <strong>if it's this bad, why does every state still offer it? Who's keeping this system alive?</strong></p>
+      <p class="section-lead">The stats are overwhelming. The GED fails on every measure — earnings, employment, college, health, incarceration, life expectancy.</p>
+      <p>So the obvious question is: <strong>if it's this bad, why does every state still offer it? Who's keeping this system alive?</strong></p>
       <p>Follow the money.</p>
 
       <h3>The GED-to-Prison Pipeline Is a Business</h3>
       <p>GED holders are arrested and incarcerated at dramatically higher rates than diploma holders — and when they get arrested, they're <strong>convicted at nearly double the rate</strong>. Why? They can't afford lawyers. They take plea deals. They sit in pretrial detention.</p>
       <p>Once they're in the system, <strong>the prison makes money on them</strong>. The federal government spends <strong>$44,000–$47,000 per prisoner per year</strong>.<sup><a href="#source-29">[29]</a></sup> States spend a median of <strong>$61,000</strong>.<sup><a href="#source-29">[29]</a></sup> Private prisons charge $29,000–$34,000 — and here's the catch: <strong>65% of private prison contracts guarantee 90–100% bed occupancy</strong>.<sup><a href="#source-29">[29]</a></sup> The government pays whether the beds are full or not. Companies like GEO Group and CoreCivic profit from keeping beds filled. Recidivism isn't a bug — it's a feature.</p>
+      <p>Now read their own filings. In fiscal year 2025, <strong>GEO Group took in $2.63 billion and kept $254.3 million in net income</strong>.<sup><a href="#source-86">[86]</a></sup> CoreCivic took in <strong>$2.2 billion and kept $116.5 million</strong> — a 69% jump in one year.<sup><a href="#source-87">[87]</a></sup> That's nearly <strong>$4.8 billion in combined revenue built on bodies</strong>. And the people inside do the work for almost nothing: roughly <strong>800,000 of the 1.2 million people in state and federal prisons are forced laborers, most at 13–52 cents an hour</strong>.<sup><a href="#source-88">[88]</a></sup></p>
+      <p>And the wealthy never touch the cell block. <strong>CoreCivic's CEO made $7.47 million in 2024 — 121 times his company's median employee's $58,635 a year. That median employee would have to work over 125 years to match a single year of his pay. Split into a 40-year career, that's four lifetimes on the job — per year.</strong><sup><a href="#source-89">[89]</a></sup> GEO's median employee made <strong>$55,128</strong> while its top executive cleared <strong>$3.26 million — about 59 years' worth at the median</strong>.<sup><a href="#source-90">[90]</a></sup></p>
+      <p>And the people guarding the cell block don't share in it. State and local entry-level jobs will take a high school diploma — or a GED. But the federal Bureau of Prisons, the biggest and best-paid custodian, requires entry-level officers to hold a <strong>bachelor's degree or three years of qualifying experience</strong> — a GED alone doesn't get you in.<sup><a href="#source-91">[91]</a></sup> And a GED holder who did manage the almost-never — the ~3.7% who reach a bachelor's — isn't becoming a <strong>$32,290 guard</strong> anyway. A degree is the one real way out of the GED pipeline — and nobody climbs out only to turn around and guard the rung beneath them. Even the credentialed guards are squeezed: private-sector correctional officers get paid <strong>22–25% less than public guards and are mostly non-unionized</strong>.<sup><a href="#source-92">[92]</a></sup> Median private guard pay is <strong>$32,290</strong>, with one in four making under <strong>$26,091</strong> — near the poverty line for a family of four.<sup><a href="#source-93">[93]</a></sup> The corner office takes 125 years' worth of it. GEO even had detainees doing labor at about <strong>$1 a day</strong>; count them as employees and the founder's 2017 pay worked out to a <strong>32,000:1 ratio</strong>.<sup><a href="#source-94">[94]</a></sup> Walk into the rest of government and it's the same wall we keep hitting: barely <strong>0.1% of the federal civilian workforce lacks a high school diploma or GED</strong><sup><a href="#source-95">[95]</a></sup> — the little bit the CEO and shareholders leave behind flows to Diploma-Country. It never touches the GED holder. <strong>The only ones guaranteed nothing — jailed or free — are the GED holders.</strong></p>
+      <p>And the door doesn't just close once. Follow a release cohort for a decade and you get the real number: <strong>82% of state prisoners released in 2008 were arrested again within 10 years, and 61% went back to prison</strong>.<sup><a href="#source-96">[96]</a></sup> The government pays per prisoner per day whether the business works or not — so a system that <strong>fails four out of five people</strong> is also a system that <strong>guarantees the next paying customer</strong>. That's not failure. That's a pipeline.</p>
+      <p>And the pitch to struggling towns? It's sold as economic development — what one rural-planning study called the "last resort" after what had long been viewed as a "locally undesirable land use."<sup><a href="#source-97">[97]</a></sup> But the research found the opposite: by 2000, towns that landed a new prison had <strong>higher unemployment, higher poverty, fewer jobs, and lower home values</strong> than comparable small towns without one; prison towns' <strong>poverty rate rose</strong> while matched towns' fell; and government jobs came at the cost of private jobs, for a <strong>net loss in total employment</strong>.<sup><a href="#source-98">[98]</a></sup><sup><a href="#source-99">[99]</a></sup> A later study of all rural counties found prison openings <strong>actually impede economic growth in counties that lag in education</strong> — the very places they're pitched to.<sup><a href="#source-100">[100]</a></sup> It's survival, not prosperity. The town gets some government jobs. The corporations keep the profit.</p>
 
       <h3>The GED Is the Prison Diploma</h3>
       <p>Over <strong>26% of state inmates earned their GED while incarcerated</strong>. The DOJ Bureau of Prisons has an <strong>$861,000 contract</strong> with GED Testing Service.<sup><a href="#source-27">[27]</a></sup> <strong>10% of all GED tests in the US happen in prisons.</strong> The GED has become the de facto prison credential — over 60% of formerly incarcerated people with a high school credential hold a GED, not a diploma.<sup><a href="#source-15">[15]</a></sup></p>
@@ -943,7 +963,7 @@
       <div class="stat-card">
         <div class="stat-number">2x</div>
         <div class="stat-label">Higher Attrition Rate</div>
-        <div class="stat-detail">GED holders leave the military at nearly double the rate of diploma holders — even when they score the same on aptitude tests. The military calls it "first-term attrition."<sup><a href="#source-28">[28]</a></sup></div>
+        <div class="stat-detail">GED holders leave the military at nearly double the rate of diploma holders — even when they score the same on aptitude tests. The military calls it "first-term attrition."<sup><a href="#source-28">[28]</a></sup><sup><a href="#source-33">[33]</a></sup></div>
       </div>
       <div class="stat-card">
         <div class="stat-number">2.4x</div>
@@ -969,36 +989,26 @@
     </div>
 
     <section class="prose">
-      <p>The military that <strong>created the GED</strong> now classifies it as a near-dropout credential, requires higher test scores to compensate, limits GED holders to 10% of accessions, and uses the word "risk" to describe accepting them. The institution that built the test knows it's not equivalent — <strong>they just don't want you to know that they know.</strong></p>
+      <p>The military that <strong>created the GED</strong> now classifies it as a near-dropout credential, requires higher test scores to compensate, limits GED holders to 10% of accessions, and uses the word "risk" to describe accepting them. And the 90% diploma benchmark that enforces it isn't a quality measure — <strong>it's a funding metric.</strong> Congress wrote it into federal law (10 U.S.C. §520), the Pentagon reports the number every year to the Armed Services committees, and the benchmark was set by a mathematical model (built with the National Academy of Sciences) that calculates the education-attrition combination that <strong>minimizes training costs</strong>.<sup><a href="#source-38">[38]</a></sup> Diploma holders complete their first three years at 80%; GED holders and dropouts at 50% — and every washout is wasted recruiting and training money. In 2005 the Army's diploma share dipped to <strong>89% — one point below the benchmark</strong> — and it was a <strong>congressional event, not a readiness one</strong>; the number in the report had moved, and the committees that fund the Pentagon noticed.<sup><a href="#source-38">[38]</a></sup> They're not being selective because they care about you. They're being selective because of a budget. The institution that built the test knows the number isn't equivalent to quality — <strong>they just don't want you to know that they know.</strong></p>
     </section>
 
     <div class="callout callout-accent">
       <div class="callout-icon">💣</div>
       <div class="callout-content">
-        <strong>Meanwhile, the Military Bombs a Toxic, Sinking Island Chain for Fun</strong>
-        <p>Here's where the hypocrisy becomes unforgivable. The same military that classifies GED holders as "risk" and washes out 45% of them is currently testing intercontinental ballistic missiles and dropping inert concrete bombs on the Marshall Islands — <strong>an island chain they irradiated with 67 nuclear tests totaling 108 megatons</strong>, the equivalent of one Hiroshima bomb every day for 19 years.<sup><a href="#source-34">[34]</a></sup></p>
+        <strong>Saving the Taxpayer Money* (*From the Department That's Spent Decades Bombing a Toxic, Sinking Island Chain)</strong>
+        <p>Every time the military brushes off a GED holder, the quiet excuse is the same: <strong>it's about the risk</strong> — a number on a report, attrition, wasted training dollars. Behind the scenes, it's always framed as money-saving for the taxpayer. So before anything else, ask the question the whole GED story is circling: <strong>how much does this government actually spend, and what does it decide people — especially people with a GED — are worth?</strong> Once you follow the money, one thing becomes unmissable: it goes everywhere except toward people. And the department that can't risk a training dollar on a GED holder? It's the same one that's been spending billions — for decades — dropping bombs on a toxic, sinking island chain.<sup><a href="#source-34">[34]</a></sup></p>
+        <p>Start with the military that classifies GED holders as a "risk." That same military irradiated the Marshall Islands with <strong>67 nuclear tests totaling 108 megatons</strong> — the equivalent of one Hiroshima bomb every day for 19 years — and it's <strong>still firing missiles at the atoll today</strong>.<sup><a href="#source-34">[34]</a></sup></p>
         <p>From 1946 to 1958, the U.S. detonated 67 nuclear devices at Bikini and Enewetak Atolls. Castle Bravo in 1954 was <strong>1,000 times more powerful than Hiroshima</strong> — and the yield was miscalculated. Radioactive fallout poisoned 665 Marshall Islanders, forced the permanent displacement of entire communities, and left the islands contaminated for thousands of years. The cleanup left behind the <strong>Runit Dome</strong> — a concrete cap over 120,000 tons of plutonium-contaminated debris. Plutonium-239 remains dangerous for <strong>24,000 years</strong>. The dome cracked in less than 50. Groundwater seeps through it with every tide, carrying radioactive waste into the lagoon.<sup><a href="#source-35">[35]</a></sup></p>
-        <p>And the U.S. military is <strong>still there</strong>. They lease 11 islands on Kwajalein Atoll through 2066 for missile testing — the Ronald Reagan Ballistic Missile Defense Test Site. In 2026, they poured <strong>$163 million</strong> into two contracts to keep the range operational. Every few months, Air Force bombers fly from Guam to Kwajalein and drop inert concrete bombs for "quality control" target practice — on the same islands they irradiated, that are now sinking into the ocean.<sup><a href="#source-36">[36]</a></sup></p>
-        <p>The Marshall Islands has <strong>70 square miles of total land</strong> spread across 29 atolls. The highest point is 33 feet above sea level. Sea levels are rising 2–3 times faster than the global average. By mid-century, wave-driven flooding will contaminate freshwater supplies across the atolls. The Runit Dome — a nuclear tomb on a sinking island — is expected to be breached by storm surge within decades. Meanwhile, the Marshallese on Ebeye — <strong>11,000 people on 80 acres</strong>, one of the most densely populated places on Earth — have no dialysis machines, arsenic and PCBs in the reef fish, and imported processed food because the traditional diet is poisoned. They ferry across to Kwajalein every morning to clean up after the Americans testing missiles — past swimming pools, a country club, and a nine-hole golf course.<sup><a href="#source-37">[37]</a></sup></p>
-        <p>The military spends <strong>$163 million</strong> to test missiles on toxic, sinking islands. They spent <strong>$1 billion</strong> building a Space Fence radar on Kwajalein without checking sea-level projections. They keep 11 islands leased through 2066. They drop inert bombs for practice on the same atoll chain they poisoned. <strong>Money is not the problem. It was never the problem.</strong> They have unlimited budgets for missiles and bombs on stolen, irradiated land — but can't afford to properly contain plutonium or give dialysis machines to the people they poisoned. That's not a budget issue. <strong>That's a choice.</strong> And the same institution that makes those choices is the one telling you a GED is a "risk."</p>
-      </div>
-    </div>
-
-    <div class="callout callout-accent">
-      <div class="callout-icon">💰</div>
-      <div class="callout-content">
-        <strong>It Was Never About Quality. It's About the Budget.</strong>
-        <p>Here's what nobody connects: the 90% diploma benchmark isn't just a "quality" standard — it's a <strong>funding metric</strong>. Congress established it in federal law (10 U.S.C. §520). The military reports it every year in the Population Representation report to the Armed Services committees. And the benchmark was set by a mathematical model (built with the National Academy of Sciences) that calculates the education-attrition combination that <strong>minimizes training costs</strong>.<sup><a href="#source-38">[38]</a></sup></p>
-        <p>The logic is simple: diploma holders complete their first three years at 80%. GED holders and dropouts complete at 50%. Every GED recruit who washes out costs the military <strong>tens of thousands in wasted training</strong>. So the military caps GED holders at 10% — not because they're bad soldiers, but because <strong>more GED holders means higher attrition, which means worse numbers on the report Congress uses to decide the budget.</strong></p>
-        <p>Think about what that means. The military that <strong>built the GED in 1942</strong>, that classified it as Tier 2, that uses the word "risk" to describe GED holders — they're not being selective because they care about you. They're being selective because <strong>who wants to fund a military that can't keep its soldiers?</strong> The GED is a threat to a number on a spreadsheet. And that number determines how much money flows from Congress to the Pentagon.</p>
-        <p>In 2005, the Army dipped to 89% diploma holders — one percentage point below the benchmark. <strong>That created immediate tension with Congress.</strong> The number was in the report. The Armed Services committees saw it. The military doesn't want to explain why their attrition went up. So they don't take the "risk."</p>
-        <p>The same institution that spends <strong>$163 million</strong> testing missiles on toxic sinking islands and <strong>$1 billion</strong> on a Space Fence without checking sea-level projections will tell a 19-year-old with a GED: <strong>"Sorry, you're too much of a risk."</strong> Not because the GED holder is unqualified. But because the GED holder's attrition would make a number look bad in a report that affects the budget. That's not a quality filter. <strong>That's a financial hedge disguised as standards.</strong></p>
+        <p>The 67 test blasts ended in 1958 — and here's what almost nobody realizes: <strong>the bombings never stopped.</strong> The military simply traded nuclear warheads for ballistic missiles and turned the atoll into a designated target range. Kwajalein has been an active missile-testing range <strong>ever since — over 60 continuous years.</strong><sup><a href="#source-36">[36]</a></sup> Today the Air Force fires <strong>Minuteman III intercontinental ballistic missiles from California into the atoll, 3–4 times a year — up to 10 launches of missiles and hypersonic weapons a year</strong> — and bombers fly in from Guam to drop inert concrete bombs for "quality control" target practice.<sup><a href="#source-36">[36]</a></sup> They lease 11 islands through 2066. In 2026 alone, they poured <strong>$163 million</strong> into two contracts to keep the range operational.<sup><a href="#source-36">[36]</a></sup> So when someone tells you the bombings ended decades ago, that's the fiction: <strong>the nuclear era ended. The bombing era never did.</strong></p>
+        <p>The Marshall Islands has <strong>70 square miles of total land</strong> spread across 29 atolls. The highest point is 33 feet above sea level. Sea levels are rising 2–3 times faster than the global average. By mid-century, wave-driven flooding will contaminate freshwater supplies across the atolls. And the military knows this — <strong>and built its $1 billion Space Fence radar on Kwajalein anyway, without checking the sea-level projections</strong>.<sup><a href="#source-36">[36]</a></sup> The Runit Dome — a nuclear tomb on a sinking island — is expected to be breached by storm surge within decades. Meanwhile, the Marshallese on Ebeye — <strong>11,000 people on 80 acres</strong>, one of the most densely populated places on Earth — have no dialysis machines, arsenic and PCBs in the reef fish, and imported processed food because the traditional diet is poisoned. They ferry across to Kwajalein every morning to clean up after the Americans testing missiles — past swimming pools, a country club, and a nine-hole golf course.<sup><a href="#source-37">[37]</a></sup></p>
+        <p>Now connect the dots. This isn't some company buying top staff a fancy car — this is <strong>actively spending to keep bombing and irradiating people</strong>. They'll burn money on missiles, bombs, and radar on stolen, poisoned land — but can't afford to contain plutonium or give them dialysis machines. And put a hard total on the ledger: <strong>over $10.6 billion on the test program alone</strong>, roughly <strong>$100 million of half-finished cleanup</strong>, <strong>over $500 million in compensation they admit to</strong><sup><a href="#source-101">[101]</a></sup> — then a missile range that's a <strong>multi-billion-dollar facility</strong>, fed by <strong>$163 million in 2026 contracts alone</strong>.<sup><a href="#source-36">[36]</a></sup> The nuclear era ended. The spending never did. That's not a budget issue. <strong>That's a declaration.</strong> They'll spend on anything — except people. The Marshallese sit below citizen, treated as "not worth the cost." Now slide a GED holder into that same unofficial tier: someone the institutions with all the money have decided is worth less than a bomb. More trouble than a missile. Not worth building around. Then they turn around and tell an 18-year-old with a GED, <strong>"sorry, you're not worth the risk."</strong> That's not fiscal caution. That's morbid comedy. <strong>A GED doesn't just measure education. It quietly walks you into a category — just above non-citizen, just below "worth spending on" — and the bombs prove that category was never about money. There's never a budget for you. There's always one for the bombs.</strong></p>
+        <p>And here's the part that should really land: <strong>on paper, the government is the perfect employer.</strong> Unlimited money. No shareholders. No board demanding a return. No bottom line to protect. It can print money, run deficits, and spend billions on bombs and radar without blinking. It doesn't even profit from you — a position that greedy companies could only dream of. And it's not just financially free — <strong>it's free in a way no company is: it has zero care for its reputation.</strong> Companies have to at least fake it — a mission statement, a DEI page, a PR team ready to smooth over any hiring scandal. The government doesn't even bother pretending, because nobody can fire it. It can bomb sinking islands and shrug. It can poison people and shrug. It can't afford dialysis and shrug. <strong>The most powerful institution in the country — answerable to no one, its hands completely free, unable even to care what history writes about it — looked at the GED and decided: not worth it.</strong> So believe it: if the institution under zero pressure — zero profit motive, zero stockholders, zero reputation worth protecting — still says no, then every company that has to keep up appearances while it filters you out of applicant pools was never going to say yes either. <strong>They want you to believe it's about money — that if you'd just get the piece of paper they'd find a place for you. But watch where the money actually goes and you'll see the truth: it was never the money. It was never the risk. It was never even a dilemma. It's who counts.</strong></p>
       </div>
     </div>
 
     <section class="prose">
-      <h2>NASA Gave Better Odds Than Your GED</h2>
-      <p>This is the comparison that should make every kid stop and think. NASA — the agency that straps people to controlled explosions and shoots them into the vacuum of space — <strong>gave its astronauts better odds than the GED gives you of building a real career.</strong></p>
+      <h2>Astronaut Odds Without the Mission</h2>
+      <p>This is the comparison that should make every kid stop and think. NASA selects from thousands, trains for years, staffs every launch with mission control — all to hold the astronaut death rate at <strong>2.4%</strong>. Now look at your number with a GED: a <strong>3.7%</strong> chance of a college degree. <strong>The worst-case outcome in the most carefully managed job on Earth is nearly as likely as the best-case outcome of your "second chance."</strong></p>
     </section>
 
     <div class="stat-grid">
@@ -1006,19 +1016,19 @@
         <div class="stat-number">2.4%</div>
         <div class="stat-label">Astronaut Death Rate</div>
         <div class="stat-compare">🚀 1 in 42 astronauts died flying into space</div>
-        <div class="stat-detail">791 people have flown into space. 19 of them died during the mission. That's a 2.4% fatality rate — the riskiest job in the world. And NASA knew every single one of those odds before they launched.<sup><a href="#source-30">[30]</a></sup></div>
+        <div class="stat-detail">791 people have flown into space. 19 of them died during the mission — a 2.4% fatality rate, kept that low only by elite selection, years of training, and mission control on every flight. And 1 in 84 U.S. crewed launches still ended in catastrophic failure — X-15, Challenger, Columbia, Apollo-Soyuz, SpaceShipTwo.<sup><a href="#source-30">[30]</a></sup><sup><a href="#source-31">[31]</a></sup></div>
       </div>
       <div class="stat-card">
-        <div class="stat-number">1.2%</div>
-        <div class="stat-label">Catastrophic Failure Rate</div>
-        <div class="stat-compare">💥 1 in 84 U.S. crewed launches ended in disaster</div>
-        <div class="stat-detail">421 U.S. crewed spaceflights. 5 catastrophic failures — X-15, Challenger, Columbia, Apollo-Soyuz, SpaceShipTwo. The rocket literally blew up or broke apart. 20 people killed or seriously injured.<sup><a href="#source-31">[31]</a></sup></div>
+        <div class="stat-number">5.8%</div>
+        <div class="stat-label">Death Rate per Mission</div>
+        <div class="stat-compare">🚀 1 in 17 astronaut flights ended in a fatality</div>
+        <div class="stat-detail">Per person the death rate is 2.4% — but the fatality rate <strong>per mission</strong> was 5.8% across 327 crewed flights from 1961 to 2020. Even the 2.4% only looks small because one mission can carry many astronauts. Split it per launch and the machinery barely contains it.<sup><a href="#source-31">[31]</a></sup></div>
       </div>
       <div class="stat-card">
         <div class="stat-number">3.7%</div>
         <div class="stat-label">GED → College Degree</div>
-        <div class="stat-compare">🎓 Worse than dying in space</div>
-        <div class="stat-detail">Only 3.7% of GED holders get a college degree by age 25-29. That's a 1 in 27 shot. Your odds of finishing college with a GED are <strong>worse than your odds of dying as an astronaut.</strong><sup><a href="#source-6">[6]</a></sup></div>
+        <div class="stat-compare">🎓 The same odds as dying in a rocket</div>
+        <div class="stat-detail">Only 3.7% of GED holders get a college degree by age 25-29 — a 1 in 27 shot. That's <strong>nearly the same number as an astronaut's chance of dying on the job.</strong> Their worst case is about as likely as your best case.<sup><a href="#source-6">[6]</a></sup></div>
       </div>
       <div class="stat-card">
         <div class="stat-number">45%</div>
@@ -1032,10 +1042,10 @@
       <div class="callout-icon">🚀</div>
       <div class="callout-content">
         <strong>NASA vs the GED: A Side-by-Side</strong>
-        <p>Think about what this means. NASA designs rockets with millions of parts. They calculate orbital mechanics to the decimal. They train astronauts for years. And even then, <strong>1 in 42 of their people die on the job.</strong></p>
-        <p>Now think about the GED. No training. No safety net. No mission control. Just a 7-hour test and a piece of paper that says "equivalent." And your odds of it leading to a real career — a degree, a professional job, a life above poverty — are <strong>worse than the odds NASA gave its astronauts of coming home alive.</strong></p>
-        <p>NASA's astronauts knew the risk and signed up anyway — because the mission mattered. <strong>GED holders don't know the odds they're signing up for.</strong> Nobody tells them. The test center doesn't hand you a stat sheet. The school counselor doesn't say "hey, your odds of getting a degree are worse than dying in a rocket." They just hand you the registration form and collect the fee.</p>
-        <p><span class="lead-in">And here's the part that should make you furious:</span> <strong>the GED doesn't even have a mission.</strong> NASA was trying to put humans on the moon. The GED is trying to sell you a $120 piece of paper.</p>
+        <p>The reason anyone boards a rocket is simple: <strong>the odds are in their favor.</strong> Astronauts ride because <strong>97.6% of them come home.</strong> That's the whole calculation — when the odds favor you, you get on. Now flip it. Your GED's entire chance of paying off — the degree, the career, the life — is <strong>3.7%</strong>, a number the same size as an astronaut's death odds. That makes the GED a rocket where <strong>the odds are against you — 96.3% of the time it fails.</strong> Nobody boards a rocket when the odds say they won't make it. <strong>The GED hands you that odds sheet and calls it a second chance.</strong></p>
+        <p>And look at who's on which side of the number. The astronaut bets their life on a 2.4% fail rate — and it buys the stars. You stake your future on a 3.7% success rate — and even your win is just an ordinary life, <strong>the exact thing a high school diploma hands out for free.</strong></p>
+        <p>And even that isn't the worst part. The astronauts <strong>knew</strong> the odds before they signed up — NASA told them, trained them, prepared them. <strong>Nobody tells a GED holder the odds.</strong> The test center doesn't hand you a stat sheet. The counselor doesn't say "hey, your chance of a degree is the same number an astronaut calls small risk." They take the $120 and hand you the registration form.</p>
+        <p><span class="lead-in">And here's the part that should make you furious:</span> <strong>the GED doesn't even have a mission.</strong> NASA was trying to put humans on the moon. Your goal is simpler stuff — sick pay, a savings, not living in a cage. Same odds as a rocket. <strong>No payload worth strapping in for.</strong></p>
       </div>
     </div>
 
@@ -1071,12 +1081,8 @@
       </div>
     </div>
 
-    <div class="callout">
-      <div class="callout-icon">🎰</div>
-      <div class="callout-body">
-        <h3>The House Always Wins</h3>
-        <p>You know how people at the track convince themselves "this horse could win"? The GED works the same way. People think "if I just get the GED, things will turn around." But here's what kills you: <strong>a new horse race is the next day.</strong> You lose $5 on the 12-1 longshot? Show up tomorrow with another $5 and try again. You can run that race a thousand times and the math eventually evens out. But the GED isn't a race you run again next Saturday. <strong>It's one bet. One shot. One set of odds.</strong> There is no next day. You put your entire life on a 12-1 longshot, and if it loses — which it does 12 out of 13 times — there's no next race. There's just the same odds, getting worse every year, with a credential that nobody values and a field of competitors who started training years before you showed up. Nobody who understood probability would take that deal. But every kid who signs up for the GED is making exactly that bet.</p>
-      </div>
+    <div class="chart-container">
+      <canvas id="collegeChart"></canvas>
     </div>
 
     <section class="prose">
@@ -1121,6 +1127,22 @@
         <div class="stat-compare">🧹 7.2% — nights, weekends, alone</div>
         <div class="stat-detail">Janitors, maids, building cleaners. Median pay $29,000. Working alone at night means no witnesses, no safety net, no one to call if something goes wrong. Highest rate of workplace violence of any occupation (BLS 2024)</div>
       </div>
+      <div class="stat-card">
+        <div class="stat-number">1.0</div>
+        <div class="stat-label">Production / Manufacturing</div>
+        <div class="stat-compare">🏭 8% — the "career move" off the line is still the line</div>
+        <div class="stat-detail">Assemblers, machine operators, packers. GED holders start forking over to production at 3.9% — and it climbs to 8% as they leave food service and retail. Hailed as upward mobility, it's the same treadmill: shift work, line speed, repetitive motion, first out the door when orders dip.<sup><a href="#source-4">[4]</a></sup></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">0.5</div>
+        <div class="stat-label">Personal Care / Health Support</div>
+        <div class="stat-compare">🧑‍⚕️ ~5% — the caring jobs, for everyone else</div>
+        <div class="stat-detail">Home health aides, nursing assistants, childcare workers. Median pay $30,000 or less, high physical strain, burnout in years — jobs built around looking after other people when a GED holder can't always afford care for their own.<sup><a href="#source-4">[4]</a></sup></div>
+      </div>
+    </div>
+
+    <div class="chart-container">
+      <canvas id="wageGapChart"></canvas>
     </div>
 
     <div class="callout callout-accent">
@@ -1168,6 +1190,7 @@
     <section class="prose">
       <h2>You're Not Going Anywhere</h2>
       <p>Every kid who drops out has a dream: <strong>"I'll get my GED, save up some money, and travel the world."</strong> They've seen the Instagram posts, the backpacking photos, the "quit your job and explore" lifestyle content. Here's why that dream dies with the GED — and how every stat on this page chains together to make sure of it.</p>
+      <p>The travel dream is the last thing people let go of. But look at the numbers — not for "some people," for <strong>you</strong>:</p>
     </section>
 
     <div class="stat-grid">
@@ -1214,17 +1237,209 @@
     </div>
 
     <section class="prose">
-      <p>The travel dream is the last thing people let go of. But look at the numbers — not for "some people," for <strong>you</strong>:</p>
-      <p>You earn less, you work less, you have no paid vacation, and the system is stacked against you at every turn. <strong>That's every single GED holder. Not some. All.</strong></p>
-      <p>And once you have that criminal record, <strong>Canada, the UK, Australia, and Japan can deny you entry — permanently, no appeal.</strong> Owe $2,500 in child support? The federal government holds your passport.</p>
-      <p>Only 24% of people with your education level even own a passport. College grads: 64%. <strong>You're not traveling. You're not seeing the world. You're not escaping.</strong> Your entire view of life comes from a screen because you'll never leave the zip code you were born in.</p>
-      <p>That's not a theory. That's not "some people." <strong>That's the data. For all of you.</strong> That's not a life. That's a sentence.</p>
+      <h2>No Other Country Does This</h2>
+      <p>The GED is a uniquely American invention. Most developed nations don't offer a shortcut credential that claims equivalence with their standard high school diploma. And the reason isn't just educational philosophy — <strong>it's economics.</strong></p>
+      <p>Other countries don't have a private prison industry that profits from filling beds. They don't have an $861,000 federal contract between the Bureau of Prisons and the GED Testing Service. They don't have 10% of their GED tests happening inside prisons. They don't have low-wage employers saving millions by hiring GED holders at a fraction of what diploma holders earn. <strong>The GED exists because too many people profit from it.</strong> Other countries looked at that equation and said: we'd rather spend the money on actual education.</p>
+      <p>Other countries also don't run their militaries on funding metrics that reward keeping "quality" numbers clean. They don't have a 90% diploma benchmark tied to Congressional appropriations. They don't classify GED holders as "risk" to protect a line item on a budget report. Their militaries run on normal budgets, with standards that make sense — and they save their cash for when the US does the next crazy thing and oil prices soar. <strong>They can afford to be honest about education because they're not running a financial hedge disguised as a credential.</strong></p>
+
+      <div class="comparison-table">
+        <div class="comp-row cols-3 comp-header">
+          <div class="comp-metric">Country</div>
+          <div class="comp-val ged">System</div>
+          <div class="comp-val diploma">GED Equivalent?</div>
+        </div>
+        <div class="comp-row cols-3">
+          <div class="comp-metric">United Kingdom</div>
+          <div class="comp-val ged">GCSEs (age 16) + A-Levels (age 18)</div>
+          <div class="comp-val diploma">No. Adult learners retake actual GCSEs — no shortcut credential</div>
+        </div>
+        <div class="comp-row cols-3">
+          <div class="comp-metric">Germany</div>
+          <div class="comp-val ged">Abitur (rigorous exit exam) + Ausbildung (vocational)</div>
+          <div class="comp-val diploma">No. Dropouts enter vocational training, not an equivalency test</div>
+        </div>
+        <div class="comp-row cols-3">
+          <div class="comp-metric">Japan</div>
+          <div class="comp-val ged">Upper secondary school (99%+ graduation rate)</div>
+          <div class="comp-val diploma">No. High school is nearly universal; no equivalency exists</div>
+        </div>
+        <div class="comp-row cols-3">
+          <div class="comp-metric">France</div>
+          <div class="comp-val ged">Baccalauréat (national exit exam)</div>
+          <div class="comp-val diploma">No. The Bac is rigorous and has no equivalent shortcut</div>
+        </div>
+        <div class="comp-row cols-3">
+          <div class="comp-metric">United States</div>
+          <div class="comp-val ged">GED test (4 subjects, ~7 hours)</div>
+          <div class="comp-val ged">Yes — marketed as "equivalent" but treated as dropout-level</div>
+        </div>
+      </div>
+
+      <p>Other countries sort students by ability through tiered systems — the German Abitur, the UK's GCSE/A-Level split, France's Bac — rather than offering a single test that erases the difference. The result: their credentials <strong>mean something</strong>. The U.S. GED means "you passed a test," and the labor market knows it.</p>
+      <p>The difference isn't that other countries are smarter. It's that <strong>they don't have a financial incentive to keep people trapped in a cheap credential pipeline.</strong> No private prisons filling beds. No ACE/Pearson collecting $120 per test. No low-wage employers saving millions on underpaid labor. No military protecting a funding metric. The GED isn't an educational achievement — it's a <strong>business model.</strong> And only America runs it.</p>
     </section>
 
     <section class="prose">
-      <h2>You Have Another Option</h2>
-      <p>The GED isn't your only path. <strong>Online high school diploma programs exist</strong> — and they give you a real diploma, not an equivalency certificate. Some are free through your state, some cost a few thousand, but all of them give you a credential that means more than the GED.</p>
-      <p><strong>Key fact:</strong> Free state programs like UT High School have an age limit (usually under 21). But private accredited programs like Penn Foster, Excel High School, and JMHS have <strong>no age limit</strong> — adults of any age can enroll. Don't assume you're too old. Check your options before you settle for the GED.</p>
+      <h2>The Country That Sets the Credit Scores</h2>
+      <p>Here's what nobody connects: <strong>the United States invented the credit score.</strong> FICO — the company that created the system used to judge whether you can rent an apartment, buy a car, get a phone plan, or open a bank account — operates in over 40 countries across five continents.<sup><a href="#source-40">[40]</a></sup> The U.S. set the global standard for measuring financial credibility.</p>
+      <p>And then the same country that invented the system <strong>runs a credential that tanks the economic output of millions of people.</strong></p>
+      <p>GED holders earn $708/week versus $899/week for diploma holders — a 21% gap.<sup><a href="#source-41">[41]</a></sup> That's $9,932/year. Over 40 years, that's $397,280 in lost lifetime earnings. Multiply that across millions of GED holders, and you're looking at <strong>hundreds of billions in lost economic output</strong> — GDP that never materialized, taxes that were never collected at higher rates, consumption that never happened.</p>
+      <p>Meanwhile, other countries — the ones without the GED shortcut — are <strong>outpacing the U.S. in educational outcomes and economic growth.</strong> OECD data shows a direct link between cognitive skills (measured by PISA test scores) and long-term GDP growth. A one standard deviation increase in test scores yields an average annual growth rate <strong>1.86 percentage points higher</strong> over 40 years — a massive difference when compounded.<sup><a href="#source-42">[42]</a></sup> Countries that invested in real education — not band-aid credentials — grew faster. South Korea went from $79 per capita in 1960 to one of the world's richest nations in two generations.<sup><a href="#source-43">[43]</a></sup> The U.S. invented the metric for creditworthiness and then <strong>produces millions of citizens who can't meet it.</strong></p>
+      <p>You can't set the global credit score and then run a system that <strong>deliberately creates people with bad scores.</strong> That's not just hypocrisy. That's a country that profits from its own decline — <strong>and charges the victims $120 for the privilege.</strong></p>
+    </section>
+
+    <section class="prose">
+      <h2>When Labor Runs Low, They Kick Out the Mexicans</h2>
+      <p>Here's the cycle nobody talks about: when the economy needs cheap labor, <strong>undocumented immigrants fill the gap.</strong> When the economy contracts, they get deported. And the GED holders left at the bottom? <strong>They don't replace anyone — they don't move up an inch.</strong></p>
+      <p>The pattern is predictable. During economic booms, industries like agriculture, construction, meatpacking, and hospitality rely heavily on undocumented workers — people who accept low wages, no benefits, and no questions. When recession hits or political winds shift, <strong>mass deportations clear the labor pool.</strong> But the cleared jobs don't hand over to the next tier. They vanish. A 2026 NBER study found that for every ICE arrest, <strong>seven likely undocumented workers who remain in the U.S. stop working</strong> due to fear — employment among undocumented workers drops 1.4% overall and 2% in the sectors that over-rely on them. And U.S.-born male workers don't fill the gap. <strong>They lose jobs too, not gain them.</strong><sup><a href="#source-44">[44]</a></sup></p>
+      <p>And here's the kicker: <strong>the disposable tier pays either way.</strong> Undocumented workers aren't tax-free — they're some of the most tax-exploited people in the country. ITEP estimates they paid <strong>$96.7 billion</strong> in federal, state, and local taxes in 2022, including <strong>$25.7 billion in Social Security taxes</strong> — over a third of it into programs they are barred from ever collecting.<sup><a href="#source-104">[104]</a></sup> Many pay under a Social Security number that isn't theirs: the SSA's chief actuary counted <strong>1.8 million</strong> undocumented workers reporting wages under mismatched numbers in 2010. Withheld at full rate and most never filing to claim it back, the unmatched wages stack up in the <strong>Earnings Suspense File — $1.3 trillion</strong> by 2016. Taxes paid. Benefits credited to no one.<sup><a href="#source-105">[105]</a></sup> Which makes the GED holder the <strong>government's surest asset.</strong> The alien's money can still come back — a filed return refunds overpaid income tax, suspended wages get reinstated, and someone who can't be matched up can just disappear. The GED holder can't: legal, taxable, permanent, every dollar credited to their own name. <strong>Pay in for 40 years, die a decade early, collect nothing.</strong> To the government, the alien is a gamble. <strong>The GED holder is the sure thing — guaranteed payment, zero payout.</strong><sup><a href="#source-18">[18]</a></sup></p>
+      <p>It's not a bug. <strong>It's the system working exactly as designed.</strong> The GED exists to produce a replaceable labor force that's legal, taxable, and politically invisible. The undocumented worker can disappear — deported, or too scared to clock in. <strong>The GED holder can't.</strong> They're the permanent version of the disposable worker: always there, always paying in, never moving up.</p>
+    </section>
+
+    <section class="prose">
+      <h2>Zero Representation in Government</h2>
+      <p>GED holders don't just earn less and die sooner. <strong>They're invisible in the rooms where decisions are made about their lives.</strong></p>
+      <p>94% of U.S. Representatives and 100% of U.S. Senators hold at least a bachelor's degree.<sup><a href="#source-46">[46]</a></sup> In the 118th Congress, only about 2% of House members had no college degree — and <strong>zero Senators.</strong><sup><a href="#source-47">[47]</a></sup> The average American without a college degree makes up 38% of the population but holds less than 2% of congressional seats. For GED holders specifically? <strong>The number is essentially zero.</strong> No GED holder has ever been identified in the Senate. In the House, a handful of members list a high school diploma or equivalent — but they're the rare exception, not the rule.</p>
+      <p>This isn't accidental. Running for office requires <strong>money, networks, and credentials</strong> — three things GED holders statistically don't have. The median GED holder earns $38,274/year. Congressional campaigns cost millions. The political pipeline runs through college campuses, law firms, and corporate boardrooms — places GED holders don't typically access.</p>
+      <p>And it's not just Congress. <strong>Federal government jobs overwhelmingly require degrees.</strong> The Office of Personnel Management classifies most federal positions at the GS-5 level or above, which requires at minimum a bachelor's degree — 4 years of post-high school education.<sup><a href="#source-48">[48]</a></sup> A GED holder without additional education qualifies only for GS-1 or GS-2 positions (high school completion or equivalent). State and local government jobs follow the same pattern. Even entry-level administrative positions in government increasingly require degrees — not because the work demands it, but because <strong>credential inflation creates a barrier that filters out GED holders before they even apply.</strong></p>
+      <p>The result: the people most affected by GED policy — the people whose lives are shaped by minimum wage laws, criminal sentencing guidelines, healthcare access, and education funding — <strong>have no one in government who looks like them, came from where they came from, or understands their experience.</strong> They pay taxes for 40 years, die a decade early, and never get a seat at the table. That's not democracy. <strong>That's taxation without representation — and it's still happening today.</strong></p>
+    </section>
+
+    <section class="prose">
+      <h2>Political Participation: Beyond Voting</h2>
+      <p>Voting is the baseline. But political power runs through <strong>donations, volunteering, contacting officials, and running for office</strong> — and the education gap is even wider there.<sup><a href="#source-70">[70]</a></sup></p>
+      <p>A 2018 Pew study found that college graduates were <strong>twice as likely to donate money</strong> to a political candidate in the past 5 years: 43% vs 22% of non-college graduates. The education gap in political donations is larger than the gap in voting. Why? Donations require disposable income — and GED holders earn $9,900 less per year than diploma holders. When every dollar goes to rent and food, there's nothing left to give to candidates who might represent you.</p>
+      <p>Doyle &amp; Skinner (2017), using NLSY97 longitudinal data, found that each additional year of postsecondary education increased the probability of voting by <strong>7.7 percentage points</strong> in the 2010 election, with smaller but significant effects on volunteering (+0.1pp) and donations (+0.13pp). An ETS study found that adults with master's degrees or higher were <strong>2.5x more likely to vote</strong> in 2006 than those without a high school diploma, and <strong>5–6x more likely to volunteer</strong> — including political volunteering.</p>
+      <p>The pattern is clear: the more education you have, the more you participate in democracy beyond just showing up. GED holders are <strong>twice as likely to be politically invisible</strong> — no donations, no volunteering, no contacting representatives. Politicians respond to people who show up AND pay. If you can't donate and can't volunteer, you don't exist in a campaign strategy. <strong>Your zip code votes. Your education level determines whether your voice is heard.</strong></p>
+    </section>
+
+    <section class="prose">
+      <h2>Homelessness: The Education Pipeline</h2>
+      <p>The homeless population is <strong>dramatically less educated</strong> than the general population — and the GED is overrepresented in both directions: too many GED holders among the homeless, too few college grads.<sup><a href="#source-71">[71]</a></sup></p>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-number">66%</div>
+        <div class="stat-label">Homeless with HS or Less</div>
+        <div class="stat-detail">Two-thirds of sheltered homeless have a HS diploma/GED or less. Only 10% hold a college degree. Compare: 35% of the general population has a bachelor's or higher (California Statewide Study 2023).</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">30.4%</div>
+        <div class="stat-label">Homeless without Diploma</div>
+        <div class="stat-detail">30.4% of sheltered homeless adults have less than HS. 36.4% have HS/GED. Only 5.8% are college graduates. GED holders are overrepresented relative to diploma holders (UChicago BFI 2021).</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">36%</div>
+        <div class="stat-label">Chronically Homeless</div>
+        <div class="stat-detail">36% of homeless adults meet federal criteria for chronic homelessness (12+ months continuous or 4+ episodes in 3 years + disabling condition). Median length: 22 months (California 2023).</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">87%</div>
+        <div class="stat-label">More Likely to Drop Out</div>
+        <div class="stat-detail">Homeless youth are 87% more likely to stop attending school than housed peers. Nearly 1 in 3 young homeless adults have NO educational milestone — vs 5.4% nationally (Hynes 2014, HYRRS 2017).</div>
+      </div>
+    </div>
+
+      <p>The California Statewide Study of People Experiencing Homelessness (2023) — the largest such study ever conducted in the U.S. — found that <strong>63% of homeless adults had at least a HS diploma/GED</strong>, but only 10% held a college degree. Twenty-nine percent had a HS diploma or GED, 24% had some college but no degree, and 10% had an associate's or bachelor's. The missing group? <strong>37% had no diploma and no GED</strong> — nearly 4x the rate in the general population (10.4%).<sup><a href="#source-71">[71]</a></sup></p>
+      <p>Here's the GED trap in miniature: <strong>GED holders make up a disproportionate share of the homeless population</strong> because they cluster in the exact jobs that lead to homelessness — construction, food service, warehouse, cleaning. When those jobs disappear (layoff, injury, seasonal), there's no savings buffer, no employer network, no degree to fall back on. The UChicago BFI study found that 36.4% of sheltered homeless had a HS diploma/GED — higher than their 29% share of the general population.<sup><a href="#source-71">[71]</a></sup><sup><a href="#source-72">[72]</a></sup></p>
+      <p>And once you're homeless, <strong>education is your best chance of getting out</strong>. A Canadian longitudinal study found that employment and earned income were the strongest predictors of shorter homelessness duration — and those outcomes are directly tied to education. The study also found a paradox: those with <em>less than</em> a HS diploma were actually <strong>less likely</strong> to become homeless than those with a diploma — because they qualified for social assistance programs that provided a floor. GED/diploma holders earn too much for full benefits but too little for stability, leaving them <strong>one paycheck from the street</strong>.<sup><a href="#source-73">[73]</a></sup></p>
+      <p>For young adults experiencing homelessness (YEH), the education crisis is even worse. The HYRRS study across 7 U.S. cities found that <strong>nearly 1 in 3 young homeless adults had earned NO educational milestone</strong> — no diploma, no GED, nothing. That's 6x the national rate of 5.4%. Foster care involvement, juvenile justice involvement, substance use, and earlier-onset housing instability were all associated with lower educational attainment. The schools that were supposed to be a lifeline failed them instead.<sup><a href="#source-74">[74]</a></sup></p>
+    </section>
+
+    <section class="prose">
+      <h2>The Bottom Line</h2>
+      <p>The landmark Cameron &amp; Heckman (1993) study concluded GED holders are <strong>"nonequivalence of high school equivalents"</strong><sup><a href="#source-2">[2]</a></sup> — indistinguishable from dropouts in many labor market dimensions. More recent data shows some improvement, but the gap persists:</p>
+
+      <div class="comparison-table">
+        <div class="comp-row comp-header">
+          <div class="comp-metric">Metric</div>
+          <div class="comp-val dropout">Dropout</div>
+          <div class="comp-val ged">GED</div>
+          <div class="comp-val diploma">Diploma</div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-metric">Hourly Wage</div>
+          <div class="comp-val dropout">$12.33</div>
+          <div class="comp-val ged">$14.08</div>
+          <div class="comp-val diploma">$14.67</div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-metric">Annual Wage Income</div>
+          <div class="comp-val dropout">$18,963</div>
+          <div class="comp-val ged">$21,694</div>
+          <div class="comp-val diploma">$25,714</div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-metric">Family Income</div>
+          <div class="comp-val dropout">$31,553</div>
+          <div class="comp-val ged">$43,767</div>
+          <div class="comp-val diploma">$55,077</div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-metric">No Employer Benefits</div>
+          <div class="comp-val dropout">40%</div>
+          <div class="comp-val ged">31%</div>
+          <div class="comp-val diploma">24%</div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-metric">College Degree (age 25-29)</div>
+          <div class="comp-val dropout">—</div>
+          <div class="comp-val ged">3.7%</div>
+          <div class="comp-val diploma">43.7%</div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-metric">Current Smoking</div>
+          <div class="comp-val dropout">30%</div>
+          <div class="comp-val ged">44%</div>
+          <div class="comp-val diploma">22%</div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-metric">Ever Incarcerated</div>
+          <div class="comp-val dropout">23%</div>
+          <div class="comp-val ged">31%</div>
+          <div class="comp-val diploma">8%</div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-metric">Ever Arrested</div>
+          <div class="comp-val dropout">52%</div>
+          <div class="comp-val ged">69%</div>
+          <div class="comp-val diploma">35%</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="prose">
+      <h2>The Way Out</h2>
+      <p>Everything above — every stat, every wall, every dead end — was the case <em>against</em> the GED. This is the other half: <strong>you have a way out, and it's the most boring, obvious thing on this page. A real high school diploma.</strong></p>
+
+      <div class="callout callout-accent">
+        <div class="callout-icon">🎓</div>
+        <div class="callout-content">
+          <strong>The Bottom Line</strong>
+          <p>Finishing high school is the <strong>absolute best</strong> move — and the part nobody says out loud is that <strong>it's easy work, and it's free.</strong> Public school is <strong>always</strong> free — no test fee, no registration fee, no Pearson, no $120. State and public programs cost you nothing. The classes aren't harder than what you already did; they just run on your schedule. What you trade for a real diploma: a few months of your life. What you get: <strong>12x the odds of a college degree, a tiny fraction of the prison risk, an 18-point better shot at full-time work, and $9,900 more every single year</strong> — for the next 40. That's the whole argument in one paragraph.</p>
+          <p>And the GED? <strong>It's the absolute worst move — worse than not getting a diploma at all.</strong> A dropout still has the door open. <strong>Even if you do nothing — nothing at all — that door stays open. You can come to your senses at 25, at 35, at 50, and still walk back in and finish.</strong> A GED holder can't: he's been stamped, measured, and capped — handed the label, then shown exactly where the bottom is. <strong>And the door closes behind you too: Colorado's public adult-diploma program explicitly requires that you do NOT already hold a GED.</strong><sup><a href="#source-103">[103]</a></sup> Take the GED first and you've got a <strong>near-zero chance of ever earning a real diploma</strong> — the system treats your equivalency as "done, measured, capped," and the better option is no longer offered to you. Doing nothing keeps the door open. Making the GED mistake welds it shut. <strong>The stats say you're guaranteed to fail.</strong> 3.7% get a degree. 31% end up in prison. 45% wash out of the military. The GED will never serve you. Not once. It's not a second chance. <strong>It's a one-way trap, a permanent anchor — and you'll never detach from it.</strong></p>
+          <p>So if you already dropped out, <strong>go get the real diploma.</strong> Don't take the shortcut because the test is faster. Fail a class? Retake it. Fail again? Retake it again. <strong>Try, and fail, and try again — over and over — until a real diploma is in your hand.</strong> Not the fake. Not the label. The one that actually opens the doors.</p>
+        </div>
+      </div>
+
+      <p>The GED was never a path. <strong>It's the trap — the entire page above is the proof.</strong> The actual path is a real high school diploma, and <strong>online diploma programs exist</strong> to give you exactly that — not an equivalency certificate, not a "credential that means more," but the real thing. Some are free through your state, some cost a few thousand, but every one of them is a door that actually opens.</p>
+      <p><strong>Key fact:</strong> After dropping out, you have options — and they run from <strong>free to a few thousand dollars.</strong> Free state programs like UT High School have an age limit (usually under 21). But there are also public adult-diploma programs, and private accredited options like Penn Foster, Excel High School, and JMHS that have <strong>no age limit</strong> — adults of any age can enroll, and even the priciest is a few thousand for a real diploma. Compare that to the $120+ GED fee that buys you a trap. <strong>Don't assume you're too old. Check your options before you settle for the GED.</strong></p>
+
+      <h3>Here's a Couple Random Stats, for Example</h3>
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-number">300,000+</div>
+          <div class="stat-label">Colorado Adults Without a Diploma</div>
+          <div class="stat-compare">📍 Nearly half live in the metro Denver area</div>
+          <div class="stat-detail">And Colorado now hands out <strong>real adult diplomas</strong> — state technical colleges issue them under SB 23-007. Emily Griffith's program runs as few as 8 weeks and costs $150. Not a test. A diploma.<sup><a href="#source-103">[103]</a></sup></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">12,893</div>
+          <div class="stat-label">People Who Passed the FL GED in a Year</div>
+          <div class="stat-compare">🏝️ That's the GED — the trap this page is about</div>
+          <div class="stat-detail">In 2021–22, 24,976 Floridians took the GED and 12,893 passed — 76.6% of those who finished. Thousands of adults sat for the "fast path." Every one of them could have been steered to a real diploma instead.<sup><a href="#source-102">[102]</a></sup></div>
+        </div>
+      </div>
 
       <div class="comparison-table">
         <div class="comp-row cols-3 comp-header">
@@ -1338,176 +1553,13 @@
     </section>
 
     <section class="prose">
-      <h2>No Other Country Does This</h2>
-      <p>The GED is a uniquely American invention. Most developed nations don't offer a shortcut credential that claims equivalence with their standard high school diploma. And the reason isn't just educational philosophy — <strong>it's economics.</strong></p>
-      <p>Other countries don't have a private prison industry that profits from filling beds. They don't have an $861,000 federal contract between the Bureau of Prisons and the GED Testing Service. They don't have 10% of their GED tests happening inside prisons. They don't have low-wage employers saving millions by hiring GED holders at a fraction of what diploma holders earn. <strong>The GED exists because too many people profit from it.</strong> Other countries looked at that equation and said: we'd rather spend the money on actual education.</p>
-      <p>Other countries also don't run their militaries on funding metrics that reward keeping "quality" numbers clean. They don't have a 90% diploma benchmark tied to Congressional appropriations. They don't classify GED holders as "risk" to protect a line item on a budget report. Their militaries run on normal budgets, with standards that make sense — and they save their cash for when the US does the next crazy thing and oil prices soar. <strong>They can afford to be honest about education because they're not running a financial hedge disguised as a credential.</strong></p>
-
-      <div class="comparison-table">
-        <div class="comp-row cols-3 comp-header">
-          <div class="comp-metric">Country</div>
-          <div class="comp-val ged">System</div>
-          <div class="comp-val diploma">GED Equivalent?</div>
-        </div>
-        <div class="comp-row cols-3">
-          <div class="comp-metric">United Kingdom</div>
-          <div class="comp-val ged">GCSEs (age 16) + A-Levels (age 18)</div>
-          <div class="comp-val diploma">No. Adult learners retake actual GCSEs — no shortcut credential</div>
-        </div>
-        <div class="comp-row cols-3">
-          <div class="comp-metric">Germany</div>
-          <div class="comp-val ged">Abitur (rigorous exit exam) + Ausbildung (vocational)</div>
-          <div class="comp-val diploma">No. Dropouts enter vocational training, not an equivalency test</div>
-        </div>
-        <div class="comp-row cols-3">
-          <div class="comp-metric">Japan</div>
-          <div class="comp-val ged">Upper secondary school (99%+ graduation rate)</div>
-          <div class="comp-val diploma">No. High school is nearly universal; no equivalency exists</div>
-        </div>
-        <div class="comp-row cols-3">
-          <div class="comp-metric">France</div>
-          <div class="comp-val ged">Baccalauréat (national exit exam)</div>
-          <div class="comp-val diploma">No. The Bac is rigorous and has no equivalent shortcut</div>
-        </div>
-        <div class="comp-row cols-3">
-          <div class="comp-metric">United States</div>
-          <div class="comp-val ged">GED test (4 subjects, ~7 hours)</div>
-          <div class="comp-val ged">Yes — marketed as "equivalent" but treated as dropout-level</div>
-        </div>
-      </div>
-
-      <p>Other countries sort students by ability through tiered systems — the German Abitur, the UK's GCSE/A-Level split, France's Bac — rather than offering a single test that erases the difference. The result: their credentials <strong>mean something</strong>. The U.S. GED means "you passed a test," and the labor market knows it.</p>
-      <p>The difference isn't that other countries are smarter. It's that <strong>they don't have a financial incentive to keep people trapped in a cheap credential pipeline.</strong> No private prisons filling beds. No ACE/Pearson collecting $120 per test. No low-wage employers saving millions on underpaid labor. No military protecting a funding metric. The GED isn't an educational achievement — it's a <strong>business model.</strong> And only America runs it.</p>
+      <h2>The Conclusion</h2>
+      <p>Whatever you do, <strong>do not get the GED.</strong> Not at 18. Not at 45. Not because your boss, your counselor, the prison staff, or even your own mother tells you it's "something" or "at least it's a start." They are wrong — and now you have the receipts to prove it.</p>
+      <p>Cite this report. Every number on this page is sourced — named studies, government data, Social Security's own actuaries. 3.7% of GED holders ever get a college degree. 31% end up in prison.<sup><a href="#source-13">[13]</a></sup> 45% wash out of the military. You'll earn $9,900 less every single year,<sup><a href="#source-41">[41]</a></sup> you'll pay into systems you'll die before you ever collect from, and you'll end up <strong>broke, divorced, sick, and in a cage.</strong><sup><a href="#source-17">[17]</a></sup><sup><a href="#source-9">[9]</a></sup></p>
+      <p>So if someone reads this entire report and still tells you the GED is a good idea — or even acceptable — <strong>they are not your friend.</strong> They either sold it to you, or they never looked. The numbers are not debatable. Doing nothing keeps the door open. The GED welds it shut. <strong>Go get the real diploma. It's free, it's real, and it's the only thing on this page that will ever pay you back.</strong></p>
     </section>
 
     <section class="prose">
-      <h2>The Country That Sets the Credit Scores</h2>
-      <p>Here's what nobody connects: <strong>the United States invented the credit score.</strong> FICO — the company that created the system used to judge whether you can rent an apartment, buy a car, get a phone plan, or open a bank account — operates in over 40 countries across five continents.<sup><a href="#source-40">[40]</a></sup> The U.S. set the global standard for measuring financial credibility.</p>
-      <p>And then the same country that invented the system <strong>runs a credential that tanks the economic output of millions of people.</strong></p>
-      <p>GED holders earn $708/week versus $899/week for diploma holders — a 21% gap.<sup><a href="#source-41">[41]</a></sup> That's $9,932/year. Over 40 years, that's $397,280 in lost lifetime earnings. Multiply that across millions of GED holders, and you're looking at <strong>hundreds of billions in lost economic output</strong> — GDP that never materialized, taxes that were never collected at higher rates, consumption that never happened.</p>
-      <p>Meanwhile, other countries — the ones without the GED shortcut — are <strong>outpacing the U.S. in educational outcomes and economic growth.</strong> OECD data shows a direct link between cognitive skills (measured by PISA test scores) and long-term GDP growth. A one standard deviation increase in test scores yields an average annual growth rate <strong>1.86 percentage points higher</strong> over 40 years — a massive difference when compounded.<sup><a href="#source-42">[42]</a></sup> Countries that invested in real education — not band-aid credentials — grew faster. South Korea went from $79 per capita in 1960 to one of the world's richest nations in two generations.<sup><a href="#source-43">[43]</a></sup> The U.S. invented the metric for creditworthiness and then <strong>produces millions of citizens who can't meet it.</strong></p>
-      <p>You can't set the global credit score and then run a system that <strong>deliberately creates people with bad scores.</strong> That's not just hypocrisy. That's a country that profits from its own decline — <strong>and charges the victims $120 for the privilege.</strong></p>
-    </section>
-
-    <section class="prose">
-      <h2>When Labor Runs Low, They Kick Out the Mexicans</h2>
-      <p>Here's the cycle nobody talks about: when the economy needs cheap labor, <strong>undocumented immigrants fill the gap.</strong> When the economy contracts, they get deported. And who replaces them? <strong>GED holders and dropouts.</strong></p>
-      <p>The pattern is predictable. During economic booms, industries like agriculture, construction, meatpacking, and hospitality rely heavily on undocumented workers — people who accept low wages, no benefits, and no questions. When recession hits or political winds shift, <strong>mass deportations clear the labor pool.</strong> The jobs don't disappear. They just get filled by the next tier of disposable workers: GED holders who have no bargaining power, no union representation, and no political voice. A 2026 NBER study found that for every ICE arrest, <strong>seven likely undocumented workers who remain in the U.S. stop working</strong> due to fear — and U.S.-born male workers also lose jobs, not gain them.<sup><a href="#source-44">[44]</a></sup></p>
-      <p>And here's the kicker: <strong>GED holders are taxable. Undocumented workers often aren't.</strong> A deported worker who was paid under the table costs the government nothing in Social Security, Medicare, or income tax. A GED holder doing the same job <strong>pays into systems they'll never collect from</strong> — because they'll die a decade early and never reach retirement age.<sup><a href="#source-18">[18]</a></sup></p>
-      <p>It's not a bug. <strong>It's the system working exactly as designed.</strong> The GED exists to produce a replaceable labor force that's legal, taxable, and politically invisible. And when the next economic downturn hits and they get laid off? There's always another undocumented worker waiting to take their place — until the next deportation round clears the field again.</p>
-    </section>
-
-    <section class="prose">
-      <h2>Zero Representation in Government</h2>
-      <p>GED holders don't just earn less and die sooner. <strong>They're invisible in the rooms where decisions are made about their lives.</strong></p>
-      <p>94% of U.S. Representatives and 100% of U.S. Senators hold at least a bachelor's degree.<sup><a href="#source-46">[46]</a></sup> In the 118th Congress, only about 2% of House members had no college degree — and <strong>zero Senators.</strong><sup><a href="#source-47">[47]</a></sup> The average American without a college degree makes up 38% of the population but holds less than 2% of congressional seats. For GED holders specifically? <strong>The number is essentially zero.</strong> No GED holder has ever been identified in the Senate. In the House, a handful of members list a high school diploma or equivalent — but they're the rare exception, not the rule.</p>
-      <p>This isn't accidental. Running for office requires <strong>money, networks, and credentials</strong> — three things GED holders statistically don't have. The median GED holder earns $38,274/year. Congressional campaigns cost millions. The political pipeline runs through college campuses, law firms, and corporate boardrooms — places GED holders don't typically access.</p>
-      <p>And it's not just Congress. <strong>Federal government jobs overwhelmingly require degrees.</strong> The Office of Personnel Management classifies most federal positions at the GS-5 level or above, which requires at minimum a bachelor's degree — 4 years of post-high school education.<sup><a href="#source-48">[48]</a></sup> A GED holder without additional education qualifies only for GS-1 or GS-2 positions (high school completion or equivalent). State and local government jobs follow the same pattern. Even entry-level administrative positions in government increasingly require degrees — not because the work demands it, but because <strong>credential inflation creates a barrier that filters out GED holders before they even apply.</strong></p>
-      <p>The result: the people most affected by GED policy — the people whose lives are shaped by minimum wage laws, criminal sentencing guidelines, healthcare access, and education funding — <strong>have no one in government who looks like them, came from where they came from, or understands their experience.</strong> They pay taxes for 40 years, die a decade early, and never get a seat at the table. That's not democracy. <strong>That's taxation without representation — and it's still happening today.</strong></p>
-    </section>
-
-    <section class="prose">
-      <h2>Political Participation: Beyond Voting</h2>
-      <p>Voting is the baseline. But political power runs through <strong>donations, volunteering, contacting officials, and running for office</strong> — and the education gap is even wider there.<sup><a href="#source-70">[70]</a></sup></p>
-      <p>A 2018 Pew study found that college graduates were <strong>twice as likely to donate money</strong> to a political candidate in the past 5 years: 43% vs 22% of non-college graduates. The education gap in political donations is larger than the gap in voting. Why? Donations require disposable income — and GED holders earn $9,900 less per year than diploma holders. When every dollar goes to rent and food, there's nothing left to give to candidates who might represent you.</p>
-      <p>Doyle &amp; Skinner (2017), using NLSY97 longitudinal data, found that each additional year of postsecondary education increased the probability of voting by <strong>7.7 percentage points</strong> in the 2010 election, with smaller but significant effects on volunteering (+0.1pp) and donations (+0.13pp). An ETS study found that adults with master's degrees or higher were <strong>2.5x more likely to vote</strong> in 2006 than those without a high school diploma, and <strong>5–6x more likely to volunteer</strong> — including political volunteering.</p>
-      <p>The pattern is clear: the more education you have, the more you participate in democracy beyond just showing up. GED holders are <strong>twice as likely to be politically invisible</strong> — no donations, no volunteering, no contacting representatives. Politicians respond to people who show up AND pay. If you can't donate and can't volunteer, you don't exist in a campaign strategy. <strong>Your zip code votes. Your education level determines whether your voice is heard.</strong></p>
-    </section>
-
-    <section class="prose">
-      <h2>Homelessness: The Education Pipeline</h2>
-      <p>The homeless population is <strong>dramatically less educated</strong> than the general population — and the GED is overrepresented in both directions: too many GED holders among the homeless, too few college grads.<sup><a href="#source-71">[71]</a></sup></p>
-
-      <div class="stat-grid">
-        <div class="stat-card">
-          <div class="stat-number">66%</div>
-          <div class="stat-label">Homeless with HS or Less</div>
-          <div class="stat-detail">Two-thirds of sheltered homeless have a HS diploma/GED or less. Only 10% hold a college degree. Compare: 35% of the general population has a bachelor's or higher (California Statewide Study 2023).</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">30.4%</div>
-          <div class="stat-label">Homeless without Diploma</div>
-          <div class="stat-detail">30.4% of sheltered homeless adults have less than HS. 36.4% have HS/GED. Only 5.8% are college graduates. GED holders are overrepresented relative to diploma holders (UChicago BFI 2021).</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">36%</div>
-          <div class="stat-label">Chronically Homeless</div>
-          <div class="stat-detail">36% of homeless adults meet federal criteria for chronic homelessness (12+ months continuous or 4+ episodes in 3 years + disabling condition). Median length: 22 months (California 2023).</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">87%</div>
-          <div class="stat-label">More Likely to Drop Out</div>
-          <div class="stat-detail">Homeless youth are 87% more likely to stop attending school than housed peers. Nearly 1 in 3 young homeless adults have NO educational milestone — vs 5.4% nationally (Hynes 2014, HYRRS 2017).</div>
-        </div>
-      </div>
-
-      <p>The California Statewide Study of People Experiencing Homelessness (2023) — the largest such study ever conducted in the U.S. — found that <strong>63% of homeless adults had at least a HS diploma/GED</strong>, but only 10% held a college degree. Twenty-nine percent had a HS diploma or GED, 24% had some college but no degree, and 10% had an associate's or bachelor's. The missing group? <strong>37% had no diploma and no GED</strong> — nearly 4x the rate in the general population (10.4%).<sup><a href="#source-71">[71]</a></sup></p>
-      <p>Here's the GED trap in miniature: <strong>GED holders make up a disproportionate share of the homeless population</strong> because they cluster in the exact jobs that lead to homelessness — construction, food service, warehouse, cleaning. When those jobs disappear (layoff, injury, seasonal), there's no savings buffer, no employer network, no degree to fall back on. The UChicago BFI study found that 36.4% of sheltered homeless had a HS diploma/GED — higher than their 29% share of the general population.<sup><a href="#source-71">[71]</a></sup><sup><a href="#source-72">[72]</a></sup></p>
-      <p>And once you're homeless, <strong>education is your best chance of getting out</strong>. A Canadian longitudinal study found that employment and earned income were the strongest predictors of shorter homelessness duration — and those outcomes are directly tied to education. The study also found a paradox: those with <em>less than</em> a HS diploma were actually <strong>less likely</strong> to become homeless than those with a diploma — because they qualified for social assistance programs that provided a floor. GED/diploma holders earn too much for full benefits but too little for stability, leaving them <strong>one paycheck from the street</strong>.<sup><a href="#source-73">[73]</a></sup></p>
-      <p>For young adults experiencing homelessness (YEH), the education crisis is even worse. The HYRRS study across 7 U.S. cities found that <strong>nearly 1 in 3 young homeless adults had earned NO educational milestone</strong> — no diploma, no GED, nothing. That's 6x the national rate of 5.4%. Foster care involvement, juvenile justice involvement, substance use, and earlier-onset housing instability were all associated with lower educational attainment. The schools that were supposed to be a lifeline failed them instead.<sup><a href="#source-74">[74]</a></sup></p>
-    </section>
-
-    <section class="prose">
-      <h2>The Bottom Line</h2>
-      <p>The landmark Cameron &amp; Heckman (1993) study concluded GED holders are <strong>"nonequivalence of high school equivalents"</strong><sup><a href="#source-2">[2]</a></sup> — indistinguishable from dropouts in many labor market dimensions. More recent data shows some improvement, but the gap persists:</p>
-
-      <div class="comparison-table">
-        <div class="comp-row comp-header">
-          <div class="comp-metric">Metric</div>
-          <div class="comp-val dropout">Dropout</div>
-          <div class="comp-val ged">GED</div>
-          <div class="comp-val diploma">Diploma</div>
-        </div>
-        <div class="comp-row">
-          <div class="comp-metric">Hourly Wage</div>
-          <div class="comp-val dropout">$12.33</div>
-          <div class="comp-val ged">$14.08</div>
-          <div class="comp-val diploma">$14.67</div>
-        </div>
-        <div class="comp-row">
-          <div class="comp-metric">Annual Wage Income</div>
-          <div class="comp-val dropout">$18,963</div>
-          <div class="comp-val ged">$21,694</div>
-          <div class="comp-val diploma">$25,714</div>
-        </div>
-        <div class="comp-row">
-          <div class="comp-metric">Family Income</div>
-          <div class="comp-val dropout">$31,553</div>
-          <div class="comp-val ged">$43,767</div>
-          <div class="comp-val diploma">$55,077</div>
-        </div>
-        <div class="comp-row">
-          <div class="comp-metric">No Employer Benefits</div>
-          <div class="comp-val dropout">40%</div>
-          <div class="comp-val ged">31%</div>
-          <div class="comp-val diploma">24%</div>
-        </div>
-        <div class="comp-row">
-          <div class="comp-metric">College Degree (age 25-29)</div>
-          <div class="comp-val dropout">—</div>
-          <div class="comp-val ged">3.7%</div>
-          <div class="comp-val diploma">43.7%</div>
-        </div>
-        <div class="comp-row">
-          <div class="comp-metric">Current Smoking</div>
-          <div class="comp-val dropout">30%</div>
-          <div class="comp-val ged">44%</div>
-          <div class="comp-val diploma">22%</div>
-        </div>
-        <div class="comp-row">
-          <div class="comp-metric">Ever Incarcerated</div>
-          <div class="comp-val dropout">23%</div>
-          <div class="comp-val ged">31%</div>
-          <div class="comp-val diploma">8%</div>
-        </div>
-        <div class="comp-row">
-          <div class="comp-metric">Ever Arrested</div>
-          <div class="comp-val dropout">52%</div>
-          <div class="comp-val ged">69%</div>
-          <div class="comp-val diploma">35%</div>
-        </div>
-      </div>
-
       <h2>Sources</h2>
       <p style="color:var(--dim);font-size:0.9em;margin-bottom:24px">All claims in this report are cited to peer-reviewed research, government data, or established journalism. Superscript numbers link to the full citation below.</p>
 
@@ -1992,6 +2044,144 @@
             Miami Dade College (mdc.edu, official site). Average class size 21; student/teacher ratio 21:1. Open-enrollment public college; largest in Florida.
           </div>
         </div>
+        <div class="source-item" id="source-83">
+          <div class="source-tag">[83]</div>
+          <div class="source-text">
+            Bureau of Justice Statistics. "Education and Correctional Populations," <a href="https://bjs.ojp.gov/content/pub/pdf/ecp.pdf" target="_blank" rel="noopener">Bureau of Justice Statistics Special Report</a> (2003). 68% of state prison inmates never finished high school — the pipeline from dropout to cell is direct.
+          </div>
+        </div>
+      <div class="source-item" id="source-84">
+          <div class="source-tag">[84]</div>
+          <div class="source-text">
+            Rostron BL, Boies JL, Arias E. "Education Reporting and Classification on Death Certificates in the United States," <a href="https://www.cdc.gov/nchs/data/series/sr_02/sr02_151.pdf" target="_blank" rel="noopener">Vital and Health Statistics, Series 2, No. 151</a> (National Center for Health Statistics, 2010). At age 25, those with less than a high school education can expect ~75 more years; those with a graduate degree ~87 — a roughly 12-year gap in life expectancy.
+          </div>
+        </div>
+        <div class="source-item" id="source-85">
+          <div class="source-tag">[85]</div>
+          <div class="source-text">
+            U.S. Bureau of Labor Statistics. "Patterns of marriage and divorce from ages 15 to 55: Evidence from the NLSY79," <a href="https://www.bls.gov/mlr/2024/article/patterns-of-marriage-and-divorce-from-ages-15-to-55-evidence-from-the-nlsy79.htm" target="_blank" rel="noopener">Monthly Labor Review</a> (2024). Among those who never earned a bachelor's degree, at least half of first marriages end in divorce, vs ~27% of men with a bachelor's degree — nearly double the rate.
+          </div>
+        </div>
+        <div class="source-item" id="source-86">
+          <div class="source-tag">[86]</div>
+          <div class="source-text">
+            The GEO Group, Inc. Form 10-K / press release, <a href="https://investors.geogroup.com/node/18691/pdf" target="_blank" rel="noopener">"The GEO Group Reports Fourth Quarter and Full Year 2025 Results"</a> (2026). FY2025 total revenues $2.63 billion; net income $254.3 million (adjusted net income $120.1 million, adjusted EBITDA $464.4 million).
+          </div>
+        </div>
+        <div class="source-item" id="source-87">
+          <div class="source-tag">[87]</div>
+          <div class="source-text">
+            CoreCivic, Inc. press release, <a href="https://ir.corecivic.com/news-releases/news-release-details/corecivic-reports-fourth-quarter-and-full-year-2025-financial" target="_blank" rel="noopener">"CoreCivic Reports Fourth Quarter and Full Year 2025 Financial Results"</a> (2026). FY2025 total revenue $2.2 billion; net income $116.5 million, up 69% YoY.
+          </div>
+        </div>
+        <div class="source-item" id="source-88">
+          <div class="source-tag">[88]</div>
+          <div class="source-text">
+            Economic Policy Institute (EPI). <a href="https://www.epi.org/publication/forced-prison-labor/" target="_blank" rel="noopener">"Forced prison labor in the 'Land of the Free'"</a> (2025-01-16). Roughly 800,000 of ~1.2M confined people work as prison laborers, most by force, paid 13–52¢/hr average; ~80% facility maintenance, ~17% public projects, ~3% private sector (PIECP).
+          </div>
+        </div>
+        <div class="source-item" id="source-89">
+          <div class="source-tag">[89]</div>
+          <div class="source-text">
+            CoreCivic, Inc., DEF 14A (proxy statement, FY2024) via AFL-CIO Paywatch. CEO Damon Hininger: total compensation $7,471,923 — 121 times the company's median employee pay; median employee $58,635 (raw division ≈ 127 years at the median, i.e. over 125 years).
+          </div>
+        </div>
+        <div class="source-item" id="source-90">
+          <div class="source-tag">[90]</div>
+          <div class="source-text">
+            GEO Group, Inc., DEF 14A (proxy statement, FY2025) compensation tables. Top executive J. David Donahue: total compensation $3,257,319 (pay ratio 59:1); median employee $55,128 — ≈ 59 years at the median.
+          </div>
+        </div>
+        <div class="source-item" id="source-91">
+          <div class="source-tag">[91]</div>
+          <div class="source-text">
+            U.S. Bureau of Labor Statistics, <a href="https://www.bls.gov/ooh/protective-service/correctional-officers.htm" target="_blank" rel="noopener">Occupational Outlook Handbook: Correctional Officers and Bailiffs</a> (2024). Entry-level-state and local officer jobs list "high school diploma or equivalent" including a GED; however, the Federal Bureau of Prisons requires entry-level correctional officers to have a bachelor's degree or several years of qualifying experience. See also Congressional Research Service: BOP COs require a college degree or three years of prior experience (GL-5 start $50,241).
+          </div>
+        </div>
+        <div class="source-item" id="source-92">
+          <div class="source-tag">[92]</div>
+          <div class="source-text">
+            Cicero Institute. <a href="https://ciceroinstitute.org/research/aligning-profit-with-outcomes-in-private-prison-procurement/" target="_blank" rel="noopener">"Aligning Profit with Outcomes in Private Prison Procurement"</a> (2024-08-27). Private correctional officers paid ~22–25% less in salary and benefits than public; turnover ~43% private vs 15% public; private receives 58 fewer training hours.
+          </div>
+        </div>
+        <div class="source-item" id="source-93">
+          <div class="source-tag">[93]</div>
+          <div class="source-text">
+            In the Public Interest. <a href="https://inthepublicinterest.org/private-prison-ceos-continue-to-make-much-more-than-the-correctional-officers-that-work-for-them/" target="_blank" rel="noopener">"Private Prison CEOs Continue to Make Much More than the Correctional Officers That Work for Them"</a> (2016, BLS data). 2015 median private correctional officer pay $32,290; one in four under $26,091; public median $41,160.
+          </div>
+        </div>
+        <div class="source-item" id="source-94">
+          <div class="source-tag">[94]</div>
+          <div class="source-text">
+            Public Citizen via Prison Legal News, <a href="https://www.prisonlegalnews.org/news/2018/may/8/major-wage-ratio-gap-between-executives-employees-private-prisons/" target="_blank" rel="noopener">"Major Wage Ratio Gap Between Executives, Employees at Private Prisons"</a> (2018). GEO Group founder/CEO $9.6M in 2017 (271:1 vs median employee); counting the 10,000+ immigrant detainees doing labor at ~$1/day drives the ratio to ~32,000:1.
+          </div>
+        </div>
+        <div class="source-item" id="source-95">
+          <div class="source-tag">[95]</div>
+          <div class="source-text">
+            U.S. Office of Personnel Management / Federal Employment Data. Only ~0.1% of the federal civilian workforce lacks a high school diploma or GED; federal workers skew heavily toward some college, bachelor's degree, and above. Government employment near the federal tier is effectively gated away from GED-holders without further credentialing — Diploma-Country, not GED territory.
+          </div>
+        </div>
+        <div class="source-item" id="source-96">
+          <div class="source-tag">[96]</div>
+          <div class="source-text">
+            U.S. Bureau of Justice Statistics. <a href="https://bjs.ojp.gov/library/publications/recidivism-prisoners-released-24-states-2008-10-year-follow-period-2008-2018" target="_blank" rel="noopener">"Recidivism of Prisoners Released in 24 States in 2008: A 10-Year Follow-Up Period (2008–2018)"</a> (2021). 82% of released state prisoners were arrested within 10 years; 61% returned to prison (parole/probation violation or new sentence) within 10 years.
+          </div>
+        </div>
+        <div class="source-item" id="source-97">
+          <div class="source-tag">[97]</div>
+          <div class="source-text">
+            Besser, T. & Hanson, M. "Development of Last Resort: The Impact of New State Prisons on Small Town Economies," <a href="https://www.realcostofprisons.org/materials/TTT_paper1.pdf" target="_blank" rel="noopener">Journal of the Community Development Society</a> (2005). Describes prisons going from "locally undesirable land use" to a "last resort for promoting economic development" for struggling rural communities.
+          </div>
+        </div>
+        <div class="source-item" id="source-98">
+          <div class="source-tag">[98]</div>
+          <div class="source-text">
+            Besser, T. & Hanson, M. "Development of Last Resort," 1990–2000 census analysis (2005). Net of 1990 controls, new-prison small towns by 2000 had higher unemployment, higher poverty (poverty rate up while matched towns' fell), fewer non-agricultural jobs, lower average household wages, and lower median home values than comparable towns without prisons.
+          </div>
+        </div>
+        <div class="source-item" id="source-99">
+          <div class="source-tag">[99]</div>
+          <div class="source-text">
+            Chirakijja, J. "The Local Economic Impacts of Prisons," <a href="https://ideas.repec.org/a/tpr/restat/v106y2024i6p1442-1459.html" target="_blank" rel="noopener">The Review of Economics and Statistics</a> (2024). Prison openings bring public-employment gains but little private spillover — roughly one-for-one total employment; neighborhoods nearest prisons see housing-value declines.
+          </div>
+        </div>
+        <div class="source-item" id="source-100">
+          <div class="source-tag">[100]</div>
+          <div class="source-text">
+            Hooks, G., Mosher, C., Genter, S., Rotolo, T., Lobao, L. "Revisiting the Impact of Prison Building on Job Growth: Education, Incarceration, and County-Level Employment, 1976–2004," <a href="https://onlinelibrary.wiley.com/doi/10.1111/j.1540-6237.2010.00690.x" target="_blank" rel="noopener">Social Science Quarterly</a> (2010). Prison construction impedes economic growth in rural counties, especially those lagging in educational attainment; possible causes include existing corrections officers moving in to fill openings and paucity of local multipliers.
+          </div>
+        </div>
+        <div class="source-item" id="source-101">
+          <div class="source-tag">[101]</div>
+          <div class="source-text">
+            Marshall Islands Nuclear Testing Costs and Compensation. CRS RL32811, "Republic of the Marshall Islands Changed Circumstances Petition to Congress" (<a href="https://sgp.fas.org/crs/row/RL32811.pdf" target="_blank" rel="noopener">fas.org</a>), May 2005. According to U.S. government estimates, the United States spent between $520 million and $550 million in the Marshall Islands on nuclear test-related compensation and assistance since 1954 — one estimate puts it at $531 million. Includes compensation payments, health care, medical surveillance, environmental monitoring, cleanup of contaminated sites, and resettlement efforts. &quot;The Radiological Cleanup of Enewetak Atoll&quot; (<a href="https://rminucleardocs.icaad.ngo/en/entity/d5jfhtopy8d?page=64&raw=true" target="_blank" rel="noopener">RMI Nuclear Justice Documents</a>): over $10.6 billion spent on nuclear testing at Enewetak Atoll between 1950 and 1959. DTRA, Enewetak Atoll Cleanup (1977–1980) (<a href="https://www.dtra.mil/About/Mission/Nuclear-Test-Personnel-Review/Enewetak-Atoll/" target="_blank" rel="noopener">dtra.mil</a>): combined federal effort cost about $100 million.
+          </div>
+        </div>
+        <div class="source-item" id="source-102">
+          <div class="source-tag">[102]</div>
+          <div class="source-text">
+            Florida Senate, Bill Analysis and Fiscal Impact Statement, SB 1004 (2023) (<a href="https://flsenate.gov/Session/Bill/2023/1004/Analyses/2023s01004.ju.PDF" target="_blank" rel="noopener">flsenate.gov</a>). During the 2021–2022 school year, 24,976 Florida students took the GED exam, 16,822 completed it, and 12,893 passed — a 76.6% pass rate among completers.
+          </div>
+        </div>
+        <div class="source-item" id="source-103">
+          <div class="source-tag">[103]</div>
+          <div class="source-text">
+            Colorado Adult High School Diploma programs. Emily Griffith Technical College, "Adult High School Diploma+" (<a href="https://www.emilygriffith.edu/programs/adult-high-school-diploma/" target="_blank" rel="noopener">emilygriffith.edu</a>, 2026), authorized by Colorado Senate Bill 23-007: adults 17+ earn a real high school diploma — not an equivalency — in as few as 8 weeks for $150, with optional career/CTE credential. Colorado Department of Education, CDE adult education: roughly 250,000–300,000 Colorado adults lack a high school diploma or equivalent; nearly half of Emily Griffith's adult learners are in the metro Denver area.
+          </div>
+        </div>
+        <div class="source-item" id="source-104">
+          <div class="source-tag">[104]</div>
+          <div class="source-text">
+            Institute on Taxation and Economic Policy (ITEP). <a href="https://itep.org/undocumented-immigrants-taxes-2024/" target="_blank" rel="noopener">"Tax Payments by Undocumented Immigrants."</a> (July 2024). Undocumented immigrants paid $96.7 billion in federal, state, and local taxes in 2022 ($59.4B federal, $37.3B state/local), including $25.7B in Social Security and $6.4B in Medicare taxes. More than a third — $33.9 billion — went into social insurance programs these workers are barred from accessing. ITIN filers are ineligible for the federal EITC, and children without SSNs cannot qualify for the federal Child Tax Credit.
+          </div>
+        </div>
+        <div class="source-item" id="source-105">
+          <div class="source-tag">[105]</div>
+          <div class="source-text">
+            Social Security Administration Office of the Chief Actuary (OCACT) estimates and Earnings Suspense File data, cited in Congressional Research Service, <a href="https://www.congress.gov/crs-product/RL32004" target="_blank" rel="noopener">"Social Security Benefits for Noncitizens."</a> About 3.1 million unauthorized immigrants were working and paying Social Security taxes in 2010, roughly 1.8 million of them under an SSN that did not match their name — earnings credited to someone else's record or posted to the Earnings Suspense File, never to the worker. SSA's Earnings Suspense File held ~346 million wage items ($1.3 trillion in wages) through tax year 2014 that could not be credited to any earnings record; wages in the file are reinstated to a worker's own record once a name/SSN mismatch is resolved. North &amp; Houstoun (1976): while 73% of unauthorized workers paid federal income taxes through withholding, only ~32% filed a return — most refunds and overpayments go unclaimed.
+          </div>
+        </div>
       </div>
     </section>
 
@@ -2008,9 +2198,9 @@
         <a class="share-btn" href="https://twitter.com/intent/tweet?text=3.7%25+of+GED+holders+finish+college.+Here%27s+what+nobody+tells+you+about+the+GED+trap.+https%3A%2F%2Fzamrock.net%2Fged%2F" target="_blank" rel="noopener" title="Share on X" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" fill="#fff"/></svg>
         </a>
-        <a class="share-btn" href="https://mastodon.social/share?text=3.7%25+of+GED+holders+finish+college.+Here%27s+what+nobody+tells+you+about+the+GED+trap.+https%3A%2F%2Fzamrock.net%2Fged%2F" target="_blank" rel="noopener" title="Share on Mastodon" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);">
+        <button class="share-btn" onclick="mastodonShare()" title="Share on Mastodon" style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); cursor: pointer; color: #aaa; padding: 0;">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21.327 8.566c0-4.339-2.843-5.61-2.843-5.61-1.433-.658-3.894-.935-6.451-.956h-.063c-2.557.021-5.016.298-6.45.956 0 0-2.843 1.272-2.843 5.61 0 .993-.019 2.181.012 3.441.103 4.243.778 8.425 4.701 9.463 1.809.479 3.362.579 4.612.51 2.268-.126 3.541-.809 3.541-.809l-.075-1.646s-1.621.511-3.441.449c-1.804-.062-3.707-.194-3.999-2.409a4.523 4.523 0 01-.04-.621s1.77.432 4.014.535c1.372.063 2.658-.08 3.965-.236 2.506-.299 4.688-1.843 4.962-3.254.434-2.223.398-5.424.398-5.424zm-3.353 5.59h-2.081V9.057c0-1.075-.452-1.62-1.357-1.62-1 0-1.501.647-1.501 1.927v2.791h-2.069V9.364c0-1.28-.501-1.927-1.502-1.927-.904 0-1.357.546-1.357 1.62v5.099H6.026V8.903c0-1.074.273-1.927.823-2.558.566-.631 1.307-.955 2.228-.955 1.065 0 1.872.41 2.405 1.228l.518.869.519-.869c.533-.818 1.34-1.228 2.405-1.228.92 0 1.662.324 2.228.955.549.631.822 1.484.822 2.558v5.253z" fill="#6364ff"/></svg>
-        </a>
+        </button>
         <button class="share-btn" onclick="navigator.clipboard.writeText('https://zamrock.net/ged/'); this.title='Copied!'; setTimeout(() => this.title='Copy link', 1500)" title="Copy link" style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); cursor: pointer; color: #aaa; padding: 0;">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
         </button>
@@ -2039,27 +2229,120 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
   <script src="/js/ged.js"></script>
   <script>
+    var SHARE_TEXT = '3.7% of GED holders finish college. Here\u0027s what nobody tells you about the GED trap.';
+    var SHARE_URL = 'https://zamrock.net/ged/';
+
+    function chartPrintState(chart) {
+      var state = {
+        chart: chart,
+        anim: chart.options.animation,
+        color: chart.options.color,
+        border: chart.options.borderColor,
+        legend: chart.options.plugins && chart.options.plugins.legend
+          && chart.options.plugins.legend.labels
+          && chart.options.plugins.legend.labels.color,
+        scales: []
+      };
+      Object.keys(chart.options.scales || {}).forEach(function (k) {
+        var s = chart.options.scales[k];
+        if (s) {
+          state.scales.push({
+            key: k,
+            ticks: s.ticks && s.ticks.color,
+            grid: s.grid && s.grid.color
+          });
+        }
+      });
+      return state;
+    }
+
+    function chartApplyPrint(state) {
+      var c = state.chart;
+      c.options.animation = false;
+      c.options.color = '#333';
+      c.options.borderColor = '#ccc';
+      if (c.options.plugins && c.options.plugins.legend && c.options.plugins.legend.labels) {
+        c.options.plugins.legend.labels.color = '#333';
+      }
+      Object.keys(c.options.scales || {}).forEach(function (k) {
+        var s = c.options.scales[k];
+        if (s) {
+          if (s.ticks) s.ticks.color = '#333';
+          if (s.grid) s.grid.color = '#ddd';
+        }
+      });
+      (c.scales || {}).forEach(function (scale) {
+        if (scale.options) {
+          if (scale.options.ticks) scale.options.ticks.color = '#333';
+          if (scale.options.grid) scale.options.grid.color = '#ddd';
+        }
+      });
+      c.update();
+    }
+
+    function chartRestore(state) {
+      var c = state.chart;
+      c.options.animation = state.anim;
+      c.options.color = state.color;
+      c.options.borderColor = state.border;
+      if (state.legend !== undefined
+        && c.options.plugins && c.options.plugins.legend && c.options.plugins.legend.labels) {
+        c.options.plugins.legend.labels.color = state.legend;
+      }
+      state.scales.forEach(function (sc) {
+        var s = c.options.scales && c.options.scales[sc.key];
+        if (s) {
+          if (s.ticks && sc.ticks !== undefined) s.ticks.color = sc.ticks;
+          if (s.grid && sc.grid !== undefined) s.grid.color = sc.grid;
+        }
+      });
+      (c.scales || {}).forEach(function (scale) {
+        if (scale.options) {
+          if (scale.options.ticks) scale.options.ticks.color = '#f2f2f2';
+          if (scale.options.grid) scale.options.grid.color = 'rgba(255, 255, 255, 0.08)';
+        }
+      });
+      c.update();
+    }
+
     function printReport() {
       var containers = document.querySelectorAll('.chart-container');
       var created = [];
+      var states = [];
 
-      containers.forEach(function(container) {
+      containers.forEach(function (container) {
         var canvas = container.querySelector('canvas');
-        if (canvas) {
-          var img = document.createElement('img');
-          img.src = canvas.toDataURL('image/png', 1.0);
-          img.className = 'chart-print-img';
-          img.style.filter = 'saturate(0.4) contrast(1.1)';
-          container.appendChild(img);
-          created.push(img);
-        }
+        if (!canvas) return;
+        var chart = Chart.getChart(canvas);
+        if (!chart) return;
+
+        var state = chartPrintState(chart);
+        chartApplyPrint(state);
+        states.push(state);
+
+        var img = document.createElement('img');
+        img.src = canvas.toDataURL('image/png', 1.0);
+        img.className = 'chart-print-img';
+        container.appendChild(img);
+        created.push(img);
       });
 
       window.print();
 
-      setTimeout(function() {
-        created.forEach(function(img) { img.remove(); });
-      }, 1500);
+      states.forEach(chartRestore);
+
+      setTimeout(function () {
+        created.forEach(function (img) { img.remove(); });
+      }, 800);
+    }
+
+    function mastodonShare() {
+      var instance = localStorage.getItem('mastodonInstance') || 'mastodon.social';
+      var entered = window.prompt('Your Mastodon instance:', instance);
+      if (!entered) return;
+      entered = entered.replace(/^https?:\/\//, '').replace(/\/+$/, '');
+      localStorage.setItem('mastodonInstance', entered);
+      window.open('https://' + entered + '/share?text=' + encodeURIComponent(SHARE_TEXT + ' ' + SHARE_URL), '_blank', 'noopener');
     }
   </script>
 </body>
