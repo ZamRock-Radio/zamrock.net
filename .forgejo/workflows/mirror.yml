@@ -1,0 +1,18 @@
+name: Mirror to GitWorkshop
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  mirror:
+    runs-on: self-hosted
+    steps:
+      - name: Mirror to GitWorkshop
+        run: |
+          cd /tmp && rm -rf zamrock-net-mirror
+          git clone --depth 1 https://git.zamrock.net/ZamRock-Radio/zamrock-net.git zamrock-net-mirror
+          cd zamrock-net-mirror
+          git remote add nostr "nostr://npub10leeq6j8ff497swgt0g2x7lrdukm0yrymmnhj0laytnddnuku3xqkp58zs/zamrock-net" 2>/dev/null || true
+          git push nostr main 2>&1 || echo "Nostr push failed (non-critical)"
+          echo "NOSTR MIRROR DONE"
