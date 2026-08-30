@@ -275,6 +275,49 @@ answers "is the diploma actually used?" with verifiable yeses.
   "not zero, and the credential is genuinely in use — but outcomes are decided by participation,
   not outliers."
 
+## International parallel — Brazil (listener-shared, verified)
+
+Listener message on Mastodon (@zamrock) comparing the GED/online-HSD gatekeeper issue to Brazil's
+certification schemes. Verified against gov.br / in.gov.br (DOU) sources below. Back-pocket "this is
+not a US-only problem" Q&A ammo + fraud-conflation evidence — NEVER table-grade.
+
+**Brazil's adult equivalency — ENCEJA** (Exame Nacional para Certificação de Competências de Jovens e Adultos):
+- National exam since 2002, run by Inep with state/municipal education secretaries; certifies conclusão
+  do ensino fundamental (15+) / ensino médio (18+) for adults who didn't finish at the right age.
+- Certificates/declarations issued by State Secretariats of Education and Institutos Federais (public
+  institutions), via a Termo de Adesão. Free, public, exam-based — the closest Brazilian analog to
+  GED/HiSET, and NOT a commercial product. — gov.br/inep encceja page
+- ENCEJA's "issued by public institutions, no conflict of interest" is exactly the listener's point:
+  equivalency in Brazil stayed in the public lane.
+
+**Brazil's prior-learning certification — CERTIFIC → Re-Saber → Rede Certifica:**
+- CERTIFIC (Rede Nacional de Certificação Profissional), Portaria MEC nº 8, 2 MAY 2014: recognition of
+  work-experience competences "desenvolvidos na trajetória de vida e trabalho", issued through the
+  federal education network — matches listener's "outorga somente pelos Institutos Federais".
+- Re-Saber (Sistema Nacional de Reconhecimento e Certificação de Saberes e Competências Profissionais),
+  Portaria MEC nº 24, 19 JAN 2021: replaces CERTIFIC. Mandate stays FREE for workers (Art. 3: no fees;
+  no charge for first-issue documents) BUT adhesion changes from per-campus to per-institution AND
+  opens certification to public + private institutions (Art. 20: partnerships "inclusive de natureza
+  jurídica diversa"). — in.gov.br/web/dou/-/portaria-n-24-de-19-de-janeiro-de-2021-299988875
+- Rede Certifica, Portaria MEC nº 902, 09 SEP 2024: re-institutes the national certification network
+  (current frame; IFs publish internal norms, e.g. IFCE Resolução CONSUP 355/2025). — ifbaiano.edu.br
+- Listener chronology ("until 2019 Certific; 2019 business groups pushed the switch") is directionally
+  right on the "public-only → private allowed" shift but the FORMAL transition was 2021 (post-2019
+  government change). Cite 2021 when quoting.
+
+**Fraud / identity conflation (listener-reported anecdote — UNVERIFIED):**
+- Listener reports pages selling "curso técnico reconhecido pelo MEC em até 3 meses" that clone the
+  Institutos Federais' visual identity to deceive buyers. Plausible and consistent with Brazil's known
+  fake-diploma / "mec reconhecido" scam pattern (INEP/MEC have pursued diploma-mill ringleaders), and
+  a direct mirror of the US diploma-mill lane (FTC Jefferson/Enterprise; fake "AAOHS"-type accreditors;
+  "Excel"/"James Madison" name-collision cautions above). Do NOT present the specific claim as measured
+  — cite as a listener report only.
+
+**Takeaway for Q&A:** the gatekeeper question is WHO is accredited to issue + whether profit motive
+sells the credential — and that generalizes across countries (BR moving CERTIFIC→Re-Saber to admit
+private issuers; the diploma-mill and conflation risks follow). Strong rebuttal to "only America has
+scams / this is an attack on online schools."
+
 ## Open items / parked
 - Whether to add smoking/health and military lanes to ged.html later (user: add later, people will ask).
 - Individual "same checkbox" nuance for private-sector screening (keep for Q&A back-pocket).

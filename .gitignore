@@ -53,3 +53,6 @@ CLI/zamrock_*.sh
 # Zola
 /zola-site/public/
 /zola-site/.sass-cache/
+
+# Cloudflare Wrangler
+.wrangler/
