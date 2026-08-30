@@ -2234,13 +2234,13 @@
           var d = await r.json();
           var vc = document.getElementById('view-count');
           var rc = document.getElementById('request-count');
-          if (vc && d.allTime > 0) {
-            vc.textContent = d.allTime.toLocaleString();
+          if (vc && d.totalVisits > 0) {
+            vc.textContent = d.totalVisits.toLocaleString();
           } else if (vc) {
             vc.textContent = '0';
           }
-          if (rc && d.allTimeRequests > 0) {
-            rc.textContent = d.allTimeRequests.toLocaleString();
+          if (rc && d.totalRequests > 0) {
+            rc.textContent = d.totalRequests.toLocaleString();
           }
         } catch(e) {}
       })();
