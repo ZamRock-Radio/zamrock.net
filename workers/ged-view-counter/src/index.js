@@ -1,9 +1,6 @@
-let todayCache = { ts: 0, visits: 0, requests: 0 };
-
 export default {
   async scheduled(event, env) {
     await runCountingLogic(env);
-    todayCache.ts = 0;
   },
 
   async fetch(request, env) {
@@ -12,34 +9,19 @@ export default {
     // Manual trigger: /?fire=true
     if (url.searchParams.get('fire') === 'true') {
       await runCountingLogic(env);
-      todayCache.ts = 0;
     }
 
-    const allTime = parseInt(await env.GED_VIEWS.get('allTime') || '0', 10);
-    const allTimeRequests = parseInt(await env.GED_VIEWS.get('allTimeRequests') || '0', 10);
+    const allTime = await env.GED_VIEWS.get('allTime') || '0';
+    const allTimeRequests = await env.GED_VIEWS.get('allTimeRequests') || '0';
+    const todayVisits = await env.GED_VIEWS.get('todayVisits') || '0';
+    const todayRequests = await env.GED_VIEWS.get('todayRequests') || '0';
     const lastRun = await env.GED_VIEWS.get('lastRun') || 'never';
 
-    // Live today's count straight from Cloudflare Analytics (NOT KV) —
-    // no writes, just a read query, in-memory cached ~60s so we don't hammer the API.
-    const now = Date.now();
-    if (now - todayCache.ts > 60000) {
-      try {
-        const today = getDateNDaysAgo(0);
-        const tEnd = `${getDateNDaysAgo(-1)}T00:00:00Z`;
-        const live = await queryGedVisitsDetailed(env, `${today}T00:00:00Z`, tEnd);
-        todayCache = { ts: now, visits: live.visits, requests: live.requests };
-      } catch (e) {
-        // Analytics hiccup — serve the last cached values rather than failing.
-      }
-    }
-
     return new Response(JSON.stringify({
-      allTime,
-      allTimeRequests,
-      todayVisits: todayCache.visits,
-      todayRequests: todayCache.requests,
-      totalVisits: allTime + todayCache.visits,
-      totalRequests: allTimeRequests + todayCache.requests,
+      allTime: parseInt(allTime, 10),
+      allTimeRequests: parseInt(allTimeRequests, 10),
+      todayVisits: parseInt(todayVisits, 10),
+      todayRequests: parseInt(todayRequests, 10),
       lastRun,
     }), {
       headers: {
