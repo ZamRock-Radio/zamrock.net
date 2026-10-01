@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>XDC Player — ZamRock Radio</title>
+
+  <link rel="icon" href="https://zamrock.net/favicon/favicon.ico" type="image/x-icon"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="https://zamrock.net/favicon/favicon-32x32.png"/>
+  <link rel="icon" type="image/png" sizes="16x16" href="https://zamrock.net/favicon/favicon-16x16.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="https://zamrock.net/favicon/apple-touch-icon.png"/>
+  <link rel="manifest" href="https://zamrock.net/favicon/site.webmanifest"/>
+
+  <meta name="description" content="Play webxdc games in your browser — upload .xdc files and play with mobile controls. Supports virtual gamepad, save/load via IndexedDB, adaptive layouts for any screen orientation." />
+  <meta name="keywords" content="ZamRock, Radio, Online Radio, Music, Stream" />
+  <meta name="author" content="ZamRock Radio" />
+  <link rel="me" href="https://musicworld.social/@ZamRock" />
+  <link rel="me" href="https://mastodon.social/@ZamRock" />
+  <link rel="me" href="https://c.im/@ZamRock" />
+  <link rel="me" href="https://mastodon.cloud/@ZamRock" />
+  <link rel="me" href="https://toot.community/@ZamRock" />
+  <link rel="me" href="https://mastodonapp.uk/@ZamRock" />
+  <link rel="me" href="https://masto.es/@ZamRock" />
+  <link rel="me" href="https://organica.social/@ZamRock" />
+  <link rel="me" href="https://col.social/@ZamRock" />
+  <link rel="me" href="https://mastodon.cl/@ZamRock" />
+  <link rel="me" href="https://mastodon.la/@ZamRock" />
+  <link rel="me" href="https://g0v.social/@ZamRock" />
+  <link rel="me" href="https://tea.codes/@ZamRock" />
+  <link rel="me" href="https://mastodon.au/@ZamRock" />
+  <link rel="me" href="https://mastodon.tn/@ZamRock" />
+  <link rel="me" href="https://mastodon.re/@ZamRock" />
+  <link rel="me" href="https://bolha.us/@ZamRock" />
+  <link rel="me" href="https://mastodon.africa/@ZamRock" />
+  <link rel="me" href="https://mastodon.cr/@ZamRock" />
+
+  <meta property="og:title" content="XDC Player — Play WebXDC Games Online" />
+  <meta property="og:description" content="Upload and play .xdc webxdc games directly in your browser. Features virtual gamepad controls, save/load game progress, and adaptive layouts for mobile and desktop." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://zamrock.net/xdc/" />
+  <meta property="og:image" content="https://zamrock.net/img/xdc-player-og.jpg" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="XDC Player — Play WebXDC Games Online" />
+  <meta name="twitter:description" content="Upload and play .xdc webxdc games in your browser with virtual gamepad controls. Save/load progress, adaptive layouts." />
+  https://zamrock.net/img/xdc-player-og.jpg
+
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+  <link data-theme="crossfade" rel="stylesheet" href="https://zamrock.net/css/crossfade.css?v=16" />
+  <script>
+  (function(){
+    var lang = (navigator.language || navigator.userLanguage || '').substring(0, 2);
+    var path = window.location.pathname;
+    if (path === '/' || path === '') {
+      var map = { es:'es', pt:'pt', fr:'fr', sv:'sv', ja:'ja', ko:'ko', vi:'vi', ar:'ar' };
+      var full = { 'zh-CN':'zh-CN', 'zh-TW':'zh-TW' };
+      var fullLang = (navigator.language || navigator.userLanguage || '');
+      if (full[fullLang]) window.location.replace('/' + full[fullLang] + '/');
+      else if (map[lang] && lang !== 'en') window.location.replace('/' + map[lang] + '/');
+    }
+  })();
+  </script>
+  
+<link rel="stylesheet" href="https://zamrock.net/css/xdc-player.css?v=1" />
+<link rel="canonical" href="https://zamrock.net/xdc/" />
+
+<!-- JSON-LD Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "XDC Player",
+  "description": "Play webxdc games in your browser with virtual gamepad controls",
+  "url": "https://zamrock.net/xdc/",
+  "applicationCategory": "GameApplication",
+  "operatingSystem": "Web Browser",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/InStock"
+  },
+  "featureList": [
+    "Upload and play .xdc files",
+    "Virtual gamepad with adaptive layouts",
+    "Save/load game progress via IndexedDB",
+    "Fullscreen support",
+    "Works offline after load",
+    "No installation required"
+  ],
+  "screenshot": "https://zamrock.net/img/xdc-player-screenshot.jpg",
+  "browserRequirements": "Requires JavaScript, IndexedDB, Service Worker support",
+  "permissions": "File read access for .xdc upload"
+}
+</script>
+
+<!-- PWA Meta -->
+<meta name="theme-color" content="#2e3440" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="XDC Player" />
+<link rel="manifest" href="https://zamrock.net/xdc-manifest.json" />
+
+</head>
+<body>
+  <div class="bg" aria-hidden="true"></div>
+  <div class="scrim" aria-hidden="true"></div>
+
+  <div class="site">
+    <aside class="rail">
+      <div>
+        <h1 class="site-title"><a href="https://zamrock.net/">ZamRock Radio</a></h1>
+        <div class="tagline">ZAMZAM FOR LIFE...</div>
+      </div>
+
+      <div class="live"><i></i> On Air</div>
+
+      <div class="player">
+        <div class="p-row">
+          <button id="playButton" class="play-btn" aria-label="Play">▶</button>
+          <div class="p-info">
+            <div class="p-src"><span class="p-genres">Psychedelic · Afrobeat · Funk · Surf · Exotic</span><span class="mini-title">ZAMROCK.NET</span></div>
+            <div class="p-meta" data-player-status>Now playing</div>
+          </div>
+          <span class="p-quality">MP3 320k</span>
+        </div>
+        <audio id="radioStream" src="https://icepick.zamrock.net/radio.mp3" crossorigin="anonymous"></audio>
+        <div class="volume-container">
+          <label for="volumeSlider">Volume</label>
+          <input type="range" id="volumeSlider" min="0" max="100" value="50" class="volume-slider" />
+        </div>
+        <button id="foldButton" class="fold-btn" type="button"
+          aria-label="Enter Now Playing mode"
+          data-label-fold="Enter Now Playing mode"
+          data-label-unfold="Exit Now Playing mode"
+          title="Enter Now Playing mode">Enter Now Playing mode</button>
+      </div>
+
+      
+      <nav class="main-nav">
+        
+        
+        <a class="nav-btn " href="https://zamrock.net/schedule">🎵 Schedule <span class="ar">→</span></a>
+        
+        
+        <a class="nav-btn " href="https://zamrock.net/news">📰 News <span class="ar">→</span></a>
+        
+        
+        <a class="nav-btn " href="https://zamrock.net/games">🎮 Games <span class="ar">→</span></a>
+        
+        
+        <a class="nav-btn " href="https://zamrock.net/ged">📊 GED <span class="ar">→</span></a>
+        
+        
+        <a class="nav-btn " href="https://zamrock.net/about">ℹ️ About <span class="ar">→</span></a>
+        
+        
+        <a class="nav-btn " href="https://zamrock.net/contact">📞 Contact <span class="ar">→</span></a>
+        
+        
+        <a class="nav-btn " href="https://zamrock.net/help-wanted">🆘 Help Wanted <span class="ar">→</span></a>
+        
+      </nav>
+
+      <div class="chats">
+        <div class="head">Community</div>
+        <div class="chat-row">
+          <a class="chat-btn primary" href="https://stt.gg/CsjKzYWm" target="_blank" rel="noopener">Revolt</a>
+          <a class="chat-btn primary" href="https://vectorapp.io/invite/naddr1qqqqygxvcmpye63ks0u20wtruf9tfv5s9s4hywmp4se6a687qqhnsym5yupsgqqqsg2sxp9nrw#BAADAQIAGG5vc3RyLmNvbXB1dGluZ2NhY2hlLmNvbYbeh9xs8OVJvENnbNfZopw" target="_blank" rel="noopener">Vector</a>
+        </div>
+        <details class="more-chats">
+          <summary>more chats</summary>
+          <div class="more-grid">
+            <a href="https://musicworld.social/@ZamRock" target="_blank" rel="noopener">Mastodon</a>
+            <a href="https://matrix.to/#/#zamrock:unredacted.org" target="_blank" rel="noopener">Matrix</a>
+            <a href="https://bsky.app/profile/zamrock.net" target="_blank" rel="noopener">Bluesky</a>
+            <a href="https://t.me/+zNkDGCUw65U5Mjcx" target="_blank" rel="noopener">Telegram</a>
+            <a href="https://fluxer.gg/3cDaqBp6" target="_blank" rel="noopener">Fluxer</a>
+            <a href="https://keybase.io/team/zamrock_radio" target="_blank" rel="noopener">Keybase</a>
+            <a href="https://gamevox.com/GCAG-5935" target="_blank" rel="noopener">GameVox</a>
+          </div>
+        </details>
+      </div>
+
+      <div class="langs">
+        <div class="head">Language</div>
+        <div class="lang-row">
+          
+          
+          <a class="lang-link active" href="https://zamrock.net/">English</a>
+          
+          <a class="lang-link " href="https://zamrock.net/es/">Español</a>
+          
+          <a class="lang-link " href="https://zamrock.net/pt/">Português</a>
+          
+          <a class="lang-link " href="https://zamrock.net/fr/">Français</a>
+          
+          <a class="lang-link " href="https://zamrock.net/zh-CN/">简体中文</a>
+          
+          <a class="lang-link " href="https://zamrock.net/zh-TW/">繁體中文</a>
+          
+          <a class="lang-link " href="https://zamrock.net/ar/">العربية</a>
+          
+          <a class="lang-link " href="https://zamrock.net/sv/">Svenska</a>
+          
+          <a class="lang-link " href="https://zamrock.net/ja/">日本語</a>
+          
+          <a class="lang-link " href="https://zamrock.net/vi/">Tiếng Việt</a>
+          
+          <a class="lang-link " href="https://zamrock.net/ko/">한국어</a>
+          
+        </div>
+      </div>
+
+      <div class="gallery-counter">Gallery <b id="n">001</b>/<b id="t">021</b></div>
+    </aside>
+
+    <main class="content">
+      
+<section class="page xdc-player-page">
+  <header class="page-header">
+    <h1 class="page-title">XDC Player</h1>
+    <p class="page-subtitle">Upload .xdc files and play webxdc games with mobile controls</p>
+  </header>
+
+  <div class="xdc-upload-section card">
+    <h2>Upload Game</h2>
+    <p>Drag and drop a .xdc file or click to browse</p>
+    
+    <div class="upload-area" id="uploadArea">
+      <input type="file" id="xdcFileInput" accept=".xdc" hidden />
+      <div class="upload-icon" aria-hidden="true">📦</div>
+      <p class="upload-text">Drop .xdc file here</p>
+      <p class="upload-hint">or click to browse</p>
+      <button class="btn" id="browseBtn" type="button">Browse Files</button>
+    </div>
+    
+    <div class="file-info hidden" id="fileInfo" role="status" aria-live="polite">
+      <span class="file-name" id="fileName"></span>
+      <span class="file-size" id="fileSize"></span>
+      <button class="btn btn-secondary" id="removeFileBtn" type="button">Remove</button>
+    </div>
+    
+    <button class="btn btn-primary btn-lg hidden" id="launchBtn" disabled type="button">
+      Launch Game
+    </button>
+  </div>
+
+  <div class="xdc-game-section hidden" id="gameSection" aria-live="polite">
+    <div class="game-header">
+      <h2 id="gameTitle">Loading Game...</h2>
+      <div class="game-controls">
+        <button class="btn btn-icon" id="saveBtn" title="Save Game" disabled aria-label="Save Game">💾</button>
+        <button class="btn btn-icon" id="loadBtn" title="Load Game" disabled aria-label="Load Game">📂</button>
+        <button class="btn btn-icon" id="fullscreenBtn" title="Fullscreen" aria-label="Fullscreen">⛶</button>
+        <button class="btn btn-danger" id="closeGameBtn" type="button">Close Game</button>
+      </div>
+    </div>
+    
+    <div class="game-container">
+      <iframe 
+        id="gameFrame" 
+        sandbox="allow-scripts allow-same-origin allow-forms allow-pointer-lock" 
+        allow="fullscreen; gamepad"
+        title="XDC Game"
+      ></iframe>
+      
+      <div class="virtual-gamepad hidden" id="virtualGamepad" role="region" aria-label="Virtual gamepad controls" aria-hidden="true"></div>
+    </div>
+    
+    <div class="save-status hidden" id="saveStatus" role="status" aria-live="polite"></div>
+  </div>
+
+  <div class="card info-card">
+    <h3>How It Works</h3>
+    <ul>
+      <li>Upload a .xdc game file (webxdc format)</li>
+      <li>Game runs in a secure sandboxed iframe</li>
+      <li>Virtual gamepad appears automatically on mobile</li>
+      <li>Progress saved locally in your browser (IndexedDB)</li>
+    </ul>
+  </div>
+
+  <div class="card features-card">
+    <h3>Features</h3>
+    <div class="features-grid">
+      <div class="feature">
+        <span class="feature-icon">🎮</span>
+        <div>
+          <h4>Adaptive Virtual Gamepad</h4>
+          <p>Automatically switches between overlay, sidebar, and below layouts based on game aspect ratio</p>
+        </div>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">💾</span>
+        <div>
+          <h4>Local Save/Load</h4>
+          <p>Game progress saved to IndexedDB — persists across sessions, works offline</p>
+        </div>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">📱</span>
+        <div>
+          <h4>Responsive Layouts</h4>
+          <p>Widescreen games get bottom overlay; square games get side controls; portrait gets bottom bar</p>
+        </div>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">🔒</span>
+        <div>
+          <h4>Privacy First</h4>
+          <p>No server uploads — everything runs client-side. Your games, your data.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card compat-card">
+    <h3>Browser Compatibility</h3>
+    <p>Requires modern browser with Service Worker and IndexedDB support</p>
+    <ul class="compat-list">
+      <li>✅ Chrome 80+ / Edge 80+</li>
+      <li>✅ Firefox 75+</li>
+      <li>✅ Safari 14+ (iOS 14+)</li>
+      <li>✅ Samsung Internet 13+</li>
+      <li>⚠️ Requires Service Worker & IndexedDB support</li>
+    </ul>
+  </div>
+</section>
+
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-links">
+        <a href="https://zamrock.net/about">About</a>
+        <a href="https://zamrock.net/contact">Contact</a>
+        <a href="https://zamrock.net/schedule">Schedule</a>
+        <a href="https://zamrock.net/news">News</a>
+        <a href="https://zamrock.net/games">Games</a>
+      </div>
+      <p>&copy; <script>document.write(new Date().getFullYear());</script> ZamRock Radio — All Rights Reserved</p>
+    </footer>
+  </div>
+
+  <script src="https://zamrock.net/js/themes.js?v=16"></script>
+  <script src="https://zamrock.net/js/crossfade.js?v=16"></script>
+  <script src="https://zamrock.net/js/main.js?v=16"></script>
+  
+<script type="module" src="https://zamrock.net/js/xdc-player.js?v=1"></script>
+
+</body>
+</html>
