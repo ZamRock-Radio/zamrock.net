@@ -609,32 +609,4 @@
   
   .dpad-btn { width: 44px; height: 44px; font-size: 1.1rem; }
   .action-btn { width: 52px; height: 52px; font-size: 1rem; }
-  
-  /* Landscape: D-pad left, buttons right, triggers right, menu top-right */
-  .virtual-gamepad.layout-overlay-bottom .gamepad-overlay {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-end;
-    flex-wrap: nowrap;
-  }
-  
-  .virtual-gamepad.layout-overlay-bottom .gamepad-dpad {
-    order: 1;
-    margin-right: auto;
-  }
-  
-  .virtual-gamepad.layout-overlay-bottom .gamepad-buttons {
-    order: 2;
-  }
-  
-  .virtual-gamepad.layout-overlay-bottom .gamepad-triggers {
-    order: 3;
-  }
-  
-  .virtual-gamepad.layout-overlay-bottom .gamepad-menu {
-    order: 4;
-    flex-direction: row;
-    gap: 8px;
-  }
 }
