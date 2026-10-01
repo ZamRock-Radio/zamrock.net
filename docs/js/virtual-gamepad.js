@@ -30,7 +30,6 @@ export class VirtualGamepad {
     this.container.classList.remove('hidden');
     this.bindTouchEvents();
     this.bindKeyboardEvents();
-    this.preventScroll();
     this.updateLayout();
   }
 
@@ -289,13 +288,15 @@ rebuildGamepad(mode) {
       this.releaseAllDirections();
     };
     
+    // Use base element for all listeners (not window)
     base.addEventListener('touchstart', startDrag, { passive: false });
     base.addEventListener('touchmove', moveDrag, { passive: false });
     base.addEventListener('touchend', endDrag);
     base.addEventListener('touchcancel', endDrag);
     base.addEventListener('mousedown', startDrag);
-    window.addEventListener('mousemove', moveDrag);
-    window.addEventListener('mouseup', endDrag);
+    base.addEventListener('mousemove', moveDrag);
+    base.addEventListener('mouseup', endDrag);
+    base.addEventListener('mouseleave', endDrag);
   }
 
   handleJoystickInput(x, y, deadzone) {
@@ -358,6 +359,9 @@ rebuildGamepad(mode) {
     };
     
     this.keyHandler = (e) => {
+      // Only handle keys when iframe is focused
+      if (document.activeElement !== this.targetFrame) return;
+      
       const action = keyMap[e.code];
       if (!action) return;
       
@@ -376,13 +380,7 @@ rebuildGamepad(mode) {
     window.addEventListener('keyup', this.keyHandler);
   }
 
-  preventScroll() {
-    this.container.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
-  }
-
   handlePress(event, button) {
-    event.preventDefault();
-    
     const dir = button.dataset.dir;
     const btn = button.dataset.btn;
     const action = dir || btn;
@@ -396,8 +394,6 @@ rebuildGamepad(mode) {
   }
 
   handleRelease(event, button) {
-    event.preventDefault();
-    
     const dir = button.dataset.dir;
     const btn = button.dataset.btn;
     const action = dir || btn;
