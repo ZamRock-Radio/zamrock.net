@@ -5,11 +5,9 @@ on:
   push:
     branches:
       - main
-      - crossfade
   pull_request:
     branches:
       - main
-      - crossfade
 
 jobs:
   lint:
