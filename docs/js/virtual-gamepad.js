@@ -16,7 +16,11 @@ export class VirtualGamepad {
   }
 
   init() {
-    if (!this.isMobile) {
+    // Force show on any touch device or small screen
+    const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    const isSmall = window.innerWidth <= 1024;
+    
+    if (!this.isMobile && !isTouch && !isSmall) {
       this.container.classList.add('hidden');
       return;
     }
