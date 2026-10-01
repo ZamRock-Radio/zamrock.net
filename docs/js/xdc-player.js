@@ -79,8 +79,6 @@ class XDCPlayer {
     document.getElementById('loadBtn').addEventListener('click', () => this.loadGame());
     document.getElementById('fullscreenBtn').addEventListener('click', () => this.toggleFullscreen());
     document.getElementById('closeGameBtn').addEventListener('click', () => this.closeGame());
-    document.getElementById('layoutBtn').addEventListener('click', () => this.cycleLayout());
-    document.getElementById('joystickBtn').addEventListener('click', () => this.toggleJoystick());
     
     // Listen for messages from game iframe
     window.addEventListener('message', (e) => this.handleGameMessage(e));
@@ -315,40 +313,13 @@ class XDCPlayer {
       case 'xdc-set-title':
         this.gameTitle.textContent = event.data.title;
         break;
-      case 'xdc-aspect-ratio':
-        // Game reports its actual aspect ratio
-        if (this.gamepad && event.data.ratio) {
-          this.gamepad.setGameAspectRatio(event.data.ratio);
-        }
-        break;
-    }
-  }
-
-  cycleLayout() {
-    if (!this.gamepad) return;
-    const layouts = ['overlay-right', 'sidebar', 'below'];
-    const current = this.gamepad.currentLayout;
-    const idx = layouts.indexOf(current);
-    const next = layouts[(idx + 1) % layouts.length];
-    this.gamepad.forceLayout(next);
-    this.showStatus('info', `Layout: ${next}`);
-  }
-
-  toggleJoystick() {
-    if (!this.gamepad) return;
-    const isJoystick = this.gamepad.toggleJoystick();
-    this.showStatus('info', `Joystick: ${isJoystick ? 'ON' : 'OFF'}`);
-    const btn = document.getElementById('joystickBtn');
-    if (btn) {
-      btn.style.background = isJoystick ? 'var(--accent)' : '';
-      btn.style.color = isJoystick ? 'var(--bg)' : '';
     }
   }
 
   toggleFullscreen() {
-    const iframe = document.getElementById('gameFrame');
+    const container = document.querySelector('.game-container');
     if (!document.fullscreenElement) {
-      iframe.requestFullscreen().catch(console.error);
+      container.requestFullscreen().catch(console.error);
     } else {
       document.exitFullscreen();
     }

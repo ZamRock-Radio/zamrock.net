@@ -8,7 +8,6 @@ export class VirtualGamepad {
     this.isMobile = this.detectMobile();
     this.currentLayout = 'hidden';
     this.gameAspectRatio = 16/9;
-    this.useJoystick = false;
     
     this.init();
     this.bindResizeObserver();
@@ -30,6 +29,7 @@ export class VirtualGamepad {
     this.container.classList.remove('hidden');
     this.bindTouchEvents();
     this.bindKeyboardEvents();
+    this.preventScroll();
     this.updateLayout();
   }
 
@@ -98,28 +98,10 @@ export class VirtualGamepad {
     }
   }
 
-  forceLayout(layout) {
-    this.applyLayout(layout);
-    this.currentLayout = layout;
-  }
-
-  setGameAspectRatio(ratio) {
-    this.gameAspectRatio = ratio;
-    this.updateLayout();
-  }
-
-  toggleJoystick() {
-    this.useJoystick = !this.useJoystick;
-    // Rebuild current layout with new joystick setting
-    this.applyLayout(this.currentLayout);
-    return this.useJoystick;
-  }
-
-rebuildGamepad(mode) {
+  rebuildGamepad(mode) {
     const isSidebar = mode === 'sidebar';
     const isBelow = mode === 'below';
     const isOverlay = mode === 'overlay';
-    const useJoystick = this.useJoystick && (mode === 'overlay' || mode === 'below');
     
     let html = '';
     
@@ -128,7 +110,12 @@ rebuildGamepad(mode) {
       html = `
         <div class="gamepad-sidebar">
           <div class="sidebar-left">
-            ${useJoystick ? this.getJoystickHTML() : this.getDPadHTML()}
+            <div class="gamepad-dpad">
+              <button class="dpad-btn" data-dir="up" aria-label="Up">▲</button>
+              <button class="dpad-btn" data-dir="down" aria-label="Down">▼</button>
+              <button class="dpad-btn" data-dir="left" aria-label="Left">◄</button>
+              <button class="dpad-btn" data-dir="right" aria-label="Right">►</button>
+            </div>
             <div class="gamepad-menu">
               <button class="menu-btn" data-btn="select" aria-label="Select">⬜</button>
               <button class="menu-btn" data-btn="start" aria-label="Start">▶</button>
@@ -153,11 +140,16 @@ rebuildGamepad(mode) {
         </div>
       `;
     } else if (isBelow) {
-      // Below layout: full width controls at bottom of screen (portrait)
+      // Below layout: full width controls under game
       html = `
         <div class="gamepad-below">
           <div class="below-row dpad-row">
-            ${useJoystick ? this.getJoystickHTML() : this.getDPadHTML()}
+            <div class="gamepad-dpad">
+              <button class="dpad-btn" data-dir="up" aria-label="Up">▲</button>
+              <button class="dpad-btn" data-dir="down" aria-label="Down">▼</button>
+              <button class="dpad-btn" data-dir="left" aria-label="Left">◄</button>
+              <button class="dpad-btn" data-dir="right" aria-label="Right">►</button>
+            </div>
             <div class="gamepad-menu">
               <button class="menu-btn" data-btn="select" aria-label="Select">⬜</button>
               <button class="menu-btn" data-btn="start" aria-label="Start">▶</button>
@@ -182,153 +174,34 @@ rebuildGamepad(mode) {
         </div>
       `;
     } else {
-      // Overlay right layout (widescreen) - D-pad/joystick left, buttons right, menu top-right
+      // Overlay bottom (original) - compact horizontal
       html = `
-        <div class="gamepad-overlay-right">
-          <div class="overlay-left">
-            ${useJoystick ? this.getJoystickHTML() : this.getDPadHTML()}
-            <div class="gamepad-triggers-vertical">
-              <button class="trigger-btn" data-btn="l1" aria-label="L1">L1</button>
-              <button class="trigger-btn" data-btn="l2" aria-label="L2">L2</button>
-            </div>
+        <div class="gamepad-overlay">
+          <div class="gamepad-dpad">
+            <button class="dpad-btn" data-dir="up" aria-label="Up">▲</button>
+            <button class="dpad-btn" data-dir="down" aria-label="Down">▼</button>
+            <button class="dpad-btn" data-dir="left" aria-label="Left">◄</button>
+            <button class="dpad-btn" data-dir="right" aria-label="Right">►</button>
           </div>
-          <div class="overlay-right">
-            <div class="gamepad-menu-top">
-              <button class="menu-btn" data-btn="select" aria-label="Select">⬜</button>
-              <button class="menu-btn" data-btn="start" aria-label="Start">▶</button>
-            </div>
-            <div class="gamepad-buttons">
-              <button class="action-btn" data-btn="y" aria-label="Y">Y</button>
-              <button class="action-btn" data-btn="x" aria-label="X">X</button>
-              <button class="action-btn" data-btn="a" aria-label="A">A</button>
-              <button class="action-btn" data-btn="b" aria-label="B">B</button>
-            </div>
-            <div class="gamepad-triggers-vertical">
-              <button class="trigger-btn" data-btn="r1" aria-label="R1">R1</button>
-              <button class="trigger-btn" data-btn="r2" aria-label="R2">R2</button>
-            </div>
+          <div class="gamepad-buttons">
+            <button class="action-btn" data-btn="a" aria-label="A">A</button>
+            <button class="action-btn" data-btn="b" aria-label="B">B</button>
+            <button class="action-btn" data-btn="x" aria-label="X">X</button>
+            <button class="action-btn" data-btn="y" aria-label="Y">Y</button>
+          </div>
+          <div class="gamepad-triggers">
+            <button class="trigger-btn" data-btn="l1" aria-label="L1">L1</button>
+            <button class="trigger-btn" data-btn="r1" aria-label="R1">R1</button>
+            <button class="trigger-btn" data-btn="l2" aria-label="L2">L2</button>
+            <button class="trigger-btn" data-btn="r2" aria-label="R2">R2</button>
+          </div>
+          <div class="gamepad-menu">
+            <button class="menu-btn" data-btn="select" aria-label="Select">⬜</button>
+            <button class="menu-btn" data-btn="start" aria-label="Start">▶</button>
           </div>
         </div>
       `;
     }
-    
-    this.container.innerHTML = html;
-    this.bindTouchEvents();
-    if (useJoystick) this.initJoystick();
-  }
-
-  getDPadHTML() {
-    return `
-      <div class="gamepad-dpad">
-        <button class="dpad-btn" data-dir="up" aria-label="Up">▲</button>
-        <button class="dpad-btn" data-dir="down" aria-label="Down">▼</button>
-        <button class="dpad-btn" data-dir="left" aria-label="Left">◄</button>
-        <button class="dpad-btn" data-dir="right" aria-label="Right">►</button>
-      </div>
-    `;
-  }
-
-  getJoystickHTML() {
-    return `
-      <div class="gamepad-joystick">
-        <div class="joystick-base">
-          <div class="joystick-stick" id="joystickStick"></div>
-        </div>
-      </div>
-    `;
-  }
-
-  initJoystick() {
-    const base = this.container.querySelector('.joystick-base');
-    const stick = this.container.querySelector('.joystick-stick');
-    if (!base || !stick) return;
-    
-    let isDragging = false;
-    const maxDistance = 50;
-    const centerX = base.offsetWidth / 2;
-    const centerY = base.offsetHeight / 2;
-    
-    const handleMove = (clientX, clientY) => {
-      const rect = base.getBoundingClientRect();
-      const x = clientX - rect.left - centerX;
-      const y = clientY - rect.top - centerY;
-      const distance = Math.min(Math.sqrt(x * x + y * y), maxDistance);
-      const angle = Math.atan2(y, x);
-      
-      const stickX = Math.cos(angle) * distance;
-      const stickY = Math.sin(angle) * distance;
-      
-      stick.style.transform = `translate(${stickX}px, ${stickY}px)`;
-      
-      // Determine direction and send input
-      const deadzone = 0.3;
-      const normX = x / maxDistance;
-      const normY = y / maxDistance;
-      
-      this.handleJoystickInput(normX, normY, deadzone);
-    };
-    
-    const startDrag = (e) => {
-      e.preventDefault();
-      isDragging = true;
-      const touch = e.touches ? e.touches[0] : e;
-      handleMove(touch.clientX, touch.clientY);
-    };
-    
-    const moveDrag = (e) => {
-      if (!isDragging) return;
-      e.preventDefault();
-      const touch = e.touches ? e.touches[0] : e;
-      handleMove(touch.clientX, touch.clientY);
-    };
-    
-    const endDrag = () => {
-      isDragging = false;
-      stick.style.transform = 'translate(0, 0)';
-      this.releaseAllDirections();
-    };
-    
-    // Use base element for all listeners (not window)
-    base.addEventListener('touchstart', startDrag, { passive: false });
-    base.addEventListener('touchmove', moveDrag, { passive: false });
-    base.addEventListener('touchend', endDrag);
-    base.addEventListener('touchcancel', endDrag);
-    base.addEventListener('mousedown', startDrag);
-    base.addEventListener('mousemove', moveDrag);
-    base.addEventListener('mouseup', endDrag);
-    base.addEventListener('mouseleave', endDrag);
-  }
-
-  handleJoystickInput(x, y, deadzone) {
-    const directions = {
-      up: y < -deadzone,
-      down: y > deadzone,
-      left: x < -deadzone,
-      right: x > deadzone
-    };
-    
-    for (const [dir, pressed] of Object.entries(directions)) {
-      if (pressed && !this.pressedButtons.has(dir)) {
-        this.pressedButtons.add(dir);
-        this.updateButtonVisual(dir, true);
-        this.sendInput(dir, true);
-      } else if (!pressed && this.pressedButtons.has(dir)) {
-        this.pressedButtons.delete(dir);
-        this.updateButtonVisual(dir, false);
-        this.sendInput(dir, false);
-      }
-    }
-  }
-
-  releaseAllDirections() {
-    for (const dir of ['up', 'down', 'left', 'right']) {
-      if (this.pressedButtons.has(dir)) {
-        this.pressedButtons.delete(dir);
-        this.updateButtonVisual(dir, false);
-        this.sendInput(dir, false);
-      }
-    }
-  }
     
     this.container.innerHTML = html;
     this.bindTouchEvents();
@@ -359,9 +232,6 @@ rebuildGamepad(mode) {
     };
     
     this.keyHandler = (e) => {
-      // Only handle keys when iframe is focused
-      if (document.activeElement !== this.targetFrame) return;
-      
       const action = keyMap[e.code];
       if (!action) return;
       
@@ -380,7 +250,13 @@ rebuildGamepad(mode) {
     window.addEventListener('keyup', this.keyHandler);
   }
 
+  preventScroll() {
+    this.container.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+  }
+
   handlePress(event, button) {
+    event.preventDefault();
+    
     const dir = button.dataset.dir;
     const btn = button.dataset.btn;
     const action = dir || btn;
@@ -394,6 +270,8 @@ rebuildGamepad(mode) {
   }
 
   handleRelease(event, button) {
+    event.preventDefault();
+    
     const dir = button.dataset.dir;
     const btn = button.dataset.btn;
     const action = dir || btn;
