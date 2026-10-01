@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>About — ZamRock Radio</title>
+  <title>XDC Player — ZamRock Radio</title>
 
   <link rel="icon" href="https://zamrock.net/favicon/favicon.ico" type="image/x-icon"/>
   <link rel="icon" type="image/png" sizes="32x32" href="https://zamrock.net/favicon/favicon-32x32.png"/>
@@ -11,7 +11,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="https://zamrock.net/favicon/apple-touch-icon.png"/>
   <link rel="manifest" href="https://zamrock.net/favicon/site.webmanifest"/>
 
-  <meta name="description" content="About ZamRock Radio — Fighting censorship through music and free speech" />
+  <meta name="description" content="Play webxdc games in your browser — upload .xdc files and play with mobile controls. Supports virtual gamepad, save/load via IndexedDB, adaptive layouts for any screen orientation." />
   <meta name="keywords" content="ZamRock, Radio, Online Radio, Music, Stream" />
   <meta name="author" content="ZamRock Radio" />
   <link rel="me" href="https://musicworld.social/@ZamRock" />
@@ -34,16 +34,16 @@
   <link rel="me" href="https://mastodon.africa/@ZamRock" />
   <link rel="me" href="https://mastodon.cr/@ZamRock" />
 
-  <meta property="og:title" content="About ZamRock Radio — Fighting Censorship Through Music" />
-  <meta property="og:description" content="ZamRock Radio is dedicated to promoting free speech and fighting censorship through music." />
+  <meta property="og:title" content="XDC Player — Play WebXDC Games Online" />
+  <meta property="og:description" content="Upload and play .xdc webxdc games directly in your browser. Features virtual gamepad controls, save/load game progress, and adaptive layouts for mobile and desktop." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://zamrock.net/about/" />
-  <meta property="og:image" content="https://zamrock.net/img/website_bg/website_bg_025_wm_v0.0.2.jpg" />
+  <meta property="og:url" content="https://zamrock.net/xdc/" />
+  <meta property="og:image" content="https://zamrock.net/img/xdc-player-og.jpg" />
 
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="About ZamRock Radio" />
-  <meta name="twitter:description" content="Fighting censorship through music and free speech" />
-  <meta name="twitter:image" content="https://zamrock.net/img/website_bg/website_bg_025_wm_v0.0.2.jpg"/>
+  <meta name="twitter:title" content="XDC Player — Play WebXDC Games Online" />
+  <meta name="twitter:description" content="Upload and play .xdc webxdc games in your browser with virtual gamepad controls. Save/load progress, adaptive layouts." />
+  https://zamrock.net/img/xdc-player-og.jpg
 
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
   <link data-theme="crossfade" rel="stylesheet" href="https://zamrock.net/css/crossfade.css?v=16" />
@@ -61,6 +61,47 @@
   })();
   </script>
   
+<link rel="stylesheet" href="https://zamrock.net/css/xdc-player.css?v=1" />
+<link rel="canonical" href="https://zamrock.net/xdc/" />
+
+<!-- JSON-LD Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "XDC Player",
+  "description": "Play webxdc games in your browser with virtual gamepad controls",
+  "url": "https://zamrock.net/xdc/",
+  "applicationCategory": "GameApplication",
+  "operatingSystem": "Web Browser",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/InStock"
+  },
+  "featureList": [
+    "Upload and play .xdc files",
+    "Virtual gamepad with adaptive layouts",
+    "Save/load game progress via IndexedDB",
+    "Fullscreen support",
+    "Works offline after load",
+    "No installation required"
+  ],
+  "screenshot": "https://zamrock.net/img/xdc-player-screenshot.jpg",
+  "browserRequirements": "Requires JavaScript, IndexedDB, Service Worker support",
+  "permissions": "File read access for .xdc upload"
+}
+</script>
+
+<!-- PWA Meta -->
+<meta name="theme-color" content="#2e3440" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="XDC Player" />
+<link rel="manifest" href="https://zamrock.net/xdc-manifest.json" />
+
 </head>
 <body>
   <div class="bg" aria-hidden="true"></div>
@@ -109,13 +150,13 @@
         <a class="nav-btn " href="https://zamrock.net/games">🎮 Games <span class="ar">→</span></a>
         
         
-        <a class="nav-btn " href="https://zamrock.net/xdc">🎮 XDC Player <span class="ar">→</span></a>
+        <a class="nav-btn active" href="https://zamrock.net/xdc">🎮 XDC Player <span class="ar">→</span></a>
         
         
         <a class="nav-btn " href="https://zamrock.net/ged">📊 GED <span class="ar">→</span></a>
         
         
-        <a class="nav-btn active" href="https://zamrock.net/about">ℹ️ About <span class="ar">→</span></a>
+        <a class="nav-btn " href="https://zamrock.net/about">ℹ️ About <span class="ar">→</span></a>
         
         
         <a class="nav-btn " href="https://zamrock.net/contact">📞 Contact <span class="ar">→</span></a>
@@ -180,25 +221,114 @@
 
     <main class="content">
       
-<section class="page">
-  <h1 class="page-title">About ZamRock Radio</h1>
-  <div class="prose">
-    <p>ZamRock Radio is more than just a radio station — it's a movement dedicated to preserving and promoting uncensored music and free speech.</p>
+<section class="page xdc-player-page">
+  <header class="page-header">
+    <h1 class="page-title">XDC Player</h1>
+    <p class="page-subtitle">Upload .xdc files and play webxdc games with mobile controls</p>
+  </header>
 
-    <h2>Our Mission</h2>
-    <p>In a world of increasing digital censorship, ZamRock Radio stands as a beacon of free expression. We provide a platform for artists and listeners who value artistic freedom and the free exchange of ideas.</p>
+  <div class="xdc-upload-section card">
+    <h2>Upload Game</h2>
+    <p>Drag and drop a .xdc file or click to browse</p>
+    
+    <div class="upload-area" id="uploadArea">
+      <input type="file" id="xdcFileInput" accept=".xdc" hidden />
+      <div class="upload-icon" aria-hidden="true">📦</div>
+      <p class="upload-text">Drop .xdc file here</p>
+      <p class="upload-hint">or click to browse</p>
+      <button class="btn" id="browseBtn" type="button">Browse Files</button>
+    </div>
+    
+    <div class="file-info hidden" id="fileInfo" role="status" aria-live="polite">
+      <span class="file-name" id="fileName"></span>
+      <span class="file-size" id="fileSize"></span>
+      <button class="btn btn-secondary" id="removeFileBtn" type="button">Remove</button>
+    </div>
+    
+    <button class="btn btn-primary btn-lg hidden" id="launchBtn" disabled type="button">
+      Launch Game
+    </button>
+  </div>
 
-    <h2>Fighting Censorship</h2>
-    <p>ZamRock was built on the principle of bypassing political, economic, and social censorship. We believe in the power of music to transcend boundaries and bring people together, regardless of their background or beliefs.</p>
+  <div class="xdc-game-section hidden" id="gameSection" aria-live="polite">
+    <div class="game-header">
+      <h2 id="gameTitle">Loading Game...</h2>
+      <div class="game-controls">
+        <button class="btn btn-icon" id="saveBtn" title="Save Game" disabled aria-label="Save Game">💾</button>
+        <button class="btn btn-icon" id="loadBtn" title="Load Game" disabled aria-label="Load Game">📂</button>
+        <button class="btn btn-icon" id="fullscreenBtn" title="Fullscreen" aria-label="Fullscreen">⛶</button>
+        <button class="btn btn-danger" id="closeGameBtn" type="button">Close Game</button>
+      </div>
+    </div>
+    
+    <div class="game-container">
+      <iframe 
+        id="gameFrame" 
+        sandbox="allow-scripts allow-same-origin allow-forms allow-pointer-lock" 
+        allow="fullscreen; gamepad"
+        title="XDC Game"
+      ></iframe>
+      
+      <div class="virtual-gamepad hidden" id="virtualGamepad" role="region" aria-label="Virtual gamepad controls" aria-hidden="true"></div>
+    </div>
+    
+    <div class="save-status hidden" id="saveStatus" role="status" aria-live="polite"></div>
+  </div>
 
-    <h2>For Those Without a Voice</h2>
-    <p>We stand in solidarity with those who don't have the freedom to express themselves. Like an amplifone amplifying the voices of the unheard, we provide a platform for music and ideas that might otherwise be silenced.</p>
+  <div class="card info-card">
+    <h3>How It Works</h3>
+    <ul>
+      <li>Upload a .xdc game file (webxdc format)</li>
+      <li>Game runs in a secure sandboxed iframe</li>
+      <li>Virtual gamepad appears automatically on mobile</li>
+      <li>Progress saved locally in your browser (IndexedDB)</li>
+    </ul>
+  </div>
 
-    <h2>Our Technology</h2>
-    <p>Built with privacy and security in mind, our platform uses cutting-edge technology to ensure that the music and voices on our platform remain free from censorship and surveillance.</p>
+  <div class="card features-card">
+    <h3>Features</h3>
+    <div class="features-grid">
+      <div class="feature">
+        <span class="feature-icon">🎮</span>
+        <div>
+          <h4>Adaptive Virtual Gamepad</h4>
+          <p>Automatically switches between overlay, sidebar, and below layouts based on game aspect ratio</p>
+        </div>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">💾</span>
+        <div>
+          <h4>Local Save/Load</h4>
+          <p>Game progress saved to IndexedDB — persists across sessions, works offline</p>
+        </div>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">📱</span>
+        <div>
+          <h4>Responsive Layouts</h4>
+          <p>Widescreen games get bottom overlay; square games get side controls; portrait gets bottom bar</p>
+        </div>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">🔒</span>
+        <div>
+          <h4>Privacy First</h4>
+          <p>No server uploads — everything runs client-side. Your games, your data.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <h2>Join Our Community</h2>
-    <p>Be part of a growing community that values free speech, artistic expression, and the power of music to create change. Together, we can keep the airwaves free and open for all.</p>
+  <div class="card compat-card">
+    <h3>Browser Compatibility</h3>
+    <p>Requires modern browser with Service Worker and IndexedDB support</p>
+    <ul class="compat-list">
+      <li>✅ Chrome 80+ / Edge 80+</li>
+      <li>✅ Firefox 75+</li>
+      <li>✅ Safari 14+ (iOS 14+)</li>
+      <li>✅ Samsung Internet 13+</li>
+      <li>⚠️ Requires Service Worker & IndexedDB support</li>
+    </ul>
   </div>
 </section>
 
@@ -220,5 +350,7 @@
   <script src="https://zamrock.net/js/crossfade.js?v=16"></script>
   <script src="https://zamrock.net/js/main.js?v=16"></script>
   
+<script type="module" src="https://zamrock.net/js/xdc-player.js?v=1"></script>
+
 </body>
 </html>
