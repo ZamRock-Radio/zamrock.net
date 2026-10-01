@@ -610,7 +610,7 @@
   .dpad-btn { width: 44px; height: 44px; font-size: 1.1rem; }
   .action-btn { width: 52px; height: 52px; font-size: 1rem; }
   
-  /* Landscape: D-pad left, buttons right, triggers right, menu top-right */
+  /* Landscape: D-pad left, L1/L2 left, action buttons right, R1/R2 right, menu right */
   .virtual-gamepad.layout-overlay-bottom .gamepad-overlay {
     display: flex;
     flex-direction: row;
@@ -624,17 +624,25 @@
     margin-right: auto;
   }
   
-  .virtual-gamepad.layout-overlay-bottom .gamepad-buttons {
+  .virtual-gamepad.layout-overlay-bottom .gamepad-triggers-left {
     order: 2;
+    flex-direction: column;
+    gap: 8px;
   }
   
-  .virtual-gamepad.layout-overlay-bottom .gamepad-triggers {
+  .virtual-gamepad.layout-overlay-bottom .gamepad-buttons {
     order: 3;
   }
   
-  .virtual-gamepad.layout-overlay-bottom .gamepad-menu {
+  .virtual-gamepad.layout-overlay-bottom .gamepad-triggers-right {
     order: 4;
-    flex-direction: row;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .virtual-gamepad.layout-overlay-bottom .gamepad-menu {
+    order: 5;
+    flex-direction: column;
     gap: 8px;
   }
 }

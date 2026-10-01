@@ -183,16 +183,18 @@ export class VirtualGamepad {
             <button class="dpad-btn" data-dir="left" aria-label="Left">◄</button>
             <button class="dpad-btn" data-dir="right" aria-label="Right">►</button>
           </div>
+          <div class="gamepad-triggers-vertical gamepad-triggers-left">
+            <button class="trigger-btn" data-btn="l1" aria-label="L1">L1</button>
+            <button class="trigger-btn" data-btn="l2" aria-label="L2">L2</button>
+          </div>
           <div class="gamepad-buttons">
+            <button class="action-btn" data-btn="y" aria-label="Y">Y</button>
+            <button class="action-btn" data-btn="x" aria-label="X">X</button>
             <button class="action-btn" data-btn="a" aria-label="A">A</button>
             <button class="action-btn" data-btn="b" aria-label="B">B</button>
-            <button class="action-btn" data-btn="x" aria-label="X">X</button>
-            <button class="action-btn" data-btn="y" aria-label="Y">Y</button>
           </div>
-          <div class="gamepad-triggers">
-            <button class="trigger-btn" data-btn="l1" aria-label="L1">L1</button>
+          <div class="gamepad-triggers-vertical gamepad-triggers-right">
             <button class="trigger-btn" data-btn="r1" aria-label="R1">R1</button>
-            <button class="trigger-btn" data-btn="l2" aria-label="L2">L2</button>
             <button class="trigger-btn" data-btn="r2" aria-label="R2">R2</button>
           </div>
           <div class="gamepad-menu">
