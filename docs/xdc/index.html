@@ -256,6 +256,8 @@
       <div class="game-controls">
         <button class="btn btn-icon" id="saveBtn" title="Save Game" disabled aria-label="Save Game">💾</button>
         <button class="btn btn-icon" id="loadBtn" title="Load Game" disabled aria-label="Load Game">📂</button>
+        <button class="btn btn-icon" id="layoutBtn" title="Toggle Layout" aria-label="Toggle Layout">⇄</button>
+        <button class="btn btn-icon" id="joystickBtn" title="Toggle Joystick" aria-label="Toggle Joystick">⬤</button>
         <button class="btn btn-icon" id="fullscreenBtn" title="Fullscreen" aria-label="Fullscreen">⛶</button>
         <button class="btn btn-danger" id="closeGameBtn" type="button">Close Game</button>
       </div>
@@ -268,9 +270,8 @@
         allow="fullscreen; gamepad"
         title="XDC Game"
       ></iframe>
-      
-      <div class="virtual-gamepad hidden" id="virtualGamepad" role="region" aria-label="Virtual gamepad controls" aria-hidden="true"></div>
     </div>
+    <div class="virtual-gamepad hidden" id="virtualGamepad" role="region" aria-label="Virtual gamepad controls" aria-hidden="true"></div>
     
     <div class="save-status hidden" id="saveStatus" role="status" aria-live="polite"></div>
   </div>

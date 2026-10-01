@@ -159,30 +159,23 @@
   display: block;
 }
 
-/* Virtual Gamepad - Adaptive Layouts */
+/* Virtual Gamepad - Below Game Container */
 .virtual-gamepad {
-  position: absolute;
-  inset: 0;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
   pointer-events: none;
   z-index: 10;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  padding: 0.5rem;
-}
-
-.virtual-gamepad.hidden {
   display: none;
 }
 
 .virtual-gamepad:not(.hidden) {
+  display: block;
   pointer-events: auto;
 }
 
-/* Overlay Bottom Layout (widescreen games) */
-.virtual-gamepad.layout-overlay-bottom .gamepad-overlay {
-  width: 100%;
-  max-width: 800px;
+/* Overlay Right Layout (widescreen games) - D-pad left, buttons right, menu top-right */
+.virtual-gamepad.layout-overlay-right .gamepad-overlay-right {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
@@ -190,25 +183,48 @@
   padding: 0.5rem;
 }
 
-.virtual-gamepad.layout-overlay-bottom .gamepad-dpad,
-.virtual-gamepad.layout-overlay-bottom .gamepad-buttons,
-.virtual-gamepad.layout-overlay-bottom .gamepad-triggers,
-.virtual-gamepad.layout-overlay-bottom .gamepad-menu {
-  flex-shrink: 0;
+.virtual-gamepad.layout-overlay-right .overlay-left,
+.virtual-gamepad.layout-overlay-right .overlay-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Sidebar Layout (square games) */
+.virtual-gamepad.layout-overlay-right .overlay-left {
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+.virtual-gamepad.layout-overlay-right .overlay-right {
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.virtual-gamepad.layout-overlay-right .gamepad-menu-top {
+  margin-bottom: 0.5rem;
+  display: flex;
+  gap: 8px;
+}
+
+.virtual-gamepad.layout-overlay-right .gamepad-triggers-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Sidebar Layout (square games) - D-pad left, buttons right, triggers top/bottom */
 .virtual-gamepad.layout-sidebar {
-  align-items: stretch;
-  padding: 0;
+  display: flex;
+  width: 100%;
+  max-width: 100%;
 }
 
 .virtual-gamepad.layout-sidebar .gamepad-sidebar {
   display: flex;
   width: 100%;
   max-width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, rgba(0,0,0,0.3) 0%, transparent 20%, transparent 80%, rgba(0,0,0,0.3) 100%);
+  background: var(--bg);
+  border-top: 2px solid var(--border);
 }
 
 .virtual-gamepad.layout-sidebar .sidebar-left,
@@ -257,11 +273,8 @@
   height: 56px;
 }
 
-/* Below Layout (portrait games) */
+/* Below Layout (portrait games) - Full width controls below game */
 .virtual-gamepad.layout-below {
-  position: relative;
-  align-items: flex-start;
-  padding: 0;
   background: var(--bg);
   border-top: 2px solid var(--border);
 }
@@ -549,6 +562,47 @@
   border-radius: var(--radius);
   border: 1px solid var(--border);
   font-size: 0.9rem;
+}
+
+/* Joystick Styles */
+.gamepad-joystick {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+}
+
+.joystick-base {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.joystick-stick {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--accent-hover);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform 0.05s ease-out;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.joystick-base:active .joystick-stick {
+  transform: translate(-50%, -50%);
 }
 
 .hidden {
