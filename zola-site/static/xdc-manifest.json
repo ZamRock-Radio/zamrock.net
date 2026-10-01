@@ -1,0 +1,37 @@
+{
+  "name": "XDC Player",
+  "short_name": "XDC Player",
+  "description": "Play webxdc games in your browser with virtual gamepad controls",
+  "start_url": "/xdc/",
+  "display": "standalone",
+  "background_color": "#2e3440",
+  "theme_color": "#2e3440",
+  "orientation": "any",
+  "scope": "/xdc/",
+  "icons": [
+    {
+      "src": "/favicon/favicon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon/favicon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["games", "entertainment"],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Upload Game",
+      "short_name": "Upload",
+      "description": "Upload a new .xdc game",
+      "url": "/xdc/",
+      "icons": [{ "src": "/favicon/favicon-192.png", "sizes": "192x192" }]
+    }
+  ],
+  "prefer_related_applications": false
+}

@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+
+{% block title %}XDC Player — {{ config.title }}{% endblock title %}
+{% block description %}Play webxdc games in your browser — upload .xdc files and play with mobile controls. Supports virtual gamepad, save/load via IndexedDB, adaptive layouts for any screen orientation.{% endblock description %}
+{% block og_title %}XDC Player — Play WebXDC Games Online{% endblock og_title %}
+{% block og_description %}Upload and play .xdc webxdc games directly in your browser. Features virtual gamepad controls, save/load game progress, and adaptive layouts for mobile and desktop.{% endblock og_description %}
+{% block og_type %}website{% endblock og_type %}
+{% block og_image %}<meta property="og:image" content="{{ get_url(path="img/xdc-player-og.jpg", trailing_slash=false) }}" />{% endblock og_image %}
+
+{% block tw_title %}XDC Player — Play WebXDC Games Online{% endblock tw_title %}
+{% block tw_description %}Upload and play .xdc webxdc games in your browser with virtual gamepad controls. Save/load progress, adaptive layouts.{% endblock tw_description %}
+{% block tw_image %}{{ get_url(path="img/xdc-player-og.jpg", trailing_slash=false) }}{% endblock tw_image %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{{ get_url(path="css/xdc-player.css", trailing_slash=false) }}?v=1" />
+<link rel="canonical" href="{{ config.base_url }}/xdc/" />
+
+<!-- JSON-LD Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "XDC Player",
+  "description": "Play webxdc games in your browser with virtual gamepad controls",
+  "url": "{{ config.base_url }}/xdc/",
+  "applicationCategory": "GameApplication",
+  "operatingSystem": "Web Browser",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/InStock"
+  },
+  "featureList": [
+    "Upload and play .xdc files",
+    "Virtual gamepad with adaptive layouts",
+    "Save/load game progress via IndexedDB",
+    "Fullscreen support",
+    "Works offline after load",
+    "No installation required"
+  ],
+  "screenshot": "{{ config.base_url }}/img/xdc-player-screenshot.jpg",
+  "browserRequirements": "Requires JavaScript, IndexedDB, Service Worker support",
+  "permissions": "File read access for .xdc upload"
+}
+</script>
+
+<!-- PWA Meta -->
+<meta name="theme-color" content="#2e3440" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="XDC Player" />
+<link rel="manifest" href="{{ get_url(path="xdc-manifest.json", trailing_slash=false) }}" />
+{% endblock extra_head %}
+
+{% block content %}
+<section class="page xdc-player-page">
+  <header class="page-header">
+    <h1 class="page-title">{{ trans(key="xdc_player_title") }}</h1>
+    <p class="page-subtitle">{{ trans(key="xdc_player_sub") }}</p>
+  </header>
+
+  <div class="xdc-upload-section card">
+    <h2>{{ trans(key="xdc_upload_title") }}</h2>
+    <p>{{ trans(key="xdc_upload_desc") }}</p>
+    
+    <div class="upload-area" id="uploadArea">
+      <input type="file" id="xdcFileInput" accept=".xdc" hidden />
+      <div class="upload-icon" aria-hidden="true">📦</div>
+      <p class="upload-text">{{ trans(key="xdc_drag_drop") }}</p>
+      <p class="upload-hint">{{ trans(key="xdc_or_click") }}</p>
+      <button class="btn" id="browseBtn" type="button">{{ trans(key="xdc_browse") }}</button>
+    </div>
+    
+    <div class="file-info hidden" id="fileInfo" role="status" aria-live="polite">
+      <span class="file-name" id="fileName"></span>
+      <span class="file-size" id="fileSize"></span>
+      <button class="btn btn-secondary" id="removeFileBtn" type="button">{{ trans(key="xdc_remove") }}</button>
+    </div>
+    
+    <button class="btn btn-primary btn-lg hidden" id="launchBtn" disabled type="button">
+      {{ trans(key="xdc_launch") }}
+    </button>
+  </div>
+
+  <div class="xdc-game-section hidden" id="gameSection" aria-live="polite">
+    <div class="game-header">
+      <h2 id="gameTitle">{{ trans(key="xdc_game_loading") }}</h2>
+      <div class="game-controls">
+        <button class="btn btn-icon" id="saveBtn" title="{{ trans(key="xdc_save") }}" disabled aria-label="{{ trans(key="xdc_save") }}">💾</button>
+        <button class="btn btn-icon" id="loadBtn" title="{{ trans(key="xdc_load") }}" disabled aria-label="{{ trans(key="xdc_load") }}">📂</button>
+        <button class="btn btn-icon" id="fullscreenBtn" title="{{ trans(key="xdc_fullscreen") }}" aria-label="{{ trans(key="xdc_fullscreen") }}">⛶</button>
+        <button class="btn btn-danger" id="closeGameBtn" type="button">{{ trans(key="xdc_close") }}</button>
+      </div>
+    </div>
+    
+    <div class="game-container">
+      <iframe 
+        id="gameFrame" 
+        sandbox="allow-scripts allow-same-origin allow-forms allow-pointer-lock" 
+        allow="fullscreen; gamepad"
+        title="{{ trans(key="xdc_game_frame_title") }}"
+      ></iframe>
+      
+      <div class="virtual-gamepad hidden" id="virtualGamepad" role="region" aria-label="Virtual gamepad controls" aria-hidden="true"></div>
+    </div>
+    
+    <div class="save-status hidden" id="saveStatus" role="status" aria-live="polite"></div>
+  </div>
+
+  <div class="card info-card">
+    <h3>{{ trans(key="xdc_how_it_works") }}</h3>
+    <ul>
+      <li>{{ trans(key="xdc_how_1") }}</li>
+      <li>{{ trans(key="xdc_how_2") }}</li>
+      <li>{{ trans(key="xdc_how_3") }}</li>
+      <li>{{ trans(key="xdc_how_4") }}</li>
+    </ul>
+  </div>
+
+  <div class="card features-card">
+    <h3>{{ trans(key="xdc_features_title") }}</h3>
+    <div class="features-grid">
+      <div class="feature">
+        <span class="feature-icon">🎮</span>
+        <div>
+          <h4>{{ trans(key="xdc_feature_controls_title") }}</h4>
+          <p>{{ trans(key="xdc_feature_controls_desc") }}</p>
+        </div>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">💾</span>
+        <div>
+          <h4>{{ trans(key="xdc_feature_saves_title") }}</h4>
+          <p>{{ trans(key="xdc_feature_saves_desc") }}</p>
+        </div>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">📱</span>
+        <div>
+          <h4>{{ trans(key="xdc_feature_adaptive_title") }}</h4>
+          <p>{{ trans(key="xdc_feature_adaptive_desc") }}</p>
+        </div>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">🔒</span>
+        <div>
+          <h4>{{ trans(key="xdc_feature_privacy_title") }}</h4>
+          <p>{{ trans(key="xdc_feature_privacy_desc") }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card compat-card">
+    <h3>{{ trans(key="xdc_compatibility_title") }}</h3>
+    <p>{{ trans(key="xdc_compatibility_desc") }}</p>
+    <ul class="compat-list">
+      <li>✅ Chrome 80+ / Edge 80+</li>
+      <li>✅ Firefox 75+</li>
+      <li>✅ Safari 14+ (iOS 14+)</li>
+      <li>✅ Samsung Internet 13+</li>
+      <li>⚠️ Requires Service Worker & IndexedDB support</li>
+    </ul>
+  </div>
+</section>
+{% endblock content %}
+
+{% block scripts %}
+<script type="module" src="{{ get_url(path="js/xdc-player.js", trailing_slash=false) }}?v=1"></script>
+{% endblock scripts %}
