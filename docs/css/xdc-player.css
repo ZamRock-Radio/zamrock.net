@@ -171,6 +171,12 @@
 
 .virtual-gamepad:not(.hidden) {
   display: block;
+  pointer-events: none;
+}
+
+/* Only interactive elements get pointer events */
+.virtual-gamepad button,
+.virtual-gamepad .joystick-base {
   pointer-events: auto;
 }
 
