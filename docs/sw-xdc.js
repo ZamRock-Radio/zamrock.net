@@ -29,7 +29,8 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
   
   // Handle XDC game file requests: /xdc/{gameId}/{path}
-  if (url.pathname.startsWith('/xdc/')) {
+  // But NOT the main /xdc/ page (let it pass through to network)
+  if (url.pathname.startsWith('/xdc/') && url.pathname !== '/xdc/' && url.pathname !== '/xdc/index.html') {
     event.respondWith(handleXDCRequest(event.request, url));
     return;
   }
