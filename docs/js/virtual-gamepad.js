@@ -15,8 +15,7 @@ export class VirtualGamepad {
 
   detectMobile() {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-           (navigator.maxTouchPoints && navigator.maxTouchPoints > 2) ||
-           window.innerWidth <= 768;
+           (navigator.maxTouchPoints && navigator.maxTouchPoints > 2);
   }
 
   init() {
@@ -28,8 +27,6 @@ export class VirtualGamepad {
     
     this.container.classList.remove('hidden');
     this.bindTouchEvents();
-    this.bindKeyboardEvents();
-    this.preventScroll();
     this.updateLayout();
   }
 
@@ -232,6 +229,9 @@ export class VirtualGamepad {
     };
     
     this.keyHandler = (e) => {
+      // Only handle keys when iframe is focused
+      if (document.activeElement !== this.targetFrame) return;
+      
       const action = keyMap[e.code];
       if (!action) return;
       
@@ -250,13 +250,14 @@ export class VirtualGamepad {
     window.addEventListener('keyup', this.keyHandler);
   }
 
-  preventScroll() {
-    this.container.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+  unbindKeyboardEvents() {
+    if (this.keyHandler) {
+      window.removeEventListener('keydown', this.keyHandler);
+      window.removeEventListener('keyup', this.keyHandler);
+    }
   }
 
   handlePress(event, button) {
-    event.preventDefault();
-    
     const dir = button.dataset.dir;
     const btn = button.dataset.btn;
     const action = dir || btn;
@@ -270,8 +271,6 @@ export class VirtualGamepad {
   }
 
   handleRelease(event, button) {
-    event.preventDefault();
-    
     const dir = button.dataset.dir;
     const btn = button.dataset.btn;
     const action = dir || btn;
