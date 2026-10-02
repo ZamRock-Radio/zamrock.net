@@ -21,15 +21,16 @@ export class VirtualGamepad {
     // Force show on any touch device or small screen
     const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     const isSmall = window.innerWidth <= 1024;
+    const isDesktop = !this.isMobile && !isTouch && !isSmall;
     
-    // Show on mobile/touch/small screens, or when fullscreen is active
-    const shouldShow = this.isMobile || isTouch || isSmall || (this.showOnFullscreen && document.fullscreenElement);
-    
-    if (!shouldShow) {
-      this.container.classList.add('hidden');
-    } else {
-      this.container.classList.remove('hidden');
+    // Default layout: sidebar for desktop, overlay for mobile
+    const storedLayout = localStorage.getItem('xdc-gamepad-layout');
+    if (!storedLayout) {
+      this.layout = isDesktop ? 'sidebar' : 'dpad';
     }
+    
+    // Always show gamepad (sidebar on desktop, overlay on mobile)
+    this.container.classList.remove('hidden');
     
     this.buildGamepad();
     this.bindTouchEvents();
@@ -43,20 +44,42 @@ export class VirtualGamepad {
       this.fullscreenHandler = () => this.onFullscreenChange();
       document.addEventListener('fullscreenchange', this.fullscreenHandler);
     }
+    
+    // Handle resize to switch layouts
+    this.resizeHandler = () => this.onResize();
+    window.addEventListener('resize', this.resizeHandler);
   }
 
   onFullscreenChange() {
     const isFullscreen = !!document.fullscreenElement;
-    if (isFullscreen) {
-      this.container.classList.remove('hidden');
-    } else if (!this.isMobile && !('ontouchstart' in window) && window.innerWidth > 1024) {
-      this.container.classList.add('hidden');
+    if (isFullscreen && this.layout === 'sidebar') {
+      // In fullscreen, switch to overlay layout temporarily
+      this.container.classList.add('fullscreen-overlay');
+    } else {
+      this.container.classList.remove('fullscreen-overlay');
+    }
+  }
+
+  onResize() {
+    const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    const isSmall = window.innerWidth <= 1024;
+    const isDesktop = !this.isMobile && !isTouch && !isSmall;
+    
+    // Auto-switch layout based on screen size if not manually set
+    const storedLayout = localStorage.getItem('xdc-gamepad-layout');
+    if (!storedLayout) {
+      const newLayout = isDesktop ? 'sidebar' : 'dpad';
+      if (newLayout !== this.layout) {
+        this.setLayout(newLayout);
+      }
     }
   }
 
   setLayout(layout) {
     this.layout = layout;
     localStorage.setItem('xdc-gamepad-layout', layout);
+    // Remove old layout classes
+    this.container.classList.remove('layout-sidebar', 'layout-overlay-bottom', 'fullscreen-overlay');
     this.buildGamepad();
     this.bindTouchEvents();
   }
@@ -68,6 +91,10 @@ export class VirtualGamepad {
     
     if (this.fullscreenHandler) {
       document.removeEventListener('fullscreenchange', this.fullscreenHandler);
+    }
+    
+    if (this.resizeHandler) {
+      window.removeEventListener('resize', this.resizeHandler);
     }
     
     // Clean up stick handlers
@@ -95,6 +122,19 @@ buildGamepad() {
     // Standard layout: D-pad left, action buttons right, triggers top, menu center
     // Analog stick layout: virtual joystick left, action buttons right, triggers top, menu center
     const isStick = this.layout === 'stick';
+    const isSidebar = this.layout === 'sidebar';
+    const isOverlayBottom = this.layout === 'dpad';
+    
+    // Apply layout class to container
+    this.container.classList.remove('layout-sidebar', 'layout-overlay-bottom', 'fullscreen-overlay');
+    if (isSidebar) {
+      this.container.classList.add('layout-sidebar');
+    } else if (isOverlayBottom) {
+      this.container.classList.add('layout-overlay-bottom');
+    }
+    if (!this.container.classList.contains('hidden')) {
+      this.container.classList.remove('hidden');
+    }
     
     this.container.innerHTML = `
       <div class="gamepad-standard">
