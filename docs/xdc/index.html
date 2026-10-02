@@ -357,6 +357,27 @@ if ('serviceWorker' in navigator) {
     .then(reg => console.log('SW registered:', reg.scope))
     .catch(err => console.warn('SW registration failed:', err));
 }
+
+// Auto-load XDC game from URL parameter ?game=besogo
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  const game = params.get('game');
+  if (game === 'besogo') {
+    // Fetch the .xdc file and trigger the file input
+    fetch('/games/besogo/besogo.xdc')
+      .then(r => r.blob())
+      .then(blob => {
+        const file = new File([blob], 'besogo.xdc', { type: 'application/zip' });
+        const dt = new DataTransfer();
+        dt.items.add(file);
+        document.getElementById('xdcFileInput').files = dt.files;
+        // Trigger the handler
+        const event = new Event('change', { bubbles: true });
+        document.getElementById('xdcFileInput').dispatchEvent(event);
+      })
+      .catch(err => console.warn('Failed to auto-load besogo:', err));
+  }
+})();
 </script>
 
 </body>
