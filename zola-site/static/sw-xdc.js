@@ -1,28 +1,39 @@
 // Service Worker for XDC Game File Serving
 // Serves extracted XDC files from IndexedDB
 
-const CACHE_NAME = 'xdc-player-v1';
+const CACHE_NAME = 'xdc-player-v5';
 const GAMES_DB = 'xdc-games';
 const FILES_STORE = 'files';
+
+// Files to precache (static assets only, NOT HTML pages)
+const PRECACHE_URLS = [
+  '/css/xdc-player.css?v=5',
+  '/js/xdc-player.js?v=5',
+  '/js/xdc-extractor.js?v=5',
+  '/js/indexeddb-saves.js?v=5',
+  '/js/virtual-gamepad.js?v=5',
+  '/sw-xdc.js?v=5'
+];
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll([
-        '/xdc/',
-        '/css/xdc-player.css',
-        '/js/xdc-player.js',
-        '/js/xdc-extractor.js',
-        '/js/indexeddb-saves.js',
-        '/js/virtual-gamepad.js'
-      ]);
+      return cache.addAll(PRECACHE_URLS);
     })
   );
 });
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(self.clients.claim());
+  // Clean up old caches
+  event.waitUntil(
+    caches.keys().then(keys => {
+      return Promise.all(
+        keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))
+      );
+    })
+  );
 });
 
 self.addEventListener('fetch', (event) => {
@@ -34,7 +45,14 @@ self.addEventListener('fetch', (event) => {
     return;
   }
   
-  // Default: network first, fallback to cache
+  // For HTML pages (navigation requests), use network-only to avoid stale content
+  if (event.request.mode === 'navigate' || 
+      (event.request.headers.get('accept') || '').includes('text/html')) {
+    event.respondWith(networkOnly(event.request));
+    return;
+  }
+  
+  // For static assets, use network-first with cache fallback
   event.respondWith(networkFirst(event.request));
 });
 
@@ -112,11 +130,26 @@ async function networkFirst(request) {
   try {
     const response = await fetch(request);
     if (response.ok) {
-      const cache = await caches.open(CACHE_NAME);
-      cache.put(request, response.clone());
+      // Don't cache HTML responses
+      const contentType = response.headers.get('content-type') || '';
+      if (!contentType.includes('text/html')) {
+        const cache = await caches.open(CACHE_NAME);
+        cache.put(request, response.clone());
+      }
     }
     return response;
   } catch (err) {
+    const cached = await caches.match(request);
+    if (cached) return cached;
+    return new Response('Offline', { status: 503 });
+  }
+}
+
+async function networkOnly(request) {
+  try {
+    return await fetch(request);
+  } catch (err) {
+    // Try cache as last resort for offline
     const cached = await caches.match(request);
     if (cached) return cached;
     return new Response('Offline', { status: 503 });

@@ -219,7 +219,11 @@ class XDCPlayer {
     // Initialize virtual gamepad
     this.gamepad = new VirtualGamepad(
       document.getElementById('virtualGamepad'),
-      this.gameFrame
+      this.gameFrame,
+      {
+        layout: localStorage.getItem('xdc-gamepad-layout') || 'dpad',
+        showOnFullscreen: true
+      }
     );
     
     // Load game in iframe via service worker
@@ -317,9 +321,9 @@ class XDCPlayer {
   }
 
   toggleFullscreen() {
-    const container = document.querySelector('.game-container');
+    const iframe = document.getElementById('gameFrame');
     if (!document.fullscreenElement) {
-      container.requestFullscreen().catch(console.error);
+      iframe.requestFullscreen().catch(console.error);
     } else {
       document.exitFullscreen();
     }

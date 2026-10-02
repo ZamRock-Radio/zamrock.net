@@ -387,6 +387,106 @@
   .action-btn { width: 52px; height: 52px; font-size: 1rem; }
 }
 
+/* Analog Stick Styles */
+.gamepad-stick {
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.joystick-base {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 3px solid var(--border);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: inset 0 2px 8px rgba(0,0,0,0.3), 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.joystick-base.active {
+  border-color: var(--accent);
+  box-shadow: inset 0 2px 8px rgba(0,0,0,0.3), 0 0 12px var(--accent);
+}
+
+.joystick-stick {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--accent-hover);
+  transition: transform 0.05s ease-out;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+
+.joystick-base.active .joystick-stick {
+  box-shadow: 0 0 12px var(--accent), 0 2px 6px rgba(0,0,0,0.4);
+}
+
+/* Settings Button */
+.gamepad-settings {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 100;
+}
+
+.settings-btn {
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  border: 2px solid var(--border);
+  transition: all 0.1s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.settings-btn:active,
+.settings-btn:hover {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+  transform: scale(1.1);
+}
+
+/* Notification */
+.gamepad-notification {
+  position: fixed;
+  bottom: 70px;
+  right: 1rem;
+  padding: 0.75rem 1rem;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.85rem;
+  z-index: 101;
+  animation: slideIn 0.2s ease-out;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* Common Gamepad Button Styles */
 .gamepad-dpad {
   display: grid;

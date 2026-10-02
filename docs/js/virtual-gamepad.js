@@ -1,12 +1,14 @@
-// Virtual Gamepad - Standard Mobile Layout
+// Virtual Gamepad - Standard Mobile Layout with Analog Stick Option
 // D-pad left, Action buttons right, Triggers top corners, Menu center
 
 export class VirtualGamepad {
-  constructor(container, targetFrame) {
+  constructor(container, targetFrame, options = {}) {
     this.container = container;
     this.targetFrame = targetFrame;
     this.pressedButtons = new Set();
     this.isMobile = this.detectMobile();
+    this.layout = options.layout || localStorage.getItem('xdc-gamepad-layout') || 'dpad';
+    this.showOnFullscreen = options.showOnFullscreen !== false;
     this.init();
   }
 
@@ -20,36 +22,89 @@ export class VirtualGamepad {
     const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     const isSmall = window.innerWidth <= 1024;
     
-    if (!this.isMobile && !isTouch && !isSmall) {
+    // Show on mobile/touch/small screens, or when fullscreen is active
+    const shouldShow = this.isMobile || isTouch || isSmall || (this.showOnFullscreen && document.fullscreenElement);
+    
+    if (!shouldShow) {
       this.container.classList.add('hidden');
-      return;
+    } else {
+      this.container.classList.remove('hidden');
     }
     
-    this.container.classList.remove('hidden');
     this.buildGamepad();
     this.bindTouchEvents();
     
     // Keyboard only when iframe focused
     this.targetFrame.addEventListener('focus', () => this.bindKeyboardEvents());
     this.targetFrame.addEventListener('blur', () => this.unbindKeyboardEvents());
+    
+    // Listen for fullscreen changes
+    if (this.showOnFullscreen) {
+      this.fullscreenHandler = () => this.onFullscreenChange();
+      document.addEventListener('fullscreenchange', this.fullscreenHandler);
+    }
   }
 
-  buildGamepad() {
+  onFullscreenChange() {
+    const isFullscreen = !!document.fullscreenElement;
+    if (isFullscreen) {
+      this.container.classList.remove('hidden');
+    } else if (!this.isMobile && !('ontouchstart' in window) && window.innerWidth > 1024) {
+      this.container.classList.add('hidden');
+    }
+  }
+
+  setLayout(layout) {
+    this.layout = layout;
+    localStorage.setItem('xdc-gamepad-layout', layout);
+    this.buildGamepad();
+    this.bindTouchEvents();
+  }
+
+  destroy() {
+    this.pressedButtons.clear();
+    this.container.classList.add('hidden');
+    this.unbindKeyboardEvents();
+    
+    if (this.fullscreenHandler) {
+      document.removeEventListener('fullscreenchange', this.fullscreenHandler);
+    }
+    
+    // Clean up stick handlers
+    if (this.stickHandlers) {
+      const { handleStart, handleMoveEvent, handleEnd, base } = this.stickHandlers;
+      base.removeEventListener('touchstart', handleStart);
+      base.removeEventListener('touchmove', handleMoveEvent);
+      base.removeEventListener('touchend', handleEnd);
+      base.removeEventListener('touchcancel', handleEnd);
+      base.removeEventListener('mousedown', handleStart);
+      window.removeEventListener('mousemove', handleMoveEvent);
+      window.removeEventListener('mouseup', handleEnd);
+      this.stickHandlers = null;
+    }
+    
+    // Clean up button listeners
+    const buttons = this.container.querySelectorAll('button');
+    buttons.forEach(btn => {
+      const newBtn = btn.cloneNode(true);
+      btn.parentNode.replaceChild(newBtn, btn);
+    });
+  }
+
+buildGamepad() {
     // Standard layout: D-pad left, action buttons right, triggers top, menu center
+    // Analog stick layout: virtual joystick left, action buttons right, triggers top, menu center
+    const isStick = this.layout === 'stick';
+    
     this.container.innerHTML = `
       <div class="gamepad-standard">
-        <!-- Left side: D-pad + L1/L2 on top -->
+        <!-- Left side: D-pad/Stick + L1/L2 on top -->
         <div class="gamepad-left">
           <div class="gamepad-triggers-top gamepad-triggers-left">
             <button class="trigger-btn" data-btn="l1" aria-label="L1">L1</button>
             <button class="trigger-btn" data-btn="l2" aria-label="L2">L2</button>
           </div>
-          <div class="gamepad-dpad">
-            <button class="dpad-btn" data-dir="up" aria-label="Up">▲</button>
-            <button class="dpad-btn" data-dir="down" aria-label="Down">▼</button>
-            <button class="dpad-btn" data-dir="left" aria-label="Left">◄</button>
-            <button class="dpad-btn" data-dir="right" aria-label="Right">►</button>
-          </div>
+          ${isStick ? this.buildStick() : this.buildDpad()}
         </div>
         
         <!-- Right side: Action buttons + R1/R2 on top + Select/Start center -->
@@ -69,8 +124,59 @@ export class VirtualGamepad {
             <button class="menu-btn" data-btn="start" aria-label="Start">▶</button>
           </div>
         </div>
+        
+        <!-- Settings button -->
+        <div class="gamepad-settings">
+          <button class="settings-btn" data-action="settings" aria-label="Gamepad Settings">⚙</button>
+        </div>
       </div>
     `;
+    
+    // Add settings button handler
+    this.container.querySelector('[data-action="settings"]').addEventListener('click', () => this.showSettings());
+  }
+
+  buildDpad() {
+    return `
+      <div class="gamepad-dpad">
+        <button class="dpad-btn" data-dir="up" aria-label="Up">▲</button>
+        <button class="dpad-btn" data-dir="down" aria-label="Down">▼</button>
+        <button class="dpad-btn" data-dir="left" aria-label="Left">◄</button>
+        <button class="dpad-btn" data-dir="right" aria-label="Right">►</button>
+      </div>
+    `;
+  }
+
+  buildStick() {
+    return `
+      <div class="gamepad-stick">
+        <div class="joystick-base" data-stick="left">
+          <div class="joystick-stick"></div>
+        </div>
+      </div>
+    `;
+  }
+
+  showSettings() {
+    const currentLayout = this.layout;
+    const newLayout = currentLayout === 'dpad' ? 'stick' : 'dpad';
+    this.setLayout(newLayout);
+    
+    // Show brief notification
+    const msg = newLayout === 'stick' ? 'Switched to Analog Stick' : 'Switched to D-Pad';
+    this.showNotification(msg);
+  }
+
+  showNotification(message) {
+    const existing = this.container.querySelector('.gamepad-notification');
+    if (existing) existing.remove();
+    
+    const notification = document.createElement('div');
+    notification.className = 'gamepad-notification';
+    notification.textContent = message;
+    this.container.appendChild(notification);
+    
+    setTimeout(() => notification.remove(), 1500);
   }
 
   bindTouchEvents() {
@@ -84,6 +190,131 @@ export class VirtualGamepad {
       btn.addEventListener('mouseup', (e) => this.handleRelease(e, btn));
       btn.addEventListener('mouseleave', (e) => this.handleRelease(e, btn));
       btn.addEventListener('contextmenu', (e) => e.preventDefault());
+    });
+    
+    // Handle joystick if present
+    const stickBase = this.container.querySelector('.joystick-base');
+    if (stickBase) {
+      this.bindStickEvents(stickBase);
+    }
+  }
+
+  bindStickEvents(base) {
+    const stick = base.querySelector('.joystick-stick');
+    let stickActive = false;
+    let startX = 0, startY = 0;
+    const maxRadius = 40; // max distance from center
+    
+    const handleMove = (clientX, clientY) => {
+      if (!stickActive) return;
+      
+      const rect = base.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      
+      let dx = clientX - centerX;
+      let dy = clientY - centerY;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      
+      if (distance > maxRadius) {
+        dx = (dx / distance) * maxRadius;
+        dy = (dy / distance) * maxRadius;
+      }
+      
+      stick.style.transform = `translate(${dx}px, ${dy}px)`;
+      
+      // Calculate direction and send input
+      const angle = Math.atan2(dy, dx);
+      const deadzone = 0.15;
+      const normalizedDistance = Math.min(distance / maxRadius, 1);
+      
+      if (normalizedDistance > deadzone) {
+        this.handleStickDirection(angle, normalizedDistance);
+      } else {
+        this.releaseStickDirections();
+      }
+    };
+    
+    const handleStart = (e) => {
+      e.preventDefault();
+      stickActive = true;
+      base.classList.add('active');
+      
+      const touch = e.touches ? e.touches[0] : e;
+      handleMove(touch.clientX, touch.clientY);
+    };
+    
+    const handleMoveEvent = (e) => {
+      e.preventDefault();
+      const touch = e.touches ? e.touches[0] : e;
+      handleMove(touch.clientX, touch.clientY);
+    };
+    
+    const handleEnd = (e) => {
+      e.preventDefault();
+      stickActive = false;
+      base.classList.remove('active');
+      stick.style.transform = 'translate(0, 0)';
+      this.releaseStickDirections();
+    };
+    
+    base.addEventListener('touchstart', handleStart, { passive: false });
+    base.addEventListener('touchmove', handleMoveEvent, { passive: false });
+    base.addEventListener('touchend', handleEnd, { passive: false });
+    base.addEventListener('touchcancel', handleEnd, { passive: false });
+    
+    base.addEventListener('mousedown', handleStart);
+    window.addEventListener('mousemove', handleMoveEvent);
+    window.addEventListener('mouseup', handleEnd);
+    
+    // Store handlers for cleanup
+    this.stickHandlers = { handleStart, handleMoveEvent, handleEnd, base };
+  }
+
+  handleStickDirection(angle, magnitude) {
+    // Convert angle to 8-direction input
+    // angle is in radians, -PI to PI
+    // 0 = right, PI/2 = down, PI/-PI = left, -PI/2 = up
+    const directions = [];
+    
+    // Up: -PI/2 +/- PI/4
+    if (angle > -3 * Math.PI / 4 && angle < -Math.PI / 4) directions.push('up');
+    // Down: PI/2 +/- PI/4
+    if (angle > Math.PI / 4 && angle < 3 * Math.PI / 4) directions.push('down');
+    // Left: PI +/- PI/4 or -PI +/- PI/4
+    if (angle > 3 * Math.PI / 4 || angle < -3 * Math.PI / 4) directions.push('left');
+    // Right: -PI/4 to PI/4
+    if (angle > -Math.PI / 4 && angle < Math.PI / 4) directions.push('right');
+    
+    // Press new directions
+    directions.forEach(dir => {
+      if (!this.pressedButtons.has(dir)) {
+        this.pressedButtons.add(dir);
+        const btn = this.container.querySelector(`[data-dir="${dir}"]`);
+        if (btn) btn.classList.add('pressed');
+        this.sendInput(dir, true);
+      }
+    });
+    
+    // Release directions not in current set
+    ['up', 'down', 'left', 'right'].forEach(dir => {
+      if (!directions.includes(dir) && this.pressedButtons.has(dir)) {
+        this.pressedButtons.delete(dir);
+        const btn = this.container.querySelector(`[data-dir="${dir}"]`);
+        if (btn) btn.classList.remove('pressed');
+        this.sendInput(dir, false);
+      }
+    });
+  }
+
+  releaseStickDirections() {
+    ['up', 'down', 'left', 'right'].forEach(dir => {
+      if (this.pressedButtons.has(dir)) {
+        this.pressedButtons.delete(dir);
+        const btn = this.container.querySelector(`[data-dir="${dir}"]`);
+        if (btn) btn.classList.remove('pressed');
+        this.sendInput(dir, false);
+      }
     });
   }
 

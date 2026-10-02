@@ -219,7 +219,11 @@ class XDCPlayer {
     // Initialize virtual gamepad
     this.gamepad = new VirtualGamepad(
       document.getElementById('virtualGamepad'),
-      this.gameFrame
+      this.gameFrame,
+      {
+        layout: localStorage.getItem('xdc-gamepad-layout') || 'dpad',
+        showOnFullscreen: true
+      }
     );
     
     // Load game in iframe via service worker
