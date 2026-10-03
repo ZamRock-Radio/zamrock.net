@@ -171,7 +171,7 @@
 <script type="module" src="{{ get_url(path="js/xdc-player.js", trailing_slash=false) }}?v=6"></script>
 <script>
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw-xdc-v6.js?v=6', { scope: '/' })
+  navigator.serviceWorker.register('/sw-xdc-v7.js?v=7', { scope: '/' })
     .then(reg => console.log('SW registered:', reg.scope))
     .catch(err => console.warn('SW registration failed:', err));
 }
