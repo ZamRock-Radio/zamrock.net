@@ -306,6 +306,7 @@
   right: auto !important;
   left: 50% !important;
   transform: translateX(-50%) !important;
+  display: flex !important;
 }
 
 .virtual-gamepad.fullscreen-overlay .gamepad-standard {
@@ -314,6 +315,7 @@
   flex-direction: row !important;
   justify-content: space-between !important;
   align-items: center !important;
+  width: 100% !important;
 }
 
 .virtual-gamepad.fullscreen-overlay .gamepad-left,
@@ -329,6 +331,18 @@
   width: auto !important;
   height: auto !important;
   flex: none !important;
+}
+
+/* Disable game-wrapper flex layout when gamepad is in fullscreen */
+.game-wrapper:has(.virtual-gamepad.fullscreen-overlay) {
+  display: block !important;
+}
+
+.game-wrapper:has(.virtual-gamepad.fullscreen-overlay) .game-container {
+  flex: none !important;
+  max-height: none !important;
+  border-radius: var(--radius) !important;
+  border-right: 2px solid var(--border) !important;
 }
 
 .virtual-gamepad.fullscreen-overlay .gamepad-standard {
