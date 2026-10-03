@@ -1,18 +1,18 @@
 // Service Worker for XDC Game File Serving
 // Serves extracted XDC files from IndexedDB
 
-const CACHE_NAME = 'xdc-player-v10';
+const CACHE_NAME = 'xdc-player-v11';
 const GAMES_DB = 'xdc-games';
 const FILES_STORE = 'files';
 
 // Files to precache (static assets only, NOT HTML pages)
 const PRECACHE_URLS = [
-  '/css/xdc-player.css?v=10',
-  '/js/xdc-player.js?v=10',
-  '/js/xdc-extractor.js?v=10',
-  '/js/indexeddb-saves.js?v=10',
-  '/js/virtual-gamepad.js?v=10',
-  '/sw-xdc-v10.js?v=10'
+  '/css/xdc-player.css?v=11',
+  '/js/xdc-player.js?v=11',
+  '/js/xdc-extractor.js?v=11',
+  '/js/indexeddb-saves.js?v=11',
+  '/js/virtual-gamepad.js?v=11',
+  '/sw-xdc-v10.js?v=11'
 ];
 
 self.addEventListener('install', (event) => {
@@ -39,8 +39,8 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
   
-  // Handle XDC game file requests: /xdc/{gameId}/{path}
-  if (url.pathname.startsWith('/xdc/')) {
+  // Handle XDC game file requests: /xdc/{gameId}/{path} (not the main /xdc/ page)
+  if (url.pathname.startsWith('/xdc/') && url.pathname !== '/xdc/' && url.pathname !== '/xdc') {
     event.respondWith(handleXDCRequest(event.request, url));
     return;
   }
