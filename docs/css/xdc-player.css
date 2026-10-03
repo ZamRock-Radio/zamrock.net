@@ -289,24 +289,46 @@
   transform: translateX(-50%);
   width: auto !important;
   max-width: 90vw !important;
-  background: rgba(10,10,10,0.9) !important;
+  background: rgba(10,10,10,0.95) !important;
   border: 2px solid var(--border) !important;
   border-radius: var(--radius) !important;
   padding: 0.75rem !important;
   z-index: 9999 !important;
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px) !important;
+  /* Override sidebar/overlay layout constraints */
+  height: auto !important;
+  min-height: 0 !important;
+  flex: none !important;
+  align-self: auto !important;
+  justify-self: auto !important;
+  margin: 0 !important;
+  top: auto !important;
+  right: auto !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
 }
 
 .virtual-gamepad.fullscreen-overlay .gamepad-standard {
   gap: 1rem;
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  align-items: center !important;
 }
 
 .virtual-gamepad.fullscreen-overlay .gamepad-left,
 .virtual-gamepad.fullscreen-overlay .gamepad-right {
-  padding: 0;
-  background: none;
-  border: none;
-  gap: 0.5rem;
+  padding: 0 !important;
+  background: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  gap: 0.5rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  width: auto !important;
+  height: auto !important;
+  flex: none !important;
 }
 
 .virtual-gamepad.fullscreen-overlay .gamepad-standard {

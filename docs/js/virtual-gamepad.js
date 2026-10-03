@@ -54,8 +54,8 @@ export class VirtualGamepad {
     const isFullscreen = !!document.fullscreenElement;
     if (isFullscreen) {
       // In fullscreen, show as compact overlay at bottom
+      this.container.classList.remove('layout-sidebar', 'layout-overlay-bottom', 'hidden');
       this.container.classList.add('fullscreen-overlay');
-      this.container.classList.remove('hidden');
     } else {
       // Exit fullscreen - restore previous layout
       this.container.classList.remove('fullscreen-overlay');
