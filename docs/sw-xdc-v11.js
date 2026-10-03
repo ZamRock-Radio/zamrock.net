@@ -12,7 +12,7 @@ const PRECACHE_URLS = [
   '/js/xdc-extractor.js?v=11',
   '/js/indexeddb-saves.js?v=11',
   '/js/virtual-gamepad.js?v=11',
-  '/sw-xdc-v10.js?v=11'
+  '/sw-xdc-v11.js?v=11'
 ];
 
 self.addEventListener('install', (event) => {
