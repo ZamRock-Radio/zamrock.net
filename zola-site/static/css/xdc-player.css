@@ -159,10 +159,10 @@
   display: block;
 }
 
-/* Virtual Gamepad - Standard Layout */
+/* Virtual Gamepad - Multiple Layouts */
 .virtual-gamepad {
   width: 100%;
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0 auto;
   pointer-events: none;
   z-index: 10;
@@ -172,16 +172,170 @@
 .virtual-gamepad:not(.hidden) {
   display: flex;
   pointer-events: auto;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 1rem;
-  gap: 2rem;
 }
 
 /* Only interactive elements get pointer events */
 .virtual-gamepad button,
 .virtual-gamepad .joystick-base {
   pointer-events: auto;
+}
+
+/* Sidebar Layout - Controls on left/right of game (desktop/landscape) */
+.virtual-gamepad.layout-sidebar {
+  position: relative;
+  height: 100%;
+  max-width: none;
+  justify-content: space-between;
+  align-items: stretch;
+  padding: 0;
+  gap: 0;
+}
+
+.virtual-gamepad.layout-sidebar .gamepad-standard {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 0;
+  height: 100%;
+}
+
+.virtual-gamepad.layout-sidebar .gamepad-left,
+.virtual-gamepad.layout-sidebar .gamepad-right {
+  width: 140px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 1.5rem 1rem;
+  background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 100%);
+  border-radius: 0;
+}
+
+.virtual-gamepad.layout-sidebar .gamepad-left {
+  border-right: 2px solid var(--border);
+  border-top-left-radius: var(--radius);
+  border-bottom-left-radius: var(--radius);
+  align-items: center;
+}
+
+.virtual-gamepad.layout-sidebar .gamepad-right {
+  border-left: 2px solid var(--border);
+  border-top-right-radius: var(--radius);
+  border-bottom-right-radius: var(--radius);
+  align-items: center;
+}
+
+.virtual-gamepad.layout-sidebar .gamepad-triggers-top {
+  width: 100%;
+  align-items: center;
+}
+
+.virtual-gamepad.layout-sidebar .gamepad-triggers-left,
+.virtual-gamepad.layout-sidebar .gamepad-triggers-right {
+  align-self: center;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.virtual-gamepad.layout-sidebar .gamepad-dpad {
+  margin: 0;
+}
+
+.virtual-gamepad.layout-sidebar .gamepad-buttons {
+  margin: 0;
+}
+
+.virtual-gamepad.layout-sidebar .gamepad-menu-center {
+  margin-top: 0;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.virtual-gamepad.layout-sidebar .menu-btn {
+  width: 56px;
+  height: 56px;
+  font-size: 1.5rem;
+}
+
+.virtual-gamepad.layout-sidebar .trigger-btn {
+  width: 56px;
+  height: 56px;
+  font-size: 0.9rem;
+  border-radius: 50%;
+}
+
+/* Overlay Bottom Layout - Controls below game (mobile portrait) */
+.virtual-gamepad.layout-overlay-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  max-width: 100%;
+  justify-content: center;
+  align-items: flex-end;
+  padding: 0.5rem;
+  gap: 1rem;
+  background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, transparent 100%);
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.virtual-gamepad.layout-overlay-bottom .gamepad-standard {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.virtual-gamepad.layout-overlay-bottom .gamepad-left,
+.virtual-gamepad.layout-overlay-bottom .gamepad-right {
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.virtual-gamepad.layout-overlay-bottom .gamepad-triggers-top {
+  flex-direction: row;
+  gap: 8px;
+}
+
+.virtual-gamepad.layout-overlay-bottom .gamepad-menu-center {
+  flex-direction: row;
+  gap: 8px;
+  margin-top: 0;
+}
+
+/* Fullscreen Overlay - Compact overlay when fullscreen */
+.virtual-gamepad.fullscreen-overlay {
+  position: fixed !important;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto !important;
+  max-width: 90vw !important;
+  background: rgba(10,10,10,0.9) !important;
+  border: 2px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+  padding: 0.75rem !important;
+  z-index: 9999 !important;
+  backdrop-filter: blur(12px);
+}
+
+.virtual-gamepad.fullscreen-overlay .gamepad-standard {
+  gap: 1rem;
+}
+
+.virtual-gamepad.fullscreen-overlay .gamepad-left,
+.virtual-gamepad.fullscreen-overlay .gamepad-right {
+  padding: 0;
+  background: none;
+  border: none;
+  gap: 0.5rem;
 }
 
 /* Standard Layout - D-pad left, buttons right, triggers top, menu center */
