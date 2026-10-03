@@ -52,11 +52,19 @@ export class VirtualGamepad {
 
   onFullscreenChange() {
     const isFullscreen = !!document.fullscreenElement;
-    if (isFullscreen && this.layout === 'sidebar') {
-      // In fullscreen, switch to overlay layout temporarily
+    if (isFullscreen) {
+      // In fullscreen, show as compact overlay at bottom
       this.container.classList.add('fullscreen-overlay');
+      this.container.classList.remove('hidden');
     } else {
+      // Exit fullscreen - restore previous layout
       this.container.classList.remove('fullscreen-overlay');
+      // Re-apply the correct layout class
+      if (this.layout === 'sidebar') {
+        this.container.classList.add('layout-sidebar');
+      } else if (this.layout === 'dpad') {
+        this.container.classList.add('layout-overlay-bottom');
+      }
     }
   }
 
