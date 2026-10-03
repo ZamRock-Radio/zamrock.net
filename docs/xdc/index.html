@@ -261,16 +261,18 @@
       </div>
     </div>
     
-    <div class="game-container">
-      <iframe 
-        id="gameFrame" 
-        sandbox="allow-scripts allow-same-origin allow-forms allow-pointer-lock" 
-        allow="fullscreen; gamepad"
-        title="XDC Game"
-      ></iframe>
+<div class="game-wrapper">
+      <div class="game-container">
+        <iframe 
+          id="gameFrame" 
+          sandbox="allow-scripts allow-same-origin allow-forms allow-pointer-lock" 
+          allow="fullscreen; gamepad"
+          title="XDC Game"
+        ></iframe>
+      </div>
+      
+      <div class="virtual-gamepad hidden" id="virtualGamepad" role="region" aria-label="Virtual gamepad controls" aria-hidden="true"></div>
     </div>
-    
-    <div class="virtual-gamepad hidden" id="virtualGamepad" role="region" aria-label="Virtual gamepad controls" aria-hidden="true"></div>
     
     <div class="save-status hidden" id="saveStatus" role="status" aria-live="polite"></div>
   </div>

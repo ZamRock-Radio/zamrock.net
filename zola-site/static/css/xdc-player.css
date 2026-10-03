@@ -152,79 +152,50 @@
   border: 2px solid var(--border);
 }
 
-#gameFrame {
-  width: 100%;
-  height: 100%;
-  border: none;
-  display: block;
-}
-
-/* Virtual Gamepad - Multiple Layouts */
-.virtual-gamepad {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  pointer-events: none;
-  z-index: 10;
-  display: none;
-}
-
-.virtual-gamepad:not(.hidden) {
-  display: flex;
-  pointer-events: auto;
-}
-
-/* Only interactive elements get pointer events */
-.virtual-gamepad button,
-.virtual-gamepad .joystick-base {
-  pointer-events: auto;
-}
-
-/* Sidebar Layout - Controls on left/right of game (desktop/landscape) */
-.virtual-gamepad.layout-sidebar {
+.game-wrapper {
   position: relative;
-  height: 100%;
-  max-width: none;
-  justify-content: space-between;
-  align-items: stretch;
-  padding: 0;
-  gap: 0;
-}
-
-.virtual-gamepad.layout-sidebar .gamepad-standard {
   width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: stretch;
-  gap: 0;
   height: 100%;
 }
 
-.virtual-gamepad.layout-sidebar .gamepad-left,
-.virtual-gamepad.layout-sidebar .gamepad-right {
-  width: 140px;
-  flex-shrink: 0;
+/* Sidebar layout support: when gamepad is sidebar, game-wrapper is flex container */
+.game-wrapper:has(.virtual-gamepad.layout-sidebar) {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 1.5rem;
-  padding: 1.5rem 1rem;
-  background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 100%);
-  border-radius: 0;
+  align-items: stretch;
 }
 
-.virtual-gamepad.layout-sidebar .gamepad-left {
-  border-right: 2px solid var(--border);
-  border-top-left-radius: var(--radius);
-  border-bottom-left-radius: var(--radius);
-  align-items: center;
+.game-wrapper:has(.virtual-gamepad.layout-sidebar) .game-container {
+  flex: 1;
+  max-height: 70vh;
+  border-radius: var(--radius) 0 0 var(--radius);
+  border-right: none;
 }
 
-.virtual-gamepad.layout-sidebar .gamepad-right {
+.game-wrapper:has(.virtual-gamepad.layout-sidebar) .virtual-gamepad.layout-sidebar {
+  position: relative;
+  width: 280px;
+  flex-shrink: 0;
+  height: auto;
+  min-height: 70vh;
+  border-radius: 0 var(--radius) var(--radius) 0;
   border-left: 2px solid var(--border);
-  border-top-right-radius: var(--radius);
-  border-bottom-right-radius: var(--radius);
-  align-items: center;
+  background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 100%);
+}
+
+/* Mobile/Overlay Bottom Layout */
+.virtual-gamepad.layout-overlay-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  max-width: 100%;
+  justify-content: center;
+  align-items: flex-end;
+  padding: 0.5rem;
+  gap: 1rem;
+  background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, transparent 100%);
+  border-radius: var(--radius) var(--radius) 0 0;
 }
 
 .virtual-gamepad.layout-sidebar .gamepad-triggers-top {
@@ -324,6 +295,18 @@
   padding: 0.75rem !important;
   z-index: 9999 !important;
   backdrop-filter: blur(12px);
+}
+
+.virtual-gamepad.fullscreen-overlay .gamepad-standard {
+  gap: 1rem;
+}
+
+.virtual-gamepad.fullscreen-overlay .gamepad-left,
+.virtual-gamepad.fullscreen-overlay .gamepad-right {
+  padding: 0;
+  background: none;
+  border: none;
+  gap: 0.5rem;
 }
 
 .virtual-gamepad.fullscreen-overlay .gamepad-standard {
