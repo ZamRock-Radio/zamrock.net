@@ -322,9 +322,14 @@ class XDCPlayer {
 
   toggleFullscreen() {
     const gameWrapper = document.querySelector('.game-wrapper');
+    console.log('toggleFullscreen called, fullscreenElement:', document.fullscreenElement);
     if (!document.fullscreenElement) {
-      gameWrapper.requestFullscreen().catch(console.error);
+      console.log('Requesting fullscreen on gameWrapper');
+      gameWrapper.requestFullscreen().catch(err => {
+        console.error('Fullscreen request failed:', err);
+      });
     } else {
+      console.log('Exiting fullscreen');
       document.exitFullscreen();
     }
   }

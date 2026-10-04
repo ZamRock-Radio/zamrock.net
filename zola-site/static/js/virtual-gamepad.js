@@ -52,6 +52,7 @@ export class VirtualGamepad {
 
   onFullscreenChange() {
     const isFullscreen = !!document.fullscreenElement;
+    console.log('VirtualGamepad onFullscreenChange:', isFullscreen, document.fullscreenElement);
     if (isFullscreen) {
       // In fullscreen, show as compact overlay at bottom
       this.container.classList.remove('layout-sidebar', 'layout-overlay-bottom', 'hidden');
