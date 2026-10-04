@@ -1,18 +1,18 @@
 // Service Worker for XDC Game File Serving
 // Serves extracted XDC files from IndexedDB
 
-const CACHE_NAME = 'xdc-player-v21';
+const CACHE_NAME = 'xdc-player-v22';
 const GAMES_DB = 'xdc-games';
 const FILES_STORE = 'files';
 
 // Files to precache (static assets only, NOT HTML pages)
 const PRECACHE_URLS = [
-  '/css/xdc-player.css?v=21',
-  '/js/xdc-player.js?v=21',
-  '/js/xdc-extractor.js?v=21',
-  '/js/indexeddb-saves.js?v=21',
-  '/js/virtual-gamepad.js?v=21',
-  '/sw-xdc-v21.js?v=21'
+  '/css/xdc-player.css?v=22',
+  '/js/xdc-player.js?v=22',
+  '/js/xdc-extractor.js?v=22',
+  '/js/indexeddb-saves.js?v=22',
+  '/js/virtual-gamepad.js?v=22',
+  '/sw-xdc-v22.js?v=22'
 ];
 
 self.addEventListener('install', (event) => {
