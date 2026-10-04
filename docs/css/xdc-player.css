@@ -175,20 +175,24 @@
   min-height: 70vh;
 }
 
-/* Mobile: game-wrapper takes full viewport height for proper overlay positioning */
-@media (max-width: 768px) {
+/* Mobile Portrait - GameBoy style: game on top, controls at bottom */
+@media (max-width: 768px) and (orientation: portrait) {
   .game-wrapper {
-    min-height: calc(100vh - 200px); /* Account for header/UI */
+    min-height: calc(100vh - 200px);
     height: auto;
+    display: flex;
+    flex-direction: column;
   }
   
   .game-container {
-    max-height: 60vh;
+    flex: 1;
     width: 100%;
+    max-height: 65vh;
+    aspect-ratio: 3/4;
     margin: 0 auto;
   }
   
-  /* Ensure overlay-bottom gamepad is positioned at bottom of game-wrapper */
+  /* Overlay-bottom gamepad at bottom like GameBoy buttons */
   .virtual-gamepad.layout-overlay-bottom {
     position: absolute;
     bottom: 0;
@@ -198,21 +202,171 @@
     max-width: 100%;
     justify-content: center;
     align-items: flex-end;
-    padding: 0.5rem;
+    padding: 0.75rem;
     gap: 1rem;
-    background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, transparent 100%);
+    background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, transparent 100%);
     border-radius: var(--radius) var(--radius) 0 0;
     z-index: 10;
   }
   
   .virtual-gamepad.layout-overlay-bottom .gamepad-standard {
     width: 100%;
-    max-width: 800px;
+    max-width: 400px;
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: center;
     gap: 1rem;
     flex-wrap: wrap;
+  }
+  
+  .virtual-gamepad.layout-overlay-bottom .gamepad-left,
+  .virtual-gamepad.layout-overlay-bottom .gamepad-right {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  
+  .virtual-gamepad.layout-overlay-bottom .dpad-btn {
+    width: 56px;
+    height: 56px;
+    font-size: 1.5rem;
+  }
+  
+  .virtual-gamepad.layout-overlay-bottom .action-btn {
+    width: 64px;
+    height: 64px;
+    font-size: 1.3rem;
+  }
+  
+  .virtual-gamepad.layout-overlay-bottom .trigger-btn {
+    width: 72px;
+    height: 40px;
+    font-size: 0.8rem;
+  }
+  
+  .virtual-gamepad.layout-overlay-bottom .menu-btn {
+    width: 56px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+}
+
+/* Mobile Landscape - Switch/Steam Deck style: controls on sides, game in center */
+@media (max-width: 768px) and (orientation: landscape) {
+  .game-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .game-container {
+    flex: 1;
+    max-width: 65vw;
+    max-height: 80vh;
+    aspect-ratio: 16/9;
+    border-radius: var(--radius);
+  }
+  
+  /* Force sidebar layout on mobile landscape for Switch/Steam Deck feel */
+  .virtual-gamepad.layout-sidebar {
+    position: relative;
+    width: 160px;
+    flex-shrink: 0;
+    height: auto;
+    min-height: 70vh;
+    background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 100%);
+    border-left: 2px solid var(--border);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 1.5rem 1rem;
+  }
+  
+  .virtual-gamepad.layout-sidebar .gamepad-standard {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+  
+  .virtual-gamepad.layout-sidebar .gamepad-left,
+  .virtual-gamepad.layout-sidebar .gamepad-right {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 0;
+  }
+  
+  .virtual-gamepad.layout-sidebar .gamepad-triggers-top {
+    width: 100%;
+    align-items: center;
+  }
+  
+  .virtual-gamepad.layout-sidebar .gamepad-triggers-left,
+  .virtual-gamepad.layout-sidebar .gamepad-triggers-right {
+    align-self: center;
+    flex-direction: row;
+    gap: 8px;
+  }
+  
+  .virtual-gamepad.layout-sidebar .gamepad-dpad {
+    margin: 0;
+  }
+  
+  .virtual-gamepad.layout-sidebar .gamepad-buttons {
+    margin: 0;
+  }
+  
+  .virtual-gamepad.layout-sidebar .gamepad-menu-center {
+    margin-top: 0;
+    flex-direction: row;
+    gap: 8px;
+  }
+  
+  .virtual-gamepad.layout-sidebar .menu-btn {
+    width: 56px;
+    height: 56px;
+    font-size: 1.5rem;
+  }
+  
+  .virtual-gamepad.layout-sidebar .trigger-btn {
+    width: 56px;
+    height: 56px;
+    font-size: 0.9rem;
+    border-radius: 50%;
+  }
+  
+  /* Game wrapper becomes flex container for landscape sidebar layout */
+  .game-wrapper:has(.virtual-gamepad.layout-sidebar) {
+    display: flex;
+    align-items: stretch;
+    height: 100%;
+  }
+  
+  .game-wrapper:has(.virtual-gamepad.layout-sidebar) .game-container {
+    flex: 1;
+    max-height: 80vh;
+    border-radius: var(--radius) 0 0 var(--radius);
+    border-right: none;
+  }
+  
+  .game-wrapper:has(.virtual-gamepad.layout-sidebar) .virtual-gamepad.layout-sidebar {
+    width: 160px;
+    flex-shrink: 0;
+    min-height: 100%;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    border-left: 2px solid var(--border);
   }
 }
 
@@ -1001,52 +1155,36 @@
   }
 }
 
-/* Landscape mobile - more space for game */
+/* Mobile landscape - more space for game */
 @media (max-width: 768px) and (orientation: landscape) {
   .game-container {
-    max-height: 85vh;
+    max-height: 50vh;
+    aspect-ratio: 16/9;
   }
   
   .virtual-gamepad.layout-overlay-bottom {
-    padding: 0.25rem;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 100%;
+    justify-content: center;
+    align-items: flex-end;
+    padding: 0.5rem;
+    gap: 1rem;
+    background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, transparent 100%);
+    border-radius: var(--radius) var(--radius) 0 0;
+    z-index: 10;
   }
   
-  .dpad-btn { width: 44px; height: 44px; font-size: 1.1rem; }
-  .action-btn { width: 52px; height: 52px; font-size: 1rem; }
-  
-  /* Landscape: D-pad left, L1/L2 left, action buttons right, R1/R2 right, menu right */
-  .virtual-gamepad.layout-overlay-bottom .gamepad-overlay {
+  .virtual-gamepad.layout-overlay-bottom .gamepad-standard {
+    width: 100%;
+    max-width: 800px;
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
     align-items: flex-end;
-    flex-wrap: nowrap;
-  }
-  
-  .virtual-gamepad.layout-overlay-bottom .gamepad-dpad {
-    order: 1;
-    margin-right: auto;
-  }
-  
-  .virtual-gamepad.layout-overlay-bottom .gamepad-triggers-left {
-    order: 2;
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .virtual-gamepad.layout-overlay-bottom .gamepad-buttons {
-    order: 3;
-  }
-  
-  .virtual-gamepad.layout-overlay-bottom .gamepad-triggers-right {
-    order: 4;
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .virtual-gamepad.layout-overlay-bottom .gamepad-menu {
-    order: 5;
-    flex-direction: column;
-    gap: 8px;
+    gap: 1rem;
+    flex-wrap: wrap;
   }
 }
