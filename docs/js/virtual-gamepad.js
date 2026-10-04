@@ -22,14 +22,15 @@ export class VirtualGamepad {
     const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     const isSmall = window.innerWidth <= 1024;
     const isDesktop = !this.isMobile && !isTouch && !isSmall;
+    const isMobileLandscape = isTouch && window.innerWidth > window.innerHeight && isSmall;
     
-    // Default layout: sidebar for desktop, overlay for mobile
+    // Default layout: sidebar for desktop and mobile landscape, overlay for mobile portrait
     const storedLayout = localStorage.getItem('xdc-gamepad-layout');
     if (!storedLayout) {
-      this.layout = isDesktop ? 'sidebar' : 'dpad';
+      this.layout = (isDesktop || isMobileLandscape) ? 'sidebar' : 'dpad';
     }
     
-    // Always show gamepad (sidebar on desktop, overlay on mobile)
+    // Always show gamepad (sidebar on desktop/landscape, overlay on mobile portrait)
     this.container.classList.remove('hidden');
     
     this.buildGamepad();
@@ -73,11 +74,12 @@ export class VirtualGamepad {
     const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     const isSmall = window.innerWidth <= 1024;
     const isDesktop = !this.isMobile && !isTouch && !isSmall;
+    const isMobileLandscape = isTouch && window.innerWidth > window.innerHeight && isSmall;
     
     // Auto-switch layout based on screen size if not manually set
     const storedLayout = localStorage.getItem('xdc-gamepad-layout');
     if (!storedLayout) {
-      const newLayout = isDesktop ? 'sidebar' : 'dpad';
+      const newLayout = (isDesktop || isMobileLandscape) ? 'sidebar' : 'dpad';
       if (newLayout !== this.layout) {
         this.setLayout(newLayout);
       }
