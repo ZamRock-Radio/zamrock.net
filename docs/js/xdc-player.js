@@ -321,9 +321,9 @@ class XDCPlayer {
   }
 
   toggleFullscreen() {
-    const iframe = document.getElementById('gameFrame');
+    const gameWrapper = document.querySelector('.game-wrapper');
     if (!document.fullscreenElement) {
-      iframe.requestFullscreen().catch(console.error);
+      gameWrapper.requestFullscreen().catch(console.error);
     } else {
       document.exitFullscreen();
     }
