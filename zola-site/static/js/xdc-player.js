@@ -161,14 +161,16 @@ class XDCPlayer {
            file.type === 'application/x-xdc';
   }
 
-  async registerServiceWorker() {
+async registerServiceWorker() {
     if ('serviceWorker' in navigator) {
       try {
-        await navigator.serviceWorker.register('/sw-xdc-v17.js', { scope: '/' });
+        await navigator.serviceWorker.register('/sw-xdc-v18.js', { scope: '/' });
         console.log('XDC Service Worker registered');
       } catch (err) {
         console.warn('SW registration failed:', err);
       }
+    }
+  }
     }
   }
 
