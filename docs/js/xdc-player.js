@@ -164,7 +164,7 @@ class XDCPlayer {
   async registerServiceWorker() {
     if ('serviceWorker' in navigator) {
       try {
-        await navigator.serviceWorker.register('/sw-xdc.js', { scope: '/' });
+        await navigator.serviceWorker.register('/sw-xdc-v16.js', { scope: '/' });
         console.log('XDC Service Worker registered');
       } catch (err) {
         console.warn('SW registration failed:', err);
