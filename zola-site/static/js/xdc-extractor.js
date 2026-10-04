@@ -100,6 +100,7 @@ export class XDCExtractor {
   }
 
   async storeForServiceWorker(gameId, files) {
+    console.log('storeForServiceWorker: storing', Object.keys(files).length, 'files for gameId:', gameId);
     // Store files in IndexedDB for service worker to serve
     const dbName = 'xdc-games';
     const storeName = 'files';
@@ -130,11 +131,20 @@ export class XDCExtractor {
           });
         }
         
-        transaction.oncomplete = () => resolve();
-        transaction.onerror = () => reject(transaction.error);
+        transaction.oncomplete = () => {
+          console.log('storeForServiceWorker: stored successfully');
+          resolve();
+        };
+        transaction.onerror = () => {
+          console.error('storeForServiceWorker transaction error:', transaction.error);
+          reject(transaction.error);
+        };
       };
       
-      request.onerror = () => reject(request.error);
+      request.onerror = () => {
+        console.error('storeForServiceWorker DB open error:', request.error);
+        reject(request.error);
+      };
     });
   }
 

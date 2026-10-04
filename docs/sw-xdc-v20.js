@@ -1,18 +1,18 @@
 // Service Worker for XDC Game File Serving
 // Serves extracted XDC files from IndexedDB
 
-const CACHE_NAME = 'xdc-player-v19';
+const CACHE_NAME = 'xdc-player-v20';
 const GAMES_DB = 'xdc-games';
 const FILES_STORE = 'files';
 
 // Files to precache (static assets only, NOT HTML pages)
 const PRECACHE_URLS = [
-  '/css/xdc-player.css?v=19',
-  '/js/xdc-player.js?v=19',
-  '/js/xdc-extractor.js?v=19',
-  '/js/indexeddb-saves.js?v=19',
-  '/js/virtual-gamepad.js?v=19',
-  '/sw-xdc-v19.js?v=19'
+  '/css/xdc-player.css?v=20',
+  '/js/xdc-player.js?v=20',
+  '/js/xdc-extractor.js?v=20',
+  '/js/indexeddb-saves.js?v=20',
+  '/js/virtual-gamepad.js?v=20',
+  '/sw-xdc-v20.js?v=20'
 ];
 
 self.addEventListener('install', (event) => {
@@ -61,6 +61,7 @@ async function handleXDCRequest(request, url) {
   // pathParts = ['xdc', 'gameId', 'path', 'to', 'file']
   
   if (pathParts.length < 3) {
+    console.log('SW: pathParts too short:', pathParts);
     return new Response('Not Found', { status: 404 });
   }
   
@@ -68,19 +69,25 @@ async function handleXDCRequest(request, url) {
   const filePath = pathParts.slice(2).join('/');
   const dbKey = `${gameId}:${filePath || 'index.html'}`;
   
+  console.log('SW handleXDCRequest:', { gameId, filePath, dbKey });
+  
   try {
     const fileData = await getFileFromDB(dbKey);
     
     if (!fileData) {
+      console.log('SW: file not in DB, trying index.html fallback');
       // Try index.html as fallback
       const indexKey = `${gameId}:index.html`;
       const indexData = await getFileFromDB(indexKey);
       if (indexData) {
+        console.log('SW: serving index.html fallback');
         return serveFile(indexData);
       }
+      console.log('SW: index.html also not found');
       return new Response('File not found in XDC', { status: 404 });
     }
     
+    console.log('SW: serving file:', filePath);
     return serveFile(fileData);
   } catch (err) {
     console.error('XDC SW Error:', err);

@@ -176,10 +176,12 @@ async registerServiceWorker() {
   }
 
   async handleFileSelect(file) {
+    console.log('handleFileSelect: file:', file.name, file.size, file.type);
     this.showStatus('info', `Reading ${file.name}...`);
     
     try {
       const result = await this.extractor.extract(file);
+      console.log('handleFileSelect: extraction result:', result);
       this.currentGameId = result.gameId;
       this.currentManifest = result.manifest;
       
@@ -192,6 +194,7 @@ async registerServiceWorker() {
       
       this.showStatus('success', `Ready: ${result.manifest.name || 'Unnamed Game'}`);
     } catch (err) {
+      console.error('handleFileSelect error:', err);
       this.showStatus('error', `Failed: ${err.message}`);
     }
   }
@@ -208,8 +211,12 @@ async registerServiceWorker() {
   }
 
   async launchGame() {
-    if (!this.currentGameId) return;
+    if (!this.currentGameId) {
+      console.error('launchGame: no currentGameId');
+      return;
+    }
     
+    console.log('launchGame: starting for gameId:', this.currentGameId);
     this.showStatus('info', 'Launching game...');
     
     // Hide upload, show game
@@ -231,11 +238,19 @@ async registerServiceWorker() {
     
     // Load game in iframe via service worker
     const gameUrl = `/xdc/${this.currentGameId}/index.html`;
+    console.log('launchGame: setting iframe src to:', gameUrl);
     this.gameFrame.src = gameUrl;
     
     // Wait for iframe to load
     await new Promise(resolve => {
-      this.gameFrame.onload = resolve;
+      this.gameFrame.onload = () => {
+        console.log('launchGame: iframe loaded');
+        resolve();
+      };
+      this.gameFrame.onerror = (err) => {
+        console.error('launchGame: iframe error:', err);
+        resolve();
+      };
     });
     
     // Enable save/load buttons
