@@ -61,7 +61,7 @@
   })();
   </script>
   
-<link rel="stylesheet" href="https://zamrock.net/css/xdc-player.css?v=18" />
+<link rel="stylesheet" href="https://zamrock.net/css/xdc-player.css?v=19" />
 <link rel="canonical" href="https://zamrock.net/xdc/" />
 
 <!-- JSON-LD Structured Data -->
@@ -231,12 +231,12 @@
     <h2>Upload Game</h2>
     <p>Drag and drop a .xdc file or click to browse</p>
     
-    <div class="upload-area" id="uploadArea">
-      <input type="file" id="xdcFileInput" accept=".xdc" hidden />
+<div class="upload-area" id="uploadArea">
+      <input type="file" id="xdcFileInput" accept=".xdc" />
       <div class="upload-icon" aria-hidden="true">📦</div>
       <p class="upload-text">Drop .xdc file here</p>
       <p class="upload-hint">or click to browse</p>
-      <button class="btn" id="browseBtn" type="button">Browse Files</button>
+      <label for="xdcFileInput" class="btn" id="browseBtn">Browse Files</label>
     </div>
     
     <div class="file-info hidden" id="fileInfo" role="status" aria-live="polite">
@@ -352,10 +352,10 @@
   <script src="https://zamrock.net/js/crossfade.js?v=16"></script>
   <script src="https://zamrock.net/js/main.js?v=16"></script>
   
-<script type="module" src="https://zamrock.net/js/xdc-player.js?v=18"></script>
+<script type="module" src="https://zamrock.net/js/xdc-player.js?v=19"></script>
 <script>
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw-xdc-v18.js?v=18', { scope: '/' })
+  navigator.serviceWorker.register('/sw-xdc-v19.js?v=19', { scope: '/' })
     .then(reg => console.log('SW registered:', reg.scope))
     .catch(err => console.warn('SW registration failed:', err));
 }

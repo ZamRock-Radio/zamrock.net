@@ -35,6 +35,22 @@
   position: relative;
 }
 
+.upload-area input[type="file"] {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.upload-area label {
+  position: relative;
+  z-index: 2;
+}
+
 .upload-area:hover,
 .upload-area.drag-over {
   border-color: var(--accent);

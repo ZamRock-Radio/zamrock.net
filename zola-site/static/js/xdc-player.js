@@ -62,6 +62,7 @@ class XDCPlayer {
     });
     
     browseBtn.addEventListener('click', (e) => {
+      // Label handles file input natively; this is a fallback
       e.stopPropagation();
       this.openFilePicker();
     });

@@ -12,7 +12,7 @@
 {% block tw_image %}{{ get_url(path="img/xdc-player-og.jpg", trailing_slash=false) }}{% endblock tw_image %}
 
 {% block extra_head %}
-<link rel="stylesheet" href="{{ get_url(path="css/xdc-player.css", trailing_slash=false) }}?v=18" />
+<link rel="stylesheet" href="{{ get_url(path="css/xdc-player.css", trailing_slash=false) }}?v=19" />
 <link rel="canonical" href="{{ config.base_url }}/xdc/" />
 
 <!-- JSON-LD Structured Data -->
@@ -65,12 +65,12 @@
     <h2>{{ trans(key="xdc_upload_title") }}</h2>
     <p>{{ trans(key="xdc_upload_desc") }}</p>
     
-    <div class="upload-area" id="uploadArea">
-      <input type="file" id="xdcFileInput" accept=".xdc" hidden />
+<div class="upload-area" id="uploadArea">
+      <input type="file" id="xdcFileInput" accept=".xdc" />
       <div class="upload-icon" aria-hidden="true">📦</div>
-      <p class="upload-text">{{ trans(key="xdc_drag_drop") }}</p>
-      <p class="upload-hint">{{ trans(key="xdc_or_click") }}</p>
-      <button class="btn" id="browseBtn" type="button">{{ trans(key="xdc_browse") }}</button>
+      <p class="upload-text">Drop .xdc file here</p>
+      <p class="upload-hint">or click to browse</p>
+      <label for="xdcFileInput" class="btn" id="browseBtn">Browse Files</label>
     </div>
     
     <div class="file-info hidden" id="fileInfo" role="status" aria-live="polite">
@@ -170,10 +170,10 @@
 {% endblock content %}
 
 {% block scripts %}
-<script type="module" src="{{ get_url(path="js/xdc-player.js", trailing_slash=false) }}?v=18"></script>
+<script type="module" src="{{ get_url(path="js/xdc-player.js", trailing_slash=false) }}?v=19"></script>
 <script>
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw-xdc-v18.js?v=18', { scope: '/' })
+  navigator.serviceWorker.register('/sw-xdc-v19.js?v=19', { scope: '/' })
     .then(reg => console.log('SW registered:', reg.scope))
     .catch(err => console.warn('SW registration failed:', err));
 }
