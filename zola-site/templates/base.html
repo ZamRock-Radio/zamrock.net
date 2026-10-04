@@ -63,6 +63,31 @@
   {% block extra_head %}{% endblock extra_head %}
 </head>
 <body>
+  <div id="debug-overlay" style="position:fixed; top:10px; left:10px; right:10px; background:rgba(0,0,0,0.9); color:#0f0; padding:10px; font:12px monospace; z-index:99999; border-radius:4px;"></div>
+  <script>
+  function updateDebug() {
+    const vp = innerWidth + 'x' + innerHeight;
+    const isSmall = innerWidth <= 1024;
+    const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    const isMobileLandscape = isTouch && innerWidth > innerHeight && innerWidth <= 1024;
+    const mqP = window.matchMedia('(max-width: 768px) and (orientation: portrait)').matches;
+    const mqL = window.matchMedia('(max-width: 768px) and (orientation: landscape)').matches;
+    const pad = document.getElementById('virtualGamepad');
+    const cls = pad ? Array.from(pad.classList).join(', ') : 'NOT FOUND';
+    
+    document.getElementById('debug-overlay').innerHTML = 
+      'VP: ' + vp + '<br>' +
+      'isSmall(≤1024): ' + isSmall + '<br>' +
+      'isTouch: ' + isTouch + '<br>' +
+      'isMobileLandscape: ' + isMobileLandscape + '<br>' +
+      'MQ portrait: ' + mqP + '<br>' +
+      'MQ landscape: ' + mqL + '<br>' +
+      'gamepad classes: ' + cls + '<br>' +
+      'VP ≤768: ' + (innerWidth <= 768);
+  }
+  setInterval(updateDebug, 500);
+  updateDebug();
+  </script>
   <div class="bg" aria-hidden="true"></div>
   <div class="scrim" aria-hidden="true"></div>
 
