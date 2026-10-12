@@ -23,6 +23,7 @@ export class VirtualGamepad {
     const isSmall = window.innerWidth <= 1024;
     const isDesktop = !this.isMobile && !isTouch && !isSmall;
     const isMobileLandscape = isTouch && window.innerWidth > window.innerHeight && isSmall;
+    const isMobilePortrait = isTouch && window.innerWidth <= window.innerHeight && isSmall;
     
     // Default layout: sidebar for desktop and mobile landscape, overlay for mobile portrait
     const storedLayout = localStorage.getItem('xdc-gamepad-layout');
@@ -30,15 +31,19 @@ export class VirtualGamepad {
       this.layout = (isDesktop || isMobileLandscape) ? 'sidebar' : 'dpad';
     }
     
-    // Always show gamepad (sidebar on desktop/landscape, overlay on mobile portrait)
-    this.container.classList.remove('hidden');
-    
-    this.buildGamepad();
-    this.bindTouchEvents();
-    
-    // Keyboard only when iframe focused
-    this.targetFrame.addEventListener('focus', () => this.bindKeyboardEvents());
-    this.targetFrame.addEventListener('blur', () => this.unbindKeyboardEvents());
+    // ONLY show gamepad on mobile/touch devices (NOT desktop)
+    if (isDesktop) {
+      // Desktop: keyboard only, no gamepad UI
+      this.container.classList.add('hidden');
+      this.buildGamepad(); // Build for keyboard bindings but keep hidden
+      this.bindKeyboardEvents();
+    } else {
+      // Mobile: show gamepad
+      this.container.classList.remove('hidden');
+      this.buildGamepad();
+      this.bindTouchEvents();
+      this.bindKeyboardEvents();
+    }
     
     // Listen for fullscreen changes
     if (this.showOnFullscreen) {
@@ -53,9 +58,20 @@ export class VirtualGamepad {
 
   onFullscreenChange() {
     const isFullscreen = !!document.fullscreenElement;
-    console.log('VirtualGamepad onFullscreenChange:', isFullscreen, document.fullscreenElement);
+    const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    const isSmall = window.innerWidth <= 1024;
+    const isDesktop = !this.isMobile && !isTouch && !isSmall;
+    
+    console.log('VirtualGamepad onFullscreenChange:', isFullscreen, document.fullscreenElement, 'isDesktop:', isDesktop);
+    
+    if (isDesktop) {
+      // Desktop: never show gamepad, even in fullscreen
+      this.container.classList.add('hidden');
+      return;
+    }
+    
     if (isFullscreen) {
-      // In fullscreen, show as compact overlay at bottom
+      // Mobile fullscreen: show compact overlay at bottom
       this.container.classList.remove('layout-sidebar', 'layout-overlay-bottom', 'hidden');
       this.container.classList.add('fullscreen-overlay');
     } else {
@@ -64,8 +80,10 @@ export class VirtualGamepad {
       // Re-apply the correct layout class
       if (this.layout === 'sidebar') {
         this.container.classList.add('layout-sidebar');
+        this.container.classList.remove('hidden');
       } else if (this.layout === 'dpad') {
         this.container.classList.add('layout-overlay-bottom');
+        this.container.classList.remove('hidden');
       }
     }
   }
@@ -76,6 +94,12 @@ export class VirtualGamepad {
     const isDesktop = !this.isMobile && !isTouch && !isSmall;
     const isMobileLandscape = isTouch && window.innerWidth > window.innerHeight && isSmall;
     
+    // If desktop, hide gamepad
+    if (isDesktop) {
+      this.container.classList.add('hidden');
+      return;
+    }
+    
     // Auto-switch layout based on screen size if not manually set
     const storedLayout = localStorage.getItem('xdc-gamepad-layout');
     if (!storedLayout) {
@@ -84,6 +108,9 @@ export class VirtualGamepad {
         this.setLayout(newLayout);
       }
     }
+    
+    // Ensure gamepad is visible on mobile
+    this.container.classList.remove('hidden');
   }
 
   setLayout(layout) {

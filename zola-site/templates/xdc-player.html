@@ -12,7 +12,7 @@
 {% block tw_image %}{{ get_url(path="img/xdc-player-og.jpg", trailing_slash=false) }}{% endblock tw_image %}
 
 {% block extra_head %}
-<link rel="stylesheet" href="{{ get_url(path="css/xdc-player.css", trailing_slash=false) }}?v=29" />
+<link rel="stylesheet" href="{{ get_url(path="css/xdc-player.css", trailing_slash=false) }}?v=30" />
 <link rel="canonical" href="{{ config.base_url }}/xdc/" />
 
 <!-- JSON-LD Structured Data -->
@@ -52,6 +52,39 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 <meta name="apple-mobile-web-app-title" content="XDC Player" />
 <link rel="manifest" href="{{ get_url(path="xdc-manifest.json", trailing_slash=false) }}" />
+
+<!-- Debug overlay for XDC page only -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const overlay = document.createElement('div');
+    overlay.id = 'debug-overlay';
+    overlay.style.cssText = 'position:fixed; top:10px; left:10px; right:10px; background:rgba(0,0,0,0.9); color:#0f0; padding:10px; font:12px monospace; z-index:99999; border-radius:4px;';
+    document.body.appendChild(overlay);
+    
+    function updateDebug() {
+      const vp = innerWidth + 'x' + innerHeight;
+      const isSmall = innerWidth <= 1024;
+      const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      const isMobileLandscape = isTouch && innerWidth > innerHeight && innerWidth <= 1024;
+      const mqP = window.matchMedia('(max-width: 768px) and (orientation: portrait)').matches;
+      const mqL = window.matchMedia('(max-width: 768px) and (orientation: landscape)').matches;
+      const pad = document.getElementById('virtualGamepad');
+      const cls = pad ? Array.from(pad.classList).join(', ') : 'NOT FOUND';
+      
+      overlay.innerHTML = 
+        'VP: ' + vp + '<br>' +
+        'isSmall(≤1024): ' + isSmall + '<br>' +
+        'isTouch: ' + isTouch + '<br>' +
+        'isMobileLandscape: ' + isMobileLandscape + '<br>' +
+        'MQ portrait: ' + mqP + '<br>' +
+        'MQ landscape: ' + mqL + '<br>' +
+        'gamepad classes: ' + cls + '<br>' +
+        'VP ≤768: ' + (innerWidth <= 768);
+    }
+    setInterval(updateDebug, 500);
+    updateDebug();
+  });
+</script>
 {% endblock extra_head %}
 
 {% block content %}
@@ -170,10 +203,10 @@
 {% endblock content %}
 
 {% block scripts %}
-<script type="module" src="{{ get_url(path="js/xdc-player.js", trailing_slash=false) }}?v=29"></script>
+<script type="module" src="{{ get_url(path="js/xdc-player.js", trailing_slash=false) }}?v=30"></script>
 <script>
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw-xdc-v29.js?v=29', { scope: '/' })
+  navigator.serviceWorker.register('/sw-xdc-v30.js?v=30', { scope: '/' })
     .then(reg => console.log('SW registered:', reg.scope))
     .catch(err => console.warn('SW registration failed:', err));
 }
