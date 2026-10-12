@@ -8,9 +8,9 @@
 - [ ] Test: Portrait + landscape fullscreen
 
 ### 2. XDC Player - Desktop Controls
-- [ ] Desktop shows gamepad controls (should NOT)
-- [ ] Fix: Desktop = keyboard only (WASD, arrows, Z/X, Shift/Control, Enter/Escape)
-- [ ] Gamepad should only appear on touch/mobile devices
+- [x] Desktop shows gamepad controls (should NOT) - FIXED
+- [x] Fix: Desktop = keyboard only (WASD, arrows, Z/X, Shift/Control, Enter/Escape) - DONE
+- [x] Gamepad should only appear on touch/mobile devices - DONE
 
 ### 3. Debug Overlay
 - [x] Showing on ALL pages (should only be on XDC player page) - FIXED
@@ -42,8 +42,8 @@
 - [ ] Check console for extraction/storage errors
 
 ### 6. GED Report Counter
-- [ ] "Read — times by — people" showing dashes instead of numbers
-- [ ] Check `ged-view-counter.deathsmack-a51.workers.dev` worker - likely down or misconfigured
+- [x] "Read — times by — people" showing dashes instead of numbers - FIXED (now shows "Read 2,725 times by 2,259 people")
+- [ ] Check `ged-view-counter.deathsmack-a51.workers.dev` worker - was down/misconfigured
 - [ ] Check `/ged/` page JavaScript that fetches from counter worker
 
 ### 7. Landing Page Issues
@@ -61,11 +61,11 @@
 2. Fix desktop = no gamepad (keyboard only) (DONE)
 3. Fix mobile fullscreen gamepad visibility (DONE)
 4. Fix game loading/opening
-4. Fix mobile layout sizing
-5. Fix background images 404 on landing page
-6. Fix Nostr login player likes/badges
-7. Fix GED counter
-8. Fix ZamZam leaderboard
+5. Fix mobile layout sizing
+6. Fix background images 404 on landing page
+7. Fix Nostr login player likes/badges
+8. Fix GED counter (DONE)
+9. Fix ZamZam leaderboard
 
 ## Files to Modify
 - `/home/deathsmack/hub/zamrock.net/docs/xdc/index.html` - XDC player page
