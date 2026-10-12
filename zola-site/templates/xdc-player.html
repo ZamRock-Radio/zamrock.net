@@ -53,9 +53,38 @@
 <meta name="apple-mobile-web-app-title" content="XDC Player" />
 <link rel="manifest" href="{{ get_url(path="xdc-manifest.json", trailing_slash=false) }}" />
 
+<!-- Full-width layout for game page -->
+<style>
+  .xdc-page .site {
+    max-width: none;
+    grid-template-columns: 1fr;
+    padding: 0;
+    gap: 0;
+  }
+  .xdc-page .rail {
+    display: none;
+  }
+  .xdc-page .content {
+    padding: 0;
+    max-width: none;
+  }
+  .xdc-page .page {
+    max-width: none;
+  }
+  .xdc-page .game-wrapper {
+    min-height: 100vh;
+  }
+  .xdc-page .game-container {
+    max-height: 95vh;
+    max-width: 100%;
+    width: 100%;
+  }
+</style>
+
 <!-- Debug overlay for XDC page only -->
 <script>
   document.addEventListener('DOMContentLoaded', () => {
+    document.documentElement.classList.add('xdc-page');
     const overlay = document.createElement('div');
     overlay.id = 'debug-overlay';
     overlay.style.cssText = 'position:fixed; top:10px; left:10px; right:10px; background:rgba(0,0,0,0.9); color:#0f0; padding:10px; font:12px monospace; z-index:99999; border-radius:4px;';
