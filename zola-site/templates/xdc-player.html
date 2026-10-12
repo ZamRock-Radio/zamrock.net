@@ -12,7 +12,7 @@
 {% block tw_image %}{{ get_url(path="img/xdc-player-og.jpg", trailing_slash=false) }}{% endblock tw_image %}
 
 {% block extra_head %}
-<link rel="stylesheet" href="{{ get_url(path="css/xdc-player.css", trailing_slash=false) }}?v=30" />
+<link rel="stylesheet" href="{{ get_url(path="css/xdc-player.css", trailing_slash=false) }}?v=31" />
 <link rel="canonical" href="{{ config.base_url }}/xdc/" />
 
 <!-- JSON-LD Structured Data -->
@@ -79,7 +79,8 @@
         'MQ portrait: ' + mqP + '<br>' +
         'MQ landscape: ' + mqL + '<br>' +
         'gamepad classes: ' + cls + '<br>' +
-        'VP ≤768: ' + (innerWidth <= 768);
+        'VP ≤768: ' + (innerWidth <= 768) + '<br>' +
+        '<button onclick="navigator.clipboard.writeText(document.getElementById(\'debug-overlay\').innerText)" style="margin-top:8px;padding:4px 8px;background:#333;color:#0f0;border:1px solid #0f0;border-radius:3px;cursor:pointer;">Copy Debug Info</button>';
     }
     setInterval(updateDebug, 500);
     updateDebug();
@@ -203,10 +204,10 @@
 {% endblock content %}
 
 {% block scripts %}
-<script type="module" src="{{ get_url(path="js/xdc-player.js", trailing_slash=false) }}?v=30"></script>
+<script type="module" src="{{ get_url(path="js/xdc-player.js", trailing_slash=false) }}?v=31"></script>
 <script>
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw-xdc-v30.js?v=30', { scope: '/' })
+  navigator.serviceWorker.register('/sw-xdc-v31.js?v=31', { scope: '/' })
     .then(reg => console.log('SW registered:', reg.scope))
     .catch(err => console.warn('SW registration failed:', err));
 }
