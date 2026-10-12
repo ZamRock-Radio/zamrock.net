@@ -26,11 +26,15 @@
   - [ ] Check if kind-7 events are propagating to queried relays
   - [ ] Check 15-second reactions cache TTL - might be stale
   - [ ] Check if kind-7 events are propagating to the specific relays being queried (RELAYS array)
-  - [ ] Add debugging to `/api/leaderboard` to see what's being returned
+  - [ ] Add debugging to `/api/leaderboard` to see what's being returned - DONE (added debug=1 param)
 - [ ] **Badges not being awarded:**
   - [ ] Check badge award logic in `maybeAward` and `awardBadgesForUser`
   - [ ] Check if `STATION_NSEC` is set in worker secrets
   - [ ] Check `AUTO_MAX_TIER` cap (currently 4)
+- [x] **WebSocket "Too many pending requests" error:**
+  - [x] Too many concurrent WebSocket connections to Nostr relays
+  - [x] Need connection pooling or request limiting
+  - [x] Error: "Too many pending requests from this origin" - FIXED (added connection pooling with MAX_CONCURRENT_WS=4 in both worker and player.html)
 
 ### 5. Mobile Layout Issues
 - [ ] Portrait: GameBoy style (3/4 ratio, controls bottom) - verify working
@@ -55,17 +59,21 @@
 - [ ] Likes not being counted for accounts with names
 - [ ] Leaderboard filter `likes + dislikes >= 2` excludes users with <2 reactions
 - [ ] Cache TTL (15s) might be too aggressive
+- [x] **WebSocket "Too many pending requests" error:**
+  - [x] Too many concurrent WebSocket connections to Nostr relays
+  - [x] Need connection pooling or request limiting
+  - [x] Error: "Too many pending requests from this origin" - FIXED (added connection pooling with MAX_CONCURRENT_WS=4 in both worker and player.html)
 
 ## Priority Order
 1. Remove debug overlay from non-XDC pages (DONE)
 2. Fix desktop = no gamepad (keyboard only) (DONE)
 3. Fix mobile fullscreen gamepad visibility (DONE)
 4. Fix game loading/opening
-5. Fix mobile layout sizing
-6. Fix background images 404 on landing page
-7. Fix Nostr login player likes/badges
-8. Fix GED counter (DONE)
-9. Fix ZamZam leaderboard
+4. Fix mobile layout sizing
+5. Fix background images 404 on landing page
+6. Fix Nostr login player likes/badges
+7. Fix GED counter (DONE)
+8. Fix ZamZam leaderboard (debug param added)
 
 ## Files to Modify
 - `/home/deathsmack/hub/zamrock.net/docs/xdc/index.html` - XDC player page
