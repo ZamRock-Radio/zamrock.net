@@ -25,12 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
       url: 'https://streamroad.money/99c8b388-8449-4a6b-9dfa-ae14c4827144',
     },
     {
-      icon: '💬',
-      name: 'Chat bot',
-      desc: 'Ask the bot in our chat to play the stream',
-      url: 'https://matrix.to/#/#zamrock:unredacted.org',
-    },
-    {
       icon: '📶',
       name: 'Zeno FM',
       desc: 'Low bitrate — light on data',
@@ -45,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       icon: '🔥',
       name: 'Stoat',
-      desc: 'Community chat + music bot',
+      desc: 'Chat bot plays the stream — join us',
       url: 'https://stoat.chat/invite/CsjKzYWm',
     },
   ]
