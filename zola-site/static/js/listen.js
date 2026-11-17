@@ -44,9 +44,9 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     {
       icon: '🔥',
-      name: 'Revolt',
+      name: 'Stoat',
       desc: 'Community chat + music bot',
-      url: 'https://stt.gg/CsjKzYWm',
+      url: 'https://stoat.chat/invite/CsjKzYWm',
     },
   ]
 
