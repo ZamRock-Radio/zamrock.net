@@ -46,7 +46,7 @@
   {% block tw_image %}<meta name="twitter:image" content="{{ get_url(path="img/website_bg/website_bg_025_wm_v0.0.2.jpg", trailing_slash=false) }}"/>{% endblock tw_image %}
 
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
-  <link data-theme="crossfade" rel="stylesheet" href="{{ get_url(path="css/crossfade.css", trailing_slash=false) }}?v=16" />
+  <link data-theme="crossfade" rel="stylesheet" href="{{ get_url(path="css/crossfade.css", trailing_slash=false) }}?v=17" />
   <script>
   (function(){
     var lang = (navigator.language || navigator.userLanguage || '').substring(0, 2);
@@ -77,23 +77,13 @@
 
       <div class="player">
         <div class="p-row">
-          <button id="playButton" class="play-btn" aria-label="{{ trans(key="play_btn") }}">▶</button>
+          <button id="listenOpen" class="play-btn" aria-label="Listen">▶</button>
           <div class="p-info">
             <div class="p-src"><span class="p-genres">{{ trans(key="p_genres") }}</span><span class="mini-title">ZAMROCK.NET</span></div>
-            <div class="p-meta" data-player-status>{{ trans(key="p_now") }}</div>
+            <div class="p-meta">{{ trans(key="p_now") }}</div>
           </div>
-          <span class="p-quality">MP3 320k</span>
+          <span class="p-quality">LIVE</span>
         </div>
-        <audio id="radioStream" src="https://icepick.zamrock.net/radio.mp3" crossorigin="anonymous"></audio>
-        <div class="volume-container">
-          <label for="volumeSlider">{{ trans(key="volume") }}</label>
-          <input type="range" id="volumeSlider" min="0" max="100" value="50" class="volume-slider" />
-        </div>
-        <button id="foldButton" class="fold-btn" type="button"
-          aria-label="{{ trans(key="fold_layout") }}"
-          data-label-fold="{{ trans(key="fold_layout") }}"
-          data-label-unfold="{{ trans(key="unfold_layout") }}"
-          title="{{ trans(key="fold_layout") }}">{{ trans(key="fold_layout") }}</button>
       </div>
 
       {% set nav_items = [
@@ -176,6 +166,7 @@
   <script src="{{ get_url(path="js/themes.js", trailing_slash=false) }}?v=16"></script>
   <script src="{{ get_url(path="js/crossfade.js", trailing_slash=false) }}?v=16"></script>
   <script src="{{ get_url(path="js/main.js", trailing_slash=false) }}?v=16"></script>
+  <script src="{{ get_url(path="js/listen.js", trailing_slash=false) }}?v=17"></script>
   {% block scripts %}{% endblock scripts %}
 </body>
 </html>

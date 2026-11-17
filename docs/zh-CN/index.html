@@ -46,7 +46,7 @@
   <meta name="twitter:image" content="https://zamrock.net/img/website_bg/website_bg_025_wm_v0.0.2.jpg"/>
 
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
-  <link data-theme="crossfade" rel="stylesheet" href="https://zamrock.net/css/crossfade.css?v=16" />
+  <link data-theme="crossfade" rel="stylesheet" href="https://zamrock.net/css/crossfade.css?v=17" />
   <script>
   (function(){
     var lang = (navigator.language || navigator.userLanguage || '').substring(0, 2);
@@ -77,23 +77,13 @@
 
       <div class="player">
         <div class="p-row">
-          <button id="playButton" class="play-btn" aria-label="播放">▶</button>
+          <button id="listenOpen" class="play-btn" aria-label="Listen">▶</button>
           <div class="p-info">
             <div class="p-src"><span class="p-genres">迷幻 · Afrobeat · 放克 · 冲浪 · 异域</span><span class="mini-title">ZAMROCK.NET</span></div>
-            <div class="p-meta" data-player-status>正在播放</div>
+            <div class="p-meta">正在播放</div>
           </div>
-          <span class="p-quality">MP3 320k</span>
+          <span class="p-quality">LIVE</span>
         </div>
-        <audio id="radioStream" src="https://icepick.zamrock.net/radio.mp3" crossorigin="anonymous"></audio>
-        <div class="volume-container">
-          <label for="volumeSlider">音量</label>
-          <input type="range" id="volumeSlider" min="0" max="100" value="50" class="volume-slider" />
-        </div>
-        <button id="foldButton" class="fold-btn" type="button"
-          aria-label="进入正在播放模式"
-          data-label-fold="进入正在播放模式"
-          data-label-unfold="退出正在播放模式"
-          title="进入正在播放模式">进入正在播放模式</button>
       </div>
 
       
@@ -204,6 +194,7 @@
   <script src="https://zamrock.net/js/themes.js?v=16"></script>
   <script src="https://zamrock.net/js/crossfade.js?v=16"></script>
   <script src="https://zamrock.net/js/main.js?v=16"></script>
+  <script src="https://zamrock.net/js/listen.js?v=17"></script>
   
 <script src="https://zamrock.net/js/news.js?v=2"></script>
 
